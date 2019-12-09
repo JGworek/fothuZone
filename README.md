@@ -1,9 +1,13 @@
 # fothuZone
 
 ## Ideas
-* Rosary
+* A Good Rosary App
 * CYOA
 * Pokemon Stuff
 * Something Musical
-* A Blog?
 * Sorted QC Questions
+* Social Media Unversal Hub
+* Mentch Rhythm Generator
+* FothuPets
+* AEIOUYST Code Generator
+* Meme/News/Whatever API Portal (BASGit 2.0)
