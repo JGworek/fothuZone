@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>zone.fothu</groupId>
-	<artifactId>CYOAService</artifactId>
+	<artifactId>CYOAServer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>CYOAService</name>
-	<description>Demo projet for Spring Boot</description>
+	<name>CYOAServer</name>
+	<description>Demo project for Spring Boot</description>
 
 	<properties>
 		<java.version>1.8</java.version>

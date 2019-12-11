@@ -1,19 +1,38 @@
 package zone.fothu.model;
 
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-public class Page implements Serializable {
+import org.springframework.stereotype.Component;
 
+@Component
+@Entity
+@Table(name="page")
+public class Page {
 
-	private static final long serialVersionUID = -2349719841954408298L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="id")
 	private int id;
+	@Column(name="page_number")
 	private int pageNumber;
+	@Column(name="story_text")
 	private String storyText;
+	@Column(name="option_one_page_number")
 	private int optionOnePageNumber;
+	@Column(name="option_one_text")
 	private String optionOneText;
+	@Column(name="option_two_page_number")
 	private int optionTwoPageNumber;
+	@Column(name="option_two_text")
 	private String optionTwoText;
+	@Column(name="early_story_end")
 	private boolean earlyStoryEnd;
+	@Column(name="final_story_end")
 	private boolean finalStoryEnd;
 	
 	public Page() {
@@ -114,21 +133,6 @@ public class Page implements Serializable {
 				+ ", finalStoryEnd=" + finalStoryEnd + "]";
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (earlyStoryEnd ? 1231 : 1237);
-		result = prime * result + (finalStoryEnd ? 1231 : 1237);
-		result = prime * result + id;
-		result = prime * result + optionOnePageNumber;
-		result = prime * result + ((optionOneText == null) ? 0 : optionOneText.hashCode());
-		result = prime * result + optionTwoPageNumber;
-		result = prime * result + ((optionTwoText == null) ? 0 : optionTwoText.hashCode());
-		result = prime * result + pageNumber;
-		result = prime * result + ((storyText == null) ? 0 : storyText.hashCode());
-		return result;
-	}
 
 	@Override
 	public boolean equals(Object obj) {
