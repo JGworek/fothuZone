@@ -30,6 +30,10 @@ public class Page {
 	private int optionTwoPageNumber;
 	@Column(name="option_two_text")
 	private String optionTwoText;
+	@Column(name="option_three_page_number")
+	private int optionThreePageNumber;
+	@Column(name="option_three_text")
+	private String optionThreeText;
 	@Column(name="early_story_end")
 	private boolean earlyStoryEnd;
 	@Column(name="final_story_end")
@@ -40,7 +44,7 @@ public class Page {
 	}
 
 	public Page(int id, int pageNumber, String storyText, int optionOnePageNumber, String optionOneText,
-			int optionTwoPageNumber, String optionTwoText, boolean earlyStoryEnd, boolean finalStoryEnd) {
+			int optionTwoPageNumber, String optionTwoText, int optionThreePageNumber, String optionThreeText, boolean earlyStoryEnd, boolean finalStoryEnd) {
 		super();
 		this.id = id;
 		this.pageNumber = pageNumber;
@@ -49,6 +53,8 @@ public class Page {
 		this.optionOneText = optionOneText;
 		this.optionTwoPageNumber = optionTwoPageNumber;
 		this.optionTwoText = optionTwoText;
+		this.optionThreePageNumber = optionThreePageNumber;
+		this.optionThreeText = optionThreeText;
 		this.earlyStoryEnd = earlyStoryEnd;
 		this.finalStoryEnd = finalStoryEnd;
 	}
@@ -109,6 +115,22 @@ public class Page {
 		this.optionTwoText = optionTwoText;
 	}
 
+	public int getOptionThreePageNumber() {
+		return optionThreePageNumber;
+	}
+
+	public void setOptionThreePageNumber(int optionThreePageNumber) {
+		this.optionThreePageNumber = optionThreePageNumber;
+	}
+
+	public String getOptionThreeText() {
+		return optionThreeText;
+	}
+
+	public void setOptionThreeText(String optionThreeText) {
+		this.optionThreeText = optionThreeText;
+	}
+
 	public boolean isEarlyStoryEnd() {
 		return earlyStoryEnd;
 	}
@@ -126,13 +148,22 @@ public class Page {
 	}
 
 	@Override
-	public String toString() {
-		return "Page [id=" + id + ", pageNumber=" + pageNumber + ", storyText=" + storyText + ", optionOnePageNumber="
-				+ optionOnePageNumber + ", optionOneText=" + optionOneText + ", optionTwoPageNumber="
-				+ optionTwoPageNumber + ", optionTwoText=" + optionTwoText + ", earlyStoryEnd=" + earlyStoryEnd
-				+ ", finalStoryEnd=" + finalStoryEnd + "]";
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (earlyStoryEnd ? 1231 : 1237);
+		result = prime * result + (finalStoryEnd ? 1231 : 1237);
+		result = prime * result + id;
+		result = prime * result + optionOnePageNumber;
+		result = prime * result + ((optionOneText == null) ? 0 : optionOneText.hashCode());
+		result = prime * result + optionThreePageNumber;
+		result = prime * result + ((optionThreeText == null) ? 0 : optionThreeText.hashCode());
+		result = prime * result + optionTwoPageNumber;
+		result = prime * result + ((optionTwoText == null) ? 0 : optionTwoText.hashCode());
+		result = prime * result + pageNumber;
+		result = prime * result + ((storyText == null) ? 0 : storyText.hashCode());
+		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -156,6 +187,13 @@ public class Page {
 				return false;
 		} else if (!optionOneText.equals(other.optionOneText))
 			return false;
+		if (optionThreePageNumber != other.optionThreePageNumber)
+			return false;
+		if (optionThreeText == null) {
+			if (other.optionThreeText != null)
+				return false;
+		} else if (!optionThreeText.equals(other.optionThreeText))
+			return false;
 		if (optionTwoPageNumber != other.optionTwoPageNumber)
 			return false;
 		if (optionTwoText == null) {
@@ -172,7 +210,5 @@ public class Page {
 			return false;
 		return true;
 	}
-	
-	
 	
 }
