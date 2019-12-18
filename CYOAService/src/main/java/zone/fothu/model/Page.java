@@ -1,5 +1,7 @@
 package zone.fothu.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,8 +14,10 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 @Table(name="page")
-public class Page {
-
+public class Page implements Serializable {
+	
+	private static final long serialVersionUID = -8835091452164031590L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="id")
