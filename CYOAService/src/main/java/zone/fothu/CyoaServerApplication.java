@@ -31,7 +31,7 @@ public class CyoaServerApplication {
 	    return new WebMvcConfigurer() {
 	      @Override
 	      public void addCorsMappings(CorsRegistry registry) {
-	        registry.addMapping("/**").allowedMethods("GET", "OPTIONS", "PUT", "POST", "PATCH",
+	        registry.addMapping("/*").allowedMethods("GET", "OPTIONS", "PUT", "POST", "PATCH",
 	            "DELETE");
 	      }
 	    };
