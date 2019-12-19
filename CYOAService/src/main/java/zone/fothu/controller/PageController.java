@@ -2,7 +2,7 @@ package zone.fothu.controller;
 
 import java.util.ArrayList;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +23,13 @@ public class PageController {
 	@Autowired
 	PageRepository pageRepository;
 	
-	@Autowired
-	private Logger logger = Logger.getLogger(PageController.class);
+	//@Autowired
+	//private Logger logger = Logger.getLogger(PageController.class);
 	
 	@GetMapping("/all")
 	public ResponseEntity<ArrayList<Page>> getAllPages() {
 		try {
-			logger.info("All pages retrieved");
+			//logger.info("All pages retrieved");
 			return ResponseEntity.ok(pageRepository.findAll());
 		} catch (PageNotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pages not found", e);
@@ -39,10 +39,10 @@ public class PageController {
 	@GetMapping("/id/{id}")
 	public ResponseEntity<Page> getPageById(@PathVariable int id) {
 		try {
-			logger.info("Page #"+id+" retrieved");
+			//logger.info("Page #"+id+" retrieved");
 			return ResponseEntity.ok(pageRepository.findById(id));
 		} catch (PageNotFoundException e) {
-			logger.info("Page #"+id+" not found");
+			//logger.info("Page #"+id+" not found");
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Page not found", e);
 		}
 	}
@@ -50,10 +50,10 @@ public class PageController {
 	@GetMapping("/page/{pageNumber}")
 	public ResponseEntity<Page> getPageByPageNumber(@PathVariable int pageNumber) {
 		try {
-			logger.info("Page #"+pageNumber+" retrieved");
+			//logger.info("Page #"+pageNumber+" retrieved");
 			return ResponseEntity.ok(pageRepository.findByPageNumber(pageNumber));
 		} catch (PageNotFoundException e) {
-			logger.info("Page #"+pageNumber+" not found");
+			//logger.info("Page #"+pageNumber+" not found");
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Page not found", e);
 		}
 	}
