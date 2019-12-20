@@ -1,1 +1,40 @@
-<p></p>
+<br />
+<br />
+<h3 *ngIf="page.pageNumber == 1">The Schola Rehearsal</h3>
+<h4 *ngIf="page.pageNumber == 1">By: Matthew Gworek</h4>
+<br />
+<h4>Page #{{page.pageNumber}}</h4>
+<br />
+<br />
+<div class="container">
+    <div class="row">
+        <div class="text-left story col-12" [innerHTML]="page.storyText"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-12" style="margin-top:50px">
+                    <div *ngIf="page.optionOnePageNumber !== -1">{{page.optionOneText}}</div>
+                    <button class="btn btn-dark" *ngIf="page.optionOnePageNumber !== -1"
+                        (click)="getPage(page.optionOnePageNumber)">Page
+                        #{{page.optionOnePageNumber}}</button>
+                    <div *ngIf="page.earlyStoryEnd == true">The End?</div>
+                    <button class="btn btn-danger" *ngIf="page.earlyStoryEnd == true" (click)="getPage(1)">Back To The
+                        Beginning!</button>
+                    <div *ngIf="page.finalStoryEnd == true">The End!</div>
+                    <button class="btn btn-success" *ngIf="page.finalStoryEnd == true" (click)="getPage(1)">Do it
+                        again!?</button>
+                </div>
+                <div class="col-md-4 col-12" style="margin-top:50px">
+                    <div *ngIf="page.optionTwoPageNumber !== -1">{{page.optionTwoText}}</div>
+                    <button class="btn btn-dark" *ngIf="page.optionTwoPageNumber !== -1"
+                        (click)="getPage(page.optionTwoPageNumber)">Page
+                        #{{page.optionTwoPageNumber}}</button>
+                </div>
+                <div class="col-md-4 col-12" style="margin-top:50px">
+                    <div *ngIf="page.optionThreePageNumber !== -1">{{page.optionThreeText}}</div>
+                    <button class="btn btn-dark" *ngIf="page.optionThreePageNumber !== -1"
+                        (click)="getPage(page.optionThreePageNumber)">Page #{{page.optionThreePageNumber}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

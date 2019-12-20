@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ScholaService } from '../schola.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-page',
@@ -11,7 +11,7 @@ export class PageComponent implements OnInit {
   page: any = {
     id: 0,
     pageNumber: 0,
-    storyText: '',
+    storyText: 'hi',
     optionOnePageNumber:0,
     optionOneText:'',
     optionTwoPageNumber:0,
@@ -22,16 +22,29 @@ export class PageComponent implements OnInit {
     finalStoryEnd:false
   }
 
-  constructor(private scholaService: ScholaService) { }
+  constructor(private http: HttpClient) { }
 
   getPage(pageNumber) {
-    this.page = this.scholaService.getPage(pageNumber);
-  }
+    let observable = this.http.get(`http://ec2-54-145-162-20.compute-1.amazonaws.com:3333/cyoapages/page/${pageNumber}`);
+    observable.subscribe((result) => {
+      this.page = result;
+      console.log(this.page);
+    },(error) => {
+      console.log(error)
+    })
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
 
   ngOnInit() {
 
-    this.page = this.scholaService.getFirstPage();
+    let observable = this.http.get('http://ec2-54-145-162-20.compute-1.amazonaws.com:3333/cyoapages/page/1');
+  observable.subscribe((result) => {
+    this.page = result;
     console.log(this.page);
+  },(error) => {
+    console.log(error)
+  })
   }
 
 }
