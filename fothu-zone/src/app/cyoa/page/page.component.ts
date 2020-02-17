@@ -11,40 +11,39 @@ export class PageComponent implements OnInit {
   page: any = {
     id: 0,
     pageNumber: 0,
-    storyText: 'hi',
+    storyText: 'text',
     optionOnePageNumber:0,
-    optionOneText:'',
+    optionOneText:'text',
     optionTwoPageNumber:0,
-    optionTwoText:'',
+    optionTwoText:'text',
     optionThreePageNumber:0,
-    optionThreeText:'',
+    optionThreeText:'text',
     earlyStoryEnd:false,
     finalStoryEnd:false
   }
 
+  firstTry: boolean = true;
+
   constructor(private http: HttpClient) { }
 
   getPage(pageNumber) {
-    let observable = this.http.get(`http://ec2-54-145-162-20.compute-1.amazonaws.com:3333/cyoapages/page/${pageNumber}`);
+    let observable = this.http.get(`http://ec2-3-86-229-112.compute-1.amazonaws.com:3333/cyoapages/page/${pageNumber}`);
     observable.subscribe((result) => {
       this.page = result;
-      console.log(this.page);
     },(error) => {
       console.log(error)
     })
+    this.firstTry = false;
     document.body.scrollTop = 0; // For Safari
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
     }
 
-  ngOnInit() {
-
-    let observable = this.http.get('http://ec2-54-145-162-20.compute-1.amazonaws.com:3333/cyoapages/page/1');
-  observable.subscribe((result) => {
-    this.page = result;
-    console.log(this.page);
-  },(error) => {
-    console.log(error)
-  })
+  firstTryCheck() {
+    return this.firstTry;
   }
 
+  ngOnInit() {
+    this.getPage(1);
+    this.firstTry = true;
+  }
 }

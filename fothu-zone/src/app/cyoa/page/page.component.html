@@ -1,9 +1,9 @@
 <br />
 <br />
-<h3 *ngIf="page.pageNumber == 1">The Schola Rehearsal</h3>
-<h4 *ngIf="page.pageNumber == 1">By: Matthew Gworek</h4>
+<h3 class="title" *ngIf="page.pageNumber == 1 && firstTryCheck()">The Schola Rehearsal</h3>
+<h4 class="author" *ngIf="page.pageNumber == 1 && firstTryCheck()">By: Matthew Gworek</h4>
 <br />
-<h4>Page #{{page.pageNumber}}</h4>
+<h4 class="pageNumber">Page #{{page.pageNumber}}</h4>
 <br />
 <br />
 <div class="container">
@@ -13,8 +13,7 @@
             <div class="row">
                 <div class="col-md-4 col-12" style="margin-top:50px">
                     <div *ngIf="page.optionOnePageNumber !== -1">{{page.optionOneText}}</div>
-                    <button class="btn btn-dark" *ngIf="page.optionOnePageNumber !== -1"
-                        (click)="getPage(page.optionOnePageNumber)">Page
+                    <button class="btn btn-dark" *ngIf="page.optionOnePageNumber !== -1" (click)="getPage(page.optionOnePageNumber)">Page
                         #{{page.optionOnePageNumber}}</button>
                     <div *ngIf="page.earlyStoryEnd == true">The End?</div>
                     <button class="btn btn-danger" *ngIf="page.earlyStoryEnd == true" (click)="getPage(1)">Back To The
@@ -25,14 +24,12 @@
                 </div>
                 <div class="col-md-4 col-12" style="margin-top:50px">
                     <div *ngIf="page.optionTwoPageNumber !== -1">{{page.optionTwoText}}</div>
-                    <button class="btn btn-dark" *ngIf="page.optionTwoPageNumber !== -1"
-                        (click)="getPage(page.optionTwoPageNumber)">Page
+                    <button class="btn btn-dark" *ngIf="page.optionTwoPageNumber !== -1" (click)="getPage(page.optionTwoPageNumber)">Page
                         #{{page.optionTwoPageNumber}}</button>
                 </div>
                 <div class="col-md-4 col-12" style="margin-top:50px">
                     <div *ngIf="page.optionThreePageNumber !== -1">{{page.optionThreeText}}</div>
-                    <button class="btn btn-dark" *ngIf="page.optionThreePageNumber !== -1"
-                        (click)="getPage(page.optionThreePageNumber)">Page #{{page.optionThreePageNumber}}</button>
+                    <button class="btn btn-dark" *ngIf="page.optionThreePageNumber !== -1" (click)="getPage(page.optionThreePageNumber)">Page #{{page.optionThreePageNumber}}</button>
                 </div>
             </div>
         </div>

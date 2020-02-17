@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ScholaComponent } from './schola.component';
+import { PetSelectionComponent } from './pet-selection.component';
 
-describe('ScholaComponent', () => {
-  let component: ScholaComponent;
-  let fixture: ComponentFixture<ScholaComponent>;
+describe('PetSelectionComponent', () => {
+  let component: PetSelectionComponent;
+  let fixture: ComponentFixture<PetSelectionComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ScholaComponent ]
+      declarations: [ PetSelectionComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ScholaComponent);
+    fixture = TestBed.createComponent(PetSelectionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

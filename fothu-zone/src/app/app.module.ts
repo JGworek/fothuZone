@@ -5,14 +5,19 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AppRoutingModule } from './app-routing.module';
-import { ScholaComponent } from './cyoa/schola/schola.component';
 import { PageComponent } from './cyoa/page/page.component';
+import { LinksComponent } from './directory/links/links.component';
+import { PetSelectionComponent } from './pet-selection/pet-selection.component';
+import { RosaryAppComponent } from './rosary/rosary-app/rosary-app.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    ScholaComponent,
     PageComponent,
+    LinksComponent,
+    PetSelectionComponent,
+    RosaryAppComponent,
   ],
   imports: [
     BrowserModule,

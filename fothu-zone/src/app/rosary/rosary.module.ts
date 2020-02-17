@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RosaryAppComponent } from './rosary-app/rosary-app.component';
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [RosaryAppComponent],
   imports: [
     CommonModule
   ]
