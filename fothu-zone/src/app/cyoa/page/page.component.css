@@ -10,3 +10,9 @@
     text-align: left;
     margin-left: 30pt;
 }
+
+.loading {
+    left: 50%;
+    position: absolute;
+    height: 5%;
+}

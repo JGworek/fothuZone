@@ -24,7 +24,7 @@ function getCurrentDay() {
       currentDay = JSON.parse(xhr.response);
     }
   };
-  xhr.open("GET", "http://calapi.inadiutorium.cz/api/v0/en/calendars/default/today");
+  xhr.open("GET", "https://cors-anywhere.herokuapp.com/http://calapi.inadiutorium.cz/api/v0/en/calendars/default/today");
   xhr.send();
 }
 
