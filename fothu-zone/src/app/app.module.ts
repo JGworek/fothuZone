@@ -9,6 +9,8 @@ import { PageComponent } from './cyoa/page/page.component';
 import { LinksComponent } from './directory/links/links.component';
 import { PetSelectionComponent } from './pet-selection/pet-selection.component';
 import { RosaryAppComponent } from './rosary/rosary-app/rosary-app.component';
+import { PlaygroundPageComponent } from './playground-page/playground-page.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,11 +20,13 @@ import { RosaryAppComponent } from './rosary/rosary-app/rosary-app.component';
     LinksComponent,
     PetSelectionComponent,
     RosaryAppComponent,
+    PlaygroundPageComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,11 +1,11 @@
-package zone.fothu.repository;
+package zone.fothu.cyoa.repository;
 
 import java.util.ArrayList;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import zone.fothu.model.Page;
+import zone.fothu.cyoa.model.Page;
 
 public interface PageRepository extends JpaRepository<Page, Integer> {
 

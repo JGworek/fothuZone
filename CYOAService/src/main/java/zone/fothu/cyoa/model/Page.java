@@ -1,4 +1,4 @@
-package zone.fothu.model;
+package zone.fothu.cyoa.model;
 
 import java.io.Serializable;
 

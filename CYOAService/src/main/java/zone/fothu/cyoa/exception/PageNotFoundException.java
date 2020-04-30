@@ -1,4 +1,4 @@
-package zone.fothu.exception;
+package zone.fothu.cyoa.exception;
 
 public class PageNotFoundException extends RuntimeException {
 

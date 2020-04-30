@@ -1,4 +1,4 @@
-package zone.fothu.controller;
+package zone.fothu.cyoa.controller;
 
 import java.util.ArrayList;
 
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import zone.fothu.exception.PageNotFoundException;
-import zone.fothu.model.Page;
-import zone.fothu.repository.PageRepository;
+import zone.fothu.cyoa.exception.PageNotFoundException;
+import zone.fothu.cyoa.model.Page;
+import zone.fothu.cyoa.repository.PageRepository;
 
 @RestController
 @RequestMapping(path = "/cyoapages")
