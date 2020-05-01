@@ -2,6 +2,7 @@ package zone.fothu.pets.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,9 +15,15 @@ import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Component
 @Entity
-@Table(name="pets")
+@Table(name="pets", schema="pets")
 public class Pet implements Serializable {
 	
 	private static final long serialVersionUID = 1459839716503621053L;
@@ -29,6 +36,8 @@ public class Pet implements Serializable {
 	private String name;
 	@Column(name="image")
 	private String image;
+	@Column(name="type")
+	private String type;
 	@Column(name="hunger")
 	private int hunger;
 	@Column(name="current_health")
@@ -43,20 +52,23 @@ public class Pet implements Serializable {
 	private int intelligence;
 	@Column(name="pet_level")
 	private int petLevel;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="user_id", nullable=true)
-	private User petsUser;
+	
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	@JsonIgnoreProperties("pets")
+	private User owner;
 	
 	public Pet() {
 		super();
 	}
-	
-	public Pet(int id, String name, String image, int hunger, int currentHealth, int maxHealth, int strength,
-			int dexterity, int intelligence, int petLevel, User petsUser) {
+
+	public Pet(int id, String name, String image, String type, int hunger, int currentHealth, int maxHealth,
+			int strength, int dexterity, int intelligence, int petLevel, User owner) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.image = image;
+		this.type = type;
 		this.hunger = hunger;
 		this.currentHealth = currentHealth;
 		this.maxHealth = maxHealth;
@@ -64,7 +76,7 @@ public class Pet implements Serializable {
 		this.dexterity = dexterity;
 		this.intelligence = intelligence;
 		this.petLevel = petLevel;
-		this.petsUser = petsUser;
+		this.owner = owner;
 	}
 
 	public int getId() {
@@ -89,6 +101,14 @@ public class Pet implements Serializable {
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public int getHunger() {
@@ -147,19 +167,20 @@ public class Pet implements Serializable {
 		this.petLevel = petLevel;
 	}
 
-	public User getUserid() {
-		return petsUser;
+	public User getOwner() {
+		return owner;
 	}
 
-	public void setUserid(User petsUser) {
-		this.petsUser = petsUser;
+	public void setOwner(User owner) {
+		this.owner = owner;
 	}
 
 	@Override
 	public String toString() {
-		return "Pet [id=" + id + ", name=" + name + ", image=" + image + ", hunger=" + hunger + ", currentHealth="
-				+ currentHealth + ", maxHealth=" + maxHealth + ", strength=" + strength + ", dexterity=" + dexterity
-				+ ", intelligence=" + intelligence + ", petLevel=" + petLevel + ", petsUser=" + petsUser + "]";
+		return "Pet [id=" + id + ", name=" + name + ", image=" + image + ", type=" + type + ", hunger=" + hunger
+				+ ", currentHealth=" + currentHealth + ", maxHealth=" + maxHealth + ", strength=" + strength
+				+ ", dexterity=" + dexterity + ", intelligence=" + intelligence + ", petLevel=" + petLevel + ", owner="
+				+ owner + "]";
 	}
 
 	@Override
@@ -174,9 +195,10 @@ public class Pet implements Serializable {
 		result = prime * result + intelligence;
 		result = prime * result + maxHealth;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((owner == null) ? 0 : owner.hashCode());
 		result = prime * result + petLevel;
-		result = prime * result + ((petsUser == null) ? 0 : petsUser.hashCode());
 		result = prime * result + strength;
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
 
@@ -211,18 +233,21 @@ public class Pet implements Serializable {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (petLevel != other.petLevel)
-			return false;
-		if (petsUser == null) {
-			if (other.petsUser != null)
+		if (owner == null) {
+			if (other.owner != null)
 				return false;
-		} else if (!petsUser.equals(other.petsUser))
+		} else if (!owner.equals(other.owner))
+			return false;
+		if (petLevel != other.petLevel)
 			return false;
 		if (strength != other.strength)
 			return false;
+		if (type == null) {
+			if (other.type != null)
+				return false;
+		} else if (!type.equals(other.type))
+			return false;
 		return true;
 	}
-
-	
 	
 }

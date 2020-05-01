@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import zone.fothu.cyoa.exception.PageNotFoundException;
+import zone.fothu.pets.model.Pet;
 import zone.fothu.pets.model.User;
+import zone.fothu.pets.repository.PetRepository;
 import zone.fothu.pets.repository.UserRepository;
 
 @RestController
