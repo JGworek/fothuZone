@@ -14,14 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-
 import zone.fothu.cyoa.exception.PageNotFoundException;
 import zone.fothu.pets.exception.PetNotFoundException;
 import zone.fothu.pets.exception.PetNotUpdatedException;
-import zone.fothu.pets.exception.UserNotFoundException;
-import zone.fothu.pets.exception.UserNotUpdatedException;
 import zone.fothu.pets.model.Pet;
-import zone.fothu.pets.model.User;
 import zone.fothu.pets.repository.PetRepository;
 
 @RestController
@@ -40,7 +36,7 @@ public class PetController {
 	}
 	
 	@GetMapping("/id/{id}")
-	public ResponseEntity<Pet> getPetById(@PathVariable int id) {
+	public ResponseEntity<Pet> getPetById(@PathVariable int id) throws PetNotFoundException {
 		try {
 			return ResponseEntity.ok(petRepository.findById(id));
 		} catch (PageNotFoundException e) {
@@ -49,7 +45,7 @@ public class PetController {
 	}
 	
 	@GetMapping("/name/{name}")
-	public ResponseEntity<Pet> getUserByUsername(@PathVariable String name) {
+	public ResponseEntity<Pet> getUserByUsername(@PathVariable String name) throws PetNotFoundException {
 		try {
 			return ResponseEntity.ok(petRepository.findByPetName(name));
 		} catch (PageNotFoundException e) {
@@ -58,7 +54,7 @@ public class PetController {
 	}
 	
 	@GetMapping("/userid/{id}")
-	public ResponseEntity<List<Pet>> getPetByUserId(@PathVariable int id) {
+	public ResponseEntity<List<Pet>> getPetByUserId(@PathVariable int id) throws PetNotFoundException {
 		try {
 			return ResponseEntity.ok(petRepository.findAllUsersPetsById(id));
 		} catch (PageNotFoundException e) {
@@ -67,7 +63,7 @@ public class PetController {
 	}
 	
 	@GetMapping("/username/{username}")
-	public ResponseEntity<List<Pet>> getPetByUsername(@PathVariable String username) {
+	public ResponseEntity<List<Pet>> getPetByUsername(@PathVariable String username) throws PetNotFoundException {
 		try {
 			return ResponseEntity.ok(petRepository.findAllUsersPetsByUsername(username));
 		} catch (PageNotFoundException e) {
