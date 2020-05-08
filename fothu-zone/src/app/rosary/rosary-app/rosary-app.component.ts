@@ -19,12 +19,13 @@ const LUMINOUS_MYSTERIES: Array<String> = ["The Baptism of Jesus", "The Wedding 
 let currentDay: any;
 function getCurrentDay() {
   var xhr = new XMLHttpRequest();
+  //https://cors-anywhere.herokuapp.com/
+  xhr.open("GET", "http://calapi.inadiutorium.cz/api/v0/en/calendars/default/today");
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4 && xhr.status == 200) {
       currentDay = JSON.parse(xhr.response);
     }
   };
-  xhr.open("GET", "https://cors-anywhere.herokuapp.com/http://calapi.inadiutorium.cz/api/v0/en/calendars/default/today");
   xhr.send();
 }
 

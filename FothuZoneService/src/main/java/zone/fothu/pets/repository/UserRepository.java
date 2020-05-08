@@ -22,10 +22,13 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	
 	@Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE username = ?1")
 	User findByUsername(String username) throws UserNotFoundException;
+
+	@Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE password = ?1")
+	User findByPassword(String password) throws UserNotFoundException;
 	
 	@Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE username = ?1 AND user_password = ?2")
 	User findByUsernameAndPassword(String username, String password) throws UserNotFoundException;
-
+	
 	@Modifying
 	@Transactional
 	@Query(nativeQuery = true, value = "UPDATE pets.users SET username = ?2, user_password = ?3, favorite_color = ?4 WHERE id = ?1")
