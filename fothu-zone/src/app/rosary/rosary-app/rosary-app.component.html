@@ -1,0 +1,10 @@
+<button class="btn btn-danger" *ngIf="currentDay == 'undefined'" (click)="this.reloadCurrentDay()">Reload</button>
+<div class="d-flex justify-content-center">
+    <button class="btn btn-danger " *ngIf="this.currentCount == 0" (click)="this.nextCount()">Start</button>
+    <button class="btn btn-info" *ngIf="this.currentCount > 0 && this.currentCount%2 != 0" (click)="this.nextCount()">Next</button>
+    <button class="btn btn-primary" *ngIf="this.currentCount > 0 && this.currentCount%2 == 0" (click)="this.nextCount()">Next</button>
+</div>
+<br>
+<p *ngIf="this.currentCount > 0">{{this.currentText}}</p>
+<br>
+<div class="font-weight-light">Prayer Count = {{this.currentCount}}</div>
