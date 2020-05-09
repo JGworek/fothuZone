@@ -233,6 +233,10 @@ export class RosaryAppComponent implements OnInit {
     }
   }
 
+  resetCount() {
+    this.currentCount = 0;
+  }
+
   ngOnInit() {
     console.log(this.ourFatherNumbers.length);
     getCurrentDay();
