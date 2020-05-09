@@ -1,10 +1,74 @@
-<button class="btn btn-danger" *ngIf="currentDay == 'undefined'" (click)="this.reloadCurrentDay()">Reload</button>
+<button class="btn btn-danger justify-content-center" *ngIf="currentDay == 'undefined'" (click)="this.reloadCurrentDay()">Reload</button>
 <div class="d-flex justify-content-center">
-    <button class="btn btn-danger " *ngIf="this.currentCount == 0" (click)="this.nextCount()">Start</button>
-    <button class="btn btn-info" *ngIf="this.currentCount > 0 && this.currentCount%2 != 0" (click)="this.nextCount()">Next</button>
-    <button class="btn btn-primary" *ngIf="this.currentCount > 0 && this.currentCount%2 == 0" (click)="this.nextCount()">Next</button>
+    <button class="btn btn-danger" *ngIf="this.currentCount == 0 && this.currentCount !== 80" (click)="this.nextCount()">Start!</button>
+    <button class="btn btn-danger" *ngIf="this.currentCount == 80" (click)="this.resetCount()">Restart!</button>
+    <button class="btn btn-info" *ngIf="this.currentCount > 0 && this.currentCount%2 !== 0 && this.currentCount !== 80" (click)="this.nextCount()">Next</button>
+    <button class="btn btn-primary" *ngIf="this.currentCount > 0 && this.currentCount%2 == 0 && this.currentCount !== 80" (click)="this.nextCount()">Next</button>
 </div>
 <br>
-<p *ngIf="this.currentCount > 0">{{this.currentText}}</p>
+<p class="text-center" *ngIf="this.currentCount > 0">{{this.currentText}}</p>
+<!-- <br> -->
+<!-- <div class="font-weight-light">Prayer Count = {{this.currentCount}}</div> -->
 <br>
-<div class="font-weight-light">Prayer Count = {{this.currentCount}}</div>
+<img class="mx-auto d-block" *ngIf="this.currentCount == 0" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+0.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 1 || this.currentCount == 2 || this.currentCount == 80" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+1_2_80.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 3" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+3.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 4" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+4.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 5" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+5.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 6" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+6.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 7 || this.currentCount == 8 || this.currentCount == 9 || this.currentCount == 76 || this.currentCount == 77 || this.currentCount == 78 || this.currentCount == 79" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+7_8_9_76_77_78_79.jpg"
+    alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 10" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+10.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 11" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+11.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 12" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+12.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 13" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+13.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 14" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+14.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 15" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+15.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 16" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+16.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 17" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+17.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 18" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+18.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 19" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+19.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 20 || this.currentCount == 21 || this.currentCount == 22 || this.currentCount == 23" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+20_21_22_23.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 24" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+24.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 25" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+25.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 26" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+26.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 27" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+27.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 28" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+28.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 29" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+29.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 30" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+30.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 31" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+31.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 32" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+32.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 33" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+33.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 34 || this.currentCount == 35 || this.currentCount == 36 || this.currentCount == 37" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+34_35_36_37.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 38" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+38.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 39" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+39.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 40" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+40.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 41" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+41.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 42" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+42.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 43" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+43.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 44" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+44.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 45" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+45.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 46" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+46.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 47" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+47.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 48 || this.currentCount == 49 || this.currentCount == 50 || this.currentCount == 51" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+48_49_50_51.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 52" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+52.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 53" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+53.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 54" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+54.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 55" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+55.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 56" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+56.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 57" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+57.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 58" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+58.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 59" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+59.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 60" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+60.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 61" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+61.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 62 || this.currentCount == 63 || this.currentCount == 64 || this.currentCount == 65" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+62_63_64_65.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 66" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+66.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 67" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+67.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 68" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+68.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 69" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+69.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 70" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+70.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 71" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+71.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 72" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+72.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 73" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+73.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 74" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+74.jpg" alt="Image of the Rosary">
+<img class="mx-auto d-block" *ngIf="this.currentCount == 75" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+75.jpg" alt="Image of the Rosary">
