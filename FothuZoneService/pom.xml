@@ -10,9 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>zone.fothu</groupId>
-	<artifactId>CYOAService</artifactId>
+	<artifactId>FothuZoneService</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>CYOAServer</name>
+	<name>FothuZoneService</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -41,10 +41,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
+			<version>42.2.12</version>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
