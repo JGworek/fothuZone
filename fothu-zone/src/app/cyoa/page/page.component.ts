@@ -26,9 +26,11 @@ export class PageComponent implements OnInit {
 
   constructor(private http: HttpClient) { }
 
+  //test
+
   getPage(pageNumber) {
 
-    let observable = this.http.get(`http://ec2-54-236-213-121.compute-1.amazonaws.com:6969/cyoapages/page/${pageNumber}`);
+    let observable = this.http.get(`http://http://ec2-54-161-212-213.compute-1.amazonaws.com:6969/cyoapages/page/${pageNumber}`);
     observable.subscribe((result) => {
       this.page = result;
     },(error) => {
