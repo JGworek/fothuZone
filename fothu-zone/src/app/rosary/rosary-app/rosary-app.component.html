@@ -1,12 +1,16 @@
 <button class="btn btn-danger justify-content-center" *ngIf="currentDay == 'undefined'" (click)="this.reloadCurrentDay()">Reload</button>
 <div class="d-flex justify-content-center">
-    <button class="btn btn-danger" *ngIf="this.currentCount == 0 && this.currentCount !== 80" (click)="this.nextCount()">Start!</button>
-    <button class="btn btn-danger" *ngIf="this.currentCount == 80" (click)="this.resetCount()">Restart!</button>
-    <button class="btn btn-info" *ngIf="this.currentCount > 0 && this.currentCount%2 !== 0 && this.currentCount !== 80" (click)="this.nextCount()">Next</button>
-    <button class="btn btn-primary" *ngIf="this.currentCount > 0 && this.currentCount%2 == 0 && this.currentCount !== 80" (click)="this.nextCount()">Next</button>
+    <button class="btn btn-danger text-white btn-outline-dark" *ngIf="this.currentCount == 0 && this.currentCount !== 80" (click)="this.nextCount()">Start!</button>
+    <button class="btn btn-danger text-white btn-outline-dark" *ngIf="this.currentCount == 80" (click)="this.resetCount()">Restart!</button>
 </div>
 <br>
-<p class="text-center" *ngIf="this.currentCount > 0">{{this.currentText}}</p>
+<div class="d-flex justify-content-between">
+    <a class="btn btn-info text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount%2 == 0 && this.currentCount !== 80" (click)="this.previousCount()">Back</a>
+    <a class="btn btn-primary text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount%2 !== 0 && this.currentCount !== 80" (click)="this.previousCount()">Back</a>
+    <span class="text-center" *ngIf="this.currentCount > 0">{{this.currentText}}</span>
+    <a class="btn btn-info text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount%2 !== 0 && this.currentCount !== 80" (click)="this.nextCount()">Next</a>
+    <a class="btn btn-primary text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount%2 == 0 && this.currentCount !== 80" (click)="this.nextCount()">Next</a>
+</div>
 <!-- <br> -->
 <!-- <div class="font-weight-light">Prayer Count = {{this.currentCount}}</div> -->
 <br>

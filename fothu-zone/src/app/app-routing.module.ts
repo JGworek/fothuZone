@@ -10,8 +10,10 @@ const routes: Routes = [
   { path: '', component:LinksComponent},
   { path: 'directory', component: LinksComponent},
   { path: 'schola', component: PageComponent},
+  { path: 'directory/schola', component: PageComponent},
   { path: 'petSelection', component: PetSelectionComponent},
   { path: 'rosary', component: RosaryAppComponent},
+  { path: 'directory/rosary', component: RosaryAppComponent},
   { path: 'playground', component:PlaygroundPageComponent },
 ]
 

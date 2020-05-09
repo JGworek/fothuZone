@@ -237,6 +237,29 @@ export class RosaryAppComponent implements OnInit {
     this.currentCount = 0;
   }
 
+  previousCount() {
+    --this.currentCount;
+    if (this.currentCount == this.checkSignOfTheCrossNumbers()) {
+      this.signOfTheCross();
+    } else if (this.currentCount == this.checkApostlesCreedNumbers()) {
+      this.apostlesCreed();
+    } else if (this.currentCount == this.checkOurFatherNumbers()) {
+      this.ourFather();
+    } else if (this.currentCount == this.checkHailMaryNumbers()) {
+      this.hailMary();
+    } else if (this.currentCount == this.checkGloryBeNumbers()) {
+      this.gloryBe();
+    } else if (this.currentCount == this.checkMysteryNumbers()) {
+      this.mystery();
+    } else if (this.currentCount == this.checkHailHolyQueenNumbers()) {
+      this.hailHolyQueen();
+    } else if (this.currentCount == this.checkFinalPrayerNumbers()) {
+      this.finalPrayer();
+    } else if (this.currentCount == this.checkOhMyJesusNumbers()) {
+      this.ohMyJesus();
+    }
+  }
+
   ngOnInit() {
     console.log(this.ourFatherNumbers.length);
     getCurrentDay();
