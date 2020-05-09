@@ -28,7 +28,7 @@ export class PageComponent implements OnInit {
 
   getPage(pageNumber) {
 
-    let observable = this.http.get(`http://ec2-3-86-229-112.compute-1.amazonaws.com:3333/cyoapages/page/${pageNumber}`);
+    let observable = this.http.get(`http://ec2-54-236-213-121.compute-1.amazonaws.com:6969/cyoapages/page/${pageNumber}`);
     observable.subscribe((result) => {
       this.page = result;
     },(error) => {
