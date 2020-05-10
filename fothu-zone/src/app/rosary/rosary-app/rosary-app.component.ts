@@ -16,18 +16,18 @@ const SORROWFUL_MYSTERIES: Array<String> = ["The Agony in the Garden", "The Scou
 const GLORIOUS_MYSTERIES: Array<String> = ["The Resurrection", "The Ascension", "The Coming of the Holy Spirit", "The Assumption of the Blessed Virgin Mother", 'The Coronation of the Blessed Virgin Mother'];
 const LUMINOUS_MYSTERIES: Array<String> = ["The Baptism of Jesus", "The Wedding of Cana", "The Proclamation of the Kingdom", "The Transfiguration", "The Institution of the Eucharist"];
 
-let currentDay: any;
-function getCurrentDay() {
-  var xhr = new XMLHttpRequest();
-  //https://cors-anywhere.herokuapp.com/
-  xhr.open("GET", "http://calapi.inadiutorium.cz/api/v0/en/calendars/default/today");
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState == 4 && xhr.status == 200) {
-      currentDay = JSON.parse(xhr.response);
-    }
-  };
-  xhr.send();
-}
+// let currentDay: any;
+// function getCurrentDay() {
+//   var xhr = new XMLHttpRequest();
+//   //https://cors-anywhere.herokuapp.com/
+//   xhr.open("GET", "http://calapi.inadiutorium.cz/api/v0/en/calendars/default/today");
+//   xhr.onreadystatechange = function () {
+//     if (xhr.readyState == 4 && xhr.status == 200) {
+//       currentDay = JSON.parse(xhr.response);
+//     }
+//   };
+//   xhr.send();
+// }
 
 @Component({
   selector: 'app-rosary-app',
@@ -46,6 +46,12 @@ export class RosaryAppComponent implements OnInit {
   currentMystery: String;
   todaysMystery: Array<String>;
   numberAsAWord: String;
+  currentDay: any = 0;
+
+  async getCurrentDay() {
+  let dayJson = await fetch("http://calapi.inadiutorium.cz/api/v0/en/calendars/default/today");
+  this.currentDay = await dayJson.json();
+  }
 
   signOfTheCross() {
     this.currentText = SIGN_OF_THE_CROSS;
@@ -103,11 +109,37 @@ export class RosaryAppComponent implements OnInit {
       }
     }
     this.currentText = `The ${this.numberAsAWord} Mystery is: ${this.todaysMystery[this.mysteryCount]}`;
-    this.mysteryCount++;
+    // this.mysteryCount++;
+  }
+
+  changeMystery() {
+    switch (this.mysteryCount) {
+      case 0: {
+        this.numberAsAWord = "First";
+        break;
+      }
+      case 1: {
+        this.numberAsAWord = "Second";
+        break;
+      }
+      case 2: {
+        this.numberAsAWord = "Third";
+        break;
+      }
+      case 3: {
+        this.numberAsAWord = "Fourth";
+        break;
+      }
+      case 4: {
+        this.numberAsAWord = "Fifth";
+        break;
+      }
+    }
+    this.currentText = `The ${this.numberAsAWord} Mystery is: ${this.todaysMystery[this.mysteryCount]}`;
   }
 
   reloadCurrentDay() {
-    getCurrentDay();
+    this.getCurrentDay();
   }
 
   signOfTheCrossNumbers: Array<number> = [1, 80];
@@ -119,6 +151,7 @@ export class RosaryAppComponent implements OnInit {
   ohMyJesusNumbers: Array<number> = [21, 35, 49, 63, 77];
   hailHolyQueenNumbers: Array<number> = [78];
   finalPrayerNumbers: Array<number> = [79];
+  plusOneMysteryNumbers: Array<number> = [9, 23, 37, 51, 65]
 
   checkSignOfTheCrossNumbers() {
     for (let i = 0; i <= this.signOfTheCrossNumbers.length; i++) {
@@ -180,6 +213,16 @@ export class RosaryAppComponent implements OnInit {
     }
   }
 
+  checkPlusOneMysteryNumbers() {
+    for (let i = 0; i <= this.plusOneMysteryNumbers.length; i++) {
+      if (this.currentCount == this.plusOneMysteryNumbers[i]) {
+        return this.plusOneMysteryNumbers[i];
+      } else {
+        continue;
+      }
+    }
+  }
+
   checkOhMyJesusNumbers() {
     for (let i = 0; i <= this.ohMyJesusNumbers.length; i++) {
       if (this.currentCount == this.ohMyJesusNumbers[i]) {
@@ -211,6 +254,9 @@ export class RosaryAppComponent implements OnInit {
   }
 
   nextCount() {
+    if(this.currentCount == this.checkMysteryNumbers()) {
+      ++this.mysteryCount;
+    }
     ++this.currentCount;
     if (this.currentCount == this.checkSignOfTheCrossNumbers()) {
       this.signOfTheCross();
@@ -238,6 +284,9 @@ export class RosaryAppComponent implements OnInit {
   }
 
   previousCount() {
+    if(this.currentCount == this.checkPlusOneMysteryNumbers()) {
+      --this.mysteryCount;
+    }
     --this.currentCount;
     if (this.currentCount == this.checkSignOfTheCrossNumbers()) {
       this.signOfTheCross();
@@ -260,45 +309,111 @@ export class RosaryAppComponent implements OnInit {
     }
   }
 
+  setLuminousMysteries() {
+    this.todaysMystery = LUMINOUS_MYSTERIES;
+    document.getElementById("luminous").setAttribute("class", "btn btn-primary");
+    document.getElementById("sorrowful").setAttribute("class", "btn btn-outline-dark");
+    document.getElementById("glorious").setAttribute("class", "btn btn-outline-dark");
+    document.getElementById("joyful").setAttribute("class", "btn btn-outline-dark");
+  }
+
+  changeToLuminousMysteries() {
+    this.todaysMystery = LUMINOUS_MYSTERIES;
+    document.getElementById("luminous").setAttribute("class", "btn btn-primary");
+    document.getElementById("sorrowful").setAttribute("class", "btn btn-outline-dark");
+    document.getElementById("glorious").setAttribute("class", "btn btn-outline-dark");
+    document.getElementById("joyful").setAttribute("class", "btn btn-outline-dark");
+    this.changeMystery();
+  }
+
+  setSorrowfulMysteries() {
+    this.todaysMystery = SORROWFUL_MYSTERIES;
+    document.getElementById("luminous").setAttribute("class", "btn btn-outline-dark");
+    document.getElementById("sorrowful").setAttribute("class", "btn btn-primary");
+    document.getElementById("glorious").setAttribute("class", "btn btn-outline-dark");
+    document.getElementById("joyful").setAttribute("class", "btn btn-outline-dark");
+  }
+
+  changeToSorrowfulMysteries() {
+    this.todaysMystery = SORROWFUL_MYSTERIES;
+    document.getElementById("luminous").setAttribute("class", "btn btn-outline-dark");
+    document.getElementById("sorrowful").setAttribute("class", "btn btn-primary");
+    document.getElementById("glorious").setAttribute("class", "btn btn-outline-dark");
+    document.getElementById("joyful").setAttribute("class", "btn btn-outline-dark");
+    this.changeMystery();
+  }
+
+  setGloriousMysteries() {
+    this.todaysMystery = GLORIOUS_MYSTERIES;
+    document.getElementById("luminous").setAttribute("class", "btn btn-outline-dark");
+    document.getElementById("sorrowful").setAttribute("class", "btn btn-outline-dark");
+    document.getElementById("glorious").setAttribute("class", "btn btn-primary");
+    document.getElementById("joyful").setAttribute("class", "btn btn-outline-dark");
+  }
+
+  changeToGloriousMysteries() {
+    this.todaysMystery = GLORIOUS_MYSTERIES;
+    document.getElementById("luminous").setAttribute("class", "btn btn-outline-dark");
+    document.getElementById("sorrowful").setAttribute("class", "btn btn-outline-dark");
+    document.getElementById("glorious").setAttribute("class", "btn btn-primary");
+    document.getElementById("joyful").setAttribute("class", "btn btn-outline-dark");
+    this.changeMystery();
+  }
+
+  setJoyfulMysteries() {
+    this.todaysMystery = JOYFUL_MYSTERIES;
+    document.getElementById("luminous").setAttribute("class", "btn btn-outline-dark");
+    document.getElementById("sorrowful").setAttribute("class", "btn btn-outline-dark");
+    document.getElementById("glorious").setAttribute("class", "btn btn-outline-dark");
+    document.getElementById("joyful").setAttribute("class", "btn btn-primary");
+  }
+
+  changeToJoyfulMysteries() {
+    this.todaysMystery = JOYFUL_MYSTERIES;
+    document.getElementById("luminous").setAttribute("class", "btn btn-outline-dark");
+    document.getElementById("sorrowful").setAttribute("class", "btn btn-outline-dark");
+    document.getElementById("glorious").setAttribute("class", "btn btn-outline-dark");
+    document.getElementById("joyful").setAttribute("class", "btn btn-primary");
+    this.changeMystery();
+  }
+
   ngOnInit() {
-    console.log(this.ourFatherNumbers.length);
-    getCurrentDay();
     var date = new Date();
     switch (date.getDay()) {
       case 1: {
-        this.todaysMystery = LUMINOUS_MYSTERIES;
+        this.setLuminousMysteries();
         break;
       }
       case 2: {
-        this.todaysMystery = SORROWFUL_MYSTERIES;
+        this.setSorrowfulMysteries();
         break;
       }
       case 3: {
-        this.todaysMystery = GLORIOUS_MYSTERIES;
+        this.setGloriousMysteries()
         break;
       }
       case 4: {
-        this.todaysMystery = LUMINOUS_MYSTERIES;
+        this.setLuminousMysteries()
         break;
       }
       case 5: {
-        this.todaysMystery = SORROWFUL_MYSTERIES;
+        this.setSorrowfulMysteries();
         break;
       }
       case 6: {
-        this.todaysMystery = JOYFUL_MYSTERIES;
+        this.setJoyfulMysteries();
         break;
       }
       case 0: {
-        getCurrentDay();
-        if (currentDay.season == "advent") {
-          this.todaysMystery = JOYFUL_MYSTERIES;
-        } else if (currentDay.season == "christmas") {
-          this.todaysMystery = JOYFUL_MYSTERIES;
-        } else if (currentDay.season == "lent") {
-          this.todaysMystery = SORROWFUL_MYSTERIES;
+        this.getCurrentDay();
+        if (this.currentDay.season == "advent") {
+          this.setJoyfulMysteries();
+        } else if (this.currentDay.season == "christmas") {
+          this.setJoyfulMysteries()
+        } else if (this.currentDay.season == "lent") {
+          this.setSorrowfulMysteries()
         } else {
-          this.todaysMystery = GLORIOUS_MYSTERIES;
+          this.setGloriousMysteries();
         }
         break;
       }
