@@ -1,4 +1,4 @@
-<button class="btn btn-danger justify-content-center" *ngIf="currentDay == 'undefined'" (click)="this.reloadCurrentDay()">Reload</button>
+<button class="btn btn-danger justify-content-center" *ngIf="currentDay == 0" (click)="this.reloadCurrentDay()">Reload</button>
 <div class="d-flex justify-content-center">
     <button class="btn btn-danger text-white btn-outline-dark" *ngIf="this.currentCount == 0 && this.currentCount !== 80" (click)="this.nextCount()">Start!</button>
     <button class="btn btn-danger text-white btn-outline-dark" *ngIf="this.currentCount == 80" (click)="this.resetCount()">Restart!</button>
@@ -76,3 +76,9 @@
 <img class="mx-auto d-block" *ngIf="this.currentCount == 73" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+73.jpg" alt="Image of the Rosary">
 <img class="mx-auto d-block" *ngIf="this.currentCount == 74" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+74.jpg" alt="Image of the Rosary">
 <img class="mx-auto d-block" *ngIf="this.currentCount == 75" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+75.jpg" alt="Image of the Rosary">
+<div class="navbar">
+    <button id="luminous" class="btn btn-outline-dark" (click)="this.changeToLuminousMysteries()">Luminous Mysteries</button>
+    <button id="sorrowful" class="btn btn-outline-dark" (click)="this.changeToSorrowfulMysteries()">Sorrowful Mysteries</button>
+    <button id="glorious" class="btn btn-outline-dark" (click)="this.changeToGloriousMysteries()">Glorious Mysteries</button>
+    <button id="joyful" class="btn btn-outline-dark" (click)="this.changeToJoyfulMysteries()">Joyful Mysteries</button>
+</div>
