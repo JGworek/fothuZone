@@ -11,8 +11,6 @@
     <a class="btn btn-info text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount%2 !== 0 && this.currentCount !== 80" (click)="this.nextCount()">Next</a>
     <a class="btn btn-primary text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount%2 == 0 && this.currentCount !== 80" (click)="this.nextCount()">Next</a>
 </div>
-<!-- <br> -->
-<!-- <div class="font-weight-light">Prayer Count = {{this.currentCount}}</div> -->
 <br>
 <img class="mx-auto d-block" *ngIf="this.currentCount == 0" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+0.jpg" alt="Image of the Rosary">
 <img class="mx-auto d-block" *ngIf="this.currentCount == 1 || this.currentCount == 2 || this.currentCount == 80" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+1_2_80.jpg" alt="Image of the Rosary">
