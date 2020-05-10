@@ -119,7 +119,9 @@ export class RosaryAppComponent implements OnInit {
         break;
       }
     }
+    if(this.currentCount == this.checkMysteryNumbers()) {
     this.currentText = `The ${this.numberAsAWord} Mystery is: ${this.todaysMystery[this.mysteryCount]}`;
+    }
   }
 
   reloadCurrentDay() {
