@@ -5,8 +5,8 @@ const APOSTLES_CREED: String = "I believe in God, the Father almighty creator of
 const OUR_FATHER: String = "Our Father, who art in heaven hallowed be thy name; thy kingdom come; thy will be done on earth as it is in heaven. Give us this day our daily bread and forgive us our trespasses as we forgive those who trespass against us; and lead us not into temptation, but deliver us from evil. Amen.";
 const HAIL_MARY: String = "Hail Mary, full of grace. The Lord is with thee. Blessed art thou amongst women, And blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, Pray for us sinners, Now and at the hour of our death. Amen.";
 const GLORY_BE: String = "Glory be to the Father, and to the Son, and to the Holy Spirit. As it was in the beginning, is now, and ever shall be, world without end. Amen.";
-const OH_MY_JESUS: String = "O my Jesus, forgive us of our sins. Save us from the fires of hell. Lead all souls into heaven, especially those in most need of thy mercy. Amen.";
-const HAIL_HOLY_QUEEN: String = "Hail Holy Queen, Mother of Mercy, our Life, our Sweetness, and our hope. To thee we cry, poor banished children of Eve. To thee we send up our sighs, mourning and weeping in this vale of tears. Turn then most gracious advocate, Thine eyes of mercy toward us, and after this, our exile, show unto us, the blessed fruit of thy womb, Jesus. O clement, O loving, O sweet Virgin Mary. Pray for us O Holy Mother of God, That we may be made worthy of the promises of Christ. Amen.";
+const OH_MY_JESUS: String = "O my Jesus, forgive us of our sins. Save us from the fires of hell. Lead all souls into heaven, especially those in most need of thy mercy.";
+const HAIL_HOLY_QUEEN: String = "Hail Holy Queen, Mother of Mercy, hail our Life, our Sweetness, and our hope. To thee we cry, poor banished children of Eve. To thee we send up our sighs, mourning and weeping in this vale of tears. Turn then most gracious advocate, Thine eyes of mercy toward us, and after this, our exile, show unto us, the blessed fruit of thy womb, Jesus. O clement, O loving, O sweet Virgin Mary. Pray for us O Holy Mother of God, That we may be made worthy of the promises of Christ.";
 const FINAL_PRAYER: String = "Let us pray. O God, whose only begotten Son, by His life, death, and resurrection, has purchased for us the rewards of eternal life, grant, we beseech Thee, that meditating upon these mysteries of the Most Holy Rosary of the Blessed Virgin Mary, we may imitate what they contain and obtain what they promise, through the same Christ Our Lord. Amen.";
 const JOYFUL_MYSTERIES: Array<String> = ["The Annunciation", "The Visitation", "The Nativity", "The Presentation in the Temple", "The Finding in the Temple"];
 const SORROWFUL_MYSTERIES: Array<String> = ["The Agony in the Garden", "The Scourging at the Pillar", "The Crowning with Thorns", "The Carrying of the Cross", "The Crucifixion"];
@@ -127,16 +127,16 @@ export class RosaryAppComponent implements OnInit {
     this.getCurrentDay();
   }
 
-  signOfTheCrossNumbers: Array<number> = [1, 80];
+  signOfTheCrossNumbers: Array<number> = [1, 81];
   apostlesCreedNumbers: Array<number> = [2];
-  hailMaryNumbers: Array<number> = [4, 5, 6, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75];
-  ourFatherNumbers: Array<number> = [3, 9, 23, 37, 51, 65];
-  gloryBeNumbers: Array<number> = [7, 20, 34, 48, 62, 76];
-  mysteryNumbers: Array<number> = [8, 22, 36, 50, 64];
-  ohMyJesusNumbers: Array<number> = [21, 35, 49, 63, 77];
-  hailHolyQueenNumbers: Array<number> = [78];
-  finalPrayerNumbers: Array<number> = [79];
-  plusOneMysteryNumbers: Array<number> = [9, 23, 37, 51, 65]
+  hailMaryNumbers: Array<number> = [4, 5, 6, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76];
+  ourFatherNumbers: Array<number> = [3, 10, 24, 38, 52, 66];
+  gloryBeNumbers: Array<number> = [7, 21, 35, 49, 63, 77];
+  mysteryNumbers: Array<number> = [9, 23, 37, 51, 65];
+  ohMyJesusNumbers: Array<number> = [8, 22, 36, 50, 64, 78];
+  hailHolyQueenNumbers: Array<number> = [79];
+  finalPrayerNumbers: Array<number> = [80];
+  plusOneMysteryNumbers: Array<number> = [10, 24, 38, 52, 66]
 
   checkSignOfTheCrossNumbers() {
     for (let i = 0; i <= this.signOfTheCrossNumbers.length; i++) {
@@ -266,6 +266,7 @@ export class RosaryAppComponent implements OnInit {
 
   resetCount() {
     this.currentCount = 0;
+    this.mysteryCount = 0;
   }
 
   previousCount() {
