@@ -27,7 +27,7 @@ public class Pet implements Serializable {
 	private String name;
 	@Column(name="image")
 	private String image;
-	@Column(name="type")
+	@Column(name="stat_type")
 	private String type;
 	@Column(name="hunger")
 	private int hunger;
@@ -37,12 +37,14 @@ public class Pet implements Serializable {
 	private int maxHealth;
 	@Column(name="strength")
 	private int strength;
-	@Column(name="dexterity")
-	private int dexterity;
+	@Column(name="agility")
+	private int agility;
 	@Column(name="intelligence")
 	private int intelligence;
 	@Column(name="pet_level")
 	private int petLevel;
+	@Column(name="current_xp")
+	private int currentXP;
 	
 	@ManyToOne
 	@JoinColumn(name="user_id")
@@ -54,7 +56,7 @@ public class Pet implements Serializable {
 	}
 
 	public Pet(int id, String name, String image, String type, int hunger, int currentHealth, int maxHealth,
-			int strength, int dexterity, int intelligence, int petLevel, User owner) {
+			int strength, int agility, int intelligence, int petLevel, int currentXP, User owner) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -64,9 +66,10 @@ public class Pet implements Serializable {
 		this.currentHealth = currentHealth;
 		this.maxHealth = maxHealth;
 		this.strength = strength;
-		this.dexterity = dexterity;
+		this.agility = agility;
 		this.intelligence = intelligence;
 		this.petLevel = petLevel;
+		this.currentXP = currentXP;
 		this.owner = owner;
 	}
 
@@ -134,12 +137,12 @@ public class Pet implements Serializable {
 		this.strength = strength;
 	}
 
-	public int getDexterity() {
-		return dexterity;
+	public int getAgility() {
+		return agility;
 	}
 
-	public void setDexterity(int dexterity) {
-		this.dexterity = dexterity;
+	public void setAgility(int agility) {
+		this.agility = agility;
 	}
 
 	public int getIntelligence() {
@@ -158,6 +161,14 @@ public class Pet implements Serializable {
 		this.petLevel = petLevel;
 	}
 
+	public int getCurrentXP() {
+		return currentXP;
+	}
+
+	public void setCurrentXP(int currentXP) {
+		this.currentXP = currentXP;
+	}
+
 	public User getOwner() {
 		return owner;
 	}
@@ -167,19 +178,12 @@ public class Pet implements Serializable {
 	}
 
 	@Override
-	public String toString() {
-		return "Pet [id=" + id + ", name=" + name + ", image=" + image + ", type=" + type + ", hunger=" + hunger
-				+ ", currentHealth=" + currentHealth + ", maxHealth=" + maxHealth + ", strength=" + strength
-				+ ", dexterity=" + dexterity + ", intelligence=" + intelligence + ", petLevel=" + petLevel + ", owner="
-				+ owner + "]";
-	}
-
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + agility;
 		result = prime * result + currentHealth;
-		result = prime * result + dexterity;
+		result = prime * result + currentXP;
 		result = prime * result + hunger;
 		result = prime * result + id;
 		result = prime * result + ((image == null) ? 0 : image.hashCode());
@@ -202,9 +206,11 @@ public class Pet implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Pet other = (Pet) obj;
+		if (agility != other.agility)
+			return false;
 		if (currentHealth != other.currentHealth)
 			return false;
-		if (dexterity != other.dexterity)
+		if (currentXP != other.currentXP)
 			return false;
 		if (hunger != other.hunger)
 			return false;
@@ -240,5 +246,14 @@ public class Pet implements Serializable {
 			return false;
 		return true;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Pet [id=" + id + ", name=" + name + ", image=" + image + ", type=" + type + ", hunger=" + hunger
+				+ ", currentHealth=" + currentHealth + ", maxHealth=" + maxHealth + ", strength=" + strength
+				+ ", agility=" + agility + ", intelligence=" + intelligence + ", petLevel=" + petLevel + ", currentXP="
+				+ currentXP + ", owner=" + owner + "]";
+	}
+
 }
+	

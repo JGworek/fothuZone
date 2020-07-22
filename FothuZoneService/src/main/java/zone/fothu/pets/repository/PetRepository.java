@@ -31,13 +31,22 @@ public interface PetRepository extends JpaRepository<Pet, Integer> {
 
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value = "UPDATE pets.pets SET name = ?2, image = ?3, type = ?4, hunger = ?5, current_health = ?6, max_health = ?7, strength = ?8, dexterity = ?9, intelligence = ?10, pet_level = ?11 WHERE id = ?1")
+	@Query(nativeQuery = true, value = "UPDATE pets.pets SET name = ?2, image = ?3, stat_type = ?4, hunger = ?5, current_health = ?6, max_health = ?7, strength = ?8, agility = ?9, intelligence = ?10, pet_level = ?11, current_xp = ?12 WHERE id = ?1")
 	void updatePet(int id, String name, String image, String type, int hunger, int currentHealth, int maxHealth,
-			int strength, int dexterity, int intelligence, int petLevel) throws PetNotUpdatedException, PSQLException;
+			int strength, int dexterity, int intelligence, int petLevel, int currentXP) throws PetNotUpdatedException, PSQLException;
 
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value = "UPDATE pets.pets SET name = ?2, image = ?3, type = ?4, hunger = ?5, current_health = ?6, max_health = ?7, strength = ?8, dexterity = ?9, intelligence = ?10, pet_level = ?11, user_id = ?12  WHERE id = ?1")
+	@Query(nativeQuery = true, value = "UPDATE pets.pets SET name = ?2, image = ?3, stat_type = ?4, hunger = ?5, current_health = ?6, max_health = ?7, strength = ?8, agility = ?9, intelligence = ?10, pet_level = ?11, current_xp = ?12, user_id = ?13  WHERE id = ?1")
 	void givePet(int id, String name, String image, String type, int hunger, int currentHealth, int maxHealth,
-			int strength, int dexterity, int intelligence, int petLevel, int userId) throws PetNotUpdatedException, PSQLException;
+			int strength, int dexterity, int intelligence, int petLevel, int currentXP, int userId) throws PetNotUpdatedException, PSQLException;
+	
+	@Query(nativeQuery = true, value = "SELECT xp_to_next_level FROM pets.xp_chart WHERE pet_level = ?1")
+	int getXPToNextLevel(int currentLevel);
+	
+	@Modifying
+	@Transactional
+	@Query(nativeQuery = true, value = "UPDATE pets.pets SET current_health = ?1 WHERE id = ?2")
+	void setPetHealth(int currentHealth, int id);
+	
 }

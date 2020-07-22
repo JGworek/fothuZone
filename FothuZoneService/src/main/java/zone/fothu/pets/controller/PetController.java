@@ -20,18 +20,26 @@ import zone.fothu.pets.exception.PetNotFoundException;
 import zone.fothu.pets.exception.PetNotUpdatedException;
 import zone.fothu.pets.model.Pet;
 import zone.fothu.pets.repository.PetRepository;
+import zone.fothu.pets.service.PetService;
 
 @RestController
 @CrossOrigin
 @RequestMapping(path="/pets")
 public class PetController {
+	
 	@Autowired
 	PetRepository petRepository;
 	
 	@GetMapping("/all")
 	public ResponseEntity<List<Pet>> getAllPets() {
 		try {
-			return ResponseEntity.ok(petRepository.findAll());
+			List<Pet> pets = petRepository.findAll();
+			for(Pet pet : pets) {
+				if(pet.getOwner() != null) {
+					pet.getOwner().setUserPassword(null);
+				}
+			}
+			return ResponseEntity.ok(pets);
 		} catch (PageNotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "Pets not found", e);
 		}
@@ -40,7 +48,11 @@ public class PetController {
 	@GetMapping("/id/{id}")
 	public ResponseEntity<Pet> getPetById(@PathVariable int id) throws PetNotFoundException {
 		try {
-			return ResponseEntity.ok(petRepository.findById(id));
+			Pet pet = petRepository.findById(id);
+			if(pet.getOwner() != null) {
+				pet.getOwner().setUserPassword(null);
+			}
+			return ResponseEntity.ok(pet);
 		} catch (PageNotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "Pet not found", e);
 		}
@@ -49,7 +61,11 @@ public class PetController {
 	@GetMapping("/name/{name}")
 	public ResponseEntity<Pet> getUserByUsername(@PathVariable String name) throws PetNotFoundException {
 		try {
-			return ResponseEntity.ok(petRepository.findByPetName(name));
+			Pet pet = petRepository.findByPetName(name);
+			if(pet.getOwner() != null) {
+				pet.getOwner().setUserPassword(null);
+			}
+			return ResponseEntity.ok(pet);
 		} catch (PageNotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "Pet not found", e);
 		}
@@ -58,7 +74,13 @@ public class PetController {
 	@GetMapping("/userid/{id}")
 	public ResponseEntity<List<Pet>> getPetByUserId(@PathVariable int id) throws PetNotFoundException {
 		try {
-			return ResponseEntity.ok(petRepository.findAllUsersPetsById(id));
+			List<Pet> pets = petRepository.findAllUsersPetsById(id);
+			for(Pet pet : pets) {
+				if(pet.getOwner() != null) {
+					pet.getOwner().setUserPassword(null);
+				}
+			}
+			return ResponseEntity.ok(pets);
 		} catch (PageNotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "Pet not found", e);
 		}
@@ -67,7 +89,13 @@ public class PetController {
 	@GetMapping("/username/{username}")
 	public ResponseEntity<List<Pet>> getPetByUsername(@PathVariable String username) throws PetNotFoundException {
 		try {
-			return ResponseEntity.ok(petRepository.findAllUsersPetsByUsername(username));
+			List<Pet> pets = petRepository.findAllUsersPetsByUsername(username);
+			for(Pet pet : pets) {
+				if(pet.getOwner() != null) {
+					pet.getOwner().setUserPassword(null);
+				}
+			}
+			return ResponseEntity.ok(pets);
 		} catch (PageNotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "Pet not found", e);
 		}
@@ -76,7 +104,11 @@ public class PetController {
 	@PostMapping("/new")
 	public Pet createPet(@RequestBody Pet newPet) {
 		try {
-			return petRepository.save(newPet);
+			Pet pet = petRepository.save(newPet);
+			if(pet.getOwner() != null) {
+				pet.getOwner().setUserPassword(null);
+			}
+			return pet;
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "Pet not created", e);
 		}
@@ -86,14 +118,18 @@ public class PetController {
 	public Pet updatePet(@RequestBody Pet updatedPet) throws PetNotFoundException, PSQLException {
 		boolean success = false;
 		try {
-			petRepository.updatePet(updatedPet.getId(), updatedPet.getName(), updatedPet.getImage(), updatedPet.getType(), updatedPet.getHunger(), updatedPet.getCurrentHealth(), updatedPet.getMaxHealth(), updatedPet.getStrength(), updatedPet.getDexterity(), updatedPet.getIntelligence(), updatedPet.getPetLevel());
+			petRepository.updatePet(updatedPet.getId(), updatedPet.getName(), updatedPet.getImage(), updatedPet.getType(), updatedPet.getHunger(), updatedPet.getCurrentHealth(), updatedPet.getMaxHealth(), updatedPet.getStrength(), updatedPet.getAgility(), updatedPet.getIntelligence(), updatedPet.getPetLevel(), updatedPet.getCurrentXP());
 			success = true;
 		} catch (PetNotUpdatedException e) {
 			throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "Pet not updated", e);
 		}
 		if (success == true) {
-			return petRepository.findById(updatedPet.getId());
-		} else {
+			Pet pet = petRepository.findById(updatedPet.getId());
+			if(pet.getOwner() != null) {
+				pet.getOwner().setUserPassword(null);
+			}
+			return pet;
+			} else {
 			return updatedPet;
 		}
 	}
@@ -102,16 +138,19 @@ public class PetController {
 	public Pet givePet(@RequestBody Pet tradedPet, @PathVariable int id) throws PetNotFoundException, PSQLException{
 		boolean success = false;
 		try {
-			petRepository.givePet(tradedPet.getId(), tradedPet.getName(), tradedPet.getImage(), tradedPet.getType(), tradedPet.getHunger(), tradedPet.getCurrentHealth(), tradedPet.getMaxHealth(), tradedPet.getStrength(), tradedPet.getDexterity(), tradedPet.getIntelligence(), tradedPet.getPetLevel(), id);
+			petRepository.givePet(tradedPet.getId(), tradedPet.getName(), tradedPet.getImage(), tradedPet.getType(), tradedPet.getHunger(), tradedPet.getCurrentHealth(), tradedPet.getMaxHealth(), tradedPet.getStrength(), tradedPet.getAgility(), tradedPet.getIntelligence(), tradedPet.getPetLevel(), tradedPet.getCurrentXP(), id);
 			success = true;
 		} catch (PetNotUpdatedException e) {
 			throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "Pet not updated", e);
 		}
 		if (success == true) {
-			return petRepository.findById(tradedPet.getId());
+			Pet pet = petRepository.findById(tradedPet.getId());
+			if(pet.getOwner() != null) {
+				pet.getOwner().setUserPassword(null);
+			}
+			return pet;
 		} else {
 			return tradedPet;
 		}
 	}
-	
 }

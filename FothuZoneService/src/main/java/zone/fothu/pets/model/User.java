@@ -48,63 +48,45 @@ public class User implements Serializable {
 		this.pets = pets;
 	}
 
-
 	public int getId() {
 		return id;
 	}
-
 
 	public void setId(int id) {
 		this.id = id;
 	}
 
-
 	public String getUsername() {
 		return username;
 	}
-
 
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
-
 	public String getUserPassword() {
 		return userPassword;
 	}
-
 
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
 	}
 
-
 	public String getFavoriteColor() {
 		return favoriteColor;
 	}
-
 
 	public void setFavoriteColor(String favoriteColor) {
 		this.favoriteColor = favoriteColor;
 	}
 
-
 	public List<Pet> getPets() {
 		return pets;
 	}
 
-
 	public void setPets(List<Pet> pets) {
 		this.pets = pets;
 	}
-
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", userPassword=" + userPassword + ", favoriteColor="
-				+ favoriteColor + ", pets=" + pets + "]";
-	}
-
 
 	@Override
 	public int hashCode() {
@@ -117,7 +99,6 @@ public class User implements Serializable {
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -151,6 +132,12 @@ public class User implements Serializable {
 		} else if (!username.equals(other.username))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", userPassword=" + userPassword + ", favoriteColor="
+				+ favoriteColor + ", pets=" + pets + "]";
 	}
 
 }
