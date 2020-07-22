@@ -32,56 +32,49 @@ public class BattleService implements Serializable {
 	private Pet attackingPet;
 	private Pet defendingPet;
 	private final double attackModifier = 1.5;
-	private final double armorModifier = 0.7;
+	private final double armorModifier = 1.5;
 	private final double speedModifier = 1.2;
 	private final double accuracyModifier = 10;
+	private final int accuracyHurdle = 75;
 	private double attackingHealth, defendingHealth;
 	private double attackingArmor, defendingArmor;
 	private double attackingSpeed, defendingSpeed;
 	private double attackingAccuracy, defendingAccuracy;
-
+	
 	public Battle battle(int attackerId, int defenderId) throws BattleNotFoundException, PetNotFoundException {
-
 		// get pets
 		attackingPet = petRepository.findById(attackerId);
 		defendingPet = petRepository.findById(defenderId);
-
 		// Create battle in database
 		battleRepository.saveNewBattle(attackerId, defenderId);
 		int currentBattleID = battleRepository.findLatestBattleID();
-
 		// set pet attack values
-		if (attackingPet.getType().toLowerCase() == "strength") {
+		if (attackingPet.getType().equalsIgnoreCase("strength")) {
 			attackingAttackPower = (attackingPet.getStrength() * attackModifier);
-		} else if (attackingPet.getType().toLowerCase() == "dexterity") {
+		} else if (attackingPet.getType().equalsIgnoreCase("dexterity")) {
 			attackingAttackPower = (attackingPet.getAgility() * attackModifier);
-		} else if (attackingPet.getType().toLowerCase() == "intelligence") {
+		} else if (attackingPet.getType().equalsIgnoreCase("intelligence")) {
 			attackingAttackPower = (attackingPet.getIntelligence() * attackModifier);
 		}
-		if (defendingPet.getType().toLowerCase() == "strength") {
+		if (defendingPet.getType().equalsIgnoreCase("strength")) {
 			defendingAttackPower = (defendingPet.getStrength() * attackModifier);
-		} else if (attackingPet.getType().toLowerCase() == "dexterity") {
+		} else if (defendingPet.getType().equalsIgnoreCase("dexterity")) {
 			defendingAttackPower = (defendingPet.getAgility() * attackModifier);
-		} else if (attackingPet.getType().toLowerCase() == "intelligence") {
+		} else if (defendingPet.getType().equalsIgnoreCase("intelligence")) {
 			defendingAttackPower = (defendingPet.getIntelligence() * attackModifier);
 		}
-
 		// set pet HP values
 		attackingHealth = attackingPet.getCurrentHealth();
 		defendingHealth = defendingPet.getCurrentHealth();
-
 		// set pet armor values
 		attackingArmor = (attackingPet.getAgility() * armorModifier);
 		defendingArmor = (defendingPet.getAgility() * armorModifier);
-
 		// set pet speed values
 		attackingSpeed = (attackingPet.getAgility() * speedModifier);
 		defendingSpeed = (defendingPet.getAgility() * speedModifier);
-
 		// set pet accuracy values
 		attackingAccuracy = ((attackingPet.getIntelligence() * accuracyModifier) / attackingPet.getAgility());
 		defendingAccuracy = ((defendingPet.getIntelligence() * accuracyModifier) / defendingPet.getAgility());
-
 		// battle
 		int turnNumber = 1;
 		int attackCounter;
@@ -92,55 +85,47 @@ public class BattleService implements Serializable {
 		} else {
 			attackCounter = 2;
 		}
-		BATTLE_LOOP: while (attackingHealth > 0 || defendingHealth > 0) {
-			double startingAttackingHealth = attackingHealth;
-			double startingDefendingHealth = defendingHealth;
+		BATTLE_LOOP: while (attackingHealth > 0 | defendingHealth > 0) {
+//			System.out.println("turn: " + turnNumber + ", attackingHealth: " + attackingHealth + ", defendingHealth: "
+//					+ defendingHealth);
 			// defender attacks on even numbers
 			if (attackCounter % 2 == 0) {
-				if (defendingAccuracy + (Math.random() * 100) >= 100) {
-					attackingHealth = (attackingHealth - (defendingAttackPower - attackingArmor));
-					if (attackingHealth <= 0) {
+				if (defendingAccuracy + (Math.random() * 100) >= accuracyHurdle) {
+					if((attackingHealth - (defendingAttackPower - attackingArmor)) <= 0) {
 						battleFinished = true;
 					}
 					battleLogRepository.saveNewBattleLog(currentBattleID, turnNumber,
-							defendingPet.getName() + " dealt " + -(startingAttackingHealth - attackingHealth)
+							defendingPet.getName() + " dealt " + (int) (defendingAttackPower - attackingArmor)
 									+ " damage to " + attackingPet.getName() + ".",
+							attackingPet.getName() + ": " + (attackingHealth - (defendingAttackPower - attackingArmor))
+									+ " health, " + defendingPet.getName() + ": " + defendingHealth + " health.",
 							battleFinished);
-//					BattleLog currentAttack = new BattleLog(0, battleRepository.findById(currentBattleID), turnNumber,
-//							defendingPet.getName() + " dealt " + (startingAttackingHealth - attackingHealth)
-//									+ " damage to " + attackingPet.getName() + ".",
-//							battleFinished);
-//					battleLogRepository.save(currentAttack);
+					attackingHealth = (attackingHealth - (defendingAttackPower - attackingArmor));
 				} else {
-//					BattleLog currentAttack = new BattleLog(0, battleRepository.findById(currentBattleID), turnNumber,
-//							defendingPet.getName() + " missed.", battleFinished);
-//					battleLogRepository.save(currentAttack);
+
 					battleLogRepository.saveNewBattleLog(currentBattleID, turnNumber,
-							defendingPet.getName() + " missed.", battleFinished);
+							defendingPet.getName() + " missed.", attackingPet.getName() + ": " + attackingHealth
+									+ " health, " + defendingPet.getName() + ": " + defendingHealth + " health.",
+							battleFinished);
 				}
 			} else {
 				// attacker attacks on odd numbers
-				if (attackingAccuracy + (Math.random() * 100) >= 100) {
-					defendingHealth = (defendingHealth - (attackingAttackPower - defendingArmor));
-					if (defendingHealth <= 0) {
+				if (attackingAccuracy + (Math.random() * 100) >= accuracyHurdle) {
+					if((defendingHealth - (attackingAttackPower - defendingArmor)) <= 0) {
 						battleFinished = true;
 					}
-//					BattleLog currentAttack = new BattleLog(0, battleRepository.findById(currentBattleID), turnNumber,
-//							attackingPet.getName() + " dealt " + (startingDefendingHealth - defendingHealth)
-//									+ " damage to " + defendingPet.getName() + ".",
-//							battleFinished);
-//					battleLogRepository.save(currentAttack);
 					battleLogRepository.saveNewBattleLog(currentBattleID, turnNumber,
-							attackingPet.getName() + " dealt " + -(startingDefendingHealth - defendingHealth)
+							attackingPet.getName() + " dealt " + (int) (attackingAttackPower - defendingArmor)
 									+ " damage to " + defendingPet.getName() + ".",
+							attackingPet.getName() + ": " + attackingHealth + " health, " + defendingPet.getName()
+									+ ": " + (defendingHealth - (attackingAttackPower - defendingArmor)) + " health.",
 							battleFinished);
-
+					defendingHealth = (defendingHealth - (attackingAttackPower - defendingArmor));
 				} else {
-//					BattleLog currentAttack = new BattleLog(0, battleRepository.findById(currentBattleID), turnNumber,
-//							attackingPet.getName() + " missed.", battleFinished);
-//					battleLogRepository.save(currentAttack);
 					battleLogRepository.saveNewBattleLog(currentBattleID, turnNumber,
-							attackingPet.getName() + " missed.", battleFinished);
+							attackingPet.getName() + " missed.", attackingPet.getName() + ": " + attackingHealth
+									+ " health, " + defendingPet.getName() + ": " + defendingHealth + " health.",
+							battleFinished);
 				}
 			}
 			attackCounter++;
@@ -154,14 +139,13 @@ public class BattleService implements Serializable {
 			} else {
 				petRepository.setPetHealth((int) attackingHealth, attackerId);
 				petRepository.setPetHealth((int) defendingHealth, defenderId);
-				if(defendingHealth >= attackingHealth) {
-					battleRepository.setWinner(currentBattleID ,defendingPet.getId());
+				if (defendingHealth >= attackingHealth) {
+					battleRepository.setWinner(currentBattleID, defendingPet.getId(), attackingPet.getId());
 				} else {
-					battleRepository.setWinner(currentBattleID, attackingPet.getId());
+					battleRepository.setWinner(currentBattleID, attackingPet.getId(), defendingPet.getId());
 				}
 				break BATTLE_LOOP;
 			}
-
 		}
 		Battle battleResult = battleRepository.findById(battleRepository.findLatestBattleID());
 		return battleResult;

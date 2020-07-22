@@ -47,6 +47,11 @@ public class Battle implements Serializable {
 	@JoinColumn(name="winning_pet_id")
 	@JsonIgnoreProperties("battles")
 	private Pet winningPet;
+	
+	@ManyToOne
+	@JoinColumn(name="losing_pet_id")
+	@JsonIgnoreProperties("battles")
+	private Pet losingPet;
 
 	public int getId() {
 		return id;
@@ -88,17 +93,27 @@ public class Battle implements Serializable {
 		this.winningPet = winningPet;
 	}
 
+	public Pet getLosingPet() {
+		return losingPet;
+	}
+
+	public void setLosingPet(Pet losingPet) {
+		this.losingPet = losingPet;
+	}
+
 	public Battle() {
 		super();
 	}
 
-	public Battle(int id, Pet attackingPet, Pet defendingPet, List<BattleLog> battleLogs, Pet winningPet) {
+	public Battle(int id, Pet attackingPet, Pet defendingPet, List<BattleLog> battleLogs, Pet winningPet,
+			Pet losingPet) {
 		super();
 		this.id = id;
 		this.attackingPet = attackingPet;
 		this.defendingPet = defendingPet;
 		this.battleLogs = battleLogs;
 		this.winningPet = winningPet;
+		this.losingPet = losingPet;
 	}
 
 	@Override
@@ -109,6 +124,7 @@ public class Battle implements Serializable {
 		result = prime * result + ((battleLogs == null) ? 0 : battleLogs.hashCode());
 		result = prime * result + ((defendingPet == null) ? 0 : defendingPet.hashCode());
 		result = prime * result + id;
+		result = prime * result + ((losingPet == null) ? 0 : losingPet.hashCode());
 		result = prime * result + ((winningPet == null) ? 0 : winningPet.hashCode());
 		return result;
 	}
@@ -139,6 +155,11 @@ public class Battle implements Serializable {
 			return false;
 		if (id != other.id)
 			return false;
+		if (losingPet == null) {
+			if (other.losingPet != null)
+				return false;
+		} else if (!losingPet.equals(other.losingPet))
+			return false;
 		if (winningPet == null) {
 			if (other.winningPet != null)
 				return false;
@@ -146,8 +167,14 @@ public class Battle implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Battle [id=" + id + ", attackingPet=" + attackingPet + ", defendingPet=" + defendingPet
+				+ ", battleLogs=" + battleLogs + ", winningPet=" + winningPet + ", losingPet=" + losingPet + "]";
+	}
 	
 	
 }
+
+	

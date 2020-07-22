@@ -27,6 +27,6 @@ public interface BattleLogRepository extends JpaRepository<BattleLog, Integer> {
 
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value = "INSERT INTO pets.battle_logs VALUES (DEFAULT, ?1, ?2, ?3, ?4)")
-	void saveNewBattleLog(int currentBattleID, int turnNumber, String string, boolean battleFinished);
+	@Query(nativeQuery = true, value = "INSERT INTO pets.battle_logs VALUES (DEFAULT, ?1, ?2, ?3, ?4, ?5)")
+	void saveNewBattleLog(int currentBattleID, int turnNumber, String turnText, String turnResult, boolean battleFinished);
 }

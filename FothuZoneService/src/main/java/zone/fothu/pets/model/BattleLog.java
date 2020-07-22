@@ -38,6 +38,9 @@ public class BattleLog implements Serializable {
 	@Column(name="turn_text")
 	private String turnText;
 	
+	@Column(name="turn_result")
+	private String turnResult;
+	
 	@Column(name="battle_finished")
 	private Boolean battleFinished;
 
@@ -73,6 +76,14 @@ public class BattleLog implements Serializable {
 		this.turnText = turnText;
 	}
 
+	public String getTurnResult() {
+		return turnResult;
+	}
+
+	public void setTurnResult(String turnResult) {
+		this.turnResult = turnResult;
+	}
+
 	public Boolean getBattleFinished() {
 		return battleFinished;
 	}
@@ -85,12 +96,14 @@ public class BattleLog implements Serializable {
 		super();
 	}
 
-	public BattleLog(int id, Battle battle, int turnNumber, String turnText, Boolean battleFinished) {
+	public BattleLog(int id, Battle battle, int turnNumber, String turnText, String turnResult,
+			Boolean battleFinished) {
 		super();
 		this.id = id;
 		this.battle = battle;
 		this.turnNumber = turnNumber;
 		this.turnText = turnText;
+		this.turnResult = turnResult;
 		this.battleFinished = battleFinished;
 	}
 
@@ -102,6 +115,7 @@ public class BattleLog implements Serializable {
 		result = prime * result + ((battleFinished == null) ? 0 : battleFinished.hashCode());
 		result = prime * result + id;
 		result = prime * result + turnNumber;
+		result = prime * result + ((turnResult == null) ? 0 : turnResult.hashCode());
 		result = prime * result + ((turnText == null) ? 0 : turnText.hashCode());
 		return result;
 	}
@@ -129,12 +143,23 @@ public class BattleLog implements Serializable {
 			return false;
 		if (turnNumber != other.turnNumber)
 			return false;
+		if (turnResult == null) {
+			if (other.turnResult != null)
+				return false;
+		} else if (!turnResult.equals(other.turnResult))
+			return false;
 		if (turnText == null) {
 			if (other.turnText != null)
 				return false;
 		} else if (!turnText.equals(other.turnText))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "BattleLog [id=" + id + ", battle=" + battle + ", turnNumber=" + turnNumber + ", turnText=" + turnText
+				+ ", turnResult=" + turnResult + ", battleFinished=" + battleFinished + "]";
 	}
 	
 }

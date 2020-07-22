@@ -33,6 +33,6 @@ public interface BattleRepository extends JpaRepository<Battle, Integer> {
 
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value = "UPDATE pets.battles SET winning_pet_id = ?2 WHERE id = ?1")
-	void setWinner(int id, int winningPetId);
+	@Query(nativeQuery = true, value = "UPDATE pets.battles SET winning_pet_id = ?2, losing_pet_id = ?3 WHERE id = ?1")
+	void setWinner(int id, int winningPetId, int losingPetId);
 }
