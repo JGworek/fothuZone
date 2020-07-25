@@ -1,6 +1,8 @@
 package zone.fothu.pets.service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -10,7 +12,7 @@ import zone.fothu.pets.exception.BattleNotFoundException;
 import zone.fothu.pets.exception.PetNotFoundException;
 import zone.fothu.pets.model.Battle;
 import zone.fothu.pets.model.Pet;
-import zone.fothu.pets.model.XPValue;
+import zone.fothu.pets.model.UserBattleResult;
 import zone.fothu.pets.repository.BattleLogRepository;
 import zone.fothu.pets.repository.BattleRepository;
 import zone.fothu.pets.repository.PetRepository;
@@ -43,8 +45,12 @@ public class BattleService implements Serializable {
     private double attackingArmor, defendingArmor;
     private double attackingSpeed, defendingSpeed;
     private double attackingAccuracy, defendingAccuracy;
+    private boolean scanned = false;
 
-    public Battle battle(int attackerId, int defenderId) throws BattleNotFoundException, PetNotFoundException {
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public List battle(int attackerId, int defenderId) throws BattleNotFoundException, PetNotFoundException {
+        int numberOfLevelUps = 0;
+        boolean attackerVictory = false;
         // get pets
         attackingPet = petRepository.findById(attackerId);
         defendingPet = petRepository.findById(defenderId);
@@ -150,16 +156,20 @@ public class BattleService implements Serializable {
                 }
                 if (defendingHealth >= attackingHealth) {
                     battleRepository.setWinner(currentBattleID, defendingPet.getId(), attackingPet.getId());
-                    if (defendingPet.getId() != -1) {
-                        if (defendingPet.getPetLevel() - attackingPet.getPetLevel() <= 5) {
-                            setNewXP(defendingPet, attackingPet);
-                        }
-                    }
+                    // ONLY USEFUL IF YOU WANT DEFENDER TO GET XP
+//                    if (defendingPet.getId() != -1) {
+//                        if (defendingPet.getPetLevel() - attackingPet.getPetLevel() <= 5) {
+//                            setNewXP(defendingPet, attackingPet);
+//                        }
+//                    }
+                    attackerVictory = false;
                 } else {
                     battleRepository.setWinner(currentBattleID, attackingPet.getId(), defendingPet.getId());
                     if (attackingPet.getId() != -1) {
-                        if (attackingPet.getPetLevel() - defendingPet.getPetLevel() <= 5)
-                            setNewXP(attackingPet, defendingPet);
+                        if (attackingPet.getPetLevel() - defendingPet.getPetLevel() <= 5) {
+                            numberOfLevelUps = setNewXP(attackingPet, defendingPet);
+                        }
+                        attackerVictory = true;
                     }
                 }
                 if (attackingPet.getId() == -1) {
@@ -172,10 +182,22 @@ public class BattleService implements Serializable {
             }
         }
         Battle battleResult = battleRepository.findById(battleRepository.findLatestBattleID());
-        return battleResult;
+        List battleResultWithLevel = new ArrayList();
+        battleResultWithLevel.add(battleResult);
+        applicationContext.scan("zone.fothu.pets.model");
+        if (scanned == false) {
+            applicationContext.refresh();
+            scanned = true;
+        }
+        UserBattleResult levelUpObject = applicationContext.getBean(UserBattleResult.class);
+        levelUpObject.setNumberOfLevelUps(numberOfLevelUps);
+        levelUpObject.setUserVictory(attackerVictory);
+        battleResultWithLevel.add(levelUpObject);
+        return battleResultWithLevel;
     }
 
-    private void setNewXP(Pet winningPet, Pet losingPet) {
+    private int setNewXP(Pet winningPet, Pet losingPet) {
+        int numberOfLevelUps = 0;
         if (winningPet.getPetLevel() < 100) {
             int winningXP = (losingPet.getMaxHealth() * xpHealthModifier);
             winningPet.setCurrentXP(winningPet.getCurrentXP() + winningXP);
@@ -184,11 +206,13 @@ public class BattleService implements Serializable {
                 winningPet.setCurrentXP(
                     winningPet.getCurrentXP() - petRepository.getXPToNextLevel(winningPet.getPetLevel() + 1));
                 winningPet.setPetLevel(winningPet.getPetLevel() + 1);
+                numberOfLevelUps = numberOfLevelUps + 1;
                 if (winningPet.getPetLevel() == 100) {
                     winningPet.setCurrentXP(0);
                 }
             }
             petRepository.updatePetXPAndLevel(winningPet.getId(), winningPet.getCurrentXP(), winningPet.getPetLevel());
         }
+        return numberOfLevelUps;
     }
 }
