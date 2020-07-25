@@ -57,18 +57,19 @@ public class BattleController {
         return ResponseEntity.ok(battle);
     }
 
+    @SuppressWarnings({"rawtypes","unchecked"})
     @PostMapping("/newBattle/attackerId/{attackerId}/defenderId/{defenderId}")
-    public ResponseEntity<Battle> createNewBattle(@PathVariable int attackerId, @PathVariable int defenderId)
+    public ResponseEntity<List> createNewBattle(@PathVariable int attackerId, @PathVariable int defenderId)
         throws BattleNotFoundException, PetNotFoundException {
-        Battle battle = battleService.battle(attackerId, defenderId);
+        List battleResult = battleService.battle(attackerId, defenderId);
+        Battle battle = (Battle) battleResult.get(0);
         if (battle.getAttackingPet().getOwner() != null) {
             battle.getAttackingPet().getOwner().setUserPassword(null);
         }
         if (battle.getDefendingPet().getOwner() != null) {
             battle.getDefendingPet().getOwner().setUserPassword(null);
-            ;
         }
-        return ResponseEntity.ok(battle);
+        battleResult.set(0, battle);
+        return ResponseEntity.ok(battleResult);
     }
-
 }
