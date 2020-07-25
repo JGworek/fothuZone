@@ -14,25 +14,25 @@ import zone.fothu.pets.model.Pet;
 
 public interface BattleRepository extends JpaRepository<Battle, Integer> {
 
-	@Query(nativeQuery = true, value = "SELECT * FROM pets.battles")
-	List<Battle> findAll();
-	
-	@Query(nativeQuery = true, value = "SELECT * FROM pets.battles WHERE id = ?1")
-	Battle findById(int id) throws BattleNotFoundException;
-	
-	@Query(nativeQuery = true, value = "SELECT MAX(id) FROM pets.battles")
-	int findLatestBattleID();
-	
-	@Query(nativeQuery = true, value = "SELECT * FROM pets.battles WHERE attacking_pet = ?1 OR defending_pet = ?1")
-	List<Battle> findAllBattlesForOnePet(int id);
-	
-	@Modifying
-	@Transactional
-	@Query(nativeQuery = true, value = "INSERT INTO pets.battles VALUES (DEFAULT, ?1, ?2, null)")
-	void saveNewBattle(int attackingPet, int defendingPet);
+    @Query(nativeQuery = true, value = "SELECT * FROM pets.battles")
+    List<Battle> findAll();
 
-	@Modifying
-	@Transactional
-	@Query(nativeQuery = true, value = "UPDATE pets.battles SET winning_pet_id = ?2, losing_pet_id = ?3 WHERE id = ?1")
-	void setWinner(int id, int winningPetId, int losingPetId);
+    @Query(nativeQuery = true, value = "SELECT * FROM pets.battles WHERE id = ?1")
+    Battle findById(int id) throws BattleNotFoundException;
+
+    @Query(nativeQuery = true, value = "SELECT MAX(id) FROM pets.battles")
+    int findLatestBattleID();
+
+    @Query(nativeQuery = true, value = "SELECT * FROM pets.battles WHERE attacking_pet = ?1 OR defending_pet = ?1")
+    List<Battle> findAllBattlesForOnePet(int id);
+
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "INSERT INTO pets.battles VALUES (DEFAULT, ?1, ?2, null)")
+    void saveNewBattle(int attackingPet, int defendingPet);
+
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "UPDATE pets.battles SET winning_pet_id = ?2, losing_pet_id = ?3 WHERE id = ?1")
+    void setWinner(int id, int winningPetId, int losingPetId);
 }

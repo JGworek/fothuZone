@@ -14,19 +14,20 @@ import zone.fothu.pets.model.Pet;
 
 public interface BattleLogRepository extends JpaRepository<BattleLog, Integer> {
 
-	@Query(nativeQuery = true, value = "SELECT * FROM pets.battle_logs WHERE battle_id = ?1")
-	List<BattleLog> findByBattleId(int id) throws BattleNotFoundException;
-	
-	@Query(nativeQuery = true, value = "SELECT MAX(id) FROM pets.battle_logs")
-	int findLatestBattleLogID();
-	
-	@Modifying
-	@Transactional
-	@Query(nativeQuery = true, value = "UPDATE pets.battle_logs SET battle_finished = true WHERE id = ?1")
-	void updateLastBattleStepInTimeout(int id);
+    @Query(nativeQuery = true, value = "SELECT * FROM pets.battle_logs WHERE battle_id = ?1")
+    List<BattleLog> findByBattleId(int id) throws BattleNotFoundException;
 
-	@Modifying
-	@Transactional
-	@Query(nativeQuery = true, value = "INSERT INTO pets.battle_logs VALUES (DEFAULT, ?1, ?2, ?3, ?4, ?5)")
-	void saveNewBattleLog(int currentBattleID, int turnNumber, String turnText, String turnResult, boolean battleFinished);
+    @Query(nativeQuery = true, value = "SELECT MAX(id) FROM pets.battle_logs")
+    int findLatestBattleLogID();
+
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "UPDATE pets.battle_logs SET battle_finished = true WHERE id = ?1")
+    void updateLastBattleStepInTimeout(int id);
+
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "INSERT INTO pets.battle_logs VALUES (DEFAULT, ?1, ?2, ?3, ?4, ?5)")
+    void saveNewBattleLog(int currentBattleID, int turnNumber, String turnText, String turnResult,
+        boolean battleFinished);
 }

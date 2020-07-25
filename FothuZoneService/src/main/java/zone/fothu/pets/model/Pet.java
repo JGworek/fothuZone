@@ -14,246 +14,245 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Component
 @Entity
-@Table(name="pets", schema="pets")
+@Table(name = "pets", schema = "pets")
 public class Pet implements Serializable {
-	
-	private static final long serialVersionUID = 1459839716503621053L;
-	
-	@Id
-	@Column(name="id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	@Column(name="name")
-	private String name;
-	@Column(name="image")
-	private String image;
-	@Column(name="stat_type")
-	private String type;
-	@Column(name="hunger")
-	private int hunger;
-	@Column(name="current_health")
-	private int currentHealth;
-	@Column(name="max_health")
-	private int maxHealth;
-	@Column(name="strength")
-	private int strength;
-	@Column(name="agility")
-	private int agility;
-	@Column(name="intelligence")
-	private int intelligence;
-	@Column(name="pet_level")
-	private int petLevel;
-	@Column(name="current_xp")
-	private int currentXP;
-	
-	@ManyToOne
-	@JoinColumn(name="user_id")
-	@JsonIgnoreProperties("pets")
-	private User owner;
-	
-	public Pet() {
-		super();
-	}
 
-	public Pet(int id, String name, String image, String type, int hunger, int currentHealth, int maxHealth,
-			int strength, int agility, int intelligence, int petLevel, int currentXP, User owner) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.image = image;
-		this.type = type;
-		this.hunger = hunger;
-		this.currentHealth = currentHealth;
-		this.maxHealth = maxHealth;
-		this.strength = strength;
-		this.agility = agility;
-		this.intelligence = intelligence;
-		this.petLevel = petLevel;
-		this.currentXP = currentXP;
-		this.owner = owner;
-	}
+    private static final long serialVersionUID = 1459839716503621053L;
 
-	public int getId() {
-		return id;
-	}
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "image")
+    private String image;
+    @Column(name = "stat_type")
+    private String type;
+    @Column(name = "hunger")
+    private int hunger;
+    @Column(name = "current_health")
+    private int currentHealth;
+    @Column(name = "max_health")
+    private int maxHealth;
+    @Column(name = "strength")
+    private int strength;
+    @Column(name = "agility")
+    private int agility;
+    @Column(name = "intelligence")
+    private int intelligence;
+    @Column(name = "pet_level")
+    private int petLevel;
+    @Column(name = "current_xp")
+    private int currentXP;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties("pets")
+    private User owner;
 
-	public String getName() {
-		return name;
-	}
+    public Pet() {
+        super();
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Pet(int id, String name, String image, String type, int hunger, int currentHealth, int maxHealth,
+        int strength, int agility, int intelligence, int petLevel, int currentXP, User owner) {
+        super();
+        this.id = id;
+        this.name = name;
+        this.image = image;
+        this.type = type;
+        this.hunger = hunger;
+        this.currentHealth = currentHealth;
+        this.maxHealth = maxHealth;
+        this.strength = strength;
+        this.agility = agility;
+        this.intelligence = intelligence;
+        this.petLevel = petLevel;
+        this.currentXP = currentXP;
+        this.owner = owner;
+    }
 
-	public String getImage() {
-		return image;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setImage(String image) {
-		this.image = image;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public int getHunger() {
-		return hunger;
-	}
+    public String getImage() {
+        return image;
+    }
 
-	public void setHunger(int hunger) {
-		this.hunger = hunger;
-	}
+    public void setImage(String image) {
+        this.image = image;
+    }
 
-	public int getCurrentHealth() {
-		return currentHealth;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public void setCurrentHealth(int currentHealth) {
-		this.currentHealth = currentHealth;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public int getMaxHealth() {
-		return maxHealth;
-	}
+    public int getHunger() {
+        return hunger;
+    }
 
-	public void setMaxHealth(int maxHealth) {
-		this.maxHealth = maxHealth;
-	}
+    public void setHunger(int hunger) {
+        this.hunger = hunger;
+    }
 
-	public int getStrength() {
-		return strength;
-	}
+    public int getCurrentHealth() {
+        return currentHealth;
+    }
 
-	public void setStrength(int strength) {
-		this.strength = strength;
-	}
+    public void setCurrentHealth(int currentHealth) {
+        this.currentHealth = currentHealth;
+    }
 
-	public int getAgility() {
-		return agility;
-	}
+    public int getMaxHealth() {
+        return maxHealth;
+    }
 
-	public void setAgility(int agility) {
-		this.agility = agility;
-	}
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
+    }
 
-	public int getIntelligence() {
-		return intelligence;
-	}
+    public int getStrength() {
+        return strength;
+    }
 
-	public void setIntelligence(int intelligence) {
-		this.intelligence = intelligence;
-	}
+    public void setStrength(int strength) {
+        this.strength = strength;
+    }
 
-	public int getPetLevel() {
-		return petLevel;
-	}
+    public int getAgility() {
+        return agility;
+    }
 
-	public void setPetLevel(int petLevel) {
-		this.petLevel = petLevel;
-	}
+    public void setAgility(int agility) {
+        this.agility = agility;
+    }
 
-	public int getCurrentXP() {
-		return currentXP;
-	}
+    public int getIntelligence() {
+        return intelligence;
+    }
 
-	public void setCurrentXP(int currentXP) {
-		this.currentXP = currentXP;
-	}
+    public void setIntelligence(int intelligence) {
+        this.intelligence = intelligence;
+    }
 
-	public User getOwner() {
-		return owner;
-	}
+    public int getPetLevel() {
+        return petLevel;
+    }
 
-	public void setOwner(User owner) {
-		this.owner = owner;
-	}
+    public void setPetLevel(int petLevel) {
+        this.petLevel = petLevel;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + agility;
-		result = prime * result + currentHealth;
-		result = prime * result + currentXP;
-		result = prime * result + hunger;
-		result = prime * result + id;
-		result = prime * result + ((image == null) ? 0 : image.hashCode());
-		result = prime * result + intelligence;
-		result = prime * result + maxHealth;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((owner == null) ? 0 : owner.hashCode());
-		result = prime * result + petLevel;
-		result = prime * result + strength;
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		return result;
-	}
+    public int getCurrentXP() {
+        return currentXP;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Pet other = (Pet) obj;
-		if (agility != other.agility)
-			return false;
-		if (currentHealth != other.currentHealth)
-			return false;
-		if (currentXP != other.currentXP)
-			return false;
-		if (hunger != other.hunger)
-			return false;
-		if (id != other.id)
-			return false;
-		if (image == null) {
-			if (other.image != null)
-				return false;
-		} else if (!image.equals(other.image))
-			return false;
-		if (intelligence != other.intelligence)
-			return false;
-		if (maxHealth != other.maxHealth)
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (owner == null) {
-			if (other.owner != null)
-				return false;
-		} else if (!owner.equals(other.owner))
-			return false;
-		if (petLevel != other.petLevel)
-			return false;
-		if (strength != other.strength)
-			return false;
-		if (type == null) {
-			if (other.type != null)
-				return false;
-		} else if (!type.equals(other.type))
-			return false;
-		return true;
-	}
+    public void setCurrentXP(int currentXP) {
+        this.currentXP = currentXP;
+    }
 
-	@Override
-	public String toString() {
-		return "Pet [id=" + id + ", name=" + name + ", image=" + image + ", type=" + type + ", hunger=" + hunger
-				+ ", currentHealth=" + currentHealth + ", maxHealth=" + maxHealth + ", strength=" + strength
-				+ ", agility=" + agility + ", intelligence=" + intelligence + ", petLevel=" + petLevel + ", currentXP="
-				+ currentXP + ", owner=" + owner + "]";
-	}
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + agility;
+        result = prime * result + currentHealth;
+        result = prime * result + currentXP;
+        result = prime * result + hunger;
+        result = prime * result + id;
+        result = prime * result + ((image == null) ? 0 : image.hashCode());
+        result = prime * result + intelligence;
+        result = prime * result + maxHealth;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((owner == null) ? 0 : owner.hashCode());
+        result = prime * result + petLevel;
+        result = prime * result + strength;
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Pet other = (Pet) obj;
+        if (agility != other.agility)
+            return false;
+        if (currentHealth != other.currentHealth)
+            return false;
+        if (currentXP != other.currentXP)
+            return false;
+        if (hunger != other.hunger)
+            return false;
+        if (id != other.id)
+            return false;
+        if (image == null) {
+            if (other.image != null)
+                return false;
+        } else if (!image.equals(other.image))
+            return false;
+        if (intelligence != other.intelligence)
+            return false;
+        if (maxHealth != other.maxHealth)
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        if (owner == null) {
+            if (other.owner != null)
+                return false;
+        } else if (!owner.equals(other.owner))
+            return false;
+        if (petLevel != other.petLevel)
+            return false;
+        if (strength != other.strength)
+            return false;
+        if (type == null) {
+            if (other.type != null)
+                return false;
+        } else if (!type.equals(other.type))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Pet [id=" + id + ", name=" + name + ", image=" + image + ", type=" + type + ", hunger=" + hunger
+            + ", currentHealth=" + currentHealth + ", maxHealth=" + maxHealth + ", strength=" + strength + ", agility="
+            + agility + ", intelligence=" + intelligence + ", petLevel=" + petLevel + ", currentXP=" + currentXP
+            + ", owner=" + owner + "]";
+    }
 
 }
-	
