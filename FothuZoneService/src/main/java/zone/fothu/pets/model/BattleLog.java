@@ -17,124 +17,149 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Component
 @Entity
-@Table(name="battle_logs", schema="pets")
+@Table(name = "battle_logs", schema = "pets")
 public class BattleLog implements Serializable {
 
-	private static final long serialVersionUID = 534107614442847407L;
+    private static final long serialVersionUID = 534107614442847407L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
-	private int id;
-	
-	@ManyToOne
-	@JoinColumn(name="battle_id")
-	@JsonIgnoreProperties("battle_logs")
-	private Battle battle;
-	
-	@Column(name="turn_number")
-	private int turnNumber;
-	
-	@Column(name="turn_text")
-	private String turnText;
-	
-	@Column(name="battle_finished")
-	private Boolean battleFinished;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
 
-	public int getId() {
-		return id;
-	}
+    @ManyToOne
+    @JoinColumn(name = "battle_id")
+    @JsonIgnoreProperties("battle_logs")
+    private Battle battle;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    @Column(name = "turn_number")
+    private int turnNumber;
 
-	public Battle getBattle() {
-		return battle;
-	}
+    @Column(name = "turn_text")
+    private String turnText;
 
-	public void setBattle(Battle battle) {
-		this.battle = battle;
-	}
+    @Column(name = "turn_result")
+    private String turnResult;
 
-	public int getTurnNumber() {
-		return turnNumber;
-	}
+    @Column(name = "battle_finished")
+    private Boolean battleFinished;
 
-	public void setTurnNumber(int turnNumber) {
-		this.turnNumber = turnNumber;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public String getTurnText() {
-		return turnText;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setTurnText(String turnText) {
-		this.turnText = turnText;
-	}
+    public Battle getBattle() {
+        return battle;
+    }
 
-	public Boolean getBattleFinished() {
-		return battleFinished;
-	}
+    public void setBattle(Battle battle) {
+        this.battle = battle;
+    }
 
-	public void setBattleFinished(Boolean battleFinished) {
-		this.battleFinished = battleFinished;
-	}
+    public int getTurnNumber() {
+        return turnNumber;
+    }
 
-	public BattleLog() {
-		super();
-	}
+    public void setTurnNumber(int turnNumber) {
+        this.turnNumber = turnNumber;
+    }
 
-	public BattleLog(int id, Battle battle, int turnNumber, String turnText, Boolean battleFinished) {
-		super();
-		this.id = id;
-		this.battle = battle;
-		this.turnNumber = turnNumber;
-		this.turnText = turnText;
-		this.battleFinished = battleFinished;
-	}
+    public String getTurnText() {
+        return turnText;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((battle == null) ? 0 : battle.hashCode());
-		result = prime * result + ((battleFinished == null) ? 0 : battleFinished.hashCode());
-		result = prime * result + id;
-		result = prime * result + turnNumber;
-		result = prime * result + ((turnText == null) ? 0 : turnText.hashCode());
-		return result;
-	}
+    public void setTurnText(String turnText) {
+        this.turnText = turnText;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		BattleLog other = (BattleLog) obj;
-		if (battle == null) {
-			if (other.battle != null)
-				return false;
-		} else if (!battle.equals(other.battle))
-			return false;
-		if (battleFinished == null) {
-			if (other.battleFinished != null)
-				return false;
-		} else if (!battleFinished.equals(other.battleFinished))
-			return false;
-		if (id != other.id)
-			return false;
-		if (turnNumber != other.turnNumber)
-			return false;
-		if (turnText == null) {
-			if (other.turnText != null)
-				return false;
-		} else if (!turnText.equals(other.turnText))
-			return false;
-		return true;
-	}
-	
+    public String getTurnResult() {
+        return turnResult;
+    }
+
+    public void setTurnResult(String turnResult) {
+        this.turnResult = turnResult;
+    }
+
+    public Boolean getBattleFinished() {
+        return battleFinished;
+    }
+
+    public void setBattleFinished(Boolean battleFinished) {
+        this.battleFinished = battleFinished;
+    }
+
+    public BattleLog() {
+        super();
+    }
+
+    public BattleLog(int id, Battle battle, int turnNumber, String turnText, String turnResult,
+        Boolean battleFinished) {
+        super();
+        this.id = id;
+        this.battle = battle;
+        this.turnNumber = turnNumber;
+        this.turnText = turnText;
+        this.turnResult = turnResult;
+        this.battleFinished = battleFinished;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((battle == null) ? 0 : battle.hashCode());
+        result = prime * result + ((battleFinished == null) ? 0 : battleFinished.hashCode());
+        result = prime * result + id;
+        result = prime * result + turnNumber;
+        result = prime * result + ((turnResult == null) ? 0 : turnResult.hashCode());
+        result = prime * result + ((turnText == null) ? 0 : turnText.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        BattleLog other = (BattleLog) obj;
+        if (battle == null) {
+            if (other.battle != null)
+                return false;
+        } else if (!battle.equals(other.battle))
+            return false;
+        if (battleFinished == null) {
+            if (other.battleFinished != null)
+                return false;
+        } else if (!battleFinished.equals(other.battleFinished))
+            return false;
+        if (id != other.id)
+            return false;
+        if (turnNumber != other.turnNumber)
+            return false;
+        if (turnResult == null) {
+            if (other.turnResult != null)
+                return false;
+        } else if (!turnResult.equals(other.turnResult))
+            return false;
+        if (turnText == null) {
+            if (other.turnText != null)
+                return false;
+        } else if (!turnText.equals(other.turnText))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "BattleLog [id=" + id + ", battle=" + battle + ", turnNumber=" + turnNumber + ", turnText=" + turnText
+            + ", turnResult=" + turnResult + ", battleFinished=" + battleFinished + "]";
+    }
+
 }

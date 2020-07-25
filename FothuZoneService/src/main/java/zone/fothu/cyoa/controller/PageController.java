@@ -22,34 +22,34 @@ import zone.fothu.cyoa.repository.PageRepository;
 @RequestMapping(path = "/cyoapages")
 public class PageController {
 
-	@Autowired
-	PageRepository pageRepository;
-	
-	@GetMapping("/all")
-	public ResponseEntity<ArrayList<Page>> getAllPages() {
-		try {
-			return ResponseEntity.ok(pageRepository.findAll());
-		} catch (PageNotFoundException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pages not found", e);
-		}
-	}
-	
-	@GetMapping("/id/{id}")
-	public ResponseEntity<Page> getPageById(@PathVariable int id) {
-		try {
-			return ResponseEntity.ok(pageRepository.findById(id));
-		} catch (PageNotFoundException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Page not found", e);
-		}
-	}
-	
-	@GetMapping("/page/{pageNumber}")
-	public ResponseEntity<Page> getPageByPageNumber(@PathVariable int pageNumber) {
-		try {
-			return ResponseEntity.ok(pageRepository.findByPageNumber(pageNumber));
-		} catch (PageNotFoundException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Page not found", e);
-		}
-	}
-	
+    @Autowired
+    PageRepository pageRepository;
+
+    @GetMapping("/all")
+    public ResponseEntity<ArrayList<Page>> getAllPages() {
+        try {
+            return ResponseEntity.ok(pageRepository.findAll());
+        } catch (PageNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pages not found", e);
+        }
+    }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<Page> getPageById(@PathVariable int id) {
+        try {
+            return ResponseEntity.ok(pageRepository.findById(id));
+        } catch (PageNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Page not found", e);
+        }
+    }
+
+    @GetMapping("/page/{pageNumber}")
+    public ResponseEntity<Page> getPageByPageNumber(@PathVariable int pageNumber) {
+        try {
+            return ResponseEntity.ok(pageRepository.findByPageNumber(pageNumber));
+        } catch (PageNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Page not found", e);
+        }
+    }
+
 }

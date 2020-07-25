@@ -23,84 +23,87 @@ import zone.fothu.pets.service.UserService;
 @RequestMapping(path = "/users")
 public class UserController {
 
-	@Autowired
-	UserRepository userRepository;
+    @Autowired
+    UserRepository userRepository;
 
-	@Autowired
-	UserService userService;
+    @Autowired
+    UserService userService;
 
-	@GetMapping("/all")
-	public ResponseEntity<List<User>> getAllUsers() {
-		try {
-			return ResponseEntity.ok(userService.getAllUsers());
-		} catch (RuntimeException e) {
-			throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "Users not found", e);
-		}
-	}
+    @GetMapping("/all")
+    public ResponseEntity<List<User>> getAllUsers() {
+        try {
+            return ResponseEntity.ok(userService.getAllUsers());
+        } catch (RuntimeException e) {
+            throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "Users not found", e);
+        }
+    }
 
-	@GetMapping("/id/{id}")
-	public ResponseEntity<User> getUserById(@PathVariable int id) {
-		try {
-			return ResponseEntity.ok(userService.getUserWithId(id));
-		} catch (UserNotFoundException e) {
-			throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "User not found", e);
-		}
-	}
+    @GetMapping("/id/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable int id) {
+        try {
+            return ResponseEntity.ok(userService.getUserWithId(id));
+        } catch (UserNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "User not found", e);
+        }
+    }
 
-	@GetMapping("/username/{username}")
-	public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
-		try {
-			return ResponseEntity.ok(userService.getUserWithUsername(username));
-		} catch (UserNotFoundException e) {
-			throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "User not found", e);
-		}
-	}
+    @GetMapping("/username/{username}")
+    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
+        try {
+            return ResponseEntity.ok(userService.getUserWithUsername(username));
+        } catch (UserNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "User not found", e);
+        }
+    }
 
-	@GetMapping("/username/{username}/password/{password}")
-	public ResponseEntity<User> getUserByUsernameAndPassword(String username, String password) {
-		try {
-			return ResponseEntity.ok(userService.getUserWithUsernameAndPassword(username, password));
-		} catch (UserNotFoundException e) {
-			throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "User not found", e);
-		}
-	}
+    @GetMapping("/username/{username}/password/{password}")
+    public ResponseEntity<User> getUserByUsernameAndPassword(String username, String password) {
+        try {
+            return ResponseEntity.ok(userService.getUserWithUsernameAndPassword(username, password));
+        } catch (UserNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "User not found", e);
+        }
+    }
 
-	@PostMapping("/new")
-	public User createUser(@RequestBody User newUser) {
-		try {
-			return userService.saveNewUser(newUser);
-			// return userRepository.save(newUser);
-		} catch (IllegalArgumentException e) {
-			throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "User not created", e);
-		}
-	}
+    @PostMapping("/new")
+    public User createUser(@RequestBody User newUser) {
+        try {
+            return userService.saveNewUser(newUser);
+            // return userRepository.save(newUser);
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "User not created", e);
+        }
+    }
 
-	@PostMapping("/login")
-	public User loginUser(@RequestBody User loggingInUser) {
-		try {
-			return userService.logInNewUser(loggingInUser);
-		} catch (IllegalArgumentException e) {
-			throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "Username or Password is incorrect", e);
-		} catch (UserNotFoundException e) {
-			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Username or Password is incorrect", e);
-		}
-	}
+    @PostMapping("/login")
+    public User loginUser(@RequestBody User loggingInUser) {
+        try {
+            return userService.logInNewUser(loggingInUser);
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "Username or Password is incorrect", e);
+        } catch (UserNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Username or Password is incorrect", e);
+        }
+    }
 
-//	@PatchMapping("/update")
-//	public User updateUser(@RequestBody User updatedUser) throws UserNotFoundException, PSQLException {
-//		boolean success = false;
-//		try {
-//			userRepository.updateUser(updatedUser.getId(), updatedUser.getUsername(), updatedUser.getUserPassword(),
-//					updatedUser.getFavoriteColor());
-//			success = true;
-//		} catch (UserNotUpdatedException e) {
-//			throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "User not updated", e);
-//		}
-//		if (success == true) {
-//			return userRepository.findById(updatedUser.getId());
-//		} else {
-//			return updatedUser;
-//		}
-//	}
+    // @PatchMapping("/update")
+    // public User updateUser(@RequestBody User updatedUser) throws
+    // UserNotFoundException, PSQLException {
+    // boolean success = false;
+    // try {
+    // userRepository.updateUser(updatedUser.getId(), updatedUser.getUsername(),
+    // updatedUser.getUserPassword(),
+    // updatedUser.getFavoriteColor());
+    // success = true;
+    // } catch (UserNotUpdatedException e) {
+    // throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "User not
+    // updated", e);
+    // }
+    // if (success == true) {
+    // return userRepository.findById(updatedUser.getId());
+    // } else {
+    // return updatedUser;
+    // }
+    // }
 
 }

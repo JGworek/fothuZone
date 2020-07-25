@@ -12,132 +12,131 @@ import javax.persistence.Table;
 import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-
 @Component
 @Entity
-@Table(name="users", schema="pets")
+@Table(name = "users", schema = "pets")
 public class User implements Serializable {
 
-	private static final long serialVersionUID = -4631968289745068642L;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
-	private int id;
-	@Column(name="username")
-	private String username;
-	@Column(name="user_password")
-	private String userPassword;
-	@Column(name="favorite_color")
-	private String favoriteColor;
-	
-	@OneToMany(mappedBy="owner")
-	@JsonIgnoreProperties("owner")
-	private List<Pet> pets;
+    private static final long serialVersionUID = -4631968289745068642L;
 
-	public User() {
-		super();
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
+    @Column(name = "username")
+    private String username;
+    @Column(name = "user_password")
+    private String userPassword;
+    @Column(name = "favorite_color")
+    private String favoriteColor;
 
-	public User(int id, String username, String userPassword, String favoriteColor, List<Pet> pets) {
-		super();
-		this.id = id;
-		this.username = username;
-		this.userPassword = userPassword;
-		this.favoriteColor = favoriteColor;
-		this.pets = pets;
-	}
+    @OneToMany(mappedBy = "owner")
+    @JsonIgnoreProperties("owner")
+    private List<Pet> pets;
 
-	public int getId() {
-		return id;
-	}
+    public User() {
+        super();
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public User(int id, String username, String userPassword, String favoriteColor, List<Pet> pets) {
+        super();
+        this.id = id;
+        this.username = username;
+        this.userPassword = userPassword;
+        this.favoriteColor = favoriteColor;
+        this.pets = pets;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getUserPassword() {
-		return userPassword;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public void setUserPassword(String userPassword) {
-		this.userPassword = userPassword;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public String getFavoriteColor() {
-		return favoriteColor;
-	}
+    public String getUserPassword() {
+        return userPassword;
+    }
 
-	public void setFavoriteColor(String favoriteColor) {
-		this.favoriteColor = favoriteColor;
-	}
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
 
-	public List<Pet> getPets() {
-		return pets;
-	}
+    public String getFavoriteColor() {
+        return favoriteColor;
+    }
 
-	public void setPets(List<Pet> pets) {
-		this.pets = pets;
-	}
+    public void setFavoriteColor(String favoriteColor) {
+        this.favoriteColor = favoriteColor;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((favoriteColor == null) ? 0 : favoriteColor.hashCode());
-		result = prime * result + id;
-		result = prime * result + ((pets == null) ? 0 : pets.hashCode());
-		result = prime * result + ((userPassword == null) ? 0 : userPassword.hashCode());
-		result = prime * result + ((username == null) ? 0 : username.hashCode());
-		return result;
-	}
+    public List<Pet> getPets() {
+        return pets;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		if (favoriteColor == null) {
-			if (other.favoriteColor != null)
-				return false;
-		} else if (!favoriteColor.equals(other.favoriteColor))
-			return false;
-		if (id != other.id)
-			return false;
-		if (pets == null) {
-			if (other.pets != null)
-				return false;
-		} else if (!pets.equals(other.pets))
-			return false;
-		if (userPassword == null) {
-			if (other.userPassword != null)
-				return false;
-		} else if (!userPassword.equals(other.userPassword))
-			return false;
-		if (username == null) {
-			if (other.username != null)
-				return false;
-		} else if (!username.equals(other.username))
-			return false;
-		return true;
-	}
+    public void setPets(List<Pet> pets) {
+        this.pets = pets;
+    }
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", userPassword=" + userPassword + ", favoriteColor="
-				+ favoriteColor + ", pets=" + pets + "]";
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((favoriteColor == null) ? 0 : favoriteColor.hashCode());
+        result = prime * result + id;
+        result = prime * result + ((pets == null) ? 0 : pets.hashCode());
+        result = prime * result + ((userPassword == null) ? 0 : userPassword.hashCode());
+        result = prime * result + ((username == null) ? 0 : username.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        User other = (User) obj;
+        if (favoriteColor == null) {
+            if (other.favoriteColor != null)
+                return false;
+        } else if (!favoriteColor.equals(other.favoriteColor))
+            return false;
+        if (id != other.id)
+            return false;
+        if (pets == null) {
+            if (other.pets != null)
+                return false;
+        } else if (!pets.equals(other.pets))
+            return false;
+        if (userPassword == null) {
+            if (other.userPassword != null)
+                return false;
+        } else if (!userPassword.equals(other.userPassword))
+            return false;
+        if (username == null) {
+            if (other.username != null)
+                return false;
+        } else if (!username.equals(other.username))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", username=" + username + ", userPassword=" + userPassword + ", favoriteColor="
+            + favoriteColor + ", pets=" + pets + "]";
+    }
 
 }

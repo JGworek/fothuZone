@@ -10,10 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RestController;
 
-
-
-
-
 @SpringBootApplication
 @Configuration
 @ComponentScan
@@ -21,16 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CyoaServerApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(CyoaServerApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(CyoaServerApplication.class, args);
+    }
 
-	@Bean public BCryptPasswordEncoder bCryptPasswordEncoder(){
-	    return new BCryptPasswordEncoder();
-	}
-	
-	@Bean public AnnotationConfigApplicationContext annotationConfigApplicationContext() {
-		return new AnnotationConfigApplicationContext();
-	}
-	
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AnnotationConfigApplicationContext annotationConfigApplicationContext() {
+        return new AnnotationConfigApplicationContext();
+    }
+
 }
