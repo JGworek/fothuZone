@@ -10,8 +10,21 @@ const HAIL_HOLY_QUEEN: String = "Hail Holy Queen, Mother of Mercy, hail our Life
 const FINAL_PRAYER: String = "Let us pray. O God, whose only begotten Son, by His life, death, and resurrection, has purchased for us the rewards of eternal life, grant, we beseech Thee, that meditating upon these mysteries of the Most Holy Rosary of the Blessed Virgin Mary, we may imitate what they contain and obtain what they promise, through the same Christ Our Lord. Amen.";
 const JOYFUL_MYSTERIES: Array<String> = ["The Annunciation", "The Visitation", "The Nativity", "The Presentation in the Temple", "The Finding in the Temple"];
 const SORROWFUL_MYSTERIES: Array<String> = ["The Agony in the Garden", "The Scourging at the Pillar", "The Crowning with Thorns", "The Carrying of the Cross", "The Crucifixion"];
-const GLORIOUS_MYSTERIES: Array<String> = ["The Resurrection", "The Ascension", "The Coming of the Holy Spirit", "The Assumption of the Blessed Virgin Mother", 'The Coronation of the Blessed Virgin Mother'];
+const GLORIOUS_MYSTERIES: Array<String> = ["The Resurrection", "The Ascension", "The Coming of the Holy Spirit", "The Assumption of the Blessed Virgin Mother", "The Coronation of the Blessed Virgin Mother"];
 const LUMINOUS_MYSTERIES: Array<String> = ["The Baptism of Jesus", "The Wedding of Cana", "The Proclamation of the Kingdom", "The Transfiguration", "The Institution of the Eucharist"];
+
+const SIGN_OF_THE_CROSS_ESP: String = "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén.";
+const APOSTLES_CREED_ESP: String = "Creo en Dios, Padre todopoderoso, Creador del Cielo y la tierra; creo en Jesucristo, Su único Hijo Nuestro Señor, quien fue concebido por obra y gracia del Espíritu Santo, nació de Santa María Virgen, padeció bajo el poder de Poncio Pilatos, fue crucificado, muerto y sepultado. Descendió a los infiernos, al tercer día resucitó entre los muertos, subió al Cielo y está sentado a la derecho de Dios Padre, todopoderoso; desde allí va a venir a juzgar a vivos y muertos. Creo en el Espíritu Santo, en la Santa Iglesia Católica, la comunión de los santos, el perdón de los pecados, la resurrección de la carne y la vida eterna. Amén.";
+const OUR_FATHER_ESP: String = "Padre Nuestro, que estás en en cielo, santificado sea Tu nombre. Venga a nosotros tu Reino. Hágase Señor tu Voluntad, hacia en la Tierra como en el Cielo. Danos hoy nuestro Pan de cada día, perdona nuestras ofensas, como también nosotros perdonamos a los que nos ofenden. No nos dejes caer en tentación, y líbranos de todo mal. Amén.";
+const HAIL_MARY_ESP: String = "Dios te salve María, llena eres de Gracia, el Señor es contigo. Bendita eres entre todas las mujeres, y bendito es el fruto de tu vientre, Jesús. Santa María, Madre de Dios, ruega Señora por nosotros los pecadores ahora y en la hora de nuestra muerte. Amén.";
+const GLORY_BE_ESP: String = "Gloria al Padre, y al Hijo, y al Espíritu Santo. Como era en un principio, ahora y siempre, y por los siglos de los siglos. Amén.";
+const OH_MY_JESUS_ESP: String = "Oh Jesús mío, perdona nuestros pecados, líbranos del fuego del infierno, lleva al cielo a todas las almas, especialmente a las más necesitadas de tu misericordia.";
+const HAIL_HOLY_QUEEN_ESP: String = "Dios te salve, Reina y Madre de misericordia, vida, dulzura y esperanza nuestra. Dios te salve. A ti clamamos los desterrados hijos de Eva. A ti suspiramos gimiendo y llorando en este valle de lágrimas. Ea, pues, Señora, abogada nuestra: vuelve a nosotros esos tus ojos misericordiosos. Y después de este destierro, muéstranos a Jesús, fruto bendito de tu vientre. ¡Oh clemente, oh piadosa, oh dulce siempre Virgen María! Ruega por nosotros, Santa Madre de Dios, para que seamos dignos de las promesas de Jesucristo Nuestro Señor.";
+const FINAL_PRAYER_ESP: String = "Oh Dios de quién Único Hijo nos ha otorgado los beneficios de la vida eterna, concédenos la gracia que te pedimos mientras meditamos los Misterios del Mas Santo Rosario de la Bienaventurada Virgen María, debemos imitar lo que contienen y obtener lo que prometen, a través del mismo Cristo Nuestro Señor. Amén.";
+const JOYFUL_MYSTERIES_ESP: Array<String> = ["La Anunciación", "La Visitación", "La Natividad", "La Presentación de Jesús en el Templo", "El Reencuentro en el Templo"];
+const SORROWFUL_MYSTERIES_ESP: Array<String> = ["La Agonía en el Huerto", "La Flagelación del Señor", "La Coronación con Espinas", "Jesus lleva la Cruz", "La Crucifixión"];
+const GLORIOUS_MYSTERIES_ESP: Array<String> = ["La Resurrección del Señor", "La Ascensión del Señor", "La Venida del Espíritu Santo", "La Asunción de la Virgen María", "La Coronacion de la Virgen María"];
+const LUMINOUS_MYSTERIES_ESP: Array<String> = ["Su Bautismo en el Jordán", "Su Autorrevelación en las Bodas de Caná", "Su Anuncio del Reino de Dios Invitando a la Conversión", "Su Transfiguración", "Institución de la Eucharistía"];
 
 @Component({
   selector: 'app-rosary-app',
@@ -23,14 +36,17 @@ export class RosaryAppComponent implements OnInit {
 
   constructor() { }
 
-  currentText: String;
+  currentEnglishText: String;
+  currentSpanishText: String
   nextButton: any;
   mysteryCount: number = 0;
   currentCount: number = 0;
   currentMystery: String;
   todaysMystery: Array<String>;
-  numberAsAWord: String;
+  englishNumberAsAWord: String;
+  spanishNumberAsAWord: String;
   currentDay: any = 0;
+  currentLanguage: String;
 
   async getCurrentDay() {
     let dayJson = await fetch("http://calapi.inadiutorium.cz/api/v0/en/calendars/default/today");
@@ -38,88 +54,102 @@ export class RosaryAppComponent implements OnInit {
   }
 
   signOfTheCross() {
-    this.currentText = SIGN_OF_THE_CROSS;
+    this.currentEnglishText = SIGN_OF_THE_CROSS;
+    this.currentSpanishText = SIGN_OF_THE_CROSS_ESP;
   }
 
   apostlesCreed() {
-    this.currentText = APOSTLES_CREED;
+    this.currentEnglishText = APOSTLES_CREED;
+    this.currentSpanishText = APOSTLES_CREED_ESP;
   }
 
   ourFather() {
-    this.currentText = OUR_FATHER;
+    this.currentEnglishText = OUR_FATHER;
+    this.currentSpanishText = OUR_FATHER_ESP;
   }
 
   gloryBe() {
-    this.currentText = GLORY_BE;
+    this.currentEnglishText = GLORY_BE;
+    this.currentSpanishText = GLORY_BE_ESP;
   }
 
   ohMyJesus() {
-    this.currentText = OH_MY_JESUS;
+    this.currentEnglishText = OH_MY_JESUS;
+    this.currentSpanishText = OH_MY_JESUS_ESP;
   }
 
   hailHolyQueen() {
-    this.currentText = HAIL_HOLY_QUEEN;
+    this.currentEnglishText = HAIL_HOLY_QUEEN;
+    this.currentSpanishText = HAIL_HOLY_QUEEN_ESP;
   }
 
   finalPrayer() {
-    this.currentText = FINAL_PRAYER;
+    this.currentEnglishText = FINAL_PRAYER;
+    this.currentSpanishText = FINAL_PRAYER_ESP;
   }
 
   hailMary() {
-    this.currentText = HAIL_MARY;
+    this.currentEnglishText = HAIL_MARY;
+    this.currentSpanishText = HAIL_MARY_ESP;
   }
 
   mystery() {
     switch (this.mysteryCount) {
       case 0: {
-        this.numberAsAWord = "First";
+        this.englishNumberAsAWord = "First";
+        this.spanishNumberAsAWord = "Primer";
         break;
       }
       case 1: {
-        this.numberAsAWord = "Second";
+        this.englishNumberAsAWord = "Second";
+        this.spanishNumberAsAWord = "Segundo";
         break;
       }
       case 2: {
-        this.numberAsAWord = "Third";
+        this.englishNumberAsAWord = "Third";
+        this.spanishNumberAsAWord = "Tercer";
         break;
       }
       case 3: {
-        this.numberAsAWord = "Fourth";
+        this.englishNumberAsAWord = "Fourth";
+        this.spanishNumberAsAWord = "Cuarto";
         break;
       }
       case 4: {
-        this.numberAsAWord = "Fifth";
+        this.englishNumberAsAWord = "Fifth";
+        this.spanishNumberAsAWord = "Quinto";
         break;
       }
     }
-    this.currentText = `The ${this.numberAsAWord} Mystery is: ${this.todaysMystery[this.mysteryCount]}`;
+    this.currentEnglishText = `The ${this.englishNumberAsAWord} Mystery is: ${this.todaysMystery[this.mysteryCount]}.`;
+    this.currentSpanishText = `El ${this.spanishNumberAsAWord} misterioso es: ${this.todaysMystery[this.mysteryCount]}.`;
   }
 
   changeMystery() {
     switch (this.mysteryCount) {
       case 0: {
-        this.numberAsAWord = "First";
+        this.englishNumberAsAWord = "First";
         break;
       }
       case 1: {
-        this.numberAsAWord = "Second";
+        this.englishNumberAsAWord = "Second";
         break;
       }
       case 2: {
-        this.numberAsAWord = "Third";
+        this.englishNumberAsAWord = "Third";
         break;
       }
       case 3: {
-        this.numberAsAWord = "Fourth";
+        this.englishNumberAsAWord = "Fourth";
         break;
       }
       case 4: {
-        this.numberAsAWord = "Fifth";
+        this.englishNumberAsAWord = "Fifth";
         break;
       }
     }
     if(this.currentCount == this.checkMysteryNumbers()) {
-    this.currentText = `The ${this.numberAsAWord} Mystery is: ${this.todaysMystery[this.mysteryCount]}`;
+    this.currentEnglishText = `The ${this.englishNumberAsAWord} Mystery is: ${this.todaysMystery[this.mysteryCount]}`;
     }
   }
 
@@ -363,7 +393,22 @@ export class RosaryAppComponent implements OnInit {
     this.changeMystery();
   }
 
+  changeToEnglish(){
+    this.currentLanguage = "english";
+    document.getElementById("english").setAttribute("class", "btn btn-primary");
+    document.getElementById("spanish").setAttribute("class", "btn btn-outline-dark");
+  }
+
+  changeToSpanish(){
+    this.currentLanguage = "spanish";
+    document.getElementById("english").setAttribute("class", "btn btn-outline-dark");
+    document.getElementById("spanish").setAttribute("class", "btn btn-primary");
+  }
+
+  
+
   ngOnInit() {
+    this.changeToEnglish();
     var date = new Date();
     switch (date.getDay()) {
       case 1: {

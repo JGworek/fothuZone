@@ -7,7 +7,8 @@
     <a class="btn btn-info text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount%2 == 0 && this.currentCount != 81" (click)="this.previousCount()">Back</a>
     <a class="btn btn-primary text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount%2 != 0 && this.currentCount != 81" (click)="this.previousCount()">Back</a>
     <a class="btn invisible" *ngIf="this.currentCount == 81"></a>
-    <span class="text-center" *ngIf="this.currentCount > 0">{{this.currentText}}</span>
+    <span class="text-center" *ngIf="this.currentCount > 0 && this.currentLanguage == 'english'">{{this.currentEnglishText}}</span>
+    <span class="text-center" *ngIf="this.currentCount > 0 && this.currentLanguage == 'spanish'">{{this.currentSpanishText}}</span>
     <a class="btn btn-info text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount%2 != 0 && this.currentCount != 81" (click)="this.nextCount()">Next</a>
     <a class="btn btn-primary text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount%2 == 0 && this.currentCount != 81" (click)="this.nextCount()">Next</a>
     <a class="btn invisible" *ngIf="this.currentCount == 81"></a>
@@ -77,9 +78,18 @@
     <img class="mx-auto d-block" *ngIf="this.currentCount == 75" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+74.jpg" alt="Image of the Rosary">
     <img class="mx-auto d-block" *ngIf="this.currentCount == 76" src="https://fothuzone-rosary.s3.amazonaws.com/Rosary+75.jpg" alt="Image of the Rosary">
 </div>
+<hr/>
 <div class="navbar">
     <button id="luminous" class="btn btn-outline-dark" (click)="this.changeToLuminousMysteries()">Luminous Mysteries</button>
     <button id="sorrowful" class="btn btn-outline-dark" (click)="this.changeToSorrowfulMysteries()">Sorrowful Mysteries</button>
     <button id="glorious" class="btn btn-outline-dark" (click)="this.changeToGloriousMysteries()">Glorious Mysteries</button>
     <button id="joyful" class="btn btn-outline-dark" (click)="this.changeToJoyfulMysteries()">Joyful Mysteries</button>
 </div>
+<hr/>
+<div class="navbar">
+    <button id="invis-left" class="btn btn-outline-dark invisible"></button>
+    <button id="english" class="btn btn-outline-dark" (click)="this.changeToEnglish()">English</button>
+    <button id="spanish" class="btn btn-outline-dark" (click)="this.changeToSpanish()">Spanish</button>
+    <button id="invis-right" class="btn btn-outline-dark invisible"></button>
+</div>
+<hr/>
