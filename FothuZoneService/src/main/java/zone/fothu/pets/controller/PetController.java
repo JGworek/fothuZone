@@ -4,25 +4,22 @@ import java.util.List;
 
 import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
-import zone.fothu.cyoa.exception.PageNotFoundException;
 import zone.fothu.pets.exception.PetNotFoundException;
 import zone.fothu.pets.exception.PetNotUpdatedException;
 import zone.fothu.pets.exception.UserNotFoundException;
 import zone.fothu.pets.model.Pet;
 import zone.fothu.pets.repository.PetRepository;
 import zone.fothu.pets.repository.UserRepository;
-import zone.fothu.pets.service.PetService;
 
 @RestController
 @CrossOrigin
@@ -95,7 +92,7 @@ public class PetController {
         return ResponseEntity.ok(pet);
     }
 
-    @PatchMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<Pet> updatePet(@RequestBody Pet updatedPet)
         throws PetNotFoundException, PSQLException, PetNotUpdatedException {
         boolean success = false;
@@ -111,7 +108,7 @@ public class PetController {
         return ResponseEntity.ok(pet);
     }
 
-    @PatchMapping("/giveto/{id}")
+    @PutMapping("/giveto/{id}")
     public ResponseEntity<Pet> givePet(@RequestBody Pet tradedPet, @PathVariable int id)
         throws PetNotFoundException, PSQLException, PetNotUpdatedException {
         boolean success = false;
@@ -126,7 +123,7 @@ public class PetController {
         return ResponseEntity.ok(pet);
     }
 
-    @PatchMapping("/restoreHealth/all")
+    @PutMapping("/restoreHealth/all")
     public ResponseEntity<List<Pet>> restoreAllPetsHealth() throws PetNotUpdatedException {
         petRepository.restoreAllPetsHealth();
         List<Pet> pets = petRepository.findAll();
@@ -138,7 +135,7 @@ public class PetController {
         return ResponseEntity.ok(pets);
     }
 
-    @PatchMapping("/restoreHealth/pet/{id}")
+    @PutMapping("/restoreHealth/pet/{id}")
     public ResponseEntity<Pet> restoreOnePetsHealth(@PathVariable int id)
         throws PetNotUpdatedException, PetNotFoundException {
         petRepository.restoreOnePetsHealth(id);
@@ -149,7 +146,7 @@ public class PetController {
         return ResponseEntity.ok(pet);
     }
 
-    @PatchMapping("/restoreHealth/user/id/{id}")
+    @PutMapping("/restoreHealth/user/id/{id}")
     public ResponseEntity<List<Pet>> restoreAllUsersPetsHealth(@PathVariable int id) {
         petRepository.restoreAllUsersPetsHealth(id);
         List<Pet> pets = petRepository.findAllPetsByUserId(id);
@@ -161,7 +158,7 @@ public class PetController {
         return ResponseEntity.ok(pets);
     }
 
-    @PatchMapping("/restoreHealth/user/username/{userName}")
+    @PutMapping("/restoreHealth/user/username/{userName}")
     public ResponseEntity<List<Pet>> restoreAllUsersPetsHealthWithUsername(@PathVariable String userName)
         throws PetNotFoundException, UserNotFoundException {
         petRepository.restoreAllUsersPetsHealth(userRepository.findByUsername(userName).getId());
@@ -174,7 +171,7 @@ public class PetController {
         return ResponseEntity.ok(pets);
     }
 
-    @PatchMapping("/restoreHealth/pet/petName/{petName}")
+    @PutMapping("/restoreHealth/pet/petName/{petName}")
     public ResponseEntity<Pet> restoresPetsHealthWithPetsName(@PathVariable String petName)
         throws PetNotFoundException, UserNotFoundException {
         petRepository.restoreOnePetsHealth(petRepository.findByPetName(petName).getId());
@@ -187,11 +184,10 @@ public class PetController {
 
     // HOPEFULLY THIS WORKS
     @CrossOrigin(origins = "http://fothu.zone")
-    @PatchMapping("/id/{petId}/strength/{strength}/agility/{agility}/intelligence/{intelligence}")
+    @PutMapping("/id/{petId}/strength/{strength}/agility/{agility}/intelligence/{intelligence}")
     public ResponseEntity<Pet> updatePetWithNewStats(@PathVariable int id, @PathVariable int strength,
         @PathVariable int agility, @PathVariable int intelligence) throws PetNotFoundException {
         petRepository.setPetStats(id, strength, agility, intelligence);
-        ;
         Pet pet = petRepository.findById(id);
         if (pet.getOwner() != null) {
             pet.getOwner().setUserPassword(null);

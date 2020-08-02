@@ -57,7 +57,7 @@ public class UserController {
     }
 
     @GetMapping("/username/{username}/password/{password}")
-    public ResponseEntity<User> getUserByUsernameAndPassword(String username, String password) {
+    public ResponseEntity<User> getUserByUsernameAndPassword(@PathVariable String username, @PathVariable String password) {
         try {
             return ResponseEntity.ok(userService.getUserWithUsernameAndPassword(username, password));
         } catch (UserNotFoundException e) {
