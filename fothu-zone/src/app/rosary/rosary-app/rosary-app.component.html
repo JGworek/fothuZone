@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-center">
-    <button class="btn btn-danger text-white btn-outline-dark" *ngIf="this.currentCount == 0 || this.currentCount != 81" (click)="this.nextCount()">Start!</button>
+    <button class="btn btn-danger text-white btn-outline-dark" *ngIf="this.currentCount == 0" (click)="this.nextCount()">Start!</button>
     <button class="btn btn-danger text-white btn-outline-dark" *ngIf="this.currentCount == 81" (click)="this.resetCount()">Restart!</button>
 </div>
 <br>
