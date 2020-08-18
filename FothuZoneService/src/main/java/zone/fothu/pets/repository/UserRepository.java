@@ -26,7 +26,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE password = ?1")
     User findByPassword(String password) throws UserNotFoundException;
 
-    @Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE username = ?1 AND user_password = ?2")
+    @Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE LOWER(username) = ?1 AND user_password = ?2")
     User findByUsernameAndPassword(String username, String password) throws UserNotFoundException;
 
     @Modifying
