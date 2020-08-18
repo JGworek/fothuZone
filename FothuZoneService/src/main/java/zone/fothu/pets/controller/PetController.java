@@ -52,7 +52,7 @@ public class PetController {
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<Pet> getUserByUsername(@PathVariable String name) throws PetNotFoundException {
+    public ResponseEntity<Pet> getPetByName(@PathVariable String name) throws PetNotFoundException {
         Pet pet = petRepository.findByPetName(name);
         if (pet.getOwner() != null) {
             pet.getOwner().setUserPassword(null);

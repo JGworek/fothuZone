@@ -5,6 +5,8 @@ import { PetSelectionComponent } from './pet-selection/pet-selection.component';
 import { PageComponent } from './cyoa/page/page.component';
 import { RosaryAppComponent } from './rosary/rosary-app/rosary-app.component';
 import { PlaygroundPageComponent } from './playground-page/playground-page.component';
+import { LoginComponent } from './login/login.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
   { path: '', component:LinksComponent},
@@ -15,6 +17,8 @@ const routes: Routes = [
   { path: 'rosary', component: RosaryAppComponent},
   { path: 'directory/rosary', component: RosaryAppComponent},
   { path: 'playground', component:PlaygroundPageComponent },
+  { path: 'login', component:LoginComponent},
+  { path: 'profile', component:ProfileComponent}
 ]
 
 @NgModule({

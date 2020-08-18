@@ -3,11 +3,13 @@ package zone.fothu.pets.service;
 import java.io.Serializable;
 import java.util.List;
 
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import zone.fothu.pets.exception.UserNotFoundException;
+import zone.fothu.pets.exception.UserNotUpdatedException;
 import zone.fothu.pets.model.User;
 import zone.fothu.pets.repository.UserRepository;
 
@@ -31,13 +33,21 @@ public class UserService implements Serializable {
 
     public User logInNewUser(User loggingInUser) throws UserNotFoundException {
         if (passwordEncoder.matches(loggingInUser.getUserPassword(),
-            userRepository.findByUsername(loggingInUser.getUsername()).getUserPassword())) {
-            User userFromDatabase = userRepository.findByUsername(loggingInUser.getUsername());
+            userRepository.findByUsername(loggingInUser.getUsername().toLowerCase()).getUserPassword())) {
+            User userFromDatabase = userRepository.findByUsername(loggingInUser.getUsername().toLowerCase());
             userFromDatabase.setUserPassword(null);
             return userFromDatabase;
         } else {
             throw new UserNotFoundException();
         }
+    }
+    
+    public User updateUser(int id, String username, String userPassword, String favoriteColor) throws UserNotFoundException, PSQLException, UserNotUpdatedException {
+        String secretPassword = passwordEncoder.encode(userPassword);
+        userRepository.updateUser(id, username, secretPassword, favoriteColor);
+        User returnedUser = userRepository.findById(id);
+        returnedUser.setUserPassword(null);
+        return returnedUser;
     }
 
     public List<User> getAllUsers() {
@@ -55,13 +65,14 @@ public class UserService implements Serializable {
     }
 
     public User getUserWithUsername(String username) throws UserNotFoundException {
-        User userFromUsername = userRepository.findByUsername(username);
+        User userFromUsername = userRepository.findByUsername(username.toLowerCase());
         userFromUsername.setUserPassword(null);
         return userFromUsername;
     }
 
     public User getUserWithUsernameAndPassword(String username, String password) throws UserNotFoundException {
-        User userFromUsernameAndPassword = userRepository.findByUsernameAndPassword(username, password);
+        String secretPassword = passwordEncoder.encode(password);
+        User userFromUsernameAndPassword = userRepository.findByUsernameAndPassword(username.toLowerCase(), secretPassword);
         userFromUsernameAndPassword.setUserPassword(null);
         return userFromUsernameAndPassword;
     }
