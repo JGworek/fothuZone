@@ -20,7 +20,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(nativeQuery = true, value = "SELECT * FROM pets.users")
     List<User> findAll();
 
-    @Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE username = ?1")
+    @Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE LOWER(username) = ?1")
     User findByUsername(String username) throws UserNotFoundException;
 
     @Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE password = ?1")

@@ -2,11 +2,13 @@ package zone.fothu.pets.controller;
 
 import java.util.List;
 
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import zone.fothu.pets.exception.UserNotFoundException;
+import zone.fothu.pets.exception.UserNotUpdatedException;
 import zone.fothu.pets.model.User;
 import zone.fothu.pets.repository.UserRepository;
 import zone.fothu.pets.service.UserService;
@@ -57,7 +60,8 @@ public class UserController {
     }
 
     @GetMapping("/username/{username}/password/{password}")
-    public ResponseEntity<User> getUserByUsernameAndPassword(@PathVariable String username, @PathVariable String password) {
+    public ResponseEntity<User> getUserByUsernameAndPassword(@PathVariable String username,
+        @PathVariable String password) {
         try {
             return ResponseEntity.ok(userService.getUserWithUsernameAndPassword(username, password));
         } catch (UserNotFoundException e) {
@@ -86,24 +90,10 @@ public class UserController {
         }
     }
 
-    // @PatchMapping("/update")
-    // public User updateUser(@RequestBody User updatedUser) throws
-    // UserNotFoundException, PSQLException {
-    // boolean success = false;
-    // try {
-    // userRepository.updateUser(updatedUser.getId(), updatedUser.getUsername(),
-    // updatedUser.getUserPassword(),
-    // updatedUser.getFavoriteColor());
-    // success = true;
-    // } catch (UserNotUpdatedException e) {
-    // throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "User not
-    // updated", e);
-    // }
-    // if (success == true) {
-    // return userRepository.findById(updatedUser.getId());
-    // } else {
-    // return updatedUser;
-    // }
-    // }
+    @PatchMapping("/update")
+    public User updateUser(@RequestBody User updatedUser) throws UserNotFoundException, PSQLException, UserNotUpdatedException {
+       return userService.updateUser(updatedUser.getId(), updatedUser.getUsername(), updatedUser.getUserPassword(),
+            updatedUser.getFavoriteColor());
+    }
 
 }

@@ -11,6 +11,9 @@ import { PetSelectionComponent } from './pet-selection/pet-selection.component';
 import { RosaryAppComponent } from './rosary/rosary-app/rosary-app.component';
 import { PlaygroundPageComponent } from './playground-page/playground-page.component';
 import { FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ProfileComponent } from './profile/profile.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -21,12 +24,15 @@ import { FormsModule } from '@angular/forms';
     PetSelectionComponent,
     RosaryAppComponent,
     PlaygroundPageComponent,
+    ProfileComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    NgbModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,7 +1,20 @@
-<div class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand nav-link" routerLink="directory"><img src="../assets/Pengo28.png" alt="Pengo Image">Fothu.Zone</a>
-    <button class="btn btn-outline-warning nav-link" routerLink="schola">The Schola Rehearsal</button>
-    <!--<button class="btn btn-outline-success nav-link" routerLink="petSelection">Pets</button>-->
-    <button class="btn btn-outline-danger nav-link" routerLink="rosary">Rosary</button>
-    <!-- <button class="btn btn-outline-light nav-link" routerLink="playground">Playground</button> -->
-</div>
+    <button class="nav-item btn bg-primary btn-outline-dark" routerLink="fothuPets"><span class="text-light">FothuPets</span></button>
+    <div ngbDropdown class="d-inline-block">
+        <button class="btn btn-outline-dark bg-danger" id="dropdownBasic1" ngbDropdownToggle><span class="text-light">Religious</span></button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button class="btn-dark" ngbDropdownItem routerLink="schola">The Schola Rehearsal</button>
+            <button class="btn-dark" ngbDropdownItem routerLink="rosary">Rosary</button>
+        </div>
+    </div>
+
+    <div class="btn-block">
+        <button class="nav-item btn bg-dark btn-outline-light float-right" routerLink="login" *ngIf="profileService.currentUser.id == -1">Login</button>
+        <button class="nav-item btn bg-dark btn-outline-light float-right" routerLink="profile" *ngIf="profileService.currentUser.id !== -1">Profile</button>
+        <div id="welcomeName" class="text-light float-right" *ngIf="profileService.currentUser.id !== -1">Hello {{profileService.currentUser.username}} </div>
+    </div>
+</nav>
+
+
+<!-- <button class="btn btn-outline-light nav-link" routerLink="playground">Playground</button> -->

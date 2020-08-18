@@ -38,6 +38,7 @@ public class CyoaServerApplication {
         return new AnnotationConfigApplicationContext();
     }
     
+    // server:port/swagger-ui.html
     @Bean
     public Docket productApi() {
       return new Docket(DocumentationType.SWAGGER_2).select()
