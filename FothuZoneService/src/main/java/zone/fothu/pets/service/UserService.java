@@ -61,7 +61,8 @@ public class UserService implements Serializable {
     }
 
     public User getUserWithUsernameAndPassword(String username, String password) throws UserNotFoundException {
-        User userFromUsernameAndPassword = userRepository.findByUsernameAndPassword(username, password);
+        String secretPassword = passwordEncoder.encode(password);
+        User userFromUsernameAndPassword = userRepository.findByUsernameAndPassword(username.toLowerCase(), secretPassword);
         userFromUsernameAndPassword.setUserPassword(null);
         return userFromUsernameAndPassword;
     }
