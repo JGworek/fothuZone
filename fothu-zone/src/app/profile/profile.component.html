@@ -1,1 +1,16 @@
-<p>profile works!</p>
+<!-- <div [ngStyle]="{'background-color':profileService.currentUser.favoriteColor}"> -->
+<div>
+    <br>
+    <h1>{{profileService.currentUser.username}}</h1>
+    <br>
+    <h3>Favorite Color: {{profileService.currentUser.favoriteColor}}</h3>
+    <br>
+    <h2>Pets:</h2>
+    <div *ngFor="let pet of profileService.currentUser.pets;let numberOfindex=index">
+        <img *ngIf="pet.image" height="300px" width="300px" [src]="pet.image.imageURL" [alt]="pet.name">
+        <div>{{numberOfindex+1}}</div>
+        <div>Name: {{pet.name}}</div>
+        <div>Type: {{pet.type}}</div>
+        <br>
+    </div>
+</div>

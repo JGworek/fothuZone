@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import zone.fothu.pets.exception.PetNotFoundException;
 import zone.fothu.pets.exception.PetNotUpdatedException;
+import zone.fothu.pets.model.Image;
 import zone.fothu.pets.model.Pet;
 import zone.fothu.pets.model.XPValue;
 
@@ -44,6 +45,24 @@ public interface PetRepository extends JpaRepository<Pet, Integer> {
     @Transactional
     @Query(nativeQuery = true, value = "UPDATE pets.pets SET strength = ?2, agility = ?3, intelligence = ?4 WHERE id = ?1")
     void setPetStats(int id, int strength, int agility, int intelligence);
+    
+    
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "INSERT INTO pets.images VALUES (DEFAULT, ?1, ?2")
+    void saveNewImage(String imageURL, String imageOwner);
+    
+    @Query(nativeQuery = true, value = "SELECT MAX(id) FROM pets.images")
+    int findLatestImageId();
+    
+    @Query(nativeQuery = true, value = "SELECT * FROM pets.images WHERE id = ?!")
+    Image findImageById(int imageId);
+    
+    
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "UPDATE pets.pets SET image_id = ?2 WHERE id = ?1")
+    void setPetImage(int petId, int imageId);
 
 //    @Modifying
 //    @Transactional

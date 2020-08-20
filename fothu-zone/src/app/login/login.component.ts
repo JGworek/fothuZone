@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ProfileService} from '../profile.service';
 import { Router } from '@angular/router';
 import { UserP } from '../models/UserP';
+import { environment } from '../../environments/environment';
+
+
 
 @Component({
   selector: 'app-login',
@@ -18,20 +21,23 @@ export class LoginComponent implements OnInit {
     username: "",
     favoriteColor: "",
     pets: [],
-    userPassword: "string"
+    userPassword: ""
   };
 
-  returnedUser;
+  returnedUser: any;
 
   async logIn() {
     this.incorrectLogin = false;
-    let returnedPromise = await fetch(`http://ec2-54-161-212-213.compute-1.amazonaws.com:6969/users/login`, {method: 'post', body: JSON.stringify(this.loggingInUser)});
+    let returnedPromise = await fetch(`http://ec2-54-161-212-213.compute-1.amazonaws.com:6969/users/login`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(this.loggingInUser)});
     this.returnedUser = await returnedPromise.json();
-    if(this.returnedUser.status != 500) {
-    this.profileService.currentUser = this.returnedUser;
-    this.router.navigate(['/directory']);
-    } else {
-      this.incorrectLogin = true;
+    environment.errorCodes.forEach((element)=>{
+      if(this.returnedUser.status == element) {
+        this.incorrectLogin = true;
+      }
+    })
+    if(this.incorrectLogin == false) {
+      this.profileService.currentUser = this.returnedUser;
+      this.router.navigate(['/directory']);
     }
 
 

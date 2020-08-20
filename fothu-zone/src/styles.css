@@ -1,3 +1,11 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    /* needed for container min-height */
+}
+
 .indent {
-    text-indent:40px
+    text-indent: 40px
 }

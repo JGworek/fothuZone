@@ -2,8 +2,11 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+const ERROR_STATUS_CODES: Array<Number> = [400, 401, 402, 403, 404, 405, 500, 501, 502, 503, 504, 505];
+
 export const environment = {
-  production: false
+  production: false,
+  errorCodes: ERROR_STATUS_CODES,
 };
 
 /*

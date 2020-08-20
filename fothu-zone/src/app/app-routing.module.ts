@@ -7,6 +7,8 @@ import { RosaryAppComponent } from './rosary/rosary-app/rosary-app.component';
 import { PlaygroundPageComponent } from './playground-page/playground-page.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
+import { PetsHomeComponent } from './pets/pets-home/pets-home.component'; 
+import { NewPetComponent } from './pets/new-pet/new-pet.component'; 
 
 const routes: Routes = [
   { path: '', component:LinksComponent},
@@ -18,7 +20,9 @@ const routes: Routes = [
   { path: 'directory/rosary', component: RosaryAppComponent},
   { path: 'playground', component:PlaygroundPageComponent },
   { path: 'login', component:LoginComponent},
-  { path: 'profile', component:ProfileComponent}
+  { path: 'profile', component:ProfileComponent},
+  { path: 'pets', component:PetsHomeComponent},
+  { path: 'pets/new', component:NewPetComponent}
 ]
 
 @NgModule({
