@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -32,6 +33,7 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "owner")
     @JsonIgnoreProperties("owner")
+    @OrderBy("id")
     private List<Pet> pets;
 
     public User() {
