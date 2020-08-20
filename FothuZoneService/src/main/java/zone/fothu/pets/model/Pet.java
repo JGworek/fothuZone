@@ -1,6 +1,8 @@
 package zone.fothu.pets.model;
 
 import java.io.Serializable;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -25,8 +28,12 @@ public class Pet implements Serializable {
     private int id;
     @Column(name = "name")
     private String name;
-    @Column(name = "image")
-    private String image;
+    
+    @OneToOne
+    @JoinColumn(name="image_id")
+    @JsonIgnoreProperties("pets")
+    private Image image;
+    
     @Column(name = "stat_type")
     private String type;
     @Column(name = "hunger")
@@ -55,7 +62,7 @@ public class Pet implements Serializable {
         super();
     }
 
-    public Pet(int id, String name, String image, String type, int hunger, int currentHealth, int maxHealth,
+    public Pet(int id, String name, Image image, String type, int hunger, int currentHealth, int maxHealth,
         int strength, int agility, int intelligence, int petLevel, int currentXP, User owner) {
         super();
         this.id = id;
@@ -72,7 +79,7 @@ public class Pet implements Serializable {
         this.currentXP = currentXP;
         this.owner = owner;
     }
-
+    
     public int getId() {
         return id;
     }
@@ -89,11 +96,11 @@ public class Pet implements Serializable {
         this.name = name;
     }
 
-    public String getImage() {
+    public Image getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(Image image) {
         this.image = image;
     }
 
@@ -254,5 +261,5 @@ public class Pet implements Serializable {
             + agility + ", intelligence=" + intelligence + ", petLevel=" + petLevel + ", currentXP=" + currentXP
             + ", owner=" + owner + "]";
     }
-
 }
+    
