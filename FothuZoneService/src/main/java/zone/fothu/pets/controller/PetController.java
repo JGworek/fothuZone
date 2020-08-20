@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,8 +18,10 @@ import zone.fothu.pets.exception.PetNotUpdatedException;
 import zone.fothu.pets.exception.UserNotFoundException;
 import zone.fothu.pets.model.Image;
 import zone.fothu.pets.model.Pet;
+import zone.fothu.pets.repository.ImageRepository;
 import zone.fothu.pets.repository.PetRepository;
 import zone.fothu.pets.repository.UserRepository;
+import zone.fothu.pets.service.ImageService;
 
 @RestController
 @CrossOrigin
@@ -31,6 +32,10 @@ public class PetController {
     PetRepository petRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    ImageRepository imageRepository;
+    @Autowired
+    ImageService imageService;
 
     @GetMapping("/all")
     public ResponseEntity<List<Pet>> getAllPets() {
@@ -93,16 +98,21 @@ public class PetController {
         return ResponseEntity.ok(pet);
     }
     
+    @GetMapping("/image/id/{id}")
+    public ResponseEntity<Image> getImageWithId(@PathVariable int id) {
+        Image image = imageRepository.findImageById(id);
+        return ResponseEntity.ok(image);
+    }
+    
     @PostMapping("/image/new")
     public ResponseEntity<Image> createPetImage(@RequestBody Image newImage) {
-        petRepository.saveNewImage(newImage.getImageURL(), newImage.getImageOwner());
-        Image image = petRepository.findImageById(petRepository.findLatestImageId());
+        Image image = imageService.saveNewImage(newImage);
         return ResponseEntity.ok(image);
     }
   
     @PostMapping("/id/{petId}/image/{imageId}")
     public ResponseEntity<Pet> addPetImage(@PathVariable int petId, @PathVariable int imageId) throws PetNotFoundException {
-    petRepository.setPetImage(petId, imageId);
+    imageRepository.setPetImage(petId, imageId);
     Pet pet = petRepository.findById(petId);
     if (pet.getOwner() != null) {
         pet.getOwner().setUserPassword(null);

@@ -30,16 +30,15 @@ export class NewPetComponent implements OnInit {
     console.log(this.availableNewPets);
   }
 
-  async createNewPetImage(imageString, usernameString) {
-    this.newPetSelectionImage = {id: 0, imageURL: imageString, imageOwner: usernameString};
+  async createNewPetImage(imageString, usernameString, nameString) {
+    this.newPetSelectionImage = {id: 0, imageURL: imageString, imageOwnerUsername: usernameString, imageOwnerName: nameString};
+    console.log(this.newPetSelectionImage);
+    // let imageResponse = await fetch(`http://localhost:6969/pets/image/new`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(this.newPetSelectionImage)});
     let imageResponse = await fetch(`http://ec2-54-161-212-213.compute-1.amazonaws.com:6969/pets/image/new`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(this.newPetSelectionImage)});
     this.newPetImage = await imageResponse.json();
-    environment.errorCodes.forEach((element)=>{
-      if(this.newPetImage.status == element) {
-        this.unableToSelectImage = true;
-      }
-    })
-    if(this.unableToSelectImage == false) {
+    if(imageResponse.status.toString()[0] == '1' || imageResponse.status.toString()[0] == '4' || imageResponse.status.toString()[0] == '5') {
+      this.unableToSelectImage = true;
+    } else {
       this.petImageSelected = true;
     }
   }

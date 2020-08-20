@@ -30,19 +30,21 @@ export class LoginComponent implements OnInit {
     this.incorrectLogin = false;
     let returnedPromise = await fetch(`http://ec2-54-161-212-213.compute-1.amazonaws.com:6969/users/login`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(this.loggingInUser)});
     this.returnedUser = await returnedPromise.json();
-    environment.errorCodes.forEach((element)=>{
-      if(this.returnedUser.status == element) {
-        this.incorrectLogin = true;
-      }
-    })
-    if(this.incorrectLogin == false) {
+    if(returnedPromise.status.toString()[0] == '1' || returnedPromise.status.toString()[0] == '4' || returnedPromise.status.toString()[0] == '5') {
+      this.incorrectLogin = true;
+    } else {
       this.profileService.currentUser = this.returnedUser;
       this.router.navigate(['/directory']);
     }
-
-
     
+    
+    // environment.errorCodes.forEach((element)=>{
+    //   if(this.returnedUser.status == element) {
+    //     this.incorrectLogin = true;
+    //   }
+    // })
     // if(this.incorrectLogin == false) {
+    //   this.profileService.currentUser = this.returnedUser;
     //   this.router.navigate(['/directory']);
     // }
   }
