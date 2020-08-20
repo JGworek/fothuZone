@@ -10,9 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import zone.fothu.pets.exception.PetNotFoundException;
 import zone.fothu.pets.exception.PetNotUpdatedException;
-import zone.fothu.pets.model.Image;
 import zone.fothu.pets.model.Pet;
-import zone.fothu.pets.model.XPValue;
 
 public interface PetRepository extends JpaRepository<Pet, Integer> {
 
@@ -46,24 +44,6 @@ public interface PetRepository extends JpaRepository<Pet, Integer> {
     @Query(nativeQuery = true, value = "UPDATE pets.pets SET strength = ?2, agility = ?3, intelligence = ?4 WHERE id = ?1")
     void setPetStats(int id, int strength, int agility, int intelligence);
     
-    
-    @Modifying
-    @Transactional
-    @Query(nativeQuery = true, value = "INSERT INTO pets.images VALUES (DEFAULT, ?1, ?2")
-    void saveNewImage(String imageURL, String imageOwner);
-    
-    @Query(nativeQuery = true, value = "SELECT MAX(id) FROM pets.images")
-    int findLatestImageId();
-    
-    @Query(nativeQuery = true, value = "SELECT * FROM pets.images WHERE id = ?!")
-    Image findImageById(int imageId);
-    
-    
-    @Modifying
-    @Transactional
-    @Query(nativeQuery = true, value = "UPDATE pets.pets SET image_id = ?2 WHERE id = ?1")
-    void setPetImage(int petId, int imageId);
-
 //    @Modifying
 //    @Transactional
 //    @Query(nativeQuery = true, value = "UPDATE pets.pets SET name = ?2, image = ?3, stat_type = ?4, hunger = ?5, current_health = ?6, max_health = ?7, strength = ?8, agility = ?9, intelligence = ?10, pet_level = ?11, current_xp = ?12, user_id = ?13  WHERE id = ?1")
