@@ -14,6 +14,9 @@ import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileComponent } from './profile/profile.component';
 import { LoginComponent } from './login/login.component';
+import { CommonModule } from '@angular/common';
+import { PetsHomeComponent } from './pets/pets-home/pets-home.component';
+import { NewPetComponent } from './pets/new-pet/new-pet.component'
 
 @NgModule({
   declarations: [
@@ -26,6 +29,8 @@ import { LoginComponent } from './login/login.component';
     PlaygroundPageComponent,
     ProfileComponent,
     LoginComponent,
+    PetsHomeComponent,
+    NewPetComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,6 +38,7 @@ import { LoginComponent } from './login/login.component';
     HttpClientModule,
     FormsModule,
     NgbModule,
+    CommonModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

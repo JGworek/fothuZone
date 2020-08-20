@@ -1,12 +1,14 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand nav-link" routerLink="directory"><img src="../assets/Pengo28.png" alt="Pengo Image">Fothu.Zone</a>
-    <button class="nav-item btn bg-primary btn-outline-dark" routerLink="fothuPets"><span class="text-light">FothuPets</span></button>
+    <!-- routerLink="pets" -->
+    <button class="nav-item btn bg-primary btn-outline-dark"><span class="text-light">FothuPets</span></button>
     <div ngbDropdown class="d-inline-block">
         <button class="btn btn-outline-dark bg-danger" id="dropdownBasic1" ngbDropdownToggle><span class="text-light">Religious</span></button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
             <button class="btn-dark" ngbDropdownItem routerLink="schola">The Schola Rehearsal</button>
             <button class="btn-dark" ngbDropdownItem routerLink="rosary">Rosary</button>
         </div>
+        <!-- <button class="btn btn-outline-light nav-link" routerLink="playground">Playground</button> -->
     </div>
 
     <div class="btn-block">
@@ -15,6 +17,3 @@
         <div id="welcomeName" class="text-light float-right" *ngIf="profileService.currentUser.id !== -1">Hello {{profileService.currentUser.username}} </div>
     </div>
 </nav>
-
-
-<!-- <button class="btn btn-outline-light nav-link" routerLink="playground">Playground</button> -->

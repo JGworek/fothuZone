@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ProfileService } from '../profile.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-profile',
@@ -7,9 +10,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor() { }
+  constructor(public profileService: ProfileService, private router: Router) { }
 
   ngOnInit(): void {
+    if(this.profileService.currentUser.id == -1) {
+      this.router.navigate(['/login']);
+    }
   }
 
 }

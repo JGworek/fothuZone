@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import zone.fothu.pets.exception.PetNotFoundException;
 import zone.fothu.pets.exception.PetNotUpdatedException;
 import zone.fothu.pets.exception.UserNotFoundException;
+import zone.fothu.pets.model.Image;
 import zone.fothu.pets.model.Pet;
 import zone.fothu.pets.repository.PetRepository;
 import zone.fothu.pets.repository.UserRepository;
@@ -90,6 +91,23 @@ public class PetController {
 
         }
         return ResponseEntity.ok(pet);
+    }
+    
+    @PostMapping("/image/new")
+    public ResponseEntity<Image> createPetImage(@RequestBody Image newImage) {
+        petRepository.saveNewImage(newImage.getImageURL(), newImage.getImageOwner());
+        Image image = petRepository.findImageById(petRepository.findLatestImageId());
+        return ResponseEntity.ok(image);
+    }
+  
+    @PostMapping("/id/{petId}/image/{imageId}")
+    public ResponseEntity<Pet> addPetImage(@PathVariable int petId, @PathVariable int imageId) throws PetNotFoundException {
+    petRepository.setPetImage(petId, imageId);
+    Pet pet = petRepository.findById(petId);
+    if (pet.getOwner() != null) {
+        pet.getOwner().setUserPassword(null);
+    }
+    return ResponseEntity.ok(pet);
     }
 
     @PutMapping("/update")

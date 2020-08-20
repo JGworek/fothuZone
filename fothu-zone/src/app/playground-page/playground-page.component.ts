@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms'
+import { ProfileService } from '../profile.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-playground-page',
@@ -8,7 +11,7 @@ import { NgForm } from '@angular/forms'
 })
 export class PlaygroundPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(public profileService: ProfileService, private router: Router) { }
 
   formObject: any;
   title: any = "wut";
@@ -114,6 +117,9 @@ async f1() {
 }
 
   ngOnInit() {
+    if(this.profileService.currentUser.username.toLowerCase() != 'fothu') {
+      this.router.navigate(['/directory']);
+    }
   }
 
 }
