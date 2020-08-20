@@ -198,20 +198,23 @@ public class BattleService implements Serializable {
 
     private int setNewXP(Pet winningPet, Pet losingPet) {
         int numberOfLevelUps = 0;
-        if (winningPet.getPetLevel() < 100) {
-            int winningXP = (losingPet.getMaxHealth() * xpHealthModifier);
-            winningPet.setCurrentXP(winningPet.getCurrentXP() + winningXP);
-            while (winningPet.getCurrentXP() > petRepository.getXPToNextLevel(winningPet.getPetLevel() + 1)
-                & winningPet.getPetLevel() < 100) {
-                winningPet.setCurrentXP(
-                    winningPet.getCurrentXP() - petRepository.getXPToNextLevel(winningPet.getPetLevel() + 1));
-                winningPet.setPetLevel(winningPet.getPetLevel() + 1);
-                numberOfLevelUps = numberOfLevelUps + 1;
-                if (winningPet.getPetLevel() == 100) {
-                    winningPet.setCurrentXP(0);
+        if (winningPet.getOwner().getId() != losingPet.getOwner().getId()) {
+            if (winningPet.getPetLevel() < 100) {
+                int winningXP = (losingPet.getMaxHealth() * xpHealthModifier);
+                winningPet.setCurrentXP(winningPet.getCurrentXP() + winningXP);
+                while (winningPet.getCurrentXP() > petRepository.getXPToNextLevel(winningPet.getPetLevel() + 1)
+                    & winningPet.getPetLevel() < 100) {
+                    winningPet.setCurrentXP(
+                        winningPet.getCurrentXP() - petRepository.getXPToNextLevel(winningPet.getPetLevel() + 1));
+                    winningPet.setPetLevel(winningPet.getPetLevel() + 1);
+                    numberOfLevelUps = numberOfLevelUps + 1;
+                    if (winningPet.getPetLevel() == 100) {
+                        winningPet.setCurrentXP(0);
+                    }
                 }
+                petRepository.updatePetXPAndLevel(winningPet.getId(), winningPet.getCurrentXP(),
+                    winningPet.getPetLevel());
             }
-            petRepository.updatePetXPAndLevel(winningPet.getId(), winningPet.getCurrentXP(), winningPet.getPetLevel());
         }
         return numberOfLevelUps;
     }

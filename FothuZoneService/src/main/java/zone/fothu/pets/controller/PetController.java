@@ -96,7 +96,7 @@ public class PetController {
     public ResponseEntity<Pet> updatePet(@RequestBody Pet updatedPet)
         throws PetNotFoundException, PSQLException, PetNotUpdatedException {
         boolean success = false;
-        petRepository.updatePet(updatedPet.getId(), updatedPet.getName(), updatedPet.getImage(), updatedPet.getType(),
+        petRepository.updatePet(updatedPet.getId(), updatedPet.getName(), updatedPet.getType(),
             updatedPet.getHunger(), updatedPet.getCurrentHealth(), updatedPet.getMaxHealth(), updatedPet.getStrength(),
             updatedPet.getAgility(), updatedPet.getIntelligence(), updatedPet.getPetLevel(), updatedPet.getCurrentXP());
 
@@ -108,20 +108,20 @@ public class PetController {
         return ResponseEntity.ok(pet);
     }
 
-    @PutMapping("/giveto/{id}")
-    public ResponseEntity<Pet> givePet(@RequestBody Pet tradedPet, @PathVariable int id)
-        throws PetNotFoundException, PSQLException, PetNotUpdatedException {
-        boolean success = false;
-        petRepository.givePet(tradedPet.getId(), tradedPet.getName(), tradedPet.getImage(), tradedPet.getType(),
-            tradedPet.getHunger(), tradedPet.getCurrentHealth(), tradedPet.getMaxHealth(), tradedPet.getStrength(),
-            tradedPet.getAgility(), tradedPet.getIntelligence(), tradedPet.getPetLevel(), tradedPet.getCurrentXP(), id);
-        Pet pet = petRepository.findById(tradedPet.getId());
-        if (pet.getOwner() != null) {
-            pet.getOwner().setUserPassword(null);
-
-        }
-        return ResponseEntity.ok(pet);
-    }
+//    @PutMapping("/giveto/{id}")
+//    public ResponseEntity<Pet> givePet(@RequestBody Pet tradedPet, @PathVariable int id)
+//        throws PetNotFoundException, PSQLException, PetNotUpdatedException {
+//        boolean success = false;
+//        petRepository.givePet(tradedPet.getId(), tradedPet.getName(), tradedPet.getType(),
+//            tradedPet.getHunger(), tradedPet.getCurrentHealth(), tradedPet.getMaxHealth(), tradedPet.getStrength(),
+//            tradedPet.getAgility(), tradedPet.getIntelligence(), tradedPet.getPetLevel(), tradedPet.getCurrentXP(), id);
+//        Pet pet = petRepository.findById(tradedPet.getId());
+//        if (pet.getOwner() != null) {
+//            pet.getOwner().setUserPassword(null);
+//
+//        }
+//        return ResponseEntity.ok(pet);
+//    }
 
     @PutMapping("/restoreHealth/all")
     public ResponseEntity<List<Pet>> restoreAllPetsHealth() throws PetNotUpdatedException {
