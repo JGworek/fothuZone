@@ -1,10 +1,7 @@
-import { User } from './User';
-import { Image } from './Image';
-
-export class Pet {
+export class PetDTO {
     id: number;
     name: string;
-    image: Image;
+    imageId: number;
     hunger: number;
     type: string;
     agility: number;
@@ -14,5 +11,5 @@ export class Pet {
     curentXP: number;
     currentHealth: number;
     maxHealth: number;
-    owner: User;
+    ownerId: number;
 }

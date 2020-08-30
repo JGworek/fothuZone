@@ -1,19 +1,20 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand nav-link" routerLink="directory"><img src="../assets/Pengo28.png" alt="Pengo Image">Fothu.Zone</a>
+    <a class="navbar-brand nav-link" routerLink="/directory"><img src="../assets/Pengo28.png" alt="Pengo Image">Fothu.Zone</a>
     <!-- routerLink="pets" -->
-    <button class="nav-item btn bg-primary btn-outline-dark"><span class="text-light">FothuPets</span></button>
+    <!-- <button class="nav-item btn bg-primary btn-outline-dark" routerLink="/FothuPets"><span class="text-light">FothuPets</span></button> -->
     <div ngbDropdown class="d-inline-block">
         <button class="btn btn-outline-dark bg-danger" id="dropdownBasic1" ngbDropdownToggle><span class="text-light">Religious</span></button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button class="btn-dark" ngbDropdownItem routerLink="schola">The Schola Rehearsal</button>
-            <button class="btn-dark" ngbDropdownItem routerLink="rosary">Rosary</button>
+            <button class="btn-dark" ngbDropdownItem [routerLink]="[{outlets: {primary: ['schola'], pets: null }}]">The Schola Rehearsal</button>
+            <button class="btn-dark" ngbDropdownItem [routerLink]="[{outlets: {primary: ['rosary'], pets: null }}]">Rosary</button>
         </div>
         <!-- <button class="btn btn-outline-light nav-link" routerLink="playground">Playground</button> -->
     </div>
 
     <div class="btn-block">
-        <button class="nav-item btn bg-dark btn-outline-light float-right" routerLink="login" *ngIf="profileService.currentUser.id == -1">Login</button>
-        <button class="nav-item btn bg-dark btn-outline-light float-right" routerLink="profile" *ngIf="profileService.currentUser.id !== -1">Profile</button>
+        <button class="nav-item btn bg-dark btn-outline-light float-right" (click)="profileService.logout()" *ngIf="profileService.currentUser.id !== -1">Logout</button>
+        <button class="nav-item btn bg-dark btn-outline-light float-right" routerLink="/login" *ngIf="profileService.currentUser.id == -1">Login</button>
+        <button class="nav-item btn bg-dark btn-outline-light float-right" routerLink="/profile" *ngIf="profileService.currentUser.id !== -1">Profile</button>
         <div id="welcomeName" class="text-light float-right" *ngIf="profileService.currentUser.id !== -1">Hello {{profileService.currentUser.username}} </div>
     </div>
 </nav>

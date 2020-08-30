@@ -1,25 +1,23 @@
 package zone.fothu.pets.model;
 
 import java.io.Serializable;
-import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
+
 import org.springframework.stereotype.Component;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Component
 @Entity
 @Table(name = "users", schema = "pets")
-public class User implements Serializable {
+public class UserDTO implements Serializable {
 
-    private static final long serialVersionUID = -4631968289745068642L;
-
+    private static final long serialVersionUID = 6951903949395867726L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -32,25 +30,18 @@ public class User implements Serializable {
     private String userPassword;
     @Column(name = "secret_password")
     private String secretPassword;
-
-    @OneToMany(mappedBy = "owner")
-    @JsonIgnoreProperties("owner")
-    @OrderBy("id")
-    private List<Pet> pets;
-
-    public User() {
+    
+    public UserDTO() {
         super();
     }
 
-    public User(int id, String username, String favoriteColor, String userPassword, String secretPassword,
-        List<Pet> pets) {
+    public UserDTO(int id, String username, String favoriteColor, String userPassword, String secretPassword) {
         super();
         this.id = id;
         this.username = username;
         this.favoriteColor = favoriteColor;
         this.userPassword = userPassword;
         this.secretPassword = secretPassword;
-        this.pets = pets;
     }
 
     public int getId() {
@@ -93,21 +84,12 @@ public class User implements Serializable {
         this.secretPassword = secretPassword;
     }
 
-    public List<Pet> getPets() {
-        return pets;
-    }
-
-    public void setPets(List<Pet> pets) {
-        this.pets = pets;
-    }
-
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((favoriteColor == null) ? 0 : favoriteColor.hashCode());
         result = prime * result + id;
-        result = prime * result + ((pets == null) ? 0 : pets.hashCode());
         result = prime * result + ((secretPassword == null) ? 0 : secretPassword.hashCode());
         result = prime * result + ((userPassword == null) ? 0 : userPassword.hashCode());
         result = prime * result + ((username == null) ? 0 : username.hashCode());
@@ -122,18 +104,13 @@ public class User implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        User other = (User) obj;
+        UserDTO other = (UserDTO) obj;
         if (favoriteColor == null) {
             if (other.favoriteColor != null)
                 return false;
         } else if (!favoriteColor.equals(other.favoriteColor))
             return false;
         if (id != other.id)
-            return false;
-        if (pets == null) {
-            if (other.pets != null)
-                return false;
-        } else if (!pets.equals(other.pets))
             return false;
         if (secretPassword == null) {
             if (other.secretPassword != null)
@@ -155,7 +132,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", username=" + username + ", favoriteColor=" + favoriteColor + ", userPassword="
-            + userPassword + ", secretPassword=" + secretPassword + ", pets=" + pets + "]";
+        return "UserDTO [id=" + id + ", username=" + username + ", favoriteColor=" + favoriteColor + ", userPassword="
+            + userPassword + ", secretPassword=" + secretPassword + "]";
     }
 }
