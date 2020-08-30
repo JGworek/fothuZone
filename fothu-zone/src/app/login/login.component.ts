@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfileService} from '../profile.service';
+import { ProfileService } from '../service/profile.service';
 import { Router } from '@angular/router';
-import { UserP } from '../models/UserP';
+import { UserDTO } from '../models/UserDTO';
 import { environment } from '../../environments/environment';
 
 
@@ -16,12 +16,12 @@ export class LoginComponent implements OnInit {
   constructor(private profileService: ProfileService, private router: Router) { }
 
   incorrectLogin: boolean = false;
-  loggingInUser: UserP = {
+  loggingInUser: UserDTO = {
     id: 0,
     username: "",
     favoriteColor: "",
-    pets: [],
-    userPassword: ""
+    userPassword: "",
+    secretPassword: "",
   };
 
   returnedUser: any;
@@ -36,17 +36,6 @@ export class LoginComponent implements OnInit {
       this.profileService.currentUser = this.returnedUser;
       this.router.navigate(['/directory']);
     }
-    
-    
-    // environment.errorCodes.forEach((element)=>{
-    //   if(this.returnedUser.status == element) {
-    //     this.incorrectLogin = true;
-    //   }
-    // })
-    // if(this.incorrectLogin == false) {
-    //   this.profileService.currentUser = this.returnedUser;
-    //   this.router.navigate(['/directory']);
-    // }
   }
 
   ngOnInit(): void {

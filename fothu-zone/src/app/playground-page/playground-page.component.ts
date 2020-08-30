@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms'
-import { ProfileService } from '../profile.service';
+import { ProfileService } from '../service/profile.service';
 import { Router } from '@angular/router';
 
 

@@ -1,9 +1,8 @@
-import { Pet } from './Pet';
 
-export class UserP {
+export class UserDTO {
     id: number;
     username: string;
     favoriteColor: string;
-    pets: Pet[];
     userPassword: string;
+    secretPassword: string;
 }
