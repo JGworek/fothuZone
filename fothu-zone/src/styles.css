@@ -9,3 +9,61 @@ body {
 .indent {
     text-indent: 40px
 }
+
+.blue {
+    border-style: solid;
+    border-color: blue;
+    border-radius: 10px;
+}
+
+.red {
+    border-style: solid;
+    border-color: red;
+    border-radius: 10px;
+}
+
+.yellow {
+    border-style: solid;
+    border-color: yellow;
+    border-radius: 10px;
+}
+
+.green {
+    border-style: solid;
+    border-color: green;
+    border-radius: 10px;
+}
+
+.purple {
+    border-style: solid;
+    border-color: purple;
+    border-radius: 10px;
+}
+
+.orange {
+    border-style: solid;
+    border-color: orange;
+    border-radius: 10px;
+}
+
+.black {
+    border-style: solid;
+    border-color: black;
+    border-radius: 10px;
+}
+
+.dark-red {
+    border-style: solid;
+    border-color: darkred;
+    border-radius: 10px;
+}
+
+.wrapper {
+    position: relative;
+}
+
+.data {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+}

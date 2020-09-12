@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import zone.fothu.pets.exception.UserNotFoundException;
 import zone.fothu.pets.exception.UserNotUpdatedException;
 import zone.fothu.pets.model.User;
+import zone.fothu.pets.model.UserDTO;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
@@ -34,4 +35,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(nativeQuery = true, value = "UPDATE pets.users SET username = ?2, user_password = ?3, favorite_color = ?4 WHERE id = ?1")
     void updateUser(int id, String username, String userPassword, String favoriteColor)
         throws UserNotUpdatedException, PSQLException;
+
+    @Query(nativeQuery = true, value = "SELECT * FROM pets.users where LOWER(username) = ?1 AND secret_password = ?2")
+    UserDTO getRecoveredUser(String username, String encodedSecretPassword);
 }

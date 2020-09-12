@@ -13,6 +13,8 @@ import { PetsComponent } from './pets/pets.component';
 import { RouterModule } from '@angular/router';
 import { NewPetDetailsComponent } from './new-pet-details/new-pet-details.component';
 import { BattleComponent } from './battle/battle.component';
+import { PetbarComponent } from './petbar/petbar.component';
+import { MapComponent } from './map/map.component';
 
 
 
@@ -26,6 +28,8 @@ import { BattleComponent } from './battle/battle.component';
     PetsComponent,
     NewPetDetailsComponent,
     BattleComponent,
+    PetbarComponent,
+    MapComponent,
   ],
   imports: [
     CommonModule,

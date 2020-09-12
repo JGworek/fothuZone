@@ -5,8 +5,8 @@
 <div *ngIf="this.petImageSelected == false" class="container-fluid">
     <div class="row">
         <div *ngFor="let newPet of this.availableNewPets;let numberOfindex=index" class="col-lg-3 col-md-4 col-sm-6 col-12 p-2">
-            <a (click)="this.createNewPetImage(newPet.urls.thumb, newPet.user.username, newPet.user.name)">
-                <img class="new-pet-image rounded" [src]="newPet.urls.thumb" [alt]="newPet.description">
+            <a href="javascript:void(0)" (click)="this.createNewPetImage(newPet.urls.thumb, newPet.user.username, newPet.user.name)">
+                <img class="new-pet-image black" [src]="newPet.urls.thumb" [alt]="newPet.description">
             </a>
             <div>(Photo by <a [href]="'https://unsplash.com/@'+newPet.user.username+'?utm_source=FothuPets&utm_medium=referral'" target="_blank">{{newPet.user.name}}</a> on <a href="https://unsplash.com/?utm_source=FothuZone&utm_medium=referral" target="_blank">Unsplash</a>)</div>
         </div>

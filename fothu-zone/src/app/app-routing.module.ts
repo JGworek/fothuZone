@@ -14,6 +14,8 @@ import { PvpComponent } from './pets/pvp/pvp.component';
 import { BattleResultComponent } from './pets/battle-result/battle-result.component';
 import { NewPetDetailsComponent } from './pets/new-pet-details/new-pet-details.component';
 import { BattleComponent } from './pets/battle/battle.component';
+import { PetbarComponent } from './pets/petbar/petbar.component';
+import { MapComponent } from './pets/map/map.component';
 
 const routes: Routes = [
   { path: 'directory', component: LinksComponent},
@@ -33,7 +35,9 @@ const routes: Routes = [
     { path: 'pvp', component:PvpComponent},
     { path: 'battle', component:BattleComponent},
     { path: 'battle/battleresult', component: BattleResultComponent},
+    { path: 'map', component: MapComponent},
   ]},
+  { path:'visible', component:PetbarComponent, outlet:"petbar"},
   { path: '', redirectTo:'directory', pathMatch: 'full'},
   { path: '**', redirectTo:'directory', pathMatch:'full'},
 ]
@@ -42,7 +46,6 @@ const routes: Routes = [
   declarations: [],
   imports: [
   RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'}),
-  RouterModule.forChild(routes),
 ], exports: [RouterModule]
 })
 export class AppRoutingModule { }
