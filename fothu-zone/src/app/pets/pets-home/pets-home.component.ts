@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProfileService } from 'src/app/service/profile.service';
 
 @Component({
   selector: 'app-pets-home',
@@ -7,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PetsHomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(public profileService: ProfileService) { }
+
 
   ngOnInit(): void {
-    
+    if(this.profileService.currentUser.id != -1) {
+      this.profileService.updateUser();
+    }
   }
 
 }

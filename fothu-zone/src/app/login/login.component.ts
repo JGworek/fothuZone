@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../service/profile.service';
 import { Router } from '@angular/router';
+import { User } from '../models/User'
 import { UserDTO } from '../models/UserDTO';
 import { environment } from '../../environments/environment';
 
@@ -13,27 +14,34 @@ import { environment } from '../../environments/environment';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private profileService: ProfileService, private router: Router) { }
+  constructor(public profileService: ProfileService, private router: Router) { }
 
   incorrectLogin: boolean = false;
+  samePassword: string;
   loggingInUser: UserDTO = {
     id: 0,
     username: "",
     favoriteColor: "",
     userPassword: "",
-    secretPassword: "",
+    secretPassword: ""
   };
 
-  returnedUser: any;
+  newUser: UserDTO = {
+    id: 0,
+    username: "",
+    favoriteColor: "",
+    userPassword: "",
+    secretPassword: ""
+  }
 
   async logIn() {
     this.incorrectLogin = false;
     let returnedPromise = await fetch(`http://ec2-54-161-212-213.compute-1.amazonaws.com:6969/users/login`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(this.loggingInUser)});
-    this.returnedUser = await returnedPromise.json();
+    let returnedUser = await returnedPromise.json();
     if(returnedPromise.status.toString()[0] == '1' || returnedPromise.status.toString()[0] == '4' || returnedPromise.status.toString()[0] == '5') {
       this.incorrectLogin = true;
     } else {
-      this.profileService.currentUser = this.returnedUser;
+      this.profileService.currentUser = returnedUser;
       this.router.navigate(['/directory']);
     }
   }

@@ -60,14 +60,14 @@ public class BattleService implements Serializable {
         // set pet attack values
         if (attackingPet.getType().equalsIgnoreCase("strength")) {
             attackingAttackPower = (attackingPet.getStrength() * attackModifier);
-        } else if (attackingPet.getType().equalsIgnoreCase("dexterity")) {
+        } else if (attackingPet.getType().equalsIgnoreCase("agility")) {
             attackingAttackPower = (attackingPet.getAgility() * attackModifier);
         } else if (attackingPet.getType().equalsIgnoreCase("intelligence")) {
             attackingAttackPower = (attackingPet.getIntelligence() * attackModifier);
         }
         if (defendingPet.getType().equalsIgnoreCase("strength")) {
             defendingAttackPower = (defendingPet.getStrength() * attackModifier);
-        } else if (defendingPet.getType().equalsIgnoreCase("dexterity")) {
+        } else if (defendingPet.getType().equalsIgnoreCase("agility")) {
             defendingAttackPower = (defendingPet.getAgility() * attackModifier);
         } else if (defendingPet.getType().equalsIgnoreCase("intelligence")) {
             defendingAttackPower = (defendingPet.getIntelligence() * attackModifier);

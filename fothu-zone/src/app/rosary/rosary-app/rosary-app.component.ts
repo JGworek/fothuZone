@@ -43,6 +43,7 @@ export class RosaryAppComponent implements OnInit {
   currentCount: number = 0;
   currentMystery: String;
   todaysMystery: Array<String>;
+  todaysESPMystery: Array<String>;
   englishNumberAsAWord: String;
   spanishNumberAsAWord: String;
   currentDay: any = 0;
@@ -122,7 +123,7 @@ export class RosaryAppComponent implements OnInit {
       }
     }
     this.currentEnglishText = `The ${this.englishNumberAsAWord} Mystery is: ${this.todaysMystery[this.mysteryCount]}.`;
-    this.currentSpanishText = `El ${this.spanishNumberAsAWord} misterioso es: ${this.todaysMystery[this.mysteryCount]}.`;
+    this.currentSpanishText = `El ${this.spanishNumberAsAWord} misterioso es: ${this.todaysESPMystery[this.mysteryCount]}.`;
   }
 
   changeMystery() {
@@ -150,6 +151,7 @@ export class RosaryAppComponent implements OnInit {
     }
     if(this.currentCount == this.checkMysteryNumbers()) {
     this.currentEnglishText = `The ${this.englishNumberAsAWord} Mystery is: ${this.todaysMystery[this.mysteryCount]}`;
+    this.currentSpanishText = `El ${this.spanishNumberAsAWord} misterioso es: ${this.todaysESPMystery[this.mysteryCount]}.`;
     }
   }
 
@@ -327,6 +329,7 @@ export class RosaryAppComponent implements OnInit {
 
   setLuminousMysteries() {
     this.todaysMystery = LUMINOUS_MYSTERIES;
+    this.todaysESPMystery = LUMINOUS_MYSTERIES_ESP;
     document.getElementById("luminous").setAttribute("class", "btn btn-primary");
     document.getElementById("sorrowful").setAttribute("class", "btn btn-outline-dark");
     document.getElementById("glorious").setAttribute("class", "btn btn-outline-dark");
@@ -335,6 +338,7 @@ export class RosaryAppComponent implements OnInit {
 
   changeToLuminousMysteries() {
     this.todaysMystery = LUMINOUS_MYSTERIES;
+    this.todaysESPMystery = LUMINOUS_MYSTERIES_ESP;
     document.getElementById("luminous").setAttribute("class", "btn btn-primary");
     document.getElementById("sorrowful").setAttribute("class", "btn btn-outline-dark");
     document.getElementById("glorious").setAttribute("class", "btn btn-outline-dark");
@@ -344,6 +348,7 @@ export class RosaryAppComponent implements OnInit {
 
   setSorrowfulMysteries() {
     this.todaysMystery = SORROWFUL_MYSTERIES;
+    this.todaysESPMystery = SORROWFUL_MYSTERIES_ESP;
     document.getElementById("luminous").setAttribute("class", "btn btn-outline-dark");
     document.getElementById("sorrowful").setAttribute("class", "btn btn-primary");
     document.getElementById("glorious").setAttribute("class", "btn btn-outline-dark");
@@ -352,6 +357,7 @@ export class RosaryAppComponent implements OnInit {
 
   changeToSorrowfulMysteries() {
     this.todaysMystery = SORROWFUL_MYSTERIES;
+    this.todaysESPMystery = SORROWFUL_MYSTERIES_ESP;
     document.getElementById("luminous").setAttribute("class", "btn btn-outline-dark");
     document.getElementById("sorrowful").setAttribute("class", "btn btn-primary");
     document.getElementById("glorious").setAttribute("class", "btn btn-outline-dark");
@@ -361,6 +367,7 @@ export class RosaryAppComponent implements OnInit {
 
   setGloriousMysteries() {
     this.todaysMystery = GLORIOUS_MYSTERIES;
+    this.todaysESPMystery = GLORIOUS_MYSTERIES_ESP;
     document.getElementById("luminous").setAttribute("class", "btn btn-outline-dark");
     document.getElementById("sorrowful").setAttribute("class", "btn btn-outline-dark");
     document.getElementById("glorious").setAttribute("class", "btn btn-primary");
@@ -369,6 +376,7 @@ export class RosaryAppComponent implements OnInit {
 
   changeToGloriousMysteries() {
     this.todaysMystery = GLORIOUS_MYSTERIES;
+    this.todaysESPMystery = GLORIOUS_MYSTERIES_ESP;
     document.getElementById("luminous").setAttribute("class", "btn btn-outline-dark");
     document.getElementById("sorrowful").setAttribute("class", "btn btn-outline-dark");
     document.getElementById("glorious").setAttribute("class", "btn btn-primary");
@@ -378,6 +386,7 @@ export class RosaryAppComponent implements OnInit {
 
   setJoyfulMysteries() {
     this.todaysMystery = JOYFUL_MYSTERIES;
+    this.todaysESPMystery = JOYFUL_MYSTERIES_ESP;
     document.getElementById("luminous").setAttribute("class", "btn btn-outline-dark");
     document.getElementById("sorrowful").setAttribute("class", "btn btn-outline-dark");
     document.getElementById("glorious").setAttribute("class", "btn btn-outline-dark");
@@ -386,6 +395,7 @@ export class RosaryAppComponent implements OnInit {
 
   changeToJoyfulMysteries() {
     this.todaysMystery = JOYFUL_MYSTERIES;
+    this.todaysESPMystery = JOYFUL_MYSTERIES_ESP;
     document.getElementById("luminous").setAttribute("class", "btn btn-outline-dark");
     document.getElementById("sorrowful").setAttribute("class", "btn btn-outline-dark");
     document.getElementById("glorious").setAttribute("class", "btn btn-outline-dark");

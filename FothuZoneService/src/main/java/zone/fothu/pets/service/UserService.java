@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import zone.fothu.pets.exception.UserNotFoundException;
 import zone.fothu.pets.exception.UserNotUpdatedException;
 import zone.fothu.pets.model.User;
+import zone.fothu.pets.model.UserDTO;
 import zone.fothu.pets.repository.UserRepository;
 
 @Service
@@ -27,8 +28,10 @@ public class UserService implements Serializable {
 
     public User saveNewUser(User newUser) {
         newUser.setUserPassword(passwordEncoder.encode(newUser.getUserPassword()));
+        newUser.setSecretPassword(passwordEncoder.encode(newUser.getSecretPassword()));
         userRepository.save(newUser);
         newUser.setUserPassword(null);
+        newUser.setSecretPassword(null);
         return newUser;
     }
 
@@ -43,11 +46,13 @@ public class UserService implements Serializable {
         }
     }
     
-    public User updateUser(int id, String username, String userPassword, String favoriteColor) throws UserNotFoundException, PSQLException, UserNotUpdatedException {
-        String secretPassword = passwordEncoder.encode(userPassword);
-        userRepository.updateUser(id, username, secretPassword, favoriteColor);
-        User returnedUser = userRepository.findById(id);
+    public User updateUser(User updatingUser) throws UserNotFoundException, PSQLException, UserNotUpdatedException {
+        String encodedPassword = passwordEncoder.encode(updatingUser.getUserPassword());
+//        String encodedSecretPassword = passwordEncoder.encode(updatingUser.getSecretPassword());
+        userRepository.updateUser(updatingUser.getId(), updatingUser.getUsername(), encodedPassword, updatingUser.getFavoriteColor());
+        User returnedUser = userRepository.findById(updatingUser.getId());
         returnedUser.setUserPassword(null);
+        returnedUser.setSecretPassword(null);
         return returnedUser;
     }
 
@@ -55,6 +60,7 @@ public class UserService implements Serializable {
         List<User> userList = userRepository.findAll();
         for (User user : userList) {
             user.setUserPassword(null);
+            user.setSecretPassword(null);
         }
         return userList;
     }
@@ -62,19 +68,27 @@ public class UserService implements Serializable {
     public User getUserWithId(int id) throws UserNotFoundException {
         User userFromId = userRepository.findById(id);
         userFromId.setUserPassword(null);
+        userFromId.setSecretPassword(null);
         return userFromId;
     }
 
     public User getUserWithUsername(String username) throws UserNotFoundException {
         User userFromUsername = userRepository.findByUsername(username.toLowerCase());
         userFromUsername.setUserPassword(null);
+        userFromUsername.setSecretPassword(null);
         return userFromUsername;
     }
 
     public User getUserWithUsernameAndPassword(String username, String password) throws UserNotFoundException {
-        String secretPassword = passwordEncoder.encode(password);
-        User userFromUsernameAndPassword = userRepository.findByUsernameAndPassword(username.toLowerCase(), secretPassword);
+        String encodedPassword = passwordEncoder.encode(password);
+        User userFromUsernameAndPassword = userRepository.findByUsernameAndPassword(username.toLowerCase(), encodedPassword);
         userFromUsernameAndPassword.setUserPassword(null);
+        userFromUsernameAndPassword.setSecretPassword(null);
         return userFromUsernameAndPassword;
+    }
+
+    public UserDTO recoverUser(UserDTO recoveringUser) throws UserNotFoundException {
+        UserDTO recoveredUser = userRepository.getRecoveredUser(recoveringUser.getUsername().toLowerCase(), passwordEncoder.encode(recoveringUser.getSecretPassword()));
+        return recoveredUser;
     }
 }

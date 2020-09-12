@@ -18,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import zone.fothu.pets.exception.UserNotFoundException;
 import zone.fothu.pets.exception.UserNotUpdatedException;
 import zone.fothu.pets.model.User;
+import zone.fothu.pets.model.UserDTO;
 import zone.fothu.pets.repository.UserRepository;
 import zone.fothu.pets.service.UserService;
 
@@ -89,11 +90,19 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Username or Password is incorrect", e);
         }
     }
+    
+    @PostMapping("login/recovery")
+    public UserDTO recoverUser(@RequestBody UserDTO recoveringUser) {
+        try {
+            return userService.recoverUser(recoveringUser);
+        } catch (UserNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Username or Secret Password is incorrect", e);
+        }
+    }
 
     @PatchMapping("/update")
     public User updateUser(@RequestBody User updatedUser) throws UserNotFoundException, PSQLException, UserNotUpdatedException {
-       return userService.updateUser(updatedUser.getId(), updatedUser.getUsername(), updatedUser.getUserPassword(),
-            updatedUser.getFavoriteColor());
+       return userService.updateUser(updatedUser);
     }
 
 }

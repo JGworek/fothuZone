@@ -9,6 +9,7 @@ export class ProfileService {
 
   constructor() { }
 
+  newUserCreation: boolean = false;
   newUser: UserDTO = {
     id: 0,
     username: "",
@@ -23,6 +24,17 @@ export class ProfileService {
     pets: [],
   }
 
+  getHealthBarColor(percentNumber) {
+    console.log(percentNumber);
+    if(percentNumber >= 51) {
+      return "progress-bar bg-success";
+    } else if(percentNumber >= 26 && percentNumber < 51) {
+      return "progress-bar bg-warning";
+    } else if(percentNumber < 26) {
+      return "progress-bar bg-danger";
+    }
+  }
+
   getUser() {
     return this.currentUser;
   }
@@ -33,5 +45,11 @@ export class ProfileService {
       favoriteColor: "",
       pets: []
     }
+  }
+
+  async updateUser() {
+    let returnedPromise = await fetch(`http://ec2-54-161-212-213.compute-1.amazonaws.com:6969/users/username/${this.currentUser.username}`);
+    let returnedUser = await returnedPromise.json();
+    this.currentUser = returnedUser;
   }
 }

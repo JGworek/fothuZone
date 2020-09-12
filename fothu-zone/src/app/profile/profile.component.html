@@ -3,12 +3,16 @@
     <br>
     <h1>{{profileService.currentUser.username}}</h1>
     <br>
-    <h3>Favorite Color: {{profileService.currentUser.favoriteColor}}</h3>
-    <br>
+    <!-- <h3>Favorite Color: {{profileService.currentUser.favoriteColor}}</h3>
+    <br> -->
     <h2>Pets:</h2>
     <div *ngFor="let pet of profileService.currentUser.pets;let numberOfindex=index">
-        <img *ngIf="pet.image" height="300px" width="300px" [src]="pet.image.imageURL" [alt]="pet.name">
-        <div>{{numberOfindex+1}}</div>
+        <img *ngIf="pet.image" height="300px" width="300px" [class]="profileService.currentUser.favoriteColor" [src]="pet.image.imageURL" [alt]="pet.name">
+        <div class="progress border border-dark wrapper" style="width:300px;height:25px">
+            <div [class]="profileService.getHealthBarColor(((pet.currentHealth/pet.maxHealth)*100).toFixed(0))" [ngStyle]="{'width':((pet.currentHealth/pet.maxHealth)*100).toFixed(0)+'%','font-size':'large','color':'black','height':'25px'}"></div>
+            <div class="data">{{pet.currentHealth}}/{{pet.maxHealth}} HP</div>
+        </div>
+        <!-- <div>{{numberOfindex+1}}</div> -->
         <div>Name: {{pet.name}}</div>
         <div>Type: {{pet.type}}</div>
         <br>

@@ -16,6 +16,7 @@ export class ProfileComponent implements OnInit {
     if(this.profileService.currentUser.id == -1) {
       this.router.navigate(['/login']);
     }
+    // this.router.navigate([{outlets: {petbar: null}}]);
   }
 
 }
