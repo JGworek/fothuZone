@@ -6,10 +6,26 @@ td {
 }
 
 td {
-    height: 50px;
-    width: 70px;
+    height: 55px;
+    width: 72px;
 }
 
 .barren {
     background-color: gray;
+}
+
+.notExplored {
+    background-color: gray;
+}
+
+.activeRoom {
+    background-color: #f0ad4e;
+}
+
+.boss {
+    background-color: #d9534f !important;
+}
+
+.start {
+    background-color: #5bc0de !important;
 }
