@@ -1,6 +1,6 @@
 <table style="margin-left:70px;margin-top:50px">
-    <tr *ngFor="let val1 of test; let i = index;">
-        <td *ngFor="let val2 of test; let j = index"
+    <tr *ngFor="let val1 of [].constructor(10); let i = index;">
+        <td *ngFor="let val2 of [].constructor(10); let j = index"
             [id]="i * 10 + j"
             [ngClass]="{barren: !nonBarrenCells.includes(i * 10 + j),
                 activeRoom: truthArray[i * 10 + j], notExplored: notExploredArray[i * 10 + j],
