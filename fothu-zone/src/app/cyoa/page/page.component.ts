@@ -24,9 +24,17 @@ export class PageComponent implements OnInit {
   }
   
   firstTry: boolean = true;
+  tryCounter = 0;
 
   constructor(private http: HttpClient) { }
 
+  async getFirstPage(pageNumber) {
+    let response = await fetch(`${environment.fothuZoneEC2Link}/cyoapages/page/${pageNumber}`);
+    let responseObject = await response.json();
+    this.page = responseObject;
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+  }
   async getPage(pageNumber) {
     let response = await fetch(`${environment.fothuZoneEC2Link}/cyoapages/page/${pageNumber}`);
     let responseObject = await response.json();
@@ -34,16 +42,6 @@ export class PageComponent implements OnInit {
     this.firstTry = false;
     document.body.scrollTop = 0; // For Safari
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-
-    // let observable = this.http.get(`${environment.fothuZoneEC2Link}/cyoapages/page/${pageNumber}`);
-    // observable.subscribe((result) => {
-    //   this.page = result;
-    // },(error) => {
-    //   console.log(error)
-    // })
-    // this.firstTry = false;
-    // document.body.scrollTop = 0; // For Safari
-    // document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
   }
 
   firstTryCheck() {
@@ -51,7 +49,6 @@ export class PageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getPage(1);
-    this.firstTry = true;
+    this.getFirstPage(1);
   }
 }
