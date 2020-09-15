@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-page',
@@ -26,18 +27,24 @@ export class PageComponent implements OnInit {
 
   constructor(private http: HttpClient) { }
 
-  getPage(pageNumber) {
-
-    let observable = this.http.get(`http://ec2-54-161-212-213.compute-1.amazonaws.com:6969/cyoapages/page/${pageNumber}`);
-    observable.subscribe((result) => {
-      this.page = result;
-    },(error) => {
-      console.log(error)
-    })
+  async getPage(pageNumber) {
+    let response = await fetch(`${environment.fothuZoneEC2Link}/cyoapages/page/${pageNumber}`);
+    let responseObject = await response.json();
+    this.page = responseObject;
     this.firstTry = false;
     document.body.scrollTop = 0; // For Safari
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-    }
+
+    // let observable = this.http.get(`${environment.fothuZoneEC2Link}/cyoapages/page/${pageNumber}`);
+    // observable.subscribe((result) => {
+    //   this.page = result;
+    // },(error) => {
+    //   console.log(error)
+    // })
+    // this.firstTry = false;
+    // document.body.scrollTop = 0; // For Safari
+    // document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+  }
 
   firstTryCheck() {
     return this.firstTry;

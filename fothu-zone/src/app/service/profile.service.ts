@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { User } from '../../app/models/User';
 import { UserDTO } from '../../app/models/UserDTO';
 
@@ -48,7 +49,7 @@ export class ProfileService {
   }
 
   async updateUser() {
-    let returnedPromise = await fetch(`http://ec2-54-161-212-213.compute-1.amazonaws.com:6969/users/username/${this.currentUser.username}`);
+    let returnedPromise = await fetch(`${environment.fothuZoneEC2Link}/users/username/${this.currentUser.username}`);
     let returnedUser = await returnedPromise.json();
     this.currentUser = returnedUser;
   }

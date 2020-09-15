@@ -1,97 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-
-function startMap() {
-  document.querySelector(".start").setAttribute("class", "start bg-warning");
-  //move button to the right if there's a room
-  if(document.getElementById(`${parseInt(document.querySelector(".start").id,10)+1}`).className != "barren") {
-    let moveButton = document.createElement('a');
-    moveButton.setAttribute("class", "btn btn-success");
-    moveButton.innerText = "Move";
-    moveButton.addEventListener("click", function(){
-      moveHere(parseInt(document.querySelector(".start").id,10),parseInt(document.querySelector(".start").id,10)+1);
-    });
-    document.getElementById(`${parseInt(document.querySelector(".start").id,10)+1}`).appendChild(moveButton);
-  }
-  //move button to the left if there's a room
-  if(document.getElementById(`${parseInt(document.querySelector(".start").id,10)-1}`).className != "barren") {
-    let moveButton = document.createElement('a');
-    moveButton.setAttribute("class", "btn btn-success");
-    moveButton.innerText = "Move";
-    moveButton.addEventListener("click", function(){
-      moveHere(parseInt(document.querySelector(".start").id,10),parseInt(document.querySelector(".start").id,10)-1);
-    });
-    document.getElementById(`${parseInt(document.querySelector(".start").id,10)-1}`).appendChild(moveButton);
-  }
-  //move button to the top if there's a room
-  if(document.getElementById(`${parseInt(document.querySelector(".start").id,10)-10}`).className != "barren") {
-    let moveButton = document.createElement('a');
-    moveButton.setAttribute("class", "btn btn-success");
-    moveButton.innerText = "Move";
-    moveButton.addEventListener("click", function(){
-      moveHere(parseInt(document.querySelector(".start").id,10),parseInt(document.querySelector(".start").id,10)-10);
-    });
-    document.getElementById(`${parseInt(document.querySelector(".start").id,10)-10}`).appendChild(moveButton);
-  }
-  //move button to the bottom if there's a room
-  if(document.getElementById(`${parseInt(document.querySelector(".start").id,10)+10}`).className != "barren") {
-    let moveButton = document.createElement('a');
-    moveButton.setAttribute("class", "btn btn-success");
-    moveButton.innerText = "Move";
-    moveButton.addEventListener("click", function(){
-      moveHere(parseInt(document.querySelector(".start").id,10),parseInt(document.querySelector(".start").id,10)+10);
-    });
-    document.getElementById(`${parseInt(document.querySelector(".start").id,10)+10}`).appendChild(moveButton);
-  }
-}
-
-function moveHere(oldId: number, newId: number) {
-  document.getElementById(`${oldId}`).setAttribute("class", "");
-  document.getElementById(`${newId}`).setAttribute("class", "bg-warning");
-  let moveButtonElements = document.getElementsByTagName("TD");
-  for (let i = 0; i < moveButtonElements.length; i++) {
-    moveButtonElements[i].innerHTML = "";
-  }
-  //move button to the right if there's a room
-  if(document.getElementById(`${newId+1}`).className != "barren") {
-    let moveButton = document.createElement('a');
-    moveButton.setAttribute("class", "btn btn-success");
-    moveButton.innerText = "Move";
-    moveButton.addEventListener("click", function(){
-      moveHere(newId,(newId+1));
-    });
-    document.getElementById(`${newId+1}`).appendChild(moveButton);
-  }
-  //move button to the left if there's a room
-  if(document.getElementById(`${newId-1}`).className != "barren") {
-    let moveButton = document.createElement('a');
-    moveButton.setAttribute("class", "btn btn-success");
-    moveButton.innerText = "Move";
-    moveButton.addEventListener("click", function(){
-      moveHere(newId,(newId-1));
-    });
-    document.getElementById(`${newId-1}`).appendChild(moveButton);
-  }
-  //move button to the top if there's a room
-  if(document.getElementById(`${newId-10}`).className != "barren") {
-    let moveButton = document.createElement('a');
-    moveButton.setAttribute("class", "btn btn-success");
-    moveButton.innerText = "Move";
-    moveButton.addEventListener("click", function(){
-      moveHere(newId,(newId-10));
-    });
-    document.getElementById(`${newId-10}`).appendChild(moveButton);
-  }
-  //move button to the bottom if there's a room
-  if(document.getElementById(`${newId+10}`).className != "barren") {
-    let moveButton = document.createElement('a');
-    moveButton.setAttribute("class", "btn btn-success");
-    moveButton.innerText = "Move";
-    moveButton.addEventListener("click", function(){
-      moveHere(newId,(newId+10));
-    });
-    document.getElementById(`${newId+10}`).appendChild(moveButton);
-  }
-}
+import { Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-map',
@@ -102,9 +9,49 @@ export class MapComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-    startMap();
+  truthArray: Array<boolean> = new Array<boolean>(100);
+  notExploredArray: Array<boolean> = new Array<boolean>(100);
+  nonBarrenCells: Array<number> = [11, 12, 13, 21, 23, 25, 26, 27, 30, 31, 32, 33, 35, 37, 38, 41, 43, 44, 45, 47, 51, 52, 57, 65, 66, 67, 73, 74, 75, 85, 86, 87, 88, 89];
+  startingRoom: number = 30;
+  bossRoom: number = 89;
+  currentRoom: number;
 
+  checkIfNearby(roomId: number) {
+    return this.adjacentVertical(roomId) || this.adjacentHorizontal(roomId);
   }
 
+  onSameColumn(roomId: number) {
+    // Checks that the ones digit is the same
+    return (this.currentRoom % 10 === roomId % 10);
+  }
+
+  onSameRow(roomId: number) {
+    // Check that the tens digit is the same
+    return Math.floor(this.currentRoom / 10) === Math.floor(roomId / 10);
+  }
+
+  adjacentHorizontal(roomId: number) {
+    // On the same Row and their IDs are off by 1
+    return this.onSameRow(roomId) && Math.abs(roomId - this.currentRoom) === 1;
+  }
+
+  adjacentVertical(roomId: number) {
+     // On the same Column and their IDs are off by 10
+    return this.onSameColumn(roomId) && Math.abs(roomId - this.currentRoom) === 10;
+  }
+
+  setCurrentRoom(roomId: number) {
+    this.truthArray[this.currentRoom] = false;
+    this.currentRoom = roomId;
+
+    this.notExploredArray[roomId] = false;
+    this.truthArray[roomId] = true;
+  }
+
+  ngOnInit(): void {
+    this.notExploredArray.fill(true);
+    this.truthArray.fill(false);
+
+    this.setCurrentRoom(this.startingRoom);
+  }
 }
