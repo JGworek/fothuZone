@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Pet } from 'src/app/models/Pet';
 import { Image } from 'src/app/models/Image';
 import { environment } from 'src/environments/environment';
 
@@ -34,7 +33,7 @@ export class NewPetComponent implements OnInit {
     this.newPetSelectionImage = {id: 0, imageURL: imageString, imageOwnerUsername: usernameString, imageOwnerName: nameString};
     console.log(this.newPetSelectionImage);
     // let imageResponse = await fetch(`http://localhost:6969/pets/image/new`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(this.newPetSelectionImage)});
-    let imageResponse = await fetch(`http://ec2-54-161-212-213.compute-1.amazonaws.com:6969/pets/image/new`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(this.newPetSelectionImage)});
+    let imageResponse = await fetch(`${environment.fothuZoneEC2Link}/pets/image/new`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(this.newPetSelectionImage)});
     this.newPetImage = await imageResponse.json();
     if(imageResponse.status.toString()[0] == '1' || imageResponse.status.toString()[0] == '4' || imageResponse.status.toString()[0] == '5') {
       this.unableToSelectImage = true;

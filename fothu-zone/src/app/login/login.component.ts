@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../service/profile.service';
 import { Router } from '@angular/router';
-import { User } from '../models/User'
 import { UserDTO } from '../models/UserDTO';
 import { environment } from '../../environments/environment';
 
@@ -36,7 +35,7 @@ export class LoginComponent implements OnInit {
 
   async logIn() {
     this.incorrectLogin = false;
-    let returnedPromise = await fetch(`http://ec2-54-161-212-213.compute-1.amazonaws.com:6969/users/login`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(this.loggingInUser)});
+    let returnedPromise = await fetch(`${environment.fothuZoneEC2Link}/users/login`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(this.loggingInUser)});
     let returnedUser = await returnedPromise.json();
     if(returnedPromise.status.toString()[0] == '1' || returnedPromise.status.toString()[0] == '4' || returnedPromise.status.toString()[0] == '5') {
       this.incorrectLogin = true;
