@@ -38,7 +38,6 @@ export class RosaryAppComponent implements OnInit {
 
   currentEnglishText: String;
   currentSpanishText: String
-  nextButton: any;
   mysteryCount: number = 0;
   currentCount: number = 0;
   currentMystery: String;
@@ -48,6 +47,18 @@ export class RosaryAppComponent implements OnInit {
   spanishNumberAsAWord: String;
   currentDay: any = 0;
   currentLanguage: String;
+  luminousInactive: boolean = false;
+  luminousActive: boolean = false;
+  sorrowfulInactive: boolean = false;
+  sorrowfulActive: boolean = false;
+  gloriousInactive: boolean = false;
+  gloriousActive: boolean = false;
+  joyfulInactive: boolean = false;
+  joyfulActive: boolean = false;
+  englishInactive: boolean = false;
+  englishActive: boolean = false;
+  spanishInactive: boolean = false;
+  spanishActive: boolean = false;
 
   async getCurrentDay() {
     let dayJson = await fetch("http://calapi.inadiutorium.cz/api/v0/en/calendars/default/today");
@@ -168,7 +179,7 @@ export class RosaryAppComponent implements OnInit {
   ohMyJesusNumbers: Array<number> = [8, 22, 36, 50, 64, 78];
   hailHolyQueenNumbers: Array<number> = [79];
   finalPrayerNumbers: Array<number> = [80];
-  plusOneMysteryNumbers: Array<number> = [10, 24, 38, 52, 66]
+  plusOneMysteryNumbers: Array<number> = [10, 24, 38, 52, 66];
 
   checkSignOfTheCrossNumbers() {
     for (let i = 0; i <= this.signOfTheCrossNumbers.length; i++) {
@@ -294,6 +305,7 @@ export class RosaryAppComponent implements OnInit {
     } else if (this.currentCount == this.checkOhMyJesusNumbers()) {
       this.ohMyJesus();
     }
+    console.log(this.currentCount);
   }
 
   resetCount() {
@@ -330,89 +342,125 @@ export class RosaryAppComponent implements OnInit {
   setLuminousMysteries() {
     this.todaysMystery = LUMINOUS_MYSTERIES;
     this.todaysESPMystery = LUMINOUS_MYSTERIES_ESP;
-    document.getElementById("luminous").setAttribute("class", "btn btn-primary");
-    document.getElementById("sorrowful").setAttribute("class", "btn btn-outline-dark");
-    document.getElementById("glorious").setAttribute("class", "btn btn-outline-dark");
-    document.getElementById("joyful").setAttribute("class", "btn btn-outline-dark");
+    this.luminousActive = true;
+    this.luminousInactive = false;
+    this.sorrowfulActive = false;
+    this.sorrowfulInactive = true;
+    this.gloriousActive = false;
+    this.gloriousInactive = true;
+    this.joyfulActive = false;
+    this.joyfulInactive = true;
   }
 
   changeToLuminousMysteries() {
     this.todaysMystery = LUMINOUS_MYSTERIES;
     this.todaysESPMystery = LUMINOUS_MYSTERIES_ESP;
-    document.getElementById("luminous").setAttribute("class", "btn btn-primary");
-    document.getElementById("sorrowful").setAttribute("class", "btn btn-outline-dark");
-    document.getElementById("glorious").setAttribute("class", "btn btn-outline-dark");
-    document.getElementById("joyful").setAttribute("class", "btn btn-outline-dark");
+    this.luminousActive = true;
+    this.luminousInactive = false;
+    this.sorrowfulActive = false;
+    this.sorrowfulInactive = true;
+    this.gloriousActive = false;
+    this.gloriousInactive = true;
+    this.joyfulActive = false;
+    this.joyfulInactive = true;
     this.changeMystery();
   }
 
   setSorrowfulMysteries() {
     this.todaysMystery = SORROWFUL_MYSTERIES;
     this.todaysESPMystery = SORROWFUL_MYSTERIES_ESP;
-    document.getElementById("luminous").setAttribute("class", "btn btn-outline-dark");
-    document.getElementById("sorrowful").setAttribute("class", "btn btn-primary");
-    document.getElementById("glorious").setAttribute("class", "btn btn-outline-dark");
-    document.getElementById("joyful").setAttribute("class", "btn btn-outline-dark");
+    this.luminousActive = false;
+    this.luminousInactive = true;
+    this.sorrowfulActive = true;
+    this.sorrowfulInactive = false;
+    this.gloriousActive = false;
+    this.gloriousInactive = true;
+    this.joyfulActive = false;
+    this.joyfulInactive = true;
   }
 
   changeToSorrowfulMysteries() {
     this.todaysMystery = SORROWFUL_MYSTERIES;
     this.todaysESPMystery = SORROWFUL_MYSTERIES_ESP;
-    document.getElementById("luminous").setAttribute("class", "btn btn-outline-dark");
-    document.getElementById("sorrowful").setAttribute("class", "btn btn-primary");
-    document.getElementById("glorious").setAttribute("class", "btn btn-outline-dark");
-    document.getElementById("joyful").setAttribute("class", "btn btn-outline-dark");
+    this.luminousActive = false;
+    this.luminousInactive = true;
+    this.sorrowfulActive = true;
+    this.sorrowfulInactive = false;
+    this.gloriousActive = false;
+    this.gloriousInactive = true;
+    this.joyfulActive = false;
+    this.joyfulInactive = true;
     this.changeMystery();
   }
 
   setGloriousMysteries() {
     this.todaysMystery = GLORIOUS_MYSTERIES;
     this.todaysESPMystery = GLORIOUS_MYSTERIES_ESP;
-    document.getElementById("luminous").setAttribute("class", "btn btn-outline-dark");
-    document.getElementById("sorrowful").setAttribute("class", "btn btn-outline-dark");
-    document.getElementById("glorious").setAttribute("class", "btn btn-primary");
-    document.getElementById("joyful").setAttribute("class", "btn btn-outline-dark");
+    this.luminousActive = false;
+    this.luminousInactive = true;
+    this.sorrowfulActive = false;
+    this.sorrowfulInactive = true;
+    this.gloriousActive = true;
+    this.gloriousInactive = false;
+    this.joyfulActive = false;
+    this.joyfulInactive = true;
   }
 
   changeToGloriousMysteries() {
     this.todaysMystery = GLORIOUS_MYSTERIES;
     this.todaysESPMystery = GLORIOUS_MYSTERIES_ESP;
-    document.getElementById("luminous").setAttribute("class", "btn btn-outline-dark");
-    document.getElementById("sorrowful").setAttribute("class", "btn btn-outline-dark");
-    document.getElementById("glorious").setAttribute("class", "btn btn-primary");
-    document.getElementById("joyful").setAttribute("class", "btn btn-outline-dark");
+    this.luminousActive = false;
+    this.luminousInactive = true;
+    this.sorrowfulActive = false;
+    this.sorrowfulInactive = true;
+    this.gloriousActive = true;
+    this.gloriousInactive = false;
+    this.joyfulActive = false;
+    this.joyfulInactive = true;
     this.changeMystery();
   }
 
   setJoyfulMysteries() {
     this.todaysMystery = JOYFUL_MYSTERIES;
     this.todaysESPMystery = JOYFUL_MYSTERIES_ESP;
-    document.getElementById("luminous").setAttribute("class", "btn btn-outline-dark");
-    document.getElementById("sorrowful").setAttribute("class", "btn btn-outline-dark");
-    document.getElementById("glorious").setAttribute("class", "btn btn-outline-dark");
-    document.getElementById("joyful").setAttribute("class", "btn btn-primary");
+    this.luminousActive = false;
+    this.luminousInactive = true;
+    this.sorrowfulActive = false;
+    this.sorrowfulInactive = true;
+    this.gloriousActive = false;
+    this.gloriousInactive = true;
+    this.joyfulActive = true;
+    this.joyfulInactive = false;
   }
 
   changeToJoyfulMysteries() {
     this.todaysMystery = JOYFUL_MYSTERIES;
     this.todaysESPMystery = JOYFUL_MYSTERIES_ESP;
-    document.getElementById("luminous").setAttribute("class", "btn btn-outline-dark");
-    document.getElementById("sorrowful").setAttribute("class", "btn btn-outline-dark");
-    document.getElementById("glorious").setAttribute("class", "btn btn-outline-dark");
-    document.getElementById("joyful").setAttribute("class", "btn btn-primary");
+    this.luminousActive = false;
+    this.luminousInactive = true;
+    this.sorrowfulActive = false;
+    this.sorrowfulInactive = true;
+    this.gloriousActive = false;
+    this.gloriousInactive = true;
+    this.joyfulActive = true;
+    this.joyfulInactive = false;
     this.changeMystery();
   }
 
   changeToEnglish(){
     this.currentLanguage = "english";
-    document.getElementById("english").setAttribute("class", "btn btn-primary");
-    document.getElementById("spanish").setAttribute("class", "btn btn-outline-dark");
+    this.englishActive = true;
+    this.englishInactive = false;
+    this.spanishActive = false;
+    this.spanishInactive = true;
   }
 
   changeToSpanish(){
     this.currentLanguage = "spanish";
-    document.getElementById("english").setAttribute("class", "btn btn-outline-dark");
-    document.getElementById("spanish").setAttribute("class", "btn btn-primary");
+    this.englishActive = false;
+    this.englishInactive = true
+    this.spanishActive = true;
+    this.spanishInactive = false;
   }
 
   
