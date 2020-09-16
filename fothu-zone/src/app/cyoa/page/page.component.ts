@@ -13,16 +13,16 @@ export class PageComponent implements OnInit {
     id: 0,
     pageNumber: 0,
     storyText: 'text',
-    optionOnePageNumber:0,
-    optionOneText:'text',
-    optionTwoPageNumber:0,
-    optionTwoText:'text',
-    optionThreePageNumber:0,
-    optionThreeText:'text',
-    earlyStoryEnd:false,
-    finalStoryEnd:false
+    optionOnePageNumber: 0,
+    optionOneText: 'text',
+    optionTwoPageNumber: 0,
+    optionTwoText: 'text',
+    optionThreePageNumber: 0,
+    optionThreeText: 'text',
+    earlyStoryEnd: false,
+    finalStoryEnd: false
   }
-  
+
   firstTry: boolean = true;
   tryCounter = 0;
 

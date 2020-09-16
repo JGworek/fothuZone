@@ -8,9 +8,9 @@ describe('PlaygroundPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PlaygroundPageComponent ]
+      declarations: [PlaygroundPageComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

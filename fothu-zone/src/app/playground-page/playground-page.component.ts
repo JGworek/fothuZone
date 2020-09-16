@@ -16,10 +16,10 @@ export class PlaygroundPageComponent implements OnInit {
   formObject: any;
   title: any = "wut";
   synopsis: any = "wut";
-  
+
 
   //ALL OF THIS IS THE FIRST BUTTON
-  laterMessage = function() {
+  laterMessage = function () {
     console.log("And this happens later");
   }
 
@@ -31,93 +31,94 @@ export class PlaygroundPageComponent implements OnInit {
   thingThatHappensLater(message) {
     setTimeout(message, 3000);
   }
-//----------------------------------------------------------------------
+  //----------------------------------------------------------------------
 
-//ALL OF THIS IS THE SECOND BUTTON
+  //ALL OF THIS IS THE SECOND BUTTON
   clickButtonTwo() {
-    setTimeout(()=>{console.log("Boom Shakalaka")},5000);
+    setTimeout(() => { console.log("Boom Shakalaka") }, 5000);
   }
-//----------------------------------------------------------------------
+  //----------------------------------------------------------------------
 
-onSubmit(f: NgForm) {
-    console.log(f.value);  
+  onSubmit(f: NgForm) {
+    console.log(f.value);
     console.log(f.value.title);
     console.log(f.value.synopsis);
-    console.log(typeof(f.value.title));
-this.title = f.value.title;
-this.synopsis = f.value.synopsis;
-}
+    console.log(typeof (f.value.title));
+    this.title = f.value.title;
+    this.synopsis = f.value.synopsis;
+  }
 
-resolveAfter2Seconds() {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve('resolved');
-    }, 2000);
-  });
-}
+  resolveAfter2Seconds() {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve('resolved');
+      }, 2000);
+    });
+  }
 
-async doAFormyThing() {
-  console.log("calling");
-  const result = await this.resolveAfter2Seconds();
-  console.log(result);
+  async doAFormyThing() {
+    console.log("calling");
+    const result = await this.resolveAfter2Seconds();
+    console.log(result);
 
-}
+  }
 
-hello() {
-  console.log(typeof(this.hi()));
-  let x = this.hi();
-  //beacuse of ngZone, this promise is usable and prints
-  console.log(x);
-  this.hi().then((promiseContents)=>{console.log(promiseContents)})};
+  hello() {
+    console.log(typeof (this.hi()));
+    let x = this.hi();
+    //beacuse of ngZone, this promise is usable and prints
+    console.log(x);
+    this.hi().then((promiseContents) => { console.log(promiseContents) })
+  };
 
 
   //because hi is async, it actually returns whatever it returns inside a Promise
-async hi() {
-  return("hi you nerds");
-}
+  async hi() {
+    return ("hi you nerds");
+  }
 
-otherAsyncThing() {
-  var d = new Date();
-  this.callAFunction(this.one, this.two, d)
-    .then((result)=>{
-    console.log(result);
-  })
-  .then(()=>{
-    setTimeout(this.one, 0)
-  })
-}
+  otherAsyncThing() {
+    var d = new Date();
+    this.callAFunction(this.one, this.two, d)
+      .then((result) => {
+        console.log(result);
+      })
+      .then(() => {
+        setTimeout(this.one, 0)
+      })
+  }
 
-one = function() {
-  var d = new Date();
-  console.log(d.getTime());
-}
+  one = function () {
+    var d = new Date();
+    console.log(d.getTime());
+  }
 
-two = function() {
-  console.log("2");
-}
+  two = function () {
+    console.log("2");
+  }
 
-async callAFunction(first, second, d) {
-  console.log(d.getTime());
-  const x = await Promise.resolve("Hello");
-  // console.log(d.getTime());
-  return x;
-}
+  async callAFunction(first, second, d) {
+    console.log(d.getTime());
+    const x = await Promise.resolve("Hello");
+    // console.log(d.getTime());
+    return x;
+  }
 
-resolveAfter4Seconds(x) { 
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(x);
-    }, 4000);
-  });
-}
+  resolveAfter4Seconds(x) {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(x);
+      }, 4000);
+    });
+  }
 
-async f1() {
-  var x = await this.resolveAfter4Seconds(10);
-  console.log(x); // 10
-}
+  async f1() {
+    var x = await this.resolveAfter4Seconds(10);
+    console.log(x); // 10
+  }
 
   ngOnInit() {
-    if(this.profileService.currentUser.username.toLowerCase() != 'fothu') {
+    if (this.profileService.currentUser.username.toLowerCase() != 'fothu') {
       this.router.navigate(['/directory']);
     }
   }

@@ -8,9 +8,9 @@ describe('RosaryAppComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RosaryAppComponent ]
+      declarations: [RosaryAppComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

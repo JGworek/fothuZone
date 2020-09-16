@@ -19,7 +19,8 @@ export class ProfileService {
     secretPassword: "",
   }
 
-  currentUser: User = {id: -1,
+  currentUser: User = {
+    id: -1,
     username: "",
     favoriteColor: "",
     pets: [],
@@ -27,11 +28,11 @@ export class ProfileService {
 
   getHealthBarColor(percentNumber) {
     console.log(percentNumber);
-    if(percentNumber >= 51) {
+    if (percentNumber >= 51) {
       return "progress-bar bg-success";
-    } else if(percentNumber >= 26 && percentNumber < 51) {
+    } else if (percentNumber >= 26 && percentNumber < 51) {
       return "progress-bar bg-warning";
-    } else if(percentNumber < 26) {
+    } else if (percentNumber < 26) {
       return "progress-bar bg-danger";
     }
   }
@@ -41,7 +42,8 @@ export class ProfileService {
   }
 
   logout() {
-    this.currentUser = {id: -1,
+    this.currentUser = {
+      id: -1,
       username: "",
       favoriteColor: "",
       pets: []

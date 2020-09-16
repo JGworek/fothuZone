@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
 export class NewPetComponent implements OnInit {
 
   constructor() { }
-  
+
   numberOfPets: number = 20;
 
   availableNewPets: any;
@@ -30,12 +30,12 @@ export class NewPetComponent implements OnInit {
   }
 
   async createNewPetImage(imageString, usernameString, nameString) {
-    this.newPetSelectionImage = {id: 0, imageURL: imageString, imageOwnerUsername: usernameString, imageOwnerName: nameString};
+    this.newPetSelectionImage = { id: 0, imageURL: imageString, imageOwnerUsername: usernameString, imageOwnerName: nameString };
     console.log(this.newPetSelectionImage);
     // let imageResponse = await fetch(`http://localhost:6969/pets/image/new`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(this.newPetSelectionImage)});
-    let imageResponse = await fetch(`${environment.fothuZoneEC2Link}/pets/image/new`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(this.newPetSelectionImage)});
+    let imageResponse = await fetch(`${environment.fothuZoneEC2Link}/pets/image/new`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(this.newPetSelectionImage) });
     this.newPetImage = await imageResponse.json();
-    if(imageResponse.status.toString()[0] == '1' || imageResponse.status.toString()[0] == '4' || imageResponse.status.toString()[0] == '5') {
+    if (imageResponse.status.toString()[0] == '1' || imageResponse.status.toString()[0] == '4' || imageResponse.status.toString()[0] == '5') {
       this.unableToSelectImage = true;
     } else {
       this.petImageSelected = true;
