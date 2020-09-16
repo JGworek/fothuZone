@@ -1,7 +1,7 @@
-<div *ngIf="this.profileService.currentUser.id !== -1" class="container petbar border border-warning" style="border-width:medium !important">
-    <div class="row">
+<div *ngIf="this.profileService.currentUser.id !== -1" class="container petbar float-right">
+    <div class="row justify-content-end align-items-center">
         <div *ngFor="let pet of profileService.currentUser.pets;let numberOfindex=index">
-            <div class="col-2 col-md-4 col-sm-6 col-xs-12" style="margin:10px">
+            <div class="col-xl-12 col-md-4 col-sm-6 bg-secondary border-top border-bottom border-left border-dark pt-1">
                 <a href="javascript:void(0)" (click)="this.goToProfile()"><img *ngIf="pet.image" height="100px" width="100px" [class]="profileService.currentUser.favoriteColor" [src]="pet.image.imageURL" [alt]="pet.name"></a>
                 <div class="progress border border-dark wrapper" style="width:100px;height:25px;text-align:center">
                     <div [class]="profileService.getHealthBarColor(((pet.currentHealth/pet.maxHealth)*100).toFixed(0))" [ngStyle]="{'width':((pet.currentHealth/pet.maxHealth)*100).toFixed(0)+'%','font-size':'small','color':'black','height':'25px'}"></div>
@@ -11,3 +11,4 @@
         </div>
     </div>
 </div>
+<!-- style="border-width:medium !important;" -->

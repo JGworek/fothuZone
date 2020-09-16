@@ -1,18 +1,35 @@
 <div [ngStyle]="{'padding-right':0, 'padding-left':0}" class="container-fluid no-gutters h-100">
-    <div class="row h-100 align-items-start no-gutters father">
-        <div [ngStyle]="{'right':0}" class="d-none d-lg-block col-lg-2 m-0 p-0 order-2 h-100 mh-100 son">Map Log</div>
-        <div class="col-12 col-lg-10 no-gutters m-0 p-0 align-self-start pets-content">
-            <div class="row h-100 align-items-start no-gutters">
-                <table style="margin-left:70px;margin-top:50px;margin-right:70px;margin-bottom:50px;">
-                    <tr *ngFor="let val1 of [].constructor(10); let i = index;">
-                        <td *ngFor="let val2 of [].constructor(10); let j = index" [id]="i * 10 + j" [ngClass]="{barren: !currentMap.nonBarrenCells.includes(i * 10 + j),
+    <div class="row no-gutters m-0 p-0">
+        <div class="col-xl-8 col-md-12 no-gutters m-0 p-0 align-self-start">
+            <div class="row d-flex justify-content-center no-gutters">
+                <div class="col-12 d-flex justify-content-center no-gutters">
+                    <h3 class="text-center">{{currentMap.name}}</h3>
+                </div>
+                <div class="col-12 d-flex justify-content-center no-gutters">
+                    <table style="margin-left:70px;margin-top:50px;margin-right:70px;margin-bottom:50px;">
+                        <tr *ngFor="let val1 of [].constructor(10); let i = index;">
+                            <td *ngFor="let val2 of [].constructor(10); let j = index" [id]="i * 10 + j" [ngClass]="{barren: !currentMap.nonBarrenCells.includes(i * 10 + j),
                 activeRoom: truthArray[i * 10 + j], notExplored: notExploredArray[i * 10 + j],
                 start: (i * 10 + j === currentMap.startingRoom) ? truthArray[i * 10 + j] : false,
                 boss: (i * 10 + j === currentMap.bossRoom) ? truthArray[i * 10 + j] : false}">
-                            <a *ngIf="currentMap.nonBarrenCells.includes(i * 10 + j) && checkIfNearby(i * 10 + j)" [ngClass]="{'btn btn-success font-weight-bold':true}" (click)="setCurrentRoom(i * 10 + j)">Move</a>
-                        </td>
-                    </tr>
-                </table>
+                                <a *ngIf="currentMap.nonBarrenCells.includes(i * 10 + j) && checkIfNearby(i * 10 + j)" [ngClass]="{'btn btn-success font-weight-bold':true}" (click)="setCurrentRoom(i * 10 + j)">Move</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div *ngIf="this.petSelect == !true && profileService.currentUser.id != -1" class="col-12 m-0 p-0 text-center">
+                    <h5>Select your figher:</h5>
+                </div>
+                <div *ngIf="this.petSelect == !true && profileService.currentUser.id != -1" class="col-12 d-flex justify-content-center no-gutters">
+                    <button *ngFor="let pet of profileService.currentUser.pets" class="btn btn-danger btn-outline-warning mx-1">{{pet.name}}</button></div>
+            </div>
+        </div>
+        <div [ngStyle]="{'right':0}" class="col-xl-4 col-md-12 text-center">
+            <div class="row d-flex justify-content-center no-gutters align-items-start">
+                <div class="col-12 m-0 p-0 text-center">
+                    <h4>Map Log</h4>
+                </div>
+                <div class="col-12 m-0 p-0 text-center">Map Log Text</div>
             </div>
         </div>
     </div>
