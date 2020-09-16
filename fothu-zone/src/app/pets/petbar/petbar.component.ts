@@ -12,7 +12,7 @@ export class PetbarComponent implements OnInit {
   constructor(public profileService: ProfileService, private router: Router) { }
 
   goToProfile() {
-    this.router.navigate([{outlets: {primary: ['profile'], petbar: null}}]);
+    this.router.navigate([{ outlets: { primary: ['profile'], petbar: null } }]);
   }
 
   ngOnInit(): void {

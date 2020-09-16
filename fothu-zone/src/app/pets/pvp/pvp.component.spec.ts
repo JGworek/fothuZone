@@ -8,9 +8,9 @@ describe('PvpComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PvpComponent ]
+      declarations: [PvpComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

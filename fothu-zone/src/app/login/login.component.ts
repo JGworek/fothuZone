@@ -35,9 +35,9 @@ export class LoginComponent implements OnInit {
 
   async logIn() {
     this.incorrectLogin = false;
-    let returnedPromise = await fetch(`${environment.fothuZoneEC2Link}/users/login`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(this.loggingInUser)});
+    let returnedPromise = await fetch(`${environment.fothuZoneEC2Link}/users/login`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(this.loggingInUser) });
     let returnedUser = await returnedPromise.json();
-    if(returnedPromise.status.toString()[0] == '1' || returnedPromise.status.toString()[0] == '4' || returnedPromise.status.toString()[0] == '5') {
+    if (returnedPromise.status.toString()[0] == '1' || returnedPromise.status.toString()[0] == '4' || returnedPromise.status.toString()[0] == '5') {
       this.incorrectLogin = true;
     } else {
       this.profileService.currentUser = returnedUser;

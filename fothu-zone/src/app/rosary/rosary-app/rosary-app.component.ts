@@ -160,9 +160,9 @@ export class RosaryAppComponent implements OnInit {
         break;
       }
     }
-    if(this.currentCount == this.checkMysteryNumbers()) {
-    this.currentEnglishText = `The ${this.englishNumberAsAWord} Mystery is: ${this.todaysMystery[this.mysteryCount]}`;
-    this.currentSpanishText = `El ${this.spanishNumberAsAWord} misterioso es: ${this.todaysESPMystery[this.mysteryCount]}.`;
+    if (this.currentCount == this.checkMysteryNumbers()) {
+      this.currentEnglishText = `The ${this.englishNumberAsAWord} Mystery is: ${this.todaysMystery[this.mysteryCount]}`;
+      this.currentSpanishText = `El ${this.spanishNumberAsAWord} misterioso es: ${this.todaysESPMystery[this.mysteryCount]}.`;
     }
   }
 
@@ -447,7 +447,7 @@ export class RosaryAppComponent implements OnInit {
     this.changeMystery();
   }
 
-  changeToEnglish(){
+  changeToEnglish() {
     this.currentLanguage = "english";
     this.englishActive = true;
     this.englishInactive = false;
@@ -455,7 +455,7 @@ export class RosaryAppComponent implements OnInit {
     this.spanishInactive = true;
   }
 
-  changeToSpanish(){
+  changeToSpanish() {
     this.currentLanguage = "spanish";
     this.englishActive = false;
     this.englishInactive = true
@@ -463,7 +463,7 @@ export class RosaryAppComponent implements OnInit {
     this.spanishInactive = false;
   }
 
-  
+
 
   ngOnInit() {
     this.changeToEnglish();

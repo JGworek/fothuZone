@@ -1,4 +1,5 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Map } from '../../models/Map';
 
 @Component({
   selector: 'app-map',
@@ -9,11 +10,19 @@ export class MapComponent implements OnInit {
 
   constructor() { }
 
+  currentMap: Map = {
+    id: 1,
+    name: "Mumble's Creek",
+    startingRoom: 30,
+    bossRoom: 89,
+    nonBarrenCells: [11, 12, 13, 21, 23, 25, 26, 27, 30, 31, 32, 33, 35, 37, 38, 41, 43, 44, 45, 47, 51, 52, 57, 65, 66, 67, 73, 74, 75, 85, 86, 87, 88, 89],
+  }
+
   truthArray: Array<boolean> = new Array<boolean>(100);
   notExploredArray: Array<boolean> = new Array<boolean>(100);
-  nonBarrenCells: Array<number> = [11, 12, 13, 21, 23, 25, 26, 27, 30, 31, 32, 33, 35, 37, 38, 41, 43, 44, 45, 47, 51, 52, 57, 65, 66, 67, 73, 74, 75, 85, 86, 87, 88, 89];
-  startingRoom: number = 30;
-  bossRoom: number = 89;
+  // nonBarrenCells: Array<number> = [11, 12, 13, 21, 23, 25, 26, 27, 30, 31, 32, 33, 35, 37, 38, 41, 43, 44, 45, 47, 51, 52, 57, 65, 66, 67, 73, 74, 75, 85, 86, 87, 88, 89];
+  // startingRoom: number = 30;
+  // bossRoom: number = 89;
   currentRoom: number;
 
   checkIfNearby(roomId: number) {
@@ -36,7 +45,7 @@ export class MapComponent implements OnInit {
   }
 
   adjacentVertical(roomId: number) {
-     // On the same Column and their IDs are off by 10
+    // On the same Column and their IDs are off by 10
     return this.onSameColumn(roomId) && Math.abs(roomId - this.currentRoom) === 10;
   }
 
@@ -51,7 +60,6 @@ export class MapComponent implements OnInit {
   ngOnInit(): void {
     this.notExploredArray.fill(true);
     this.truthArray.fill(false);
-
-    this.setCurrentRoom(this.startingRoom);
+    this.setCurrentRoom(this.currentMap.startingRoom);
   }
 }

@@ -12,7 +12,7 @@ export class PetsHomeComponent implements OnInit {
 
 
   ngOnInit(): void {
-    if(this.profileService.currentUser.id != -1) {
+    if (this.profileService.currentUser.id != -1) {
       this.profileService.updateUser();
     }
   }
