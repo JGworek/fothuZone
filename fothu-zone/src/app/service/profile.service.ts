@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { User } from '../../app/models/User';
 import { UserDTO } from '../../app/models/UserDTO';
@@ -8,7 +9,7 @@ import { UserDTO } from '../../app/models/UserDTO';
 })
 export class ProfileService {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   newUserCreation: boolean = false;
   newUser: UserDTO = {
@@ -47,6 +48,12 @@ export class ProfileService {
       username: "",
       favoriteColor: "",
       pets: []
+    }
+    if(this.router.url == "/profile") {
+      this.router.navigate(["/login"]);
+    }
+    if(this.router.url == "/FothuPets/map(petbar:visible)") {
+      this.router.navigate([{ outlets: { primary: ['FothuPets'], petbar: ['visible'] } }]);
     }
   }
 

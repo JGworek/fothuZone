@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProfileService } from 'src/app/service/profile.service';
 import { Map } from '../../models/Map';
 
 @Component({
@@ -8,7 +9,7 @@ import { Map } from '../../models/Map';
 })
 export class MapComponent implements OnInit {
 
-  constructor() { }
+  constructor(public profileService: ProfileService) { }
 
   currentMap: Map = {
     id: 1,
@@ -24,6 +25,7 @@ export class MapComponent implements OnInit {
   // startingRoom: number = 30;
   // bossRoom: number = 89;
   currentRoom: number;
+  petSelect: boolean = false;
 
   checkIfNearby(roomId: number) {
     return this.adjacentVertical(roomId) || this.adjacentHorizontal(roomId);
