@@ -12,7 +12,7 @@
     <div class="btn-block">
         <button class="nav-item btn bg-dark btn-outline-light float-right" (click)="this.profileService.logout()" *ngIf="this.profileService.currentUser.id !== -1">Logout</button>
         <button class="nav-item btn bg-dark btn-outline-light float-right" [routerLink]="[{outlets: {primary: ['login'], petbar: null }}]" (click)="this.profileService.newUserCreation=false" *ngIf="this.profileService.currentUser.id == -1">Login</button>
-        <button class="nav-item btn bg-dark btn-outline-light float-right" [routerLink]="[{outlets: {primary: ['profile'], petbar: null }}]" (click)="this.profileService.newUserCreation=false" *ngIf="this.profileService.currentUser.id !== -1">Profile</button>
-        <div id="welcomeName" class="text-light float-right" *ngIf="this.profileService.currentUser.id !== -1">Hello {{profileService.currentUser.username}}</div>
+        <button class="nav-item btn bg-dark btn-outline-light float-right mr-1" [routerLink]="[{outlets: {primary: ['profile'], petbar: null }}]" (click)="this.profileService.newUserCreation=false" *ngIf="this.profileService.currentUser.id !== -1">Profile</button>
+        <div id="welcomeName" class="text-light float-right mt-2" *ngIf="this.profileService.currentUser.id !== -1">Hello {{profileService.currentUser.username}}</div>
     </div>
 </nav>

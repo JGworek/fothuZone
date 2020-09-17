@@ -12,6 +12,7 @@ public interface PageRepository extends JpaRepository<Page, Integer> {
     @Query(nativeQuery = true, value = "SELECT * FROM cyoa.page WHERE id = ?1")
     Page findById(int id);
 
+    @Override
     @Query(nativeQuery = true, value = "SELECT * FROM cyoa.page")
     ArrayList<Page> findAll();
 

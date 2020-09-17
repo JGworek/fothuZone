@@ -17,6 +17,7 @@ public interface PetRepository extends JpaRepository<Pet, Integer> {
     @Query(nativeQuery = true, value = "SELECT * FROM pets.pets WHERE id = ?1")
     Pet findById(int id) throws PetNotFoundException;
 
+    @Override
     @Query(nativeQuery = true, value = "SELECT * FROM pets.pets ORDER BY id ASC")
     List<Pet> findAll();
 

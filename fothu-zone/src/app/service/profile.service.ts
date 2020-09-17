@@ -49,10 +49,10 @@ export class ProfileService {
       favoriteColor: "",
       pets: []
     }
-    if(this.router.url == "/profile") {
+    if (this.router.url == "/profile") {
       this.router.navigate(["/login"]);
     }
-    if(this.router.url == "/FothuPets/map(petbar:visible)") {
+    if (this.router.url == "/FothuPets/map(petbar:visible)") {
       this.router.navigate([{ outlets: { primary: ['FothuPets'], petbar: ['visible'] } }]);
     }
   }
