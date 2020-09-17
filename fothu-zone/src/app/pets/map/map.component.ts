@@ -16,16 +16,18 @@ export class MapComponent implements OnInit {
     name: "Mumble's Creek",
     startingRoom: 30,
     bossRoom: 89,
+    ladderRoom: -1,
+    enemyLevel: 1,
     nonBarrenCells: [11, 12, 13, 21, 23, 25, 26, 27, 30, 31, 32, 33, 35, 37, 38, 41, 43, 44, 45, 47, 51, 52, 57, 65, 66, 67, 73, 74, 75, 85, 86, 87, 88, 89],
+    bossPetId: 3
   }
 
   truthArray: Array<boolean> = new Array<boolean>(100);
   notExploredArray: Array<boolean> = new Array<boolean>(100);
-  // nonBarrenCells: Array<number> = [11, 12, 13, 21, 23, 25, 26, 27, 30, 31, 32, 33, 35, 37, 38, 41, 43, 44, 45, 47, 51, 52, 57, 65, 66, 67, 73, 74, 75, 85, 86, 87, 88, 89];
-  // startingRoom: number = 30;
-  // bossRoom: number = 89;
   currentRoom: number;
   petSelect: boolean = false;
+  mapLog: Array<string> = [];
+  fullLog: boolean = false;
 
   checkIfNearby(roomId: number) {
     return this.adjacentVertical(roomId) || this.adjacentHorizontal(roomId);
@@ -57,11 +59,13 @@ export class MapComponent implements OnInit {
 
     this.notExploredArray[roomId] = false;
     this.truthArray[roomId] = true;
+    this.mapLog.push(`Moved to room ${this.currentRoom}`);
   }
 
   ngOnInit(): void {
     this.notExploredArray.fill(true);
     this.truthArray.fill(false);
     this.setCurrentRoom(this.currentMap.startingRoom);
+    this.mapLog.push(`Welcome to ${this.currentMap.name}`)
   }
 }

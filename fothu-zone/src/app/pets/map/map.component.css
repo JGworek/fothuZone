@@ -27,3 +27,14 @@ td {
 .start {
     background-color: #5bc0de !important;
 }
+
+.ladder {
+    background-color: #a25f18 !important;
+}
+
+.inactive-button {
+    background-color: #e7e7e7!important;
+    color: black !important;
+    border-color: black !important;
+    pointer-events: none !important;
+}

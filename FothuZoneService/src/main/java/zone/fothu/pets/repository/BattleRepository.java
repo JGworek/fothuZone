@@ -9,11 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import zone.fothu.pets.exception.BattleNotFoundException;
 import zone.fothu.pets.model.Battle;
-import zone.fothu.pets.model.BattleLog;
-import zone.fothu.pets.model.Pet;
 
 public interface BattleRepository extends JpaRepository<Battle, Integer> {
 
+    @Override
     @Query(nativeQuery = true, value = "SELECT * FROM pets.battles")
     List<Battle> findAll();
 

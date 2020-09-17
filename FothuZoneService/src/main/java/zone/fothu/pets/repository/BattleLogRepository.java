@@ -8,9 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import zone.fothu.pets.exception.BattleNotFoundException;
-import zone.fothu.pets.exception.PetNotFoundException;
 import zone.fothu.pets.model.BattleLog;
-import zone.fothu.pets.model.Pet;
 
 public interface BattleLogRepository extends JpaRepository<BattleLog, Integer> {
 

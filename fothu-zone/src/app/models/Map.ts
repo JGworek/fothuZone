@@ -3,5 +3,8 @@ export class Map {
     name: string;
     startingRoom: number;
     bossRoom: number;
+    ladderRoom: number;
+    enemyLevel: number;
     nonBarrenCells: Array<number>;
+    bossPetId: number;
 }
