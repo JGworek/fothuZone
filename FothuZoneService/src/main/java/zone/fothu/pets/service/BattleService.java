@@ -1,8 +1,6 @@
 package zone.fothu.pets.service;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -10,12 +8,12 @@ import org.springframework.stereotype.Service;
 
 import zone.fothu.pets.exception.BattleNotFoundException;
 import zone.fothu.pets.exception.PetNotFoundException;
-import zone.fothu.pets.model.Battle;
+import zone.fothu.pets.model.BattleDTO;
 import zone.fothu.pets.model.Pet;
-import zone.fothu.pets.model.UserBattleResult;
 import zone.fothu.pets.repository.BattleLogRepository;
 import zone.fothu.pets.repository.BattleRepository;
 import zone.fothu.pets.repository.PetRepository;
+import zone.fothu.utility.ACUtility;
 
 @Service
 public class BattleService implements Serializable {
@@ -30,6 +28,8 @@ public class BattleService implements Serializable {
     PetRepository petRepository;
     @Autowired
     AnnotationConfigApplicationContext applicationContext;
+    @Autowired
+    ACUtility acUtility;
 
     private double attackingAttackPower, defendingAttackPower;
     private Pet attackingPet;
@@ -45,10 +45,9 @@ public class BattleService implements Serializable {
     private double attackingArmor, defendingArmor;
     private double attackingSpeed, defendingSpeed;
     private double attackingAccuracy, defendingAccuracy;
-    private boolean scanned = false;
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public List battle(int attackerId, int defenderId) throws BattleNotFoundException, PetNotFoundException {
+    public BattleDTO battle(int attackerId, int defenderId, String battleType)
+        throws BattleNotFoundException, PetNotFoundException {
         int numberOfLevelUps = 0;
         boolean attackerVictory = false;
         // get pets
@@ -98,18 +97,30 @@ public class BattleService implements Serializable {
             // defender attacks on even numbers
             if (attackCounter % 2 == 0) {
                 if (defendingAccuracy + (Math.random() * 100) >= accuracyHurdle) {
+                    // battle ends if attacker health is less than 0
                     if ((attackingHealth - (defendingAttackPower - attackingArmor)) <= 0) {
                         battleFinished = true;
+                        attackingHealth = 0;
                     }
-                    battleLogRepository.saveNewBattleLog(currentBattleID, turnNumber,
-                        defendingPet.getName() + " dealt " + (int) (defendingAttackPower - attackingArmor)
-                            + " damage to " + attackingPet.getName() + ".",
-                        attackingPet.getName() + ": " + (attackingHealth - (defendingAttackPower - attackingArmor))
-                            + " health, " + defendingPet.getName() + ": " + defendingHealth + " health.",
-                        battleFinished);
-                    attackingHealth = (attackingHealth - (defendingAttackPower - attackingArmor));
+                    // defender hits
+                    if (attackingHealth > 0) {
+                        battleLogRepository.saveNewBattleLog(currentBattleID, turnNumber,
+                            defendingPet.getName() + " dealt " + (int) (defendingAttackPower - attackingArmor)
+                                + " damage to " + attackingPet.getName() + ". ",
+                            attackingPet.getName() + ": " + (attackingHealth - (defendingAttackPower - attackingArmor))
+                                + " health, " + defendingPet.getName() + ": " + defendingHealth + " health.",
+                            battleFinished);
+                        attackingHealth = (attackingHealth - (defendingAttackPower - attackingArmor));
+                    } else if (attackingHealth == 0) {
+                        battleLogRepository.saveNewBattleLog(currentBattleID, turnNumber,
+                            defendingPet.getName() + " dealt " + (int) (defendingAttackPower - attackingArmor)
+                                + " damage to " + attackingPet.getName() + ". ",
+                            attackingPet.getName() + ": " + attackingHealth + " health, " + defendingPet.getName()
+                                + ": " + defendingHealth + " health.",
+                            battleFinished);
+                    }
                 } else {
-
+                    // defender misses
                     battleLogRepository.saveNewBattleLog(currentBattleID, turnNumber,
                         defendingPet.getName() + " missed.", attackingPet.getName() + ": " + attackingHealth
                             + " health, " + defendingPet.getName() + ": " + defendingHealth + " health.",
@@ -118,25 +129,40 @@ public class BattleService implements Serializable {
             } else {
                 // attacker attacks on odd numbers
                 if (attackingAccuracy + (Math.random() * 100) >= accuracyHurdle) {
+                    // battle ends if defender health is less than 0
                     if ((defendingHealth - (attackingAttackPower - defendingArmor)) <= 0) {
                         battleFinished = true;
+                        defendingHealth = 0;
                     }
-                    battleLogRepository.saveNewBattleLog(currentBattleID, turnNumber,
-                        attackingPet.getName() + " dealt " + (int) (attackingAttackPower - defendingArmor)
-                            + " damage to " + defendingPet.getName() + ".",
-                        attackingPet.getName() + ": " + attackingHealth + " health, " + defendingPet.getName() + ": "
-                            + (defendingHealth - (attackingAttackPower - defendingArmor)) + " health.",
-                        battleFinished);
-                    defendingHealth = (defendingHealth - (attackingAttackPower - defendingArmor));
+                    // attacker hits
+                    if (defendingHealth > 0) {
+                        battleLogRepository.saveNewBattleLog(currentBattleID, turnNumber,
+                            attackingPet.getName() + " dealt " + (int) (attackingAttackPower - defendingArmor)
+                                + " damage to " + defendingPet.getName() + ". ",
+                            attackingPet.getName() + ": " + attackingHealth + " health, " + defendingPet.getName()
+                                + ": " + (defendingHealth - (attackingAttackPower - defendingArmor)) + " health.",
+                            battleFinished);
+                        defendingHealth = (defendingHealth - (attackingAttackPower - defendingArmor));
+                    } else if (defendingHealth == 0) {
+                        battleLogRepository.saveNewBattleLog(currentBattleID, turnNumber,
+                            attackingPet.getName() + " dealt " + (int) (attackingAttackPower - defendingArmor)
+                                + " damage to " + defendingPet.getName() + ". ",
+                            attackingPet.getName() + ": " + attackingHealth + " health, " + defendingPet.getName()
+                                + ": " + defendingHealth + " health.",
+                            battleFinished);
+                    }
                 } else {
+                    // attacker misses
                     battleLogRepository.saveNewBattleLog(currentBattleID, turnNumber,
                         attackingPet.getName() + " missed.", attackingPet.getName() + ": " + attackingHealth
                             + " health, " + defendingPet.getName() + ": " + defendingHealth + " health.",
                         battleFinished);
                 }
             }
+            // next turn and other pet gets a turn
             attackCounter++;
             turnNumber++;
+            // battle ends if max turns are hit
             if (attackCounter > maxTurnCount) {
                 battleFinished = true;
                 battleLogRepository.updateLastBattleStepInTimeout(battleLogRepository.findLatestBattleLogID());
@@ -181,21 +207,26 @@ public class BattleService implements Serializable {
                 break BATTLE_LOOP;
             }
         }
-        Battle battleResult = battleRepository.findById(battleRepository.findLatestBattleID());
-        List battleResultWithLevel = new ArrayList();
-        battleResultWithLevel.add(battleResult);
-        applicationContext.scan("zone.fothu.pets.model");
-        if (scanned == false) {
-            applicationContext.refresh();
-            scanned = true;
+        if (acUtility.isScanned() == false) {
+            acUtility.ACScan();
         }
-        UserBattleResult levelUpObject = applicationContext.getBean(UserBattleResult.class);
-        levelUpObject.setNumberOfLevelUps(numberOfLevelUps);
-        levelUpObject.setUserVictory(attackerVictory);
-        battleResultWithLevel.add(levelUpObject);
-        return battleResultWithLevel;
+
+        BattleDTO battleDTO = applicationContext.getBean(BattleDTO.class);
+
+        if (battleType == "pve") {
+            battleDTO.setBattle(battleRepository.findById(currentBattleID));
+            battleDTO.setNumberOfLevelUps(numberOfLevelUps);
+            battleDTO.setUserVictory(attackerVictory);
+        }
+        if (battleType == "pvp") {
+            battleDTO.setBattle(battleRepository.findById(currentBattleID));
+            battleDTO.setNumberOfLevelUps(0);
+            battleDTO.setUserVictory(false);
+        }
+        return battleDTO;
     }
 
+    //sets XP of winning pet, and levels them up appropriately if they did not fight themself
     private int setNewXP(Pet winningPet, Pet losingPet) {
         int numberOfLevelUps = 0;
         if (winningPet.getOwner().getId() != losingPet.getOwner().getId()) {

@@ -28,7 +28,6 @@ export class ProfileService {
   }
 
   getHealthBarColor(percentNumber) {
-    console.log(percentNumber);
     if (percentNumber >= 51) {
       return "progress-bar bg-success";
     } else if (percentNumber >= 26 && percentNumber < 51) {

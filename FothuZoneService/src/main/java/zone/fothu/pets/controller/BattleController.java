@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import zone.fothu.pets.exception.BattleNotFoundException;
 import zone.fothu.pets.exception.PetNotFoundException;
 import zone.fothu.pets.model.Battle;
+import zone.fothu.pets.model.BattleDTO;
 import zone.fothu.pets.repository.BattleLogRepository;
 import zone.fothu.pets.repository.BattleRepository;
 import zone.fothu.pets.service.BattleService;
@@ -57,19 +58,31 @@ public class BattleController {
         return ResponseEntity.ok(battle);
     }
 
-    @SuppressWarnings({"rawtypes","unchecked"})
-    @PostMapping("/newBattle/attackerId/{attackerId}/defenderId/{defenderId}")
-    public ResponseEntity<List> createNewBattle(@PathVariable int attackerId, @PathVariable int defenderId)
+    @PostMapping("/newBattle/pve/attackerId/{attackerId}/defenderId/{defenderId}")
+    public ResponseEntity<BattleDTO> createNewPVEBattle(@PathVariable int attackerId, @PathVariable int defenderId)
         throws BattleNotFoundException, PetNotFoundException {
-        List battleResult = battleService.battle(attackerId, defenderId);
-        Battle battle = (Battle) battleResult.get(0);
+        BattleDTO battleResult = battleService.battle(attackerId, defenderId, "pve");
+        Battle battle = battleResult.getBattle();
         if (battle.getAttackingPet().getOwner() != null) {
-            battle.getAttackingPet().getOwner().setUserPassword(null);
+            battleResult.getBattle().getAttackingPet().getOwner().setUserPassword(null);
         }
         if (battle.getDefendingPet().getOwner() != null) {
-            battle.getDefendingPet().getOwner().setUserPassword(null);
+            battleResult.getBattle().getDefendingPet().getOwner().setUserPassword(null);
         }
-        battleResult.set(0, battle);
+        return ResponseEntity.ok(battleResult);
+    }
+    
+    @PostMapping("/newBattle/pvp/attackerId/{attackerId}/defenderId/{defenderId}")
+    public ResponseEntity<BattleDTO> createNewPVPBattle(@PathVariable int attackerId, @PathVariable int defenderId)
+        throws BattleNotFoundException, PetNotFoundException {
+        BattleDTO battleResult = battleService.battle(attackerId, defenderId, "pvp");
+        Battle battle = battleResult.getBattle();
+        if (battle.getAttackingPet().getOwner() != null) {
+            battleResult.getBattle().getAttackingPet().getOwner().setUserPassword(null);
+        }
+        if (battle.getDefendingPet().getOwner() != null) {
+            battleResult.getBattle().getDefendingPet().getOwner().setUserPassword(null);
+        }
         return ResponseEntity.ok(battleResult);
     }
 }

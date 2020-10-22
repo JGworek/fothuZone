@@ -2,24 +2,38 @@ package zone.fothu.pets.model;
 
 import java.io.Serializable;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserBattleResult implements Serializable {
+public class BattleDTO implements Serializable {
 
-    private static final long serialVersionUID = -6645781868341207185L;
-
+    private static final long serialVersionUID = 3156351006751846654L;
+    
+    @Autowired
+    private Battle battle;
+    
     private int numberOfLevelUps;
+    
     private boolean userVictory;
 
-    public UserBattleResult() {
+    public BattleDTO() {
         super();
     }
 
-    public UserBattleResult(int numberOfLevelUps, boolean userVictory) {
+    public BattleDTO(Battle battle, int numberOfLevelUps, boolean userVictory) {
         super();
+        this.battle = battle;
         this.numberOfLevelUps = numberOfLevelUps;
         this.userVictory = userVictory;
+    }
+
+    public Battle getBattle() {
+        return battle;
+    }
+
+    public void setBattle(Battle battle) {
+        this.battle = battle;
     }
 
     public int getNumberOfLevelUps() {
@@ -42,6 +56,7 @@ public class UserBattleResult implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((battle == null) ? 0 : battle.hashCode());
         result = prime * result + numberOfLevelUps;
         result = prime * result + (userVictory ? 1231 : 1237);
         return result;
@@ -55,7 +70,12 @@ public class UserBattleResult implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        UserBattleResult other = (UserBattleResult) obj;
+        BattleDTO other = (BattleDTO) obj;
+        if (battle == null) {
+            if (other.battle != null)
+                return false;
+        } else if (!battle.equals(other.battle))
+            return false;
         if (numberOfLevelUps != other.numberOfLevelUps)
             return false;
         if (userVictory != other.userVictory)
@@ -65,6 +85,7 @@ public class UserBattleResult implements Serializable {
 
     @Override
     public String toString() {
-        return "UserBattleResult [numberOfLevelUps=" + numberOfLevelUps + ", userVictory=" + userVictory + "]";
+        return "BattleDTO [battle=" + battle + ", numberOfLevelUps=" + numberOfLevelUps + ", userVictory=" + userVictory
+            + "]";
     }
 }

@@ -43,6 +43,9 @@
         @Column(name = "enemy_level")
         private int enemyLevel;
         
+        @Column(name = "monster_spawn_rate")
+        private int monsterSpawnRate;
+        
         @ElementCollection
         @CollectionTable(schema = "pets", name = "maps_non_barren_cells")
         @JoinColumns({@JoinColumn(name = "map_id", referencedColumnName = "id"), @JoinColumn(name="non_barren_cells", referencedColumnName = "cell")})
@@ -56,7 +59,7 @@
         }
 
         public Map(int id, String name, int startingRoom, int bossRoom, int ladderRoom, int enemyLevel,
-            List<Integer> nonBarrenCells, int bossPetId) {
+            int monsterSpawnRate, List<Integer> nonBarrenCells, int bossPetId) {
             super();
             this.id = id;
             this.name = name;
@@ -64,6 +67,7 @@
             this.bossRoom = bossRoom;
             this.ladderRoom = ladderRoom;
             this.enemyLevel = enemyLevel;
+            this.monsterSpawnRate = monsterSpawnRate;
             this.nonBarrenCells = nonBarrenCells;
             this.bossPetId = bossPetId;
         }
@@ -116,6 +120,14 @@
             this.enemyLevel = enemyLevel;
         }
 
+        public int getMonsterSpawnRate() {
+            return monsterSpawnRate;
+        }
+
+        public void setMonsterSpawnRate(int monsterSpawnRate) {
+            this.monsterSpawnRate = monsterSpawnRate;
+        }
+
         public List<Integer> getNonBarrenCells() {
             return nonBarrenCells;
         }
@@ -141,6 +153,7 @@
             result = prime * result + enemyLevel;
             result = prime * result + id;
             result = prime * result + ladderRoom;
+            result = prime * result + monsterSpawnRate;
             result = prime * result + ((name == null) ? 0 : name.hashCode());
             result = prime * result + ((nonBarrenCells == null) ? 0 : nonBarrenCells.hashCode());
             result = prime * result + startingRoom;
@@ -166,6 +179,8 @@
                 return false;
             if (ladderRoom != other.ladderRoom)
                 return false;
+            if (monsterSpawnRate != other.monsterSpawnRate)
+                return false;
             if (name == null) {
                 if (other.name != null)
                     return false;
@@ -183,8 +198,8 @@
 
         @Override
         public String toString() {
-            return "MapDTO [id=" + id + ", name=" + name + ", startingRoom=" + startingRoom + ", bossRoom=" + bossRoom
-                + ", ladderRoom=" + ladderRoom + ", enemyLevel=" + enemyLevel + ", nonBarrenCells=" + nonBarrenCells
-                + ", bossPetId=" + bossPetId + "]";
+            return "Map [id=" + id + ", name=" + name + ", startingRoom=" + startingRoom + ", bossRoom=" + bossRoom
+                + ", ladderRoom=" + ladderRoom + ", enemyLevel=" + enemyLevel + ", monsterSpawnRate=" + monsterSpawnRate
+                + ", nonBarrenCells=" + nonBarrenCells + ", bossPetId=" + bossPetId + "]";
         }
 }
