@@ -18,7 +18,7 @@ public class ImageService implements Serializable {
     
     public Image saveNewImage(Image newImage) {
         if(imageRepository.findImageByURL(newImage.getImageURL()) == null) {
-            imageRepository.saveNewImage(newImage.getImageURL(), newImage.getImageOwnerUsername(), newImage.getImageOwnerName());
+            imageRepository.saveNewImage(newImage.getImageURL());
             return imageRepository.findImageById(imageRepository.findLatestImageId());
         } else {
             return imageRepository.findImageByURL(newImage.getImageURL());
