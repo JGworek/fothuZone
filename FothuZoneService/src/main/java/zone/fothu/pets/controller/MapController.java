@@ -1,5 +1,6 @@
 package zone.fothu.pets.controller;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,10 @@ import zone.fothu.pets.repository.PetRepository;
 @RestController
 @CrossOrigin
 @RequestMapping(path = "/map")
-public class MapController {
-    
+public class MapController implements Serializable{
+
+    private static final long serialVersionUID = 6402680653396347736L;
+
     @Autowired
     MapRepository mapRepository;
     

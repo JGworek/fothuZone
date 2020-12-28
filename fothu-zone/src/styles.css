@@ -76,6 +76,20 @@ html, body {
     top: 0;
 }
 
+.visible {
+    visibility: visible;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.petcenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 
 /* Bootstrap */
 

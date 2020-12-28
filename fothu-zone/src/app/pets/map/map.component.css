@@ -32,6 +32,10 @@ td {
     background-color: #a25f18 !important;
 }
 
+.nearby {
+    background-color: lightblue !important;
+}
+
 .inactive-button {
     background-color: #e7e7e7!important;
     color: black !important;

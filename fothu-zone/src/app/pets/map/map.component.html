@@ -1,4 +1,4 @@
-<div [ngStyle]="{'padding-right':0, 'padding-left':0}" class="container-fluid no-gutters h-100">
+<div [ngStyle]="{'padding-right':0, 'padding-left':0}" class="container-fluid no-gutters h-100 z-index-1">
     <div class="row no-gutters m-0 p-0">
         <div class="col-xl-8 col-md-12 no-gutters m-0 p-0 align-self-start">
             <div class="row d-flex justify-content-center no-gutters">
@@ -12,7 +12,8 @@
                 activeRoom: truthArray[i * 10 + j], notExplored: notExploredArray[i * 10 + j],
                 start: (i * 10 + j === currentMap.startingRoom) ? truthArray[i * 10 + j] : false,
                 boss: (i * 10 + j === currentMap.bossRoom) ? truthArray[i * 10 + j] : false,
-                ladder: (i * 10 + j === currentMap.ladderRoom) ? truthArray[i * 10 + j] : false}">
+                ladder: (i * 10 + j === currentMap.ladderRoom) ? truthArray[i * 10 + j] : false,
+                nearby: (currentMap.nonBarrenCells.includes(i * 10 + j) && checkIfNearby(i * 10 + j)) ? true : false}">
                                 <a *ngIf="currentMap.nonBarrenCells.includes(i * 10 + j) && checkIfNearby(i * 10 + j)" [ngClass]="{'btn btn-success font-weight-bold':true}" (click)="setCurrentRoom(i * 10 + j)">Move</a>
                             </td>
                         </tr>
@@ -22,7 +23,13 @@
                     <h5>Select your figher:</h5>
                 </div>
                 <div *ngIf="this.petSelect == !true && profileService.currentUser.id != -1" class="col-12 d-flex justify-content-center no-gutters">
-                    <button *ngFor="let pet of profileService.currentUser.pets" [ngClass]="{'btn btn-danger btn-outline-warning mx-1': true, 'inactive-button': !pet.currentHealth}">{{pet.name}}</button></div>
+                    <button *ngFor="let pet of profileService.currentUser.pets" [ngClass]="{'btn btn-danger btn-outline-warning mx-1': true, 'inactive-button': !pet.currentHealth}">{{pet.name}}</button>
+                    <!-- [routerLink]="[{outlets: {primary: ['FothuPets'], petbar: ['visible'] }}]" -->
+                </div>
+                <!-- the '' keeps you on the same primary route (what a nightmare) -->
+                <button [routerLink]="['', {outlets: {'battle': ['battle']}}]">Open Battle</button>
+                <button [routerLink]="['', {outlets: {'battle': null }}]">Close Battle</button>
+
             </div>
         </div>
         <div [ngStyle]="{'right':0}" class="col-xl-4 col-md-12 text-center">

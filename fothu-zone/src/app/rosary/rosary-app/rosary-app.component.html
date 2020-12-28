@@ -4,12 +4,12 @@
 </div>
 <br>
 <div class="d-flex justify-content-between">
-    <a class="btn btn-info text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount%2 == 0 && this.currentCount != 81" (click)="this.previousCount()">Back</a>
-    <a class="btn btn-primary text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount%2 != 0 && this.currentCount != 81" (click)="this.previousCount()">Back</a>
+    <a class="btn btn-info text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount%2 == 0 && this.currentCount != 81" (click)="this.previousCount()">{{this.currentLanguage == 'english' ? 'Back' : 'Siguiente'}}</a>
+    <a class="btn btn-primary text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount%2 != 0 && this.currentCount != 81" (click)="this.previousCount()">{{this.currentLanguage == 'english' ? 'Back' : 'Siguiente'}}</a>
     <a class="btn invisible" *ngIf="this.currentCount == 81"></a>
     <span class="text-center" *ngIf="this.currentCount > 0">{{this.currentLanguage == 'english' ? this.currentEnglishText : this.currentSpanishText}}</span>
-    <a class="btn btn-info text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount%2 != 0 && this.currentCount != 81" (click)="this.nextCount()">Next</a>
-    <a class="btn btn-primary text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount%2 == 0 && this.currentCount != 81" (click)="this.nextCount()">Next</a>
+    <a class="btn btn-info text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount%2 != 0 && this.currentCount != 81" (click)="this.nextCount()">{{this.currentLanguage == 'english' ? 'Next' : 'Atras'}}</a>
+    <a class="btn btn-primary text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount%2 == 0 && this.currentCount != 81" (click)="this.nextCount()">{{this.currentLanguage == 'english' ? 'Next' : 'Atras'}}</a>
     <a class="btn invisible" *ngIf="this.currentCount == 81"></a>
 </div>
 <br>

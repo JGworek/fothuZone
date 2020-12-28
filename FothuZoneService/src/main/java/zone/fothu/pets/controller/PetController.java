@@ -1,5 +1,6 @@
 package zone.fothu.pets.controller;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.postgresql.util.PSQLException;
@@ -26,16 +27,16 @@ import zone.fothu.pets.service.ImageService;
 @RestController
 @CrossOrigin
 @RequestMapping(path = "/pets")
-public class PetController {
+public class PetController implements Serializable {
 
+    private static final long serialVersionUID = 458928494736944980L;
+    
     @Autowired
     PetRepository petRepository;
     @Autowired
     UserRepository userRepository;
     @Autowired
     ImageRepository imageRepository;
-    @Autowired
-    ImageService imageService;
 
     @GetMapping("/all")
     public ResponseEntity<List<Pet>> getAllPets() {
@@ -97,36 +98,14 @@ public class PetController {
         }
         return ResponseEntity.ok(pet);
     }
-    
-    @GetMapping("/image/id/{id}")
-    public ResponseEntity<Image> getImageWithId(@PathVariable int id) {
-        Image image = imageRepository.findImageById(id);
-        return ResponseEntity.ok(image);
-    }
-    
-    @PostMapping("/image/new")
-    public ResponseEntity<Image> createPetImage(@RequestBody Image newImage) {
-        Image image = imageService.saveNewImage(newImage);
-        return ResponseEntity.ok(image);
-    }
-  
-    @PostMapping("/id/{petId}/image/{imageId}")
-    public ResponseEntity<Pet> addPetImage(@PathVariable int petId, @PathVariable int imageId) throws PetNotFoundException {
-    imageRepository.setPetImage(petId, imageId);
-    Pet pet = petRepository.findById(petId);
-    if (pet.getOwner() != null) {
-        pet.getOwner().setUserPassword(null);
-    }
-    return ResponseEntity.ok(pet);
-    }
 
     @PutMapping("/update")
     public ResponseEntity<Pet> updatePet(@RequestBody Pet updatedPet)
         throws PetNotFoundException, PSQLException, PetNotUpdatedException {
         boolean success = false;
-        petRepository.updatePet(updatedPet.getId(), updatedPet.getName(), updatedPet.getType(),
-            updatedPet.getHunger(), updatedPet.getCurrentHealth(), updatedPet.getMaxHealth(), updatedPet.getStrength(),
-            updatedPet.getAgility(), updatedPet.getIntelligence(), updatedPet.getPetLevel(), updatedPet.getCurrentXP());
+        petRepository.updatePet(updatedPet.getId(), updatedPet.getName(), updatedPet.getType(), updatedPet.getHunger(),
+            updatedPet.getCurrentHealth(), updatedPet.getMaxHealth(), updatedPet.getStrength(), updatedPet.getAgility(),
+            updatedPet.getIntelligence(), updatedPet.getPetLevel(), updatedPet.getCurrentXP());
 
         Pet pet = petRepository.findById(updatedPet.getId());
         if (pet.getOwner() != null) {

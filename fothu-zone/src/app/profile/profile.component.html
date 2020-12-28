@@ -7,8 +7,10 @@
     <br> -->
     <h2>Pets:</h2>
     <div *ngFor="let pet of profileService.currentUser.pets;let numberOfindex=index">
-        <img *ngIf="pet.image" height="300px" width="300px" [class]="profileService.currentUser.favoriteColor" [src]="pet.image.imageURL" [alt]="pet.name">
-        <div class="progress border border-dark wrapper" style="width:300px;height:25px">
+        <div style="height:310px;width:310px;" [ngClass]="[profileService.currentUser.favoriteColor, 'petcenter']">
+            <img *ngIf="pet.image" style="max-height:300px;max-width:300px;" [src]="pet.image.imageURL" [alt]="pet.name">
+        </div>
+        <div class="progress border border-dark wrapper" style="width:310px;height:25px">
             <div [class]="profileService.getHealthBarColor(((pet.currentHealth/pet.maxHealth)*100).toFixed(0))" [ngStyle]="{'width':((pet.currentHealth/pet.maxHealth)*100).toFixed(0)+'%','font-size':'large','color':'black','height':'25px'}"></div>
             <div class="data">{{pet.currentHealth}}/{{pet.maxHealth}} HP</div>
         </div>

@@ -1,6 +1,7 @@
 package zone.fothu.pets.service;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,14 @@ public class ImageService implements Serializable {
     
     public Image saveNewImage(Image newImage) {
         if(imageRepository.findImageByURL(newImage.getImageURL()) == null) {
-            imageRepository.saveNewImage(newImage.getImageURL(), newImage.getImageOwnerUsername(), newImage.getImageOwnerName());
+            imageRepository.saveNewImage(newImage.getImageURL());
             return imageRepository.findImageById(imageRepository.findLatestImageId());
         } else {
             return imageRepository.findImageByURL(newImage.getImageURL());
         }
+    }
+    
+    public List<Image> getAllImages() {
+        return imageRepository.getAllImages();
     }
 }

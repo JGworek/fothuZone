@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ProfileService } from 'src/app/service/profile.service';
 import { Map } from '../../models/Map';
 
@@ -9,7 +10,7 @@ import { Map } from '../../models/Map';
 })
 export class MapComponent implements OnInit {
 
-  constructor(public profileService: ProfileService) { }
+  constructor(public profileService: ProfileService, public router: Router) { }
 
   currentMap: Map = {
     id: 1,
@@ -61,6 +62,10 @@ export class MapComponent implements OnInit {
     this.truthArray[roomId] = true;
     this.mapLog.push(`Moved to room ${this.currentRoom}`);
   }
+
+  // battleChange() {
+  //   this.router.navigateByUrl('../map/(petbar:visible//battle:battleTwo)');
+  // }
 
   ngOnInit(): void {
     this.notExploredArray.fill(true);

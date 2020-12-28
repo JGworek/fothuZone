@@ -17,6 +17,10 @@ import { ProfileService } from './service/profile.service';
 import { PetsModule } from './pets/pets.module';
 import { RosaryModule } from './rosary/rosary.module';
 
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
+const config: SocketIoConfig = { url: 'http://localhost:6969', options: {} };
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,6 +40,7 @@ import { RosaryModule } from './rosary/rosary.module';
     CommonModule,
     PetsModule,
     RosaryModule,
+    SocketIoModule.forRoot(config),
   ],
   providers: [
     ProfileService,

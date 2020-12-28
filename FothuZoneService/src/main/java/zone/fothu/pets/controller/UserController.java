@@ -1,5 +1,6 @@
 package zone.fothu.pets.controller;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.postgresql.util.PSQLException;
@@ -25,7 +26,9 @@ import zone.fothu.pets.service.UserService;
 @RestController
 @CrossOrigin
 @RequestMapping(path = "/users")
-public class UserController {
+public class UserController implements Serializable {
+
+    private static final long serialVersionUID = -6621821132473638274L;
 
     @Autowired
     UserRepository userRepository;

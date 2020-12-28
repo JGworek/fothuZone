@@ -13,7 +13,6 @@ import zone.fothu.pets.model.Pet;
 import zone.fothu.pets.repository.BattleLogRepository;
 import zone.fothu.pets.repository.BattleRepository;
 import zone.fothu.pets.repository.PetRepository;
-import zone.fothu.utility.ACUtility;
 
 @Service
 public class BattleService implements Serializable {
@@ -28,8 +27,7 @@ public class BattleService implements Serializable {
     PetRepository petRepository;
     @Autowired
     AnnotationConfigApplicationContext applicationContext;
-    @Autowired
-    ACUtility acUtility;
+
 
     private double attackingAttackPower, defendingAttackPower;
     private Pet attackingPet;
@@ -207,11 +205,8 @@ public class BattleService implements Serializable {
                 break BATTLE_LOOP;
             }
         }
-        if (acUtility.isScanned() == false) {
-            acUtility.ACScan();
-        }
 
-        BattleDTO battleDTO = applicationContext.getBean(BattleDTO.class);
+        BattleDTO battleDTO = new BattleDTO();
 
         if (battleType == "pve") {
             battleDTO.setBattle(battleRepository.findById(currentBattleID));

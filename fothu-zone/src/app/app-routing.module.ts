@@ -8,7 +8,6 @@ import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PetsHomeComponent } from './pets/pets-home/pets-home.component';
 import { NewPetComponent } from './pets/new-pet/new-pet.component';
-import { PetsComponent } from './pets/pets/pets.component';
 import { PveComponent } from './pets/pve/pve.component';
 import { PvpComponent } from './pets/pvp/pvp.component';
 import { BattleResultComponent } from './pets/battle-result/battle-result.component';
@@ -16,6 +15,7 @@ import { NewPetDetailsComponent } from './pets/new-pet-details/new-pet-details.c
 import { BattleComponent } from './pets/battle/battle.component';
 import { PetbarComponent } from './pets/petbar/petbar.component';
 import { MapComponent } from './pets/map/map.component';
+import { UserGuardGuard as UserGuard } from './auth/user-guard.guard';
 
 const routes: Routes = [
   { path: 'directory', component: LinksComponent },
@@ -25,7 +25,7 @@ const routes: Routes = [
   { path: 'directory/rosary', component: RosaryAppComponent },
   { path: 'playground', component: PlaygroundPageComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'profile', component: ProfileComponent },
+  { path: 'profile', component: ProfileComponent, canActivate: [UserGuard] },
   {
     path: 'FothuPets', children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -40,8 +40,9 @@ const routes: Routes = [
     ]
   },
   { path: 'visible', component: PetbarComponent, outlet: "petbar" },
+  { path: 'battle', component: BattleComponent, outlet: "battle"},
   { path: '', redirectTo: 'directory', pathMatch: 'full' },
-  { path: '**', redirectTo: 'directory', pathMatch: 'full' },
+  // { path: '**', redirectTo: 'directory', pathMatch: 'full' },
 ]
 
 @NgModule({

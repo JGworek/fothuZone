@@ -117,10 +117,19 @@ export class PlaygroundPageComponent implements OnInit {
     console.log(x); // 10
   }
 
-  ngOnInit() {
-    if (this.profileService.currentUser.username.toLowerCase() != 'fothu') {
-      this.router.navigate(['/directory']);
-    }
-  }
 
+
+
+
+
+
+
+
+
+
+  ngOnInit() {
+    // if (this.profileService.currentUser.username.toLowerCase() != 'fothu') {
+    //   this.router.navigate(['/directory']);
+    // }
+  }
 }

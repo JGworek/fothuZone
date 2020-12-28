@@ -26,22 +26,14 @@ public class Image implements Serializable {
     @Column(name = "image_url")
     private String imageURL;
 
-    @Column(name = "image_owner_username")
-    private String imageOwnerUsername;
-
-    @Column(name = "image_owner_name")
-    private String imageOwnerName;
-
     public Image() {
         super();
     }
 
-    public Image(int id, String imageURL, String imageOwnerUsername, String imageOwnerName) {
+    public Image(int id, String imageURL) {
         super();
         this.id = id;
         this.imageURL = imageURL;
-        this.imageOwnerUsername = imageOwnerUsername;
-        this.imageOwnerName = imageOwnerName;
     }
 
     public int getId() {
@@ -60,29 +52,11 @@ public class Image implements Serializable {
         this.imageURL = imageURL;
     }
 
-    public String getImageOwnerUsername() {
-        return imageOwnerUsername;
-    }
-
-    public void setImageOwnerUsername(String imageOwnerUsername) {
-        this.imageOwnerUsername = imageOwnerUsername;
-    }
-
-    public String getImageOwnerName() {
-        return imageOwnerName;
-    }
-
-    public void setImageOwnerName(String imageOwnerName) {
-        this.imageOwnerName = imageOwnerName;
-    }
-
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + id;
-        result = prime * result + ((imageOwnerName == null) ? 0 : imageOwnerName.hashCode());
-        result = prime * result + ((imageOwnerUsername == null) ? 0 : imageOwnerUsername.hashCode());
         result = prime * result + ((imageURL == null) ? 0 : imageURL.hashCode());
         return result;
     }
@@ -98,16 +72,6 @@ public class Image implements Serializable {
         Image other = (Image) obj;
         if (id != other.id)
             return false;
-        if (imageOwnerName == null) {
-            if (other.imageOwnerName != null)
-                return false;
-        } else if (!imageOwnerName.equals(other.imageOwnerName))
-            return false;
-        if (imageOwnerUsername == null) {
-            if (other.imageOwnerUsername != null)
-                return false;
-        } else if (!imageOwnerUsername.equals(other.imageOwnerUsername))
-            return false;
         if (imageURL == null) {
             if (other.imageURL != null)
                 return false;
@@ -118,7 +82,6 @@ public class Image implements Serializable {
 
     @Override
     public String toString() {
-        return "Image [id=" + id + ", imageURL=" + imageURL + ", imageOwnerUsername=" + imageOwnerUsername
-            + ", imageOwnerName=" + imageOwnerName + "]";
+        return "Image [id=" + id + ", imageURL=" + imageURL + "]";
     }
 }
