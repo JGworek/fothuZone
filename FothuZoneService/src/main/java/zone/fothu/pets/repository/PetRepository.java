@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import zone.fothu.pets.exception.PetNotFoundException;
 import zone.fothu.pets.exception.PetNotUpdatedException;
-import zone.fothu.pets.model.Pet;
+import zone.fothu.pets.model.profile.Pet;
 
 public interface PetRepository extends JpaRepository<Pet, Integer> {
 
@@ -36,15 +36,14 @@ public interface PetRepository extends JpaRepository<Pet, Integer> {
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "UPDATE pets.pets SET name = ?2, stat_type = ?3, hunger = ?4, current_health = ?5, max_health = ?6, strength = ?7, agility = ?8, intelligence = ?9, pet_level = ?10 current_xp = ?11 WHERE id = ?1")
-    void updatePet(int id, String name, String type, int hunger, int currentHealth, int maxHealth,
-        int strength, int dexterity, int intelligence, int petLevel, int currentXP)
-        throws PetNotUpdatedException, PSQLException;
+    void updatePet(int id, String name, String type, int hunger, int currentHealth, int maxHealth, int strength,
+        int dexterity, int intelligence, int petLevel, int currentXP) throws PetNotUpdatedException, PSQLException;
 
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "UPDATE pets.pets SET strength = ?2, agility = ?3, intelligence = ?4 WHERE id = ?1")
     void setPetStats(int id, int strength, int agility, int intelligence);
-    
+
 //    @Modifying
 //    @Transactional
 //    @Query(nativeQuery = true, value = "UPDATE pets.pets SET name = ?2, image = ?3, stat_type = ?4, hunger = ?5, current_health = ?6, max_health = ?7, strength = ?8, agility = ?9, intelligence = ?10, pet_level = ?11, current_xp = ?12, user_id = ?13  WHERE id = ?1")

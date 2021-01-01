@@ -1,7 +1,9 @@
-package zone.fothu.pets.model;
+package zone.fothu.pets.model.profile;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -103,54 +105,21 @@ public class User implements Serializable {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((favoriteColor == null) ? 0 : favoriteColor.hashCode());
-        result = prime * result + id;
-        result = prime * result + ((pets == null) ? 0 : pets.hashCode());
-        result = prime * result + ((secretPassword == null) ? 0 : secretPassword.hashCode());
-        result = prime * result + ((userPassword == null) ? 0 : userPassword.hashCode());
-        result = prime * result + ((username == null) ? 0 : username.hashCode());
-        return result;
+        return Objects.hash(favoriteColor, id, pets, secretPassword, userPassword, username);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (!(obj instanceof User)) {
             return false;
-        if (getClass() != obj.getClass())
-            return false;
+        }
         User other = (User) obj;
-        if (favoriteColor == null) {
-            if (other.favoriteColor != null)
-                return false;
-        } else if (!favoriteColor.equals(other.favoriteColor))
-            return false;
-        if (id != other.id)
-            return false;
-        if (pets == null) {
-            if (other.pets != null)
-                return false;
-        } else if (!pets.equals(other.pets))
-            return false;
-        if (secretPassword == null) {
-            if (other.secretPassword != null)
-                return false;
-        } else if (!secretPassword.equals(other.secretPassword))
-            return false;
-        if (userPassword == null) {
-            if (other.userPassword != null)
-                return false;
-        } else if (!userPassword.equals(other.userPassword))
-            return false;
-        if (username == null) {
-            if (other.username != null)
-                return false;
-        } else if (!username.equals(other.username))
-            return false;
-        return true;
+        return Objects.equals(favoriteColor, other.favoriteColor) && id == other.id && Objects.equals(pets, other.pets)
+            && Objects.equals(secretPassword, other.secretPassword) && Objects.equals(userPassword, other.userPassword)
+            && Objects.equals(username, other.username);
     }
 
     @Override

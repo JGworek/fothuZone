@@ -7,7 +7,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.2.2.RELEASE</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<relativePath />
 	</parent>
 	<groupId>zone.fothu</groupId>
 	<artifactId>FothuZoneService</artifactId>
@@ -94,6 +94,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>zone.fothu.FothuZoneApplication</mainClass>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

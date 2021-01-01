@@ -4,28 +4,29 @@ import java.io.Serializable;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Service;
 
 import zone.fothu.pets.exception.BattleNotFoundException;
 import zone.fothu.pets.exception.PetNotFoundException;
-import zone.fothu.pets.model.BattleDTO;
-import zone.fothu.pets.model.Pet;
-import zone.fothu.pets.repository.BattleLogRepository;
-import zone.fothu.pets.repository.BattleRepository;
+import zone.fothu.pets.model.adventure.AutoBattleDTO;
+import zone.fothu.pets.model.profile.Pet;
+import zone.fothu.pets.repository.AutoBattleLogRepository;
+import zone.fothu.pets.repository.AutoBattleRepository;
 import zone.fothu.pets.repository.PetRepository;
 
+@Service
 public class AutoBattleService implements Serializable {
-    
+
     private static final long serialVersionUID = -7951721923780422911L;
 
     @Autowired
-    BattleRepository battleRepository;
+    AutoBattleRepository battleRepository;
     @Autowired
-    BattleLogRepository battleLogRepository;
+    AutoBattleLogRepository battleLogRepository;
     @Autowired
     PetRepository petRepository;
     @Autowired
     AnnotationConfigApplicationContext applicationContext;
-
 
     private double attackingAttackPower, defendingAttackPower;
     private Pet attackingPet;
@@ -42,7 +43,7 @@ public class AutoBattleService implements Serializable {
     private double attackingSpeed, defendingSpeed;
     private double attackingAccuracy, defendingAccuracy;
 
-    public BattleDTO battle(int attackerId, int defenderId, String battleType)
+    public AutoBattleDTO battle(int attackerId, int defenderId, String battleType)
         throws BattleNotFoundException, PetNotFoundException {
         int numberOfLevelUps = 0;
         boolean attackerVictory = false;
@@ -204,7 +205,7 @@ public class AutoBattleService implements Serializable {
             }
         }
 
-        BattleDTO battleDTO = new BattleDTO();
+        AutoBattleDTO battleDTO = new AutoBattleDTO();
 
         if (battleType == "pve") {
             battleDTO.setBattle(battleRepository.findById(currentBattleID));
@@ -219,7 +220,8 @@ public class AutoBattleService implements Serializable {
         return battleDTO;
     }
 
-    //sets XP of winning pet, and levels them up appropriately if they did not fight themself
+    // sets XP of winning pet, and levels them up appropriately if they did not
+    // fight themself
     private int setNewXP(Pet winningPet, Pet losingPet) {
         int numberOfLevelUps = 0;
         if (winningPet.getOwner().getId() != losingPet.getOwner().getId()) {

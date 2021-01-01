@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import zone.fothu.pets.exception.PetNotFoundException;
-import zone.fothu.pets.model.Image;
-import zone.fothu.pets.model.Pet;
+import zone.fothu.pets.model.profile.Image;
+import zone.fothu.pets.model.profile.Pet;
 import zone.fothu.pets.repository.ImageRepository;
 import zone.fothu.pets.repository.PetRepository;
 import zone.fothu.pets.service.ImageService;
@@ -26,7 +26,7 @@ import zone.fothu.pets.service.ImageService;
 public class ImageController implements Serializable {
 
     private static final long serialVersionUID = -6651376789756065729L;
-    
+
     @Autowired
     ImageRepository imageRepository;
     @Autowired
@@ -38,7 +38,7 @@ public class ImageController implements Serializable {
     public List<Image> getAllImages() {
         return imageRepository.getAllImages();
     }
-    
+
     @GetMapping("/id/{id}")
     public ResponseEntity<Image> getImageWithId(@PathVariable int id) {
         Image image = imageRepository.findImageById(id);

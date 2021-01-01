@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import zone.fothu.pets.exception.UserNotFoundException;
 import zone.fothu.pets.exception.UserNotUpdatedException;
-import zone.fothu.pets.model.User;
-import zone.fothu.pets.model.UserDTO;
+import zone.fothu.pets.model.profile.User;
+import zone.fothu.pets.model.profile.UserDTO;
 import zone.fothu.pets.repository.UserRepository;
 
 @Service
@@ -44,11 +44,12 @@ public class UserService implements Serializable {
             throw new UserNotFoundException();
         }
     }
-    
+
     public User updateUser(User updatingUser) throws UserNotFoundException, PSQLException, UserNotUpdatedException {
         String encodedPassword = passwordEncoder.encode(updatingUser.getUserPassword());
 //        String encodedSecretPassword = passwordEncoder.encode(updatingUser.getSecretPassword());
-        userRepository.updateUser(updatingUser.getId(), updatingUser.getUsername(), encodedPassword, updatingUser.getFavoriteColor());
+        userRepository.updateUser(updatingUser.getId(), updatingUser.getUsername(), encodedPassword,
+            updatingUser.getFavoriteColor());
         User returnedUser = userRepository.findById(updatingUser.getId());
         returnedUser.setUserPassword(null);
         returnedUser.setSecretPassword(null);
@@ -80,14 +81,16 @@ public class UserService implements Serializable {
 
     public User getUserWithUsernameAndPassword(String username, String password) throws UserNotFoundException {
         String encodedPassword = passwordEncoder.encode(password);
-        User userFromUsernameAndPassword = userRepository.findByUsernameAndPassword(username.toLowerCase(), encodedPassword);
+        User userFromUsernameAndPassword = userRepository.findByUsernameAndPassword(username.toLowerCase(),
+            encodedPassword);
         userFromUsernameAndPassword.setUserPassword(null);
         userFromUsernameAndPassword.setSecretPassword(null);
         return userFromUsernameAndPassword;
     }
 
     public UserDTO recoverUser(UserDTO recoveringUser) throws UserNotFoundException {
-        UserDTO recoveredUser = userRepository.getRecoveredUser(recoveringUser.getUsername().toLowerCase(), passwordEncoder.encode(recoveringUser.getSecretPassword()));
+        UserDTO recoveredUser = userRepository.getRecoveredUser(recoveringUser.getUsername().toLowerCase(),
+            passwordEncoder.encode(recoveringUser.getSecretPassword()));
         return recoveredUser;
     }
 }

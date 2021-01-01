@@ -1,6 +1,7 @@
-package zone.fothu.pets.model;
+package zone.fothu.pets.model.adventure;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -54,27 +55,19 @@ public class XPValue implements Serializable {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + petLevel;
-        result = prime * result + xpToNextLevel;
-        return result;
+        return Objects.hash(petLevel, xpToNextLevel);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (!(obj instanceof XPValue)) {
             return false;
-        if (getClass() != obj.getClass())
-            return false;
+        }
         XPValue other = (XPValue) obj;
-        if (petLevel != other.petLevel)
-            return false;
-        if (xpToNextLevel != other.xpToNextLevel)
-            return false;
-        return true;
+        return petLevel == other.petLevel && xpToNextLevel == other.xpToNextLevel;
     }
 
     @Override

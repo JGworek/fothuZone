@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import zone.fothu.pets.exception.UserNotFoundException;
 import zone.fothu.pets.exception.UserNotUpdatedException;
-import zone.fothu.pets.model.User;
-import zone.fothu.pets.model.UserDTO;
+import zone.fothu.pets.model.profile.User;
+import zone.fothu.pets.model.profile.UserDTO;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 

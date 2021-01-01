@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import zone.fothu.pets.exception.UserNotFoundException;
 import zone.fothu.pets.exception.UserNotUpdatedException;
-import zone.fothu.pets.model.User;
-import zone.fothu.pets.model.UserDTO;
+import zone.fothu.pets.model.profile.User;
+import zone.fothu.pets.model.profile.UserDTO;
 import zone.fothu.pets.repository.UserRepository;
 import zone.fothu.pets.service.UserService;
 
@@ -93,7 +93,7 @@ public class UserController implements Serializable {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Username or Password is incorrect", e);
         }
     }
-    
+
     @PostMapping("login/recovery")
     public UserDTO recoverUser(@RequestBody UserDTO recoveringUser) {
         try {
@@ -104,8 +104,9 @@ public class UserController implements Serializable {
     }
 
     @PatchMapping("/update")
-    public User updateUser(@RequestBody User updatedUser) throws UserNotFoundException, PSQLException, UserNotUpdatedException {
-       return userService.updateUser(updatedUser);
+    public User updateUser(@RequestBody User updatedUser)
+        throws UserNotFoundException, PSQLException, UserNotUpdatedException {
+        return userService.updateUser(updatedUser);
     }
 
 }

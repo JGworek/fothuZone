@@ -1,6 +1,7 @@
-package zone.fothu.pets.model;
+package zone.fothu.pets.model.profile;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Component;
 public class UserDTO implements Serializable {
 
     private static final long serialVersionUID = 6951903949395867726L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -30,7 +31,7 @@ public class UserDTO implements Serializable {
     private String userPassword;
     @Column(name = "secret_password")
     private String secretPassword;
-    
+
     public UserDTO() {
         super();
     }
@@ -86,48 +87,21 @@ public class UserDTO implements Serializable {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((favoriteColor == null) ? 0 : favoriteColor.hashCode());
-        result = prime * result + id;
-        result = prime * result + ((secretPassword == null) ? 0 : secretPassword.hashCode());
-        result = prime * result + ((userPassword == null) ? 0 : userPassword.hashCode());
-        result = prime * result + ((username == null) ? 0 : username.hashCode());
-        return result;
+        return Objects.hash(favoriteColor, id, secretPassword, userPassword, username);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (!(obj instanceof UserDTO)) {
             return false;
-        if (getClass() != obj.getClass())
-            return false;
+        }
         UserDTO other = (UserDTO) obj;
-        if (favoriteColor == null) {
-            if (other.favoriteColor != null)
-                return false;
-        } else if (!favoriteColor.equals(other.favoriteColor))
-            return false;
-        if (id != other.id)
-            return false;
-        if (secretPassword == null) {
-            if (other.secretPassword != null)
-                return false;
-        } else if (!secretPassword.equals(other.secretPassword))
-            return false;
-        if (userPassword == null) {
-            if (other.userPassword != null)
-                return false;
-        } else if (!userPassword.equals(other.userPassword))
-            return false;
-        if (username == null) {
-            if (other.username != null)
-                return false;
-        } else if (!username.equals(other.username))
-            return false;
-        return true;
+        return Objects.equals(favoriteColor, other.favoriteColor) && id == other.id
+            && Objects.equals(secretPassword, other.secretPassword) && Objects.equals(userPassword, other.userPassword)
+            && Objects.equals(username, other.username);
     }
 
     @Override

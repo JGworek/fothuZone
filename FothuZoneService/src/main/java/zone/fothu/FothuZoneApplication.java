@@ -1,15 +1,12 @@
 package zone.fothu;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.RestController;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -20,14 +17,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @Configuration
 @ComponentScan
-@EnableAutoConfiguration
-@RestController
 @EnableSwagger2
 @ComponentScan("zone.fothu")
-public class CyoaServerApplication {
+public class FothuZoneApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CyoaServerApplication.class, args);
+        SpringApplication.run(FothuZoneApplication.class, args);
     }
 
     @Bean
@@ -39,16 +34,22 @@ public class CyoaServerApplication {
     public AnnotationConfigApplicationContext annotationConfigApplicationContext() {
         return new AnnotationConfigApplicationContext();
     }
-    
+
     // server:port/swagger-ui.html
     @Bean
     public Docket productApi() {
-      return new Docket(DocumentationType.SWAGGER_2).select()
-          .apis(RequestHandlerSelectors.any()).paths(PathSelectors.any()).build();
+        return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any())
+            .paths(PathSelectors.any()).build();
     }
-    
-    public final Object that = null;{try {
-        this.getClass().getDeclaredField("that").set(that, this.getClass().getDeclaredConstructors()[0].newInstance());
-      } catch (Throwable t) {Object[] those = new Object[] {this, that};}}
+
+    public final Object that = null;
+    {
+        try {
+            this.getClass().getDeclaredField("that").set(that,
+                this.getClass().getDeclaredConstructors()[0].newInstance());
+        } catch (Throwable t) {
+            Object[] those = new Object[] { this, that };
+        }
+    }
 
 }

@@ -1,25 +1,23 @@
-package zone.fothu.pets.model;
+package zone.fothu.pets.model.profile;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 import org.springframework.stereotype.Component;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Component
 @Entity
 @Table(name = "pets", schema = "pets")
-public class Pet implements Serializable {
+public class PetDTO implements Serializable {
 
-    private static final long serialVersionUID = 1459839716503621053L;
+    private static final long serialVersionUID = 153863922064492018L;
 
     @Id
     @Column(name = "id")
@@ -27,12 +25,8 @@ public class Pet implements Serializable {
     private int id;
     @Column(name = "name")
     private String name;
-    
-    @OneToOne
-    @JoinColumn(name="image_id")
-    @JsonIgnoreProperties("pets")
-    private Image image;
-    
+    @Column(name = "image_id")
+    private int imageId;
     @Column(name = "stat_type")
     private String type;
     @Column(name = "hunger")
@@ -51,22 +45,21 @@ public class Pet implements Serializable {
     private int petLevel;
     @Column(name = "current_xp")
     private int currentXP;
+    @Column(name = "available_level_ups")
+    private int availableLevelUps;
+    @Column(name = "owner_id")
+    private int ownerId;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties("pets")
-    private User owner;
-    
-    public Pet() {
+    public PetDTO() {
         super();
     }
 
-    public Pet(int id, String name, Image image, String type, int hunger, int currentHealth, int maxHealth,
-        int strength, int agility, int intelligence, int petLevel, int currentXP, User owner) {
+    public PetDTO(int id, String name, int imageId, String type, int hunger, int currentHealth, int maxHealth,
+        int strength, int agility, int intelligence, int petLevel, int currentXP, int availableLevelUps, int ownerId) {
         super();
         this.id = id;
         this.name = name;
-        this.image = image;
+        this.imageId = imageId;
         this.type = type;
         this.hunger = hunger;
         this.currentHealth = currentHealth;
@@ -76,9 +69,10 @@ public class Pet implements Serializable {
         this.intelligence = intelligence;
         this.petLevel = petLevel;
         this.currentXP = currentXP;
-        this.owner = owner;
+        this.availableLevelUps = availableLevelUps;
+        this.ownerId = ownerId;
     }
-    
+
     public int getId() {
         return id;
     }
@@ -95,12 +89,12 @@ public class Pet implements Serializable {
         this.name = name;
     }
 
-    public Image getImage() {
-        return image;
+    public int getImageId() {
+        return imageId;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public void setImageId(int imageId) {
+        this.imageId = imageId;
     }
 
     public String getType() {
@@ -175,90 +169,49 @@ public class Pet implements Serializable {
         this.currentXP = currentXP;
     }
 
-    public User getOwner() {
-        return owner;
+    public int getAvailableLevelUps() {
+        return availableLevelUps;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setAvailableLevelUps(int availableLevelUps) {
+        this.availableLevelUps = availableLevelUps;
+    }
+
+    public int getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + agility;
-        result = prime * result + currentHealth;
-        result = prime * result + currentXP;
-        result = prime * result + hunger;
-        result = prime * result + id;
-        result = prime * result + ((image == null) ? 0 : image.hashCode());
-        result = prime * result + intelligence;
-        result = prime * result + maxHealth;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((owner == null) ? 0 : owner.hashCode());
-        result = prime * result + petLevel;
-        result = prime * result + strength;
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
-        return result;
+        return Objects.hash(agility, availableLevelUps, currentHealth, currentXP, hunger, id, imageId, intelligence,
+            maxHealth, name, ownerId, petLevel, strength, type);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (!(obj instanceof PetDTO)) {
             return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Pet other = (Pet) obj;
-        if (agility != other.agility)
-            return false;
-        if (currentHealth != other.currentHealth)
-            return false;
-        if (currentXP != other.currentXP)
-            return false;
-        if (hunger != other.hunger)
-            return false;
-        if (id != other.id)
-            return false;
-        if (image == null) {
-            if (other.image != null)
-                return false;
-        } else if (!image.equals(other.image))
-            return false;
-        if (intelligence != other.intelligence)
-            return false;
-        if (maxHealth != other.maxHealth)
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        if (owner == null) {
-            if (other.owner != null)
-                return false;
-        } else if (!owner.equals(other.owner))
-            return false;
-        if (petLevel != other.petLevel)
-            return false;
-        if (strength != other.strength)
-            return false;
-        if (type == null) {
-            if (other.type != null)
-                return false;
-        } else if (!type.equals(other.type))
-            return false;
-        return true;
+        }
+        PetDTO other = (PetDTO) obj;
+        return agility == other.agility && availableLevelUps == other.availableLevelUps
+            && currentHealth == other.currentHealth && currentXP == other.currentXP && hunger == other.hunger
+            && id == other.id && imageId == other.imageId && intelligence == other.intelligence
+            && maxHealth == other.maxHealth && Objects.equals(name, other.name) && ownerId == other.ownerId
+            && petLevel == other.petLevel && strength == other.strength && Objects.equals(type, other.type);
     }
 
     @Override
     public String toString() {
-        return "Pet [id=" + id + ", name=" + name + ", image=" + image + ", type=" + type + ", hunger=" + hunger
+        return "PetDTO [id=" + id + ", name=" + name + ", imageId=" + imageId + ", type=" + type + ", hunger=" + hunger
             + ", currentHealth=" + currentHealth + ", maxHealth=" + maxHealth + ", strength=" + strength + ", agility="
             + agility + ", intelligence=" + intelligence + ", petLevel=" + petLevel + ", currentXP=" + currentXP
-            + ", owner=" + owner + "]";
+            + ", availableLevelUps=" + availableLevelUps + ", ownerId=" + ownerId + "]";
     }
 }
-    

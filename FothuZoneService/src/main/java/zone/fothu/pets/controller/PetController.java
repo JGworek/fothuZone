@@ -17,12 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import zone.fothu.pets.exception.PetNotFoundException;
 import zone.fothu.pets.exception.PetNotUpdatedException;
 import zone.fothu.pets.exception.UserNotFoundException;
-import zone.fothu.pets.model.Image;
-import zone.fothu.pets.model.Pet;
+import zone.fothu.pets.model.profile.Pet;
 import zone.fothu.pets.repository.ImageRepository;
 import zone.fothu.pets.repository.PetRepository;
 import zone.fothu.pets.repository.UserRepository;
-import zone.fothu.pets.service.ImageService;
 
 @RestController
 @CrossOrigin
@@ -30,7 +28,7 @@ import zone.fothu.pets.service.ImageService;
 public class PetController implements Serializable {
 
     private static final long serialVersionUID = 458928494736944980L;
-    
+
     @Autowired
     PetRepository petRepository;
     @Autowired
@@ -102,7 +100,6 @@ public class PetController implements Serializable {
     @PutMapping("/update")
     public ResponseEntity<Pet> updatePet(@RequestBody Pet updatedPet)
         throws PetNotFoundException, PSQLException, PetNotUpdatedException {
-        boolean success = false;
         petRepository.updatePet(updatedPet.getId(), updatedPet.getName(), updatedPet.getType(), updatedPet.getHunger(),
             updatedPet.getCurrentHealth(), updatedPet.getMaxHealth(), updatedPet.getStrength(), updatedPet.getAgility(),
             updatedPet.getIntelligence(), updatedPet.getPetLevel(), updatedPet.getCurrentXP());

@@ -1,4 +1,4 @@
-package zone.fothu;
+package zone.fothu.utility;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -22,26 +22,23 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer, WebApp
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/fothu-zone-websocket")
-                .setAllowedOrigins("*")
-                .withSockJS();
+        registry.addEndpoint("/fothu-zone-websocket").setAllowedOrigins("*").withSockJS();
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-//        registry.setApplicationDestinationPrefixes("/app")
-//                .enableSimpleBroker("/message");
-        registry.setApplicationDestinationPrefixes("/fothu-zone-sendpoint").enableSimpleBroker("/battle", "/battle-history");
+        registry.setApplicationDestinationPrefixes("/fothu-zone-sendpoint").enableSimpleBroker("/battle",
+            "/battle-history");
     }
 
-//    GOTTA SEE IF I NEED THIS FOR SPRING BOOT
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         AnnotationConfigWebApplicationContext container = new AnnotationConfigWebApplicationContext();
         container.register(WebSocketConfig.class);
 
         servletContext.addListener(new ContextLoaderListener(container));
-        ServletRegistration.Dynamic dispatcher = servletContext.addServlet("DispatcherServlet", new DispatcherServlet(container));
+        ServletRegistration.Dynamic dispatcher = servletContext.addServlet("DispatcherServlet",
+            new DispatcherServlet(container));
         dispatcher.setLoadOnStartup(1);
         dispatcher.addMapping("/");
     }

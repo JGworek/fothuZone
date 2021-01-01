@@ -1,6 +1,7 @@
-package zone.fothu.pets.model;
+package zone.fothu.pets.model.profile;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -54,30 +55,19 @@ public class Image implements Serializable {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + id;
-        result = prime * result + ((imageURL == null) ? 0 : imageURL.hashCode());
-        return result;
+        return Objects.hash(id, imageURL);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (!(obj instanceof Image)) {
             return false;
-        if (getClass() != obj.getClass())
-            return false;
+        }
         Image other = (Image) obj;
-        if (id != other.id)
-            return false;
-        if (imageURL == null) {
-            if (other.imageURL != null)
-                return false;
-        } else if (!imageURL.equals(other.imageURL))
-            return false;
-        return true;
+        return id == other.id && Objects.equals(imageURL, other.imageURL);
     }
 
     @Override
