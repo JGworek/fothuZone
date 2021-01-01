@@ -17,8 +17,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Component
 @Entity
-@Table(name = "battle_logs", schema = "pets")
-public class BattleLog implements Serializable {
+@Table(name = "auto_battle_logs", schema = "pets")
+public class AutoBattleLog implements Serializable {
 
     private static final long serialVersionUID = 534107614442847407L;
 
@@ -29,8 +29,8 @@ public class BattleLog implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "battle_id")
-    @JsonIgnoreProperties("battle_logs")
-    private Battle battle;
+    @JsonIgnoreProperties("auto_battle_logs")
+    private AutoBattle battle;
 
     @Column(name = "turn_number")
     private int turnNumber;
@@ -52,11 +52,11 @@ public class BattleLog implements Serializable {
         this.id = id;
     }
 
-    public Battle getBattle() {
+    public AutoBattle getBattle() {
         return battle;
     }
 
-    public void setBattle(Battle battle) {
+    public void setBattle(AutoBattle battle) {
         this.battle = battle;
     }
 
@@ -92,11 +92,11 @@ public class BattleLog implements Serializable {
         this.battleFinished = battleFinished;
     }
 
-    public BattleLog() {
+    public AutoBattleLog() {
         super();
     }
 
-    public BattleLog(int id, Battle battle, int turnNumber, String turnText, String turnResult,
+    public AutoBattleLog(int id, AutoBattle battle, int turnNumber, String turnText, String turnResult,
         Boolean battleFinished) {
         super();
         this.id = id;
@@ -128,7 +128,7 @@ public class BattleLog implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        BattleLog other = (BattleLog) obj;
+        AutoBattleLog other = (AutoBattleLog) obj;
         if (battle == null) {
             if (other.battle != null)
                 return false;

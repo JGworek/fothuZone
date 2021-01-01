@@ -19,8 +19,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Component
 @Entity
-@Table(name = "battles", schema = "pets")
-public class Battle implements Serializable {
+@Table(name = "auto_battles", schema = "pets")
+public class AutoBattle implements Serializable {
 
     private static final long serialVersionUID = 7118617841820485090L;
 
@@ -31,26 +31,26 @@ public class Battle implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "attacking_pet_id")
-    @JsonIgnoreProperties("battles")
+    @JsonIgnoreProperties("auto_battles")
     private Pet attackingPet;
 
     @ManyToOne
     @JoinColumn(name = "defending_pet_id")
-    @JsonIgnoreProperties("battles")
+    @JsonIgnoreProperties("auto_battles")
     private Pet defendingPet;
 
     @OneToMany(mappedBy = "battle")
     @JsonIgnoreProperties("battle")
-    private List<BattleLog> battleLogs;
+    private List<AutoBattleLog> battleLogs;
 
     @ManyToOne
     @JoinColumn(name = "winning_pet_id")
-    @JsonIgnoreProperties("battles")
+    @JsonIgnoreProperties("auto_battles")
     private Pet winningPet;
 
     @ManyToOne
     @JoinColumn(name = "losing_pet_id")
-    @JsonIgnoreProperties("battles")
+    @JsonIgnoreProperties("auto_battles")
     private Pet losingPet;
 
     public int getId() {
@@ -77,11 +77,11 @@ public class Battle implements Serializable {
         this.defendingPet = defendingPet;
     }
 
-    public List<BattleLog> getBattleLogs() {
+    public List<AutoBattleLog> getBattleLogs() {
         return battleLogs;
     }
 
-    public void setBattleLogs(List<BattleLog> battleLogs) {
+    public void setBattleLogs(List<AutoBattleLog> battleLogs) {
         this.battleLogs = battleLogs;
     }
 
@@ -101,11 +101,11 @@ public class Battle implements Serializable {
         this.losingPet = losingPet;
     }
 
-    public Battle() {
+    public AutoBattle() {
         super();
     }
 
-    public Battle(int id, Pet attackingPet, Pet defendingPet, List<BattleLog> battleLogs, Pet winningPet,
+    public AutoBattle(int id, Pet attackingPet, Pet defendingPet, List<AutoBattleLog> battleLogs, Pet winningPet,
         Pet losingPet) {
         super();
         this.id = id;
@@ -137,7 +137,7 @@ public class Battle implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Battle other = (Battle) obj;
+        AutoBattle other = (AutoBattle) obj;
         if (attackingPet == null) {
             if (other.attackingPet != null)
                 return false;
@@ -170,7 +170,7 @@ public class Battle implements Serializable {
 
     @Override
     public String toString() {
-        return "Battle [id=" + id + ", attackingPet=" + attackingPet + ", defendingPet=" + defendingPet
+        return "AutoBattle [id=" + id + ", attackingPet=" + attackingPet + ", defendingPet=" + defendingPet
             + ", battleLogs=" + battleLogs + ", winningPet=" + winningPet + ", losingPet=" + losingPet + "]";
     }
 

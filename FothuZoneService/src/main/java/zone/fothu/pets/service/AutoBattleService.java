@@ -1,8 +1,7 @@
 package zone.fothu.pets.service;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -10,22 +9,21 @@ import org.springframework.stereotype.Service;
 
 import zone.fothu.pets.exception.BattleNotFoundException;
 import zone.fothu.pets.exception.PetNotFoundException;
-import zone.fothu.pets.model.Battle;
+import zone.fothu.pets.model.AutoBattle;
 import zone.fothu.pets.model.Pet;
-import zone.fothu.pets.model.UserBattleResult;
-import zone.fothu.pets.repository.BattleLogRepository;
-import zone.fothu.pets.repository.BattleRepository;
+import zone.fothu.pets.repository.AutoBattleLogRepository;
+import zone.fothu.pets.repository.AutoBattleRepository;
 import zone.fothu.pets.repository.PetRepository;
 
 @Service
-public class BattleService implements Serializable {
+public class AutoBattleService implements Serializable {
 
     private static final long serialVersionUID = -7951721923780422911L;
 
     @Autowired
-    BattleRepository battleRepository;
+    AutoBattleRepository battleRepository;
     @Autowired
-    BattleLogRepository battleLogRepository;
+    AutoBattleLogRepository battleLogRepository;
     @Autowired
     PetRepository petRepository;
     @Autowired
@@ -45,10 +43,8 @@ public class BattleService implements Serializable {
     private double attackingArmor, defendingArmor;
     private double attackingSpeed, defendingSpeed;
     private double attackingAccuracy, defendingAccuracy;
-    private boolean scanned = false;
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public List battle(int attackerId, int defenderId) throws BattleNotFoundException, PetNotFoundException {
+    public AutoBattle battle(int attackerId, int defenderId) throws BattleNotFoundException, PetNotFoundException {
         int numberOfLevelUps = 0;
         boolean attackerVictory = false;
         // get pets
@@ -181,19 +177,7 @@ public class BattleService implements Serializable {
                 break BATTLE_LOOP;
             }
         }
-        Battle battleResult = battleRepository.findById(battleRepository.findLatestBattleID());
-        List battleResultWithLevel = new ArrayList();
-        battleResultWithLevel.add(battleResult);
-        applicationContext.scan("zone.fothu.pets.model");
-        if (scanned == false) {
-            applicationContext.refresh();
-            scanned = true;
-        }
-        UserBattleResult levelUpObject = applicationContext.getBean(UserBattleResult.class);
-        levelUpObject.setNumberOfLevelUps(numberOfLevelUps);
-        levelUpObject.setUserVictory(attackerVictory);
-        battleResultWithLevel.add(levelUpObject);
-        return battleResultWithLevel;
+        return battleRepository.findById(battleRepository.findLatestBattleID());
     }
 
     private int setNewXP(Pet winningPet, Pet losingPet) {

@@ -13,27 +13,27 @@ import org.springframework.web.bind.annotation.RestController;
 
 import zone.fothu.pets.exception.BattleNotFoundException;
 import zone.fothu.pets.exception.PetNotFoundException;
-import zone.fothu.pets.model.Battle;
-import zone.fothu.pets.repository.BattleLogRepository;
-import zone.fothu.pets.repository.BattleRepository;
-import zone.fothu.pets.service.BattleService;
+import zone.fothu.pets.model.AutoBattle;
+import zone.fothu.pets.repository.AutoBattleLogRepository;
+import zone.fothu.pets.repository.AutoBattleRepository;
+import zone.fothu.pets.service.AutoBattleService;
 
 @RestController
 @CrossOrigin
-@RequestMapping(path = "/battle")
+@RequestMapping(path = "/autoBattle")
 public class BattleController {
 
     @Autowired
-    BattleRepository battleRepository;
+    AutoBattleRepository battleRepository;
     @Autowired
-    BattleLogRepository battleLogRepository;
+    AutoBattleLogRepository battleLogRepository;
     @Autowired
-    BattleService battleService;
+    AutoBattleService autoBattleService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<Battle>> getAllBattles() {
-        List<Battle> battles = battleRepository.findAll();
-        for (Battle battle : battles) {
+    public ResponseEntity<List<AutoBattle>> getAllBattles() {
+        List<AutoBattle> battles = battleRepository.findAll();
+        for (AutoBattle battle : battles) {
             if (battle.getAttackingPet().getOwner() != null) {
                 battle.getAttackingPet().getOwner().setUserPassword(null);
             }
@@ -45,8 +45,8 @@ public class BattleController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<Battle> getBattleById(@PathVariable int id) throws BattleNotFoundException {
-        Battle battle = battleRepository.findById(id);
+    public ResponseEntity<AutoBattle> getBattleById(@PathVariable int id) throws BattleNotFoundException {
+        AutoBattle battle = battleRepository.findById(id);
         if (battle.getAttackingPet().getOwner() != null) {
             battle.getAttackingPet().getOwner().setUserPassword(null);
         }
@@ -57,19 +57,16 @@ public class BattleController {
         return ResponseEntity.ok(battle);
     }
 
-    @SuppressWarnings({"rawtypes","unchecked"})
-    @PostMapping("/newBattle/attackerId/{attackerId}/defenderId/{defenderId}")
-    public ResponseEntity<List> createNewBattle(@PathVariable int attackerId, @PathVariable int defenderId)
+    @PostMapping("/new/attackerId/{attackerId}/defenderId/{defenderId}")
+    public ResponseEntity<AutoBattle> createNewBattle(@PathVariable int attackerId, @PathVariable int defenderId)
         throws BattleNotFoundException, PetNotFoundException {
-        List battleResult = battleService.battle(attackerId, defenderId);
-        Battle battle = (Battle) battleResult.get(0);
-        if (battle.getAttackingPet().getOwner() != null) {
-            battle.getAttackingPet().getOwner().setUserPassword(null);
+        AutoBattle battleResult = autoBattleService.battle(attackerId, defenderId);
+        if (battleResult.getAttackingPet().getOwner() != null) {
+            battleResult.getAttackingPet().getOwner().setUserPassword(null);
         }
-        if (battle.getDefendingPet().getOwner() != null) {
-            battle.getDefendingPet().getOwner().setUserPassword(null);
+        if (battleResult.getDefendingPet().getOwner() != null) {
+            battleResult.getDefendingPet().getOwner().setUserPassword(null);
         }
-        battleResult.set(0, battle);
         return ResponseEntity.ok(battleResult);
     }
 }
