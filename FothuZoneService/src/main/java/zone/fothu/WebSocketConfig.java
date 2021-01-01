@@ -1,25 +1,49 @@
 package zone.fothu;
 
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.socket.WebSocketHandler;
-import org.springframework.web.socket.config.annotation.EnableWebSocket;
-import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
-import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
 
 @Configuration
-@EnableWebSocket
-public class WebSocketConfig implements WebSocketConfigurer {
+@ComponentScan("zone.fothu")
+@EnableWebSocketMessageBroker
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer, WebApplicationInitializer {
 
     @Override
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(myHandler(), "/myHandler");
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/fothu-zone-websocket")
+                .setAllowedOrigins("*")
+                .withSockJS();
     }
 
-    @Bean
-    public WebSocketHandler myHandler() {
-        return new MyHandler();
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry registry) {
+//        registry.setApplicationDestinationPrefixes("/app")
+//                .enableSimpleBroker("/message");
+        registry.setApplicationDestinationPrefixes("/fothu-zone-sendpoint").enableSimpleBroker("/battle", "/battle-history");
     }
 
+//    GOTTA SEE IF I NEED THIS FOR SPRING BOOT
+    @Override
+    public void onStartup(ServletContext servletContext) throws ServletException {
+        AnnotationConfigWebApplicationContext container = new AnnotationConfigWebApplicationContext();
+        container.register(WebSocketConfig.class);
+
+        servletContext.addListener(new ContextLoaderListener(container));
+        ServletRegistration.Dynamic dispatcher = servletContext.addServlet("DispatcherServlet", new DispatcherServlet(container));
+        dispatcher.setLoadOnStartup(1);
+        dispatcher.addMapping("/");
+    }
 
 }

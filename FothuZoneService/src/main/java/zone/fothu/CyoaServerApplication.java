@@ -23,6 +23,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableAutoConfiguration
 @RestController
 @EnableSwagger2
+@ComponentScan("zone.fothu")
 public class CyoaServerApplication {
 
     public static void main(String[] args) {

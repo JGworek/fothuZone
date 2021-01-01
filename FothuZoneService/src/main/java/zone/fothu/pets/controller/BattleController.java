@@ -17,6 +17,7 @@ import zone.fothu.pets.model.Battle;
 import zone.fothu.pets.model.BattleDTO;
 import zone.fothu.pets.repository.BattleLogRepository;
 import zone.fothu.pets.repository.BattleRepository;
+import zone.fothu.pets.service.AutoBattleService;
 import zone.fothu.pets.service.BattleService;
 
 @RestController
@@ -29,7 +30,7 @@ public class BattleController {
     @Autowired
     BattleLogRepository battleLogRepository;
     @Autowired
-    BattleService battleService;
+    AutoBattleService autoBattleService;
 
     @GetMapping("/all")
     public ResponseEntity<List<Battle>> getAllBattles() {
@@ -58,10 +59,10 @@ public class BattleController {
         return ResponseEntity.ok(battle);
     }
 
-    @PostMapping("/newBattle/pve/attackerId/{attackerId}/defenderId/{defenderId}")
+    @PostMapping("/newAutoBattle/pve/attackerId/{attackerId}/defenderId/{defenderId}")
     public ResponseEntity<BattleDTO> createNewPVEBattle(@PathVariable int attackerId, @PathVariable int defenderId)
         throws BattleNotFoundException, PetNotFoundException {
-        BattleDTO battleResult = battleService.battle(attackerId, defenderId, "pve");
+        BattleDTO battleResult = autoBattleService.battle(attackerId, defenderId, "pve");
         Battle battle = battleResult.getBattle();
         if (battle.getAttackingPet().getOwner() != null) {
             battleResult.getBattle().getAttackingPet().getOwner().setUserPassword(null);
@@ -72,10 +73,10 @@ public class BattleController {
         return ResponseEntity.ok(battleResult);
     }
     
-    @PostMapping("/newBattle/pvp/attackerId/{attackerId}/defenderId/{defenderId}")
+    @PostMapping("/newAutoBattle/pvp/attackerId/{attackerId}/defenderId/{defenderId}")
     public ResponseEntity<BattleDTO> createNewPVPBattle(@PathVariable int attackerId, @PathVariable int defenderId)
         throws BattleNotFoundException, PetNotFoundException {
-        BattleDTO battleResult = battleService.battle(attackerId, defenderId, "pvp");
+        BattleDTO battleResult = autoBattleService.battle(attackerId, defenderId, "pvp");
         Battle battle = battleResult.getBattle();
         if (battle.getAttackingPet().getOwner() != null) {
             battleResult.getBattle().getAttackingPet().getOwner().setUserPassword(null);
