@@ -13,7 +13,7 @@
     <div class="btn-block">
         <button class="nav-item btn bg-dark btn-outline-light float-right" (click)="this.userService.logout()" *ngIf="this.userService.currentUser.id !== -1">Logout of Pets</button>
         <button class="nav-item btn bg-dark btn-outline-light float-right" [routerLink]="[{outlets: {primary: 'login', petbar: null, battles: null, levelUps: null }}]" *ngIf="this.userService.currentUser.id == -1">Login To Pets</button>
-        <button class="nav-item btn bg-dark btn-outline-light float-right mr-1" routerLink="[{outlets: {primary: 'profile', petbar: null, battles: null, levelUps: 'possible' }}]" *ngIf="this.userService.currentUser.id !== -1">Profile</button>
+        <button class="nav-item btn bg-dark btn-outline-light float-right mr-1" [routerLink]="[{outlets: {primary: 'profile', petbar: null, battles: null, levelUps: 'possible' }}]" *ngIf="this.userService.currentUser.id !== -1">Profile</button>
         <div id="welcomeName" class="text-light float-right mt-2" *ngIf="this.userService.currentUser.id !== -1">Hello {{userService.currentUser.username}}</div>
     </div>
 </nav>

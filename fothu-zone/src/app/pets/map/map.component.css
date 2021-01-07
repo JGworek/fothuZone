@@ -17,27 +17,27 @@ td {
 }
 
 .activeRoom {
-    background-color: #f0ad4e;
+    background-color: gold;
 }
 
 .boss {
-    background-color: #d9534f !important;
+    background-color: darkred !important;
 }
 
 .start {
-    background-color: #5bc0de !important;
+    background-color: dodgerblue !important;
 }
 
 .ladder {
-    background-color: #a25f18 !important;
+    background-color: sienna !important;
 }
 
 .nearby {
-    background-color: lightblue !important;
+    background-color: palegreen !important;
 }
 
 .inactive-button {
-    background-color: #e7e7e7!important;
+    background-color: gainsboro !important;
     color: black !important;
     border-color: black !important;
     pointer-events: none !important;

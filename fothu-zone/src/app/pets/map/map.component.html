@@ -13,7 +13,8 @@
                 start: (i * 10 + j === currentMap.startingRoom) ? truthArray[i * 10 + j] : false,
                 boss: (i * 10 + j === currentMap.bossRoom) ? truthArray[i * 10 + j] : false,
                 ladder: (i * 10 + j === currentMap.ladderRoom) ? truthArray[i * 10 + j] : false,
-                nearby: (currentMap.nonBarrenCells.includes(i * 10 + j) && checkIfNearby(i * 10 + j)) ? true : false}">
+                nearby: (currentMap.nonBarrenCells.includes(i * 10 + j) && checkIfNearby(i * 10 + j)) ? true : false,
+                wrapper: true}">
                                 <a *ngIf="currentMap.nonBarrenCells.includes(i * 10 + j) && checkIfNearby(i * 10 + j)" [ngClass]="{'btn btn-success font-weight-bold':true}" (click)="setCurrentRoom(i * 10 + j)">Move</a>
                             </td>
                         </tr>
