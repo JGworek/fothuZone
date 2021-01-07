@@ -12,4 +12,5 @@ export class PetDTO {
     currentHealth: number;
     maxHealth: number;
     ownerId: number;
+    numberOfLevelUps: number;
 }

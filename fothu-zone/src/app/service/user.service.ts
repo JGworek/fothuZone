@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { User } from '../../app/models/User';
-import { UserDTO } from '../../app/models/UserDTO';
+import { User } from '../models/User';
+import { UserDTO } from '../models/UserDTO';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProfileService {
+export class UserService {
 
   constructor(private router: Router) { }
-
   newUserCreation: boolean = false;
+  
   newUser: UserDTO = {
     id: 0,
     username: "",
@@ -42,18 +42,20 @@ export class ProfileService {
   }
 
   logout() {
-    this.currentUser = {
-      id: -1,
-      username: "",
-      favoriteColor: "",
-      pets: []
-    }
-    if (this.router.url == "/profile") {
-      this.router.navigate(["/login"]);
-    }
-    if (this.router.url == "/FothuPets/map(petbar:visible)") {
-      this.router.navigate([{ outlets: { primary: ['FothuPets'], petbar: ['visible'] } }]);
-    }
+    // this.currentUser = {
+    //   id: -1,
+    //   username: "",
+    //   favoriteColor: "",
+    //   pets: []
+    // }
+    // if (this.router.url == "/profile") {
+    //   this.router.navigate(["/login"]);
+    // }
+    // if (this.router.url == "/FothuPets/map(petbar:available//battles:available//levelUps:possible)") {
+    //   //kill all pets here
+    //   this.router.navigate([{ outlets: { primary: ['FothuPets'], petbar: null, battles: null, levelUps: null } }]);
+    // }
+    window.location.href=environment.homeURL;
   }
 
   async updateUser() {

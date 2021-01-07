@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ProfileService } from 'src/app/service/profile.service';
+import { BattleService } from 'src/app/service/battle.service';
+import { LevelUpService } from 'src/app/service/level-up.service';
+import { UserService } from 'src/app/service/user.service';
 import { Map } from '../../models/Map';
 
 @Component({
@@ -10,7 +11,7 @@ import { Map } from '../../models/Map';
 })
 export class MapComponent implements OnInit {
 
-  constructor(public profileService: ProfileService, public router: Router) { }
+  constructor(public userService: UserService, public battleService: BattleService, public levelUpService: LevelUpService) { }
 
   currentMap: Map = {
     id: 1,
@@ -63,9 +64,9 @@ export class MapComponent implements OnInit {
     this.mapLog.push(`Moved to room ${this.currentRoom}`);
   }
 
-  // battleChange() {
-  //   this.router.navigateByUrl('../map/(petbar:visible//battle:battleTwo)');
-  // }
+  checkLevelUps() {
+    console.log(this.levelUpService.currentLevelingUpPet.numberOfLevelUps);
+  }
 
   ngOnInit(): void {
     this.notExploredArray.fill(true);

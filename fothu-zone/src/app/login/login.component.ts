@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfileService } from '../service/profile.service';
+import { UserService } from '../service/user.service';
 import { Router } from '@angular/router';
 import { UserDTO } from '../models/UserDTO';
 import { environment } from '../../environments/environment';
@@ -13,7 +13,7 @@ import { environment } from '../../environments/environment';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(public profileService: ProfileService, private router: Router) { }
+  constructor(public userService: UserService, private router: Router) { }
 
   incorrectLogin: boolean = false;
   samePassword: string;
@@ -40,12 +40,12 @@ export class LoginComponent implements OnInit {
     if (returnedPromise.status.toString()[0] == '1' || returnedPromise.status.toString()[0] == '4' || returnedPromise.status.toString()[0] == '5') {
       this.incorrectLogin = true;
     } else {
-      this.profileService.currentUser = returnedUser;
-      this.router.navigate(['/directory']);
+      this.userService.currentUser = returnedUser;
+      this.router.navigate(['home']);
     }
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {  
   }
 
 }

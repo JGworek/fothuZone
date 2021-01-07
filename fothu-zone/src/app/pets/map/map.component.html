@@ -19,16 +19,19 @@
                         </tr>
                     </table>
                 </div>
-                <div *ngIf="this.petSelect == !true && profileService.currentUser.id != -1" class="col-12 m-0 p-0 text-center">
+                <div *ngIf="this.petSelect == !true && userService.currentUser.id != -1" class="col-12 m-0 p-0 text-center">
                     <h5>Select your figher:</h5>
                 </div>
-                <div *ngIf="this.petSelect == !true && profileService.currentUser.id != -1" class="col-12 d-flex justify-content-center no-gutters">
-                    <button *ngFor="let pet of profileService.currentUser.pets" [ngClass]="{'btn btn-danger btn-outline-warning mx-1': true, 'inactive-button': !pet.currentHealth}">{{pet.name}}</button>
+                <div *ngIf="this.petSelect == !true && userService.currentUser.id != -1" class="col-12 d-flex justify-content-center no-gutters">
+                    <button *ngFor="let pet of userService.currentUser.pets" [ngClass]="{'btn btn-danger btn-outline-warning mx-1': true, 'inactive-button': !pet.currentHealth}">{{pet.name}}</button>
                     <!-- [routerLink]="[{outlets: {primary: ['FothuPets'], petbar: ['visible'] }}]" -->
                 </div>
-                <!-- the '' keeps you on the same primary route (what a nightmare) -->
-                <button [routerLink]="['', {outlets: {'battle': ['battle']}}]">Open Battle</button>
-                <button [routerLink]="['', {outlets: {'battle': null }}]">Close Battle</button>
+                <button (click)="this.battleService.currentBattle.id = 1">Open Battle</button>
+                <button (click)="this.battleService.currentBattle.id = -1">Close Battle</button>
+                <button (click)="this.levelUpService.currentLevelingUpPet.numberOfLevelUps = 1; this.checkLevelUps()">1 Level Up</button>
+                <button (click)="this.levelUpService.currentLevelingUpPet.numberOfLevelUps = 0; this.checkLevelUps()">No Level Up</button>
+
+
 
             </div>
         </div>

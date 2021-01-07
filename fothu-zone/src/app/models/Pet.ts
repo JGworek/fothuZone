@@ -15,4 +15,5 @@ export class Pet {
     currentHealth: number;
     maxHealth: number;
     owner: User;
+    numberOfLevelUps: number;
 }

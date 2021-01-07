@@ -1,4 +1,4 @@
-<div *ngIf="this.profileService.newUserCreation == false">
+<div *ngIf="this.userService.newUserCreation == false">
     <h3>Login</h3>
     <br>
     <form class="w-50">
@@ -10,13 +10,13 @@
             <label>Password</label>
             <input [(ngModel)]="loggingInUser.userPassword" name="password" type="password" class="form-control" id="passwordInput" placeholder="password">
         </div>
-        <button type="submit" class="btn btn-primary " (click)="logIn() ">Submit</button>
+        <button class="btn btn-primary " (click)="logIn() ">Submit</button>
     </form>
     <div *ngIf="this.incorrectLogin" class="text-danger ">Incorrect Username/Password</div>
     <br>
-    <a href="javascript:void(0)" (click)="this.profileService.newUserCreation = true">New User?</a>
+    <a href="javascript:void(0)" (click)="this.userService.newUserCreation = true">New User?</a>
 </div>
-<div *ngIf="this.profileService.newUserCreation == true">
+<div *ngIf="this.userService.newUserCreation == true">
     <h3>Sign Up</h3>
     <br>
     <form class="w-50">
@@ -45,6 +45,6 @@
                 <option value="orange">Orange</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary " (click)="logIn() ">Submit</button>
+        <button class="btn btn-primary " (click)="logIn() ">Submit</button>
     </form>
 </div>

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfileService } from '../service/profile.service';
-import { User } from '../models/User';
+import { UserService } from '../service/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,12 +8,9 @@ import { User } from '../models/User';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(public profileService: ProfileService) { }
-  user: User;
+  constructor(public userService: UserService) { }
 
   ngOnInit() {
   }
-
-  //ngOnDestroy() {}
 
 }

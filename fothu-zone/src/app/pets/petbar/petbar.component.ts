@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfileService } from 'src/app/service/profile.service';
+import { UserService } from 'src/app/service/user.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,10 +9,10 @@ import { Router } from '@angular/router';
 })
 export class PetbarComponent implements OnInit {
 
-  constructor(public profileService: ProfileService, private router: Router) { }
+  constructor(public userService: UserService, private router: Router) { }
 
   goToProfile() {
-    this.router.navigate([{ outlets: { primary: ['profile'], petbar: null } }]);
+    this.router.navigate([{ outlets: { primary: ['profile'], petbar: null, battles: null } }]);
   }
 
   ngOnInit(): void {

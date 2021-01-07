@@ -14,12 +14,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
+import javax.persistence.OneToOne;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import zone.fothu.pets.model.profile.Pet;
+
 @Component
 @Entity
-@Table(name = "maps", schema = "pets")
+@Table(name = "dungeon_maps", schema = "pets")
 public class DungeonMap implements Serializable {
 
     private static final long serialVersionUID = 6885313722453626583L;
@@ -48,20 +53,22 @@ public class DungeonMap implements Serializable {
     private int monsterSpawnRate;
 
     @ElementCollection
-    @CollectionTable(schema = "pets", name = "maps_non_barren_cells")
+    @CollectionTable(schema = "pets", name = "dungeon_maps_non_barren_cells")
     @JoinColumns({ @JoinColumn(name = "map_id", referencedColumnName = "id"),
         @JoinColumn(name = "non_barren_cells", referencedColumnName = "cell") })
     private List<Integer> nonBarrenCells;
 
-    @Column(name = "boss_pet_id")
-    private int bossPetId;
+    @OneToOne
+    @JoinColumn(name = "boss_pet_id")
+    @JsonIgnoreProperties("dungeon_maps")
+    private Pet bossPet;
 
     public DungeonMap() {
         super();
     }
 
     public DungeonMap(int id, String name, int startingRoom, int bossRoom, int ladderRoom, int enemyLevel,
-        int monsterSpawnRate, List<Integer> nonBarrenCells, int bossPetId) {
+        int monsterSpawnRate, List<Integer> nonBarrenCells, Pet bossPet) {
         super();
         this.id = id;
         this.name = name;
@@ -71,7 +78,7 @@ public class DungeonMap implements Serializable {
         this.enemyLevel = enemyLevel;
         this.monsterSpawnRate = monsterSpawnRate;
         this.nonBarrenCells = nonBarrenCells;
-        this.bossPetId = bossPetId;
+        this.bossPet = bossPet;
     }
 
     public int getId() {
@@ -138,17 +145,17 @@ public class DungeonMap implements Serializable {
         this.nonBarrenCells = nonBarrenCells;
     }
 
-    public int getBossPetId() {
-        return bossPetId;
+    public Pet getBossPet() {
+        return bossPet;
     }
 
-    public void setBossPetId(int bossPetId) {
-        this.bossPetId = bossPetId;
+    public void setBossPet(Pet bossPet) {
+        this.bossPet = bossPet;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bossPetId, bossRoom, enemyLevel, id, ladderRoom, monsterSpawnRate, name, nonBarrenCells,
+        return Objects.hash(bossPet, bossRoom, enemyLevel, id, ladderRoom, monsterSpawnRate, name, nonBarrenCells,
             startingRoom);
     }
 
@@ -161,7 +168,7 @@ public class DungeonMap implements Serializable {
             return false;
         }
         DungeonMap other = (DungeonMap) obj;
-        return bossPetId == other.bossPetId && bossRoom == other.bossRoom && enemyLevel == other.enemyLevel
+        return Objects.equals(bossPet, other.bossPet) && bossRoom == other.bossRoom && enemyLevel == other.enemyLevel
             && id == other.id && ladderRoom == other.ladderRoom && monsterSpawnRate == other.monsterSpawnRate
             && Objects.equals(name, other.name) && Objects.equals(nonBarrenCells, other.nonBarrenCells)
             && startingRoom == other.startingRoom;
@@ -171,6 +178,6 @@ public class DungeonMap implements Serializable {
     public String toString() {
         return "DungeonMap [id=" + id + ", name=" + name + ", startingRoom=" + startingRoom + ", bossRoom=" + bossRoom
             + ", ladderRoom=" + ladderRoom + ", enemyLevel=" + enemyLevel + ", monsterSpawnRate=" + monsterSpawnRate
-            + ", nonBarrenCells=" + nonBarrenCells + ", bossPetId=" + bossPetId + "]";
-    }
+            + ", nonBarrenCells=" + nonBarrenCells + ", bossPet=" + bossPet + "]";
+    } 
 }

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PveComponent } from './pve.component';
+import { LevelUpComponent } from './level-up.component';
 
-describe('PveComponent', () => {
-  let component: PveComponent;
-  let fixture: ComponentFixture<PveComponent>;
+describe('LevelUpComponent', () => {
+  let component: LevelUpComponent;
+  let fixture: ComponentFixture<LevelUpComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [PveComponent]
+      declarations: [ LevelUpComponent ]
     })
-      .compileComponents();
+    .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PveComponent);
+    fixture = TestBed.createComponent(LevelUpComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

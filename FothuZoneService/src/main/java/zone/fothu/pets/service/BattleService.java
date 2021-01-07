@@ -1,11 +1,16 @@
 package zone.fothu.pets.service;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.stereotype.Service;
 
 import zone.fothu.pets.model.adventure.Battle;
+import zone.fothu.pets.model.adventure.ChallengeRequest;
+import zone.fothu.pets.model.profile.Pet;
 
-@Service
+//@Service
 public class BattleService implements Serializable {
 
     private static final long serialVersionUID = -7951721923780422911L;
@@ -17,15 +22,37 @@ public class BattleService implements Serializable {
     private final double startingAttackModifier = 1.5;
     private final double startingArmorModifier = 1.5;
     private final double startingAccuracyModifier = 10;
+    private final int hurdleMuliplier = 3;
 
     // make sure battle has flavor_text for the front end, and technical_text to
     // store in the DB for analysis
-    
-    
-    //ROUND TO THE 4TH DECIMAL PLACE TO HANDLE REPEATING DECIMALS
-    //ROUND DAMAGE VALUE AND DEFENCE VALUES DOWN (DID NOT MEET THRESHOLD FOR THE NEXT VALUE)
 
-    public Battle createNewBattle(String battleType) {
+    // ROUND TO THE 4TH DECIMAL PLACE TO HANDLE REPEATING DECIMALS
+    // ROUND DAMAGE VALUE AND DEFENCE VALUES DOWN (DID NOT MEET THRESHOLD FOR THE
+    // NEXT VALUE)
+
+    public ChallengeRequest createNewChallengeRequest(int attackerId, int defenderId) {
+        // create new challenge request in the DB
+        return newChallengeRequest;
+    }
+
+    public ChallengeRequest acceptChallengeRequest(int challengeRequestId) {
+        // ChallengeRequest acceptedChallengeRequest =
+        // challengeRepository.getChallengeRequestById(challengeRequestId).setAcceptedStatus(true);
+        // challengeRepository.update(acceptedChallengeRequest);
+        // createNewBattleWithNoPets(String battleType)
+
+        return acceptedChallengeRequest;
+    }
+
+    public ChallengeRequest rejectChallengeRequest(int challengeRequestId) {
+        // ChallengeRequest rejectedChallengeRequest =
+        // challengeRepository.getChallengeRequestById(challengeRequestId).setRejectedStatus(true);
+        // challengeRepository.update(rejectedChallengeRequest);
+        return rejectedChallengeRequest;
+    }
+
+    public Battle createNewBattleWithBothPets(String battleType, int attackingPetId, int defendingPetId) {
         // set pve or pvp based on battleType
         // if pvp, set both pet health values to full, if pve, set the attacker health
         // to the current value
@@ -41,6 +68,44 @@ public class BattleService implements Serializable {
         // flip
         // save new battle to DB
         return newBattle;
+    }
+
+    public Battle createNewBattleWithNoPets(String battleType) {
+
+        return newBattle;
+    }
+
+    public Battle updateBattleWithAttackingPet(int BattleId, int attackingPetId) {
+        return updatedBattle;
+    }
+
+    public Battle updateBattleWithDefendingPet(int BattleId, int defendingPetId) {
+
+        return updatedBattle;
+    }
+
+    public Pet getActingPet(Battle currentBattle, int actingPetId) {
+        Set<Pet> battlePets = new HashSet<Pet>();
+        battlePets.add(currentBattle.getAttackingPet());
+        battlePets.add(currentBattle.getDefendingPet());
+        for (Pet pet : battlePets) {
+            if (pet.getId() == actingPetId) {
+                return pet;
+            }
+        }
+        return null;
+    }
+    
+    public Pet getOtherPet(Battle currentBattle, int actingPetId) {
+        Set<Pet> battlePets = new HashSet<Pet>();
+        battlePets.add(currentBattle.getAttackingPet());
+        battlePets.add(currentBattle.getDefendingPet());
+        for (Pet pet : battlePets) {
+            if (pet.getId() != actingPetId) {
+                return pet;
+            }
+        }
+        return null;
     }
 
     public Battle attack(int battleId, int attackingId) {
@@ -59,7 +124,8 @@ public class BattleService implements Serializable {
         return currentBattle;
     }
 
-    // stat*random number from 1-100 get over hurdle of level*a number
+    // stat*random number from 1-100+level get over hurdle of level*hurdlemultplier+hurdle number
+    
 
     public Battle aim(int battleId, int aimingId) {
         // pet will add 1 to accuracy modifier if their last 2 digits of their int+a
@@ -68,11 +134,12 @@ public class BattleService implements Serializable {
         return currentBattle;
     }
 
-   public Battle sharpen(int battleId, int sharpeningId) {
-       //pet will add 0.5 to attack modifier if their last 2 digits of their agi+a random number from 1-100 is over the sharpen hurdle
-       //change the currentTurn to the petId that does not match sharpeningId
-       return currentBattle
-   }
+    public Battle sharpen(int battleId, int sharpeningId) {
+        // pet will add 0.5 to attack modifier if their last 2 digits of their agi+a
+        // random number from 1-100 is over the sharpen hurdle
+        // change the currentTurn to the petId that does not match sharpeningId
+        return currentBattle;
+    }
 
     public Battle endBattle(int battleId) {
         // set battle_finished to be true

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfileService } from 'src/app/service/profile.service';
+import { Router } from '@angular/router';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-pets-home',
@@ -8,13 +9,14 @@ import { ProfileService } from 'src/app/service/profile.service';
 })
 export class PetsHomeComponent implements OnInit {
 
-  constructor(public profileService: ProfileService) { }
+  constructor(public userService: UserService, private router: Router) { }
 
 
   ngOnInit(): void {
-    if (this.profileService.currentUser.id != -1) {
-      this.profileService.updateUser();
+    if (this.userService.currentUser.id != -1) {
+      this.userService.updateUser();
     }
+    this.router.navigate(['', {outlets: {petbar: 'available', battles: 'available', levelUps: 'possible'}}])
   }
 
 }
