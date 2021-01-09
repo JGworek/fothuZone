@@ -1,34 +1,34 @@
 <div class="background">
-    <button class="btn btn-primary" (click)="clickButton()">Wait!</button>
-    <br/>
-    <br/>
-    <button class="btn btn-secondary" (click)="clickButtonTwo()">Anonymous!</button>
-    <br/>
-    <br/>
-    <button class="btn btn-success" (click)="hello()">Asynchronous BS</button>
-    <br/>
-    <br/>
-    <button class="btn btn-warning" (click)="otherAsyncThing()">Asynchronous BS Part 2</button>
-    <br/>
-    <br/>
-    <button class="btn btn-danger" (click)="f1()">Asynchronous BS Part 2</button>
-    <br/>
-    <br/>
-    <form #heyLookAForm="ngForm" (ngSubmit)="onSubmit(heyLookAForm)" (ngSubmit)="doAFormyThing()" novalidate>
-        <div class="form-group">
-            <label for="exampleInputEmail">Title</label>
-            <input type="text" name="title" ngModel class="form-control" id="title" aria-describedby="emailHelp" placeholder="Enter Title">
-        </div>
-        <div class="form-group">
-            <label for="exampleInputEmail">Body</label>
-            <input type="text" name="synopsis" ngModel class="form-control" id="synopsis" aria-describedby="emailHelp" placeholder="Enter Body Here">
-        </div>
-        <div class="col-md-12 text-center mb-3">
-            <button type="submit" class=" btn btn-block mybtn btn-dark tx-tfm">Submit</button>
-        </div>
-    </form>
-    <div>{{title}}</div>
-    <div>{{synopsis}}</div>
-    <br/>
-    <br/>
+	<button class="btn btn-primary" (click)="clickButton()">Wait!</button>
+	<br />
+	<br />
+	<button class="btn btn-secondary" (click)="clickButtonTwo()">Anonymous!</button>
+	<br />
+	<br />
+	<button class="btn btn-success" (click)="hello()">Asynchronous BS</button>
+	<br />
+	<br />
+	<button class="btn btn-warning" (click)="otherAsyncThing()">Asynchronous BS Part 2</button>
+	<br />
+	<br />
+	<button class="btn btn-danger" (click)="f1()">Asynchronous BS Part 2</button>
+	<br />
+	<br />
+	<form #heyLookAForm="ngForm" (ngSubmit)="onSubmit(heyLookAForm)" (ngSubmit)="doAFormyThing()" novalidate>
+		<div class="form-group">
+			<label for="exampleInputEmail">Title</label>
+			<input type="text" name="title" ngModel class="form-control" id="title" aria-describedby="emailHelp" placeholder="Enter Title" />
+		</div>
+		<div class="form-group">
+			<label for="exampleInputEmail">Body</label>
+			<input type="text" name="synopsis" ngModel class="form-control" id="synopsis" aria-describedby="emailHelp" placeholder="Enter Body Here" />
+		</div>
+		<div class="col-md-12 text-center mb-3">
+			<button type="submit" class="btn btn-block mybtn btn-dark tx-tfm">Submit</button>
+		</div>
+	</form>
+	<div>{{ title }}</div>
+	<div>{{ synopsis }}</div>
+	<br />
+	<br />
 </div>

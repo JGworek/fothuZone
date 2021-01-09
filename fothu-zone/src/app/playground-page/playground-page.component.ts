@@ -1,130 +1,118 @@
-import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms'
-
+import { Component, OnInit } from "@angular/core";
+import { NgForm } from "@angular/forms";
 
 @Component({
-  selector: 'app-playground-page',
-  templateUrl: './playground-page.component.html',
-  styleUrls: ['./playground-page.component.css']
+	selector: "app-playground-page",
+	templateUrl: "./playground-page.component.html",
+	styleUrls: ["./playground-page.component.css"],
 })
 export class PlaygroundPageComponent implements OnInit {
+	constructor() {}
 
-  constructor() { }
+	formObject: any;
+	title: any = "wut";
+	synopsis: any = "wut";
 
-  formObject: any;
-  title: any = "wut";
-  synopsis: any = "wut";
+	//ALL OF THIS IS THE FIRST BUTTON
+	laterMessage = function () {
+		console.log("And this happens later");
+	};
 
+	clickButton() {
+		console.log("Hey you clicked the button");
+		this.thingThatHappensLater(this.laterMessage);
+	}
 
-  //ALL OF THIS IS THE FIRST BUTTON
-  laterMessage = function () {
-    console.log("And this happens later");
-  }
+	thingThatHappensLater(message) {
+		setTimeout(message, 3000);
+	}
+	//----------------------------------------------------------------------
 
-  clickButton() {
-    console.log("Hey you clicked the button");
-    this.thingThatHappensLater(this.laterMessage);
-  }
+	//ALL OF THIS IS THE SECOND BUTTON
+	clickButtonTwo() {
+		setTimeout(() => {
+			console.log("Boom Shakalaka");
+		}, 5000);
+	}
+	//----------------------------------------------------------------------
 
-  thingThatHappensLater(message) {
-    setTimeout(message, 3000);
-  }
-  //----------------------------------------------------------------------
+	onSubmit(f: NgForm) {
+		console.log(f.value);
+		console.log(f.value.title);
+		console.log(f.value.synopsis);
+		console.log(typeof f.value.title);
+		this.title = f.value.title;
+		this.synopsis = f.value.synopsis;
+	}
 
-  //ALL OF THIS IS THE SECOND BUTTON
-  clickButtonTwo() {
-    setTimeout(() => { console.log("Boom Shakalaka") }, 5000);
-  }
-  //----------------------------------------------------------------------
+	resolveAfter2Seconds() {
+		return new Promise((resolve) => {
+			setTimeout(() => {
+				resolve("resolved");
+			}, 2000);
+		});
+	}
 
-  onSubmit(f: NgForm) {
-    console.log(f.value);
-    console.log(f.value.title);
-    console.log(f.value.synopsis);
-    console.log(typeof (f.value.title));
-    this.title = f.value.title;
-    this.synopsis = f.value.synopsis;
-  }
+	async doAFormyThing() {
+		console.log("calling");
+		const result = await this.resolveAfter2Seconds();
+		console.log(result);
+	}
 
-  resolveAfter2Seconds() {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve('resolved');
-      }, 2000);
-    });
-  }
+	hello() {
+		console.log(typeof this.hi());
+		let x = this.hi();
+		//beacuse of ngZone, this promise is usable and prints
+		console.log(x);
+		this.hi().then((promiseContents) => {
+			console.log(promiseContents);
+		});
+	}
 
-  async doAFormyThing() {
-    console.log("calling");
-    const result = await this.resolveAfter2Seconds();
-    console.log(result);
+	//because hi is async, it actually returns whatever it returns inside a Promise
+	async hi() {
+		return "hi you nerds";
+	}
 
-  }
+	otherAsyncThing() {
+		var d = new Date();
+		this.callAFunction(this.one, this.two, d)
+			.then((result) => {
+				console.log(result);
+			})
+			.then(() => {
+				setTimeout(this.one, 0);
+			});
+	}
 
-  hello() {
-    console.log(typeof (this.hi()));
-    let x = this.hi();
-    //beacuse of ngZone, this promise is usable and prints
-    console.log(x);
-    this.hi().then((promiseContents) => { console.log(promiseContents) })
-  };
+	one = function () {
+		var d = new Date();
+		console.log(d.getTime());
+	};
 
+	two = function () {
+		console.log("2");
+	};
 
-  //because hi is async, it actually returns whatever it returns inside a Promise
-  async hi() {
-    return ("hi you nerds");
-  }
+	async callAFunction(first, second, d) {
+		console.log(d.getTime());
+		const x = await Promise.resolve("Hello");
+		// console.log(d.getTime());
+		return x;
+	}
 
-  otherAsyncThing() {
-    var d = new Date();
-    this.callAFunction(this.one, this.two, d)
-      .then((result) => {
-        console.log(result);
-      })
-      .then(() => {
-        setTimeout(this.one, 0)
-      })
-  }
+	resolveAfter4Seconds(x) {
+		return new Promise((resolve) => {
+			setTimeout(() => {
+				resolve(x);
+			}, 4000);
+		});
+	}
 
-  one = function () {
-    var d = new Date();
-    console.log(d.getTime());
-  }
+	async f1() {
+		var x = await this.resolveAfter4Seconds(10);
+		console.log(x); // 10
+	}
 
-  two = function () {
-    console.log("2");
-  }
-
-  async callAFunction(first, second, d) {
-    console.log(d.getTime());
-    const x = await Promise.resolve("Hello");
-    // console.log(d.getTime());
-    return x;
-  }
-
-  resolveAfter4Seconds(x) {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(x);
-      }, 4000);
-    });
-  }
-
-  async f1() {
-    var x = await this.resolveAfter4Seconds(10);
-    console.log(x); // 10
-  }
-
-
-
-
-
-
-
-
-
-
-
-  ngOnInit() {
-  }
+	ngOnInit() {}
 }

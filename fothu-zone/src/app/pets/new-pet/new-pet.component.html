@@ -1,20 +1,20 @@
-<br>
+<br />
 <a class="btn btn-primary" routerLink="/FothuPets">go to home</a>
 <h2 *ngIf="this.petImageSelected == false">Please Select A New Pet</h2>
 <div *ngIf="this.petImageSelected == false && this.unableToSelectImage == true" class="text-danger">Unable to submit pet. Please try again!</div>
 <div *ngIf="this.petImageSelected == false" class="container-fluid">
-    <div class="row">
-        <div *ngFor="let newPet of this.availableNewPets;let numberOfindex=index" class="col-lg-3 col-md-4 col-sm-6 col-12 p-2">
-            <div style="height:310px;width:310px;" class="black petcenter">
-                <a style="max-height:300px;max-width:300px;" href="javascript:void(0)" (click)="this.createNewPetImage(newPet.imageURL)">
-                    <img style="max-height:300px;max-width:300px;" class="new-pet-image" [src]="newPet.imageURL" [alt]="newPet.description">
-                </a>
-            </div>
-            <div>Id: {{newPet.id}}</div>
-        </div>
-    </div>
+	<div class="row">
+		<div *ngFor="let newPet of this.availableNewPets; let numberOfindex = index" class="col-lg-3 col-md-4 col-sm-6 col-12 p-2">
+			<div class="black petcenter big-pet-border">
+				<a class="big-pet-image" href="javascript:void(0)" (click)="this.createNewPetImage(newPet.imageURL)">
+					<img class="big-pet-image" [src]="newPet.imageURL" [alt]="newPet.description" />
+				</a>
+			</div>
+			<div>Id: {{ newPet.id }}</div>
+		</div>
+	</div>
 </div>
-<br>
+<br />
 <button type="button" class="btn btn-dark btn-lg btn-block" (click)="this.getPets()">Refresh Pet List</button>
-<br>
-<br>
+<br />
+<br />

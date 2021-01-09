@@ -1,27 +1,66 @@
 <app-pets></app-pets>
-<div [ngStyle]="{'padding-right':0, 'padding-left':0}" class="container-fluid no-gutters h-100">
-    <div class="row h-100 align-items-start no-gutters father">
-        <div [ngStyle]="{'right':0}" class="d-none d-lg-block col-lg-2 m-0 p-0 order-2 h-100 mh-100 son">sidebar
-        </div>
-        <div class="col-12 col-lg-10 no-gutters m-0 p-0 align-self-start pets-content">
-            <div class="row h-100 align-items-start no-gutters">
-                <div class="col-12 no-gutters m-0 p-0 align-self-start pets-content">
-                    title bar
-                </div>
-                <div class="col-12 no-gutters m-0 p-0 align-self-start pets-content">
-                    <a class="btn btn-primary" routerLink="/newPet">go to new</a>
-                    <a class="btn btn-secondary" routerLink="/dungeon">Head To Mumble's Creek (ALPHA)</a>
-                </div>
-                <div class="col-12 no-gutters m-0 p-0 align-self-start pets-content">
-                    more content
-                </div>
-                <div class="col-12 no-gutters m-0 p-0 align-self-start pets-content">
-                    more content
-                </div>
-                <div class="col-12 no-gutters m-0 p-0 align-self-start pets-content">
-                    more content
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="container-fluid h-100">
+	<div class="row h-100 align-items-start no-gutters father">
+		<div [ngStyle]="{ right: 0 }" class="d-none d-lg-block col-lg-3 m-0 p-0 order-2 h-75 son border border-dark rounded">
+			<!-- sidebar -->
+			<div class="row d-none d-lg-block m-0 p-0 h-100 align-items-center">
+				<div class="d-none d-lg-block col-lg-12 align-self-center border-bottom border-dark">
+					<h4 class="center">Current Battles</h4>
+					<!-- ngFor current battles -->
+					<div class="row overflow-current-battles">
+						<div class="col-12">
+							<div class="center">battle one</div>
+							<div class="center">battle two</div>
+							<div class="center">battle two</div>
+							<div class="center">battle two</div>
+							<div class="center">battle two</div>
+							<div class="center">battle two</div>
+							<div class="center">battle two</div>
+							<div class="center">battle two</div>
+							<div class="center">battle two</div>
+							<div class="center">battle two</div>
+							<div class="center">battle two</div>
+							<!-- every challenge/battle will be its own column with 1-2 buttons -->
+						</div>
+					</div>
+				</div>
+				<div class="d-none d-lg-block col-lg-12 align-self-center">
+					<h4 class="center">Battle Requests</h4>
+					<!-- ngFor battle requests -->
+					<div class="row">
+						<div class="col-12 overflow-battle-requests">
+							<div class="center">request one</div>
+							<div class="center">request two</div>
+							<div class="center">battle two</div>
+							<div class="center">battle two</div>
+							<div class="center">battle two</div>
+							<div class="center">battle two</div>
+							<div class="center">battle two</div>
+							<div class="center">battle two</div>
+							<div class="center">battle two</div>
+							<div class="center">battle two</div>
+							<div class="center">battle two</div>
+							<div class="center">battle two</div>
+							<div class="center">battle two</div>
+							<div class="center">battle two</div>
+							<div class="center">battle two</div>
+							<div class="center">battle two</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-lg-9 pets-content h-75 border border-dark rounded son">
+			<div class="row no-gutters align-items-start">
+				<div class="col-12 no-gutters pets-content">title bar</div>
+				<div class="col-12 no-gutters pets-content">
+					<a class="btn btn-primary" routerLink="/newPet">go to new</a>
+					<a class="btn btn-secondary" routerLink="/dungeon">Head To Mumble's Creek (ALPHA)</a>
+				</div>
+				<div class="col-12 no-gutters pets-content">more content</div>
+				<div class="col-12 no-gutters pets-content">more content</div>
+				<div class="col-12 no-gutters pets-content">more content</div>
+			</div>
+		</div>
+	</div>
 </div>

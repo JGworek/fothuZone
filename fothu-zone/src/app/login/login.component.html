@@ -1,50 +1,50 @@
-<div *ngIf="this.userService.newUserCreation == false">
-    <h3>Login</h3>
-    <br>
-    <form class="w-50">
-        <div class="form-group">
-            <label>Username</label>
-            <input [(ngModel)]="loggingInUser.username" name="username" type="text" class="form-control" id="usernameInput" aria-describedby="emailHelp" placeholder="username">
-        </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input [(ngModel)]="loggingInUser.userPassword" name="password" type="password" class="form-control" id="passwordInput" placeholder="password">
-        </div>
-        <button class="btn btn-primary " (click)="logIn() ">Submit</button>
-    </form>
-    <div *ngIf="this.incorrectLogin" class="text-danger ">Incorrect Username/Password</div>
-    <br>
-    <a href="javascript:void(0)" (click)="this.userService.newUserCreation = true">New User?</a>
+<div class="login" *ngIf="this.userService.newUserCreation == false">
+	<h3>Login</h3>
+	<br />
+	<form class="w-50">
+		<div class="form-group">
+			<label>Username</label>
+			<input [(ngModel)]="this.userService.loggingInUser.username" name="username" type="text" class="form-control" id="usernameInput" aria-describedby="emailHelp" placeholder="username" />
+		</div>
+		<div class="form-group">
+			<label>Password</label>
+			<input [(ngModel)]="this.userService.loggingInUser.userPassword" name="password" type="password" class="form-control" id="passwordInput" placeholder="password" />
+		</div>
+		<button class="btn btn-primary" (click)="this.userService.logIn()">Submit</button>
+	</form>
+	<div *ngIf="this.userService.incorrectLogin" class="text-danger">Incorrect Username/Password</div>
+	<br />
+	<a href="javascript:void(0)" (click)="this.userService.newUserCreation = true">New User?</a>
 </div>
-<div *ngIf="this.userService.newUserCreation == true">
-    <h3>Sign Up</h3>
-    <br>
-    <form class="w-50">
-        <div class="form-group">
-            <label>Enter Username</label>
-            <input [(ngModel)]="newUser.username" name="username" type="text" class="form-control" id="usernameInput" aria-describedby="emailHelp" placeholder="username">
-        </div>
-        <div class="form-group">
-            <label>Enter Password</label>
-            <input [(ngModel)]="newUser.userPassword" name="password" type="password" class="form-control" id="passwordInput" placeholder="password">
-        </div>
-        <div class="form-group">
-            <label>Enter Password Again</label>
-            <input [(ngModel)]="this.samePassword" name="password" type="password" class="form-control" id="passwordInput" placeholder="password">
-        </div>
-        <div *ngIf="newUser.userPassword != this.samePassword && this.samePassword.length > 0" class="text-danger ">Passwords do not match!</div>
-        <br *ngIf="newUser.userPassword != this.samePassword && this.samePassword.length > 0">
-        <div class="form-group">
-            <div><label>Favorite Color</label></div>
-            <select class="form-control" [(ngModel)]="newUser.favoriteColor">
-                <option value="blue">Blue</option>
-                <option value="red">Red</option>
-                <option value="yellow">Yellow</option>
-                <option value="green">Green</option>
-                <option value="purple">Purple</option>
-                <option value="orange">Orange</option>
-            </select>
-        </div>
-        <button class="btn btn-primary " (click)="logIn() ">Submit</button>
-    </form>
+<div class="login" *ngIf="this.userService.newUserCreation == true">
+	<h3>Sign Up</h3>
+	<br />
+	<form class="w-50">
+		<div class="form-group">
+			<label>Enter Username</label>
+			<input [(ngModel)]="this.userService.newUser.username" name="username" type="text" class="form-control" id="usernameInput" aria-describedby="emailHelp" placeholder="username" />
+		</div>
+		<div class="form-group">
+			<label>Enter Password</label>
+			<input [(ngModel)]="this.userService.newUser.userPassword" name="password" type="password" class="form-control" id="passwordInput" placeholder="password" />
+		</div>
+		<div class="form-group">
+			<label>Enter Password Again</label>
+			<input [(ngModel)]="this.userService.samePassword" name="password" type="password" class="form-control" id="passwordInput" placeholder="password" />
+		</div>
+		<div *ngIf="this.userService.samePassword.length && this.userService.newUser.userPassword != this.userService.samePassword" class="text-danger">Passwords do not match!</div>
+		<br *ngIf="this.userService.samePassword.length && this.userService.newUser.userPassword != this.userService.samePassword" />
+		<div class="form-group">
+			<div><label>Favorite Color</label></div>
+			<select class="form-control" [(ngModel)]="this.userService.newUser.favoriteColor">
+				<option value="blue">Blue</option>
+				<option value="red">Red</option>
+				<option value="yellow">Yellow</option>
+				<option value="green">Green</option>
+				<option value="purple">Purple</option>
+				<option value="orange">Orange</option>
+			</select>
+		</div>
+		<button class="btn btn-primary" (click)="this.userService.logIn()">Submit</button>
+	</form>
 </div>

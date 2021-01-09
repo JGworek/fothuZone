@@ -1,55 +1,82 @@
-<div [ngStyle]="{'padding-right':0, 'padding-left':0}" class="container-fluid no-gutters h-100 z-index-1">
-    <div class="row no-gutters m-0 p-0">
-        <div class="col-xl-8 col-md-12 no-gutters m-0 p-0 align-self-start">
-            <div class="row d-flex justify-content-center no-gutters">
-                <div class="col-12 d-flex justify-content-center no-gutters">
-                    <h3 class="text-center">{{currentMap.name}}</h3>
-                </div>
-                <div class="col-12 d-flex justify-content-center no-gutters">
-                    <table style="margin-left:70px;margin-top:50px;margin-right:70px;margin-bottom:50px;">
-                        <tr *ngFor="let val1 of [].constructor(10); let i = index;">
-                            <td *ngFor="let val2 of [].constructor(10); let j = index" [id]="i * 10 + j" [ngClass]="{barren: !currentMap.nonBarrenCells.includes(i * 10 + j),
-                activeRoom: truthArray[i * 10 + j], notExplored: notExploredArray[i * 10 + j],
-                start: (i * 10 + j === currentMap.startingRoom) ? truthArray[i * 10 + j] : false,
-                boss: (i * 10 + j === currentMap.bossRoom) ? truthArray[i * 10 + j] : false,
-                ladder: (i * 10 + j === currentMap.ladderRoom) ? truthArray[i * 10 + j] : false,
-                nearby: (currentMap.nonBarrenCells.includes(i * 10 + j) && checkIfNearby(i * 10 + j)) ? true : false,
-                wrapper: true}">
-                                <a *ngIf="currentMap.nonBarrenCells.includes(i * 10 + j) && checkIfNearby(i * 10 + j)" [ngClass]="{'btn btn-success font-weight-bold':true}" (click)="setCurrentRoom(i * 10 + j)">Move</a>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div *ngIf="this.petSelect == !true && userService.currentUser.id != -1" class="col-12 m-0 p-0 text-center">
-                    <h5>Select your figher:</h5>
-                </div>
-                <div *ngIf="this.petSelect == !true && userService.currentUser.id != -1" class="col-12 d-flex justify-content-center no-gutters">
-                    <button *ngFor="let pet of userService.currentUser.pets" [ngClass]="{'btn btn-danger btn-outline-warning mx-1': true, 'inactive-button': !pet.currentHealth}">{{pet.name}}</button>
-                    <!-- [routerLink]="[{outlets: {primary: ['FothuPets'], petbar: ['visible'] }}]" -->
-                </div>
-                <button (click)="this.battleService.currentBattle.id = 1">Open Battle</button>
-                <button (click)="this.battleService.currentBattle.id = -1">Close Battle</button>
-                <button (click)="this.levelUpService.currentLevelingUpPet.numberOfLevelUps = 1; this.checkLevelUps()">1 Level Up</button>
-                <button (click)="this.levelUpService.currentLevelingUpPet.numberOfLevelUps = 0; this.checkLevelUps()">No Level Up</button>
-
-
-
-            </div>
-        </div>
-        <div [ngStyle]="{'right':0}" class="col-xl-4 col-md-12 text-center">
-            <div class="row d-flex justify-content-center no-gutters align-items-start">
-                <div class="col-8 m-0 p-0 text-center">
-                    <h4>Map Log</h4>
-                </div>
-                <div class="col-4 m-0 p-0 text-center">
-                    <button class="btn btn-success" *ngIf="!this.fullLog" (click)="this.fullLog = true">See Full Log</button>
-                    <button class="btn btn-success" *ngIf="this.fullLog" (click)="this.fullLog = false">See Collapsed Log</button>
-                </div>
-                <div *ngIf="!this.fullLog" class="col-12 m-0 p-0 text-center">{{this.mapLog[(mapLog.length-1)]}}</div>
-                <div *ngIf="this.fullLog">
-                    <div *ngFor="let log of this.mapLog; let i = index;">{{this.mapLog[i+1]}}</div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div [ngStyle]="{ 'padding-right': 0, 'padding-left': 0 }" class="container-fluid no-gutters h-100 z-index-1">
+	<div class="row no-gutters m-0 p-0">
+		<div class="col-xl-8 col-md-12 no-gutters m-0 p-0 align-self-start">
+			<div class="row d-flex justify-content-center no-gutters">
+				<div class="col-12 d-flex justify-content-center no-gutters">
+					<h3 class="text-center">{{ currentMap.name }}</h3>
+				</div>
+				<div class="col-12 d-flex justify-content-center no-gutters">
+					<table class="mapTable">
+						<tbody>
+							<tr *ngFor="let val1 of [].constructor(10); let i = index">
+								<td
+									*ngFor="let val2 of [].constructor(10); let j = index"
+									[id]="i * 10 + j"
+									[ngClass]="{
+										barren: !currentMap.nonBarrenCells.includes(i * 10 + j),
+										activeRoom: truthArray[i * 10 + j],
+										notExplored: notExploredArray[i * 10 + j],
+										start: i * 10 + j === currentMap.startingRoom ? truthArray[i * 10 + j] : false,
+										boss: i * 10 + j === currentMap.bossRoom ? truthArray[i * 10 + j] : false,
+										ladder: i * 10 + j === currentMap.ladderRoom ? truthArray[i * 10 + j] : false,
+										nearby: currentMap.nonBarrenCells.includes(i * 10 + j) && checkIfNearby(i * 10 + j) ? true : false,
+										wrapper: true,
+										mapTd: true
+									}"
+								>
+									<a
+										*ngIf="currentMap.nonBarrenCells.includes(i * 10 + j) && checkIfNearby(i * 10 + j)"
+										[ngClass]="{
+											'btn btn-success font-weight-bold': true
+										}"
+										(click)="setCurrentRoom(i * 10 + j)"
+									>
+										Move
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div *ngIf="this.petSelect == !true && userService.currentUser.id != -1" class="col-12 m-0 p-0 text-center">
+					<h5>Select your figher:</h5>
+				</div>
+				<div *ngIf="this.petSelect == !true && userService.currentUser.id != -1" class="col-12 d-flex justify-content-center no-gutters">
+					<button
+						*ngFor="let pet of userService.currentUser.pets"
+						[ngClass]="{
+							'btn btn-danger btn-outline-warning mx-1': true,
+							'inactive-button': !pet.currentHealth
+						}"
+					>
+						{{ pet.name }}
+					</button>
+					<!-- [routerLink]="[{outlets: {primary: ['FothuPets'], petbar: ['visible'] }}]" -->
+				</div>
+				<button (click)="this.battleService.currentBattle.id = 1">Open Battle</button>
+				<button (click)="this.battleService.currentBattle.id = -1">Close Battle</button>
+				<button (click)="this.levelUpService.currentLevelingUpPet.availableLevelUps = 1; this.checkLevelUps()">1 Level Up</button>
+				<button (click)="this.levelUpService.currentLevelingUpPet.availableLevelUps = 0; this.checkLevelUps()">No Level Up</button>
+			</div>
+		</div>
+		<div [ngStyle]="{ right: 0 }" class="col-xl-4 col-md-12 text-center">
+			<div class="row d-flex justify-content-center no-gutters align-items-start">
+				<div class="col-8 m-0 p-0 text-center">
+					<h4>Map Log</h4>
+				</div>
+				<div class="col-4 m-0 p-0 text-center">
+					<button class="btn btn-success" *ngIf="!this.fullLog" (click)="this.fullLog = true">See Full Log</button>
+					<button class="btn btn-success" *ngIf="this.fullLog" (click)="this.fullLog = false">See Collapsed Log</button>
+				</div>
+				<div *ngIf="!this.fullLog" class="col-12 m-0 p-0 text-center">
+					{{ this.mapLog[mapLog.length - 1] }}
+				</div>
+				<div *ngIf="this.fullLog">
+					<div *ngFor="let log of this.mapLog; let i = index">
+						{{ this.mapLog[i + 1] }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

@@ -1,19 +1,22 @@
-import { User } from './User';
-import { Image } from './Image';
+import { Image } from "./Image";
 
 export class Pet {
-    id: number;
-    name: string;
-    image: Image;
-    hunger: number;
-    type: string;
-    agility: number;
-    strength: number;
-    intelligence: number;
-    level: number;
-    curentXP: number;
-    currentHealth: number;
-    maxHealth: number;
-    owner: User;
-    numberOfLevelUps: number;
+	id: number;
+	name: string;
+	image: Image;
+	type: string;
+	hunger: number;
+	currentHealth: number;
+	maxHealth: number;
+	strength: number;
+	agility: number;
+	intelligence: number;
+	petLevel: number;
+	currentXP: number;
+	availableLevelUps: number;
+	owner: {
+		id: number;
+		username: string;
+		favoriteColor: string;
+	};
 }

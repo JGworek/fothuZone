@@ -1,139 +1,380 @@
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    /* needed for container min-height */
+html,
+body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	/* needed for container min-height */
 }
 
-.indent {
-    text-indent: 40px
+.loading {
+	left: 50%;
+	position: absolute;
+	height: 5%;
 }
+
+.inactive-button {
+	background-color: gainsboro !important;
+	color: black !important;
+	border-color: black !important;
+	pointer-events: none !important;
+}
+
+#welcomeName {
+	margin-right: 40px;
+}
+
+#welcome-title {
+	margin-top: 50px;
+}
+
+.login {
+	margin-left: 10px;
+}
+
+.center {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%;
+	text-align: center;
+}
+
+.overflow-current-battles {
+	display: block;
+	max-height: 250px;
+	overflow: auto;
+}
+
+.overflow-battle-requests {
+	display: block;
+	max-height: 377px;
+	overflow: auto;
+}
+
+/* CYOA */
+.indent {
+	text-indent: 40px;
+}
+
+.title {
+	text-align: center;
+}
+
+.author {
+	text-align: center;
+}
+
+.pageNumber {
+	text-align: left;
+	margin-left: 30pt;
+}
+
+.story-button {
+	margin-top: 50px;
+}
+
+/* Rosary */
+
+#rosary {
+	min-height: 450px;
+}
+
+/* FothuPets */
 
 .blue {
-    border-style: solid;
-    border-color: blue;
-    border-radius: 10px;
+	border-style: solid;
+	border-color: blue;
+	border-radius: 10px;
 }
 
 .red {
-    border-style: solid;
-    border-color: red;
-    border-radius: 10px;
+	border-style: solid;
+	border-color: red;
+	border-radius: 10px;
 }
 
 .yellow {
-    border-style: solid;
-    border-color: yellow;
-    border-radius: 10px;
+	border-style: solid;
+	border-color: yellow;
+	border-radius: 10px;
 }
 
 .green {
-    border-style: solid;
-    border-color: green;
-    border-radius: 10px;
+	border-style: solid;
+	border-color: green;
+	border-radius: 10px;
 }
 
 .purple {
-    border-style: solid;
-    border-color: purple;
-    border-radius: 10px;
+	border-style: solid;
+	border-color: purple;
+	border-radius: 10px;
 }
 
 .orange {
-    border-style: solid;
-    border-color: orange;
-    border-radius: 10px;
+	border-style: solid;
+	border-color: orange;
+	border-radius: 10px;
 }
 
 .black {
-    border-style: solid;
-    border-color: black;
-    border-radius: 10px;
+	border-style: solid;
+	border-color: black;
+	border-radius: 10px;
 }
 
 .dark-red {
-    border-style: solid;
-    border-color: darkred;
-    border-radius: 10px;
+	border-style: solid;
+	border-color: darkred;
+	border-radius: 10px;
 }
 
 .wrapper {
-    position: relative;
+	position: relative;
 }
 
 .data {
-    position: absolute;
-    text-align: center;
-    width: 100%;
-    line-height: 170%;
+	position: absolute;
+	text-align: center;
+	width: 100%;
+	line-height: 170%;
 }
 
 .father {
-    position: relative;
+	position: relative;
 }
 
 .son {
-    position: absolute;
-    top: 0;
+	position: absolute;
+	top: 0;
 }
 
 .visible {
-    visibility: visible;
+	visibility: visible;
 }
 
 .invisible {
-    visibility: hidden;
+	visibility: hidden;
+}
+
+.big-pet-background {
+	height: 310px;
+	width: 310px;
+	background-color: white;
+}
+
+.big-pet-image {
+	max-height: 300px;
+	max-width: 300px;
+}
+
+.big-pet-health-bar {
+	width: 310px;
+	height: 25px;
+}
+
+.petbar-image-background {
+	height: 110px;
+	width: 110px;
+	background-color: white;
+}
+
+.petbar-image {
+	max-height: 100px;
+	max-width: 100px;
+}
+
+.petbar-health-bar {
+	width: 110px;
+	height: 25px;
+	text-align: center;
 }
 
 .petcenter {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
+.petbar {
+	position: fixed;
+	bottom: 0;
+	right: 0;
+}
+
+.petbar-background {
+	height: 145px;
+	width: 145px;
+}
+
+.overlay {
+	top: 6%;
+	bottom: 20%;
+	min-width: 100%;
+	border-width: 10px !important;
+}
+
+.battle-background {
+	background-color: lime;
+	border-color: darkgreen !important;
+}
+
+.level-up-background {
+	border-color: red !important;
+}
+
+.battle-box {
+	min-height: 50%;
+}
+
+/* Dungeon CSS */
+
+.mapTable,
+.mapTd {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+.mapTd {
+	height: 55px;
+	width: 72px;
+}
+
+.mapPositioning {
+	margin-left: 70px;
+	margin-top: 50px;
+	margin-right: 70px;
+	margin-bottom: 50px;
+}
+
+.barren {
+	background-color: gray;
+}
+
+.notExplored {
+	background-color: gray;
+}
+
+.activeRoom {
+	background-color: gold;
+}
+
+.boss {
+	background-color: darkred !important;
+}
+
+.start {
+	background-color: dodgerblue !important;
+}
+
+.ladder {
+	background-color: sienna !important;
+}
+
+.nearby {
+	background-color: palegreen !important;
+}
 
 /* Bootstrap */
 
-
 /* .container {
-    border-style: solid;
-    border-color: blue;
+	border-style: solid;
+	border-color: blue;
 }
 
 .row {
-    border-style: solid;
-    border-color: red;
+	border-style: solid;
+	border-color: red;
 }
 
-.col, .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-12, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12 {
-    border-style: solid;
-    border-color: black;
+.col,
+.col-1,
+.col-2,
+.col-3,
+.col-4,
+.col-5,
+.col-6,
+.col-7,
+.col-8,
+.col-9,
+.col-10,
+.col-11,
+.col-12,
+.col-sm-1,
+.col-sm-2,
+.col-sm-3,
+.col-sm-4,
+.col-sm-5,
+.col-sm-6,
+.col-sm-7,
+.col-sm-8,
+.col-sm-9,
+.col-sm-10,
+.col-sm-11,
+.col-sm-12,
+.col-md-1,
+.col-md-2,
+.col-md-3,
+.col-md-4,
+.col-md-5,
+.col-md-6,
+.col-md-7,
+.col-md-8,
+.col-md-9,
+.col-md-10,
+.col-md-12,
+.col-lg-1,
+.col-lg-2,
+.col-lg-3,
+.col-lg-4,
+.col-lg-5,
+.col-lg-6,
+.col-lg-7,
+.col-lg-8,
+.col-lg-9,
+.col-lg-10,
+.col-lg-11,
+.col-lg-12,
+.col-xl-1,
+.col-xl-2,
+.col-xl-3,
+.col-xl-4,
+.col-xl-5,
+.col-xl-6,
+.col-xl-7,
+.col-xl-8,
+.col-xl-9,
+.col-xl-10,
+.col-xl-11,
+.col-xl-12 {
+	border-style: solid;
+	border-color: black;
 } */
 
 @media (max-width: 768px) {
-    .btn {
-        font-size: 11px;
-        padding: 4px 6px;
-    }
+	.btn {
+		font-size: 11px;
+		padding: 4px 6px;
+	}
 }
 
 @media (min-width: 768px) {
-    .btn {
-        font-size: 12px;
-        padding: 6px 12px;
-    }
+	.btn {
+		font-size: 12px;
+		padding: 6px 12px;
+	}
 }
 
 @media (min-width: 992px) {
-    .btn {
-        font-size: 14px;
-        padding: 8px 12px;
-    }
+	.btn {
+		font-size: 14px;
+		padding: 8px 12px;
+	}
 }
 
 @media (min-width: 1200px) {
-    .btn {
-        padding: 10px 16px;
-        font-size: 18px;
-    }
+	.btn {
+		padding: 10px 16px;
+		font-size: 18px;
+	}
 }

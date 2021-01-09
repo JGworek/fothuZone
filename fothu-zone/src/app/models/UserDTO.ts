@@ -1,8 +1,7 @@
-
 export class UserDTO {
-    id: number;
-    username: string;
-    favoriteColor: string;
-    userPassword: string;
-    secretPassword: string;
+	id: number;
+	username: string;
+	favoriteColor: string;
+	userPassword: string;
+	secretPassword: string;
 }

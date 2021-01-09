@@ -1,66 +1,71 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
-import { User } from '../models/User';
-import { UserDTO } from '../models/UserDTO';
+import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
+import { environment } from "src/environments/environment";
+import { User } from "../models/User";
+import { UserDTO } from "../models/UserDTO";
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: "root",
 })
 export class UserService {
+	constructor(private router: Router) {}
+	newUserCreation: boolean = false;
+	incorrectLogin: boolean = false;
+	samePassword: string;
 
-  constructor(private router: Router) { }
-  newUserCreation: boolean = false;
-  
-  newUser: UserDTO = {
-    id: 0,
-    username: "",
-    favoriteColor: "",
-    userPassword: "",
-    secretPassword: "",
-  }
+	newUser: UserDTO = {
+		id: 0,
+		username: "",
+		favoriteColor: "",
+		userPassword: "",
+		secretPassword: "",
+	};
 
-  currentUser: User = {
-    id: -1,
-    username: "",
-    favoriteColor: "",
-    pets: [],
-  }
+	currentUser: User = {
+		id: -1,
+		username: "",
+		favoriteColor: "",
+		pets: [],
+	};
 
-  getHealthBarColor(percentNumber) {
-    if (percentNumber >= 51) {
-      return "progress-bar bg-success";
-    } else if (percentNumber >= 26 && percentNumber < 51) {
-      return "progress-bar bg-warning";
-    } else if (percentNumber < 26) {
-      return "progress-bar bg-danger";
-    }
-  }
+	loggingInUser: UserDTO = {
+		id: 0,
+		username: "",
+		favoriteColor: "",
+		userPassword: "",
+		secretPassword: "",
+	};
 
-  getUser() {
-    return this.currentUser;
-  }
+	getHealthBarColor(percentNumber) {
+		if (percentNumber >= 51) {
+			return "progress-bar bg-success";
+		} else if (percentNumber >= 26 && percentNumber < 51) {
+			return "progress-bar bg-warning";
+		} else if (percentNumber < 26) {
+			return "progress-bar bg-danger";
+		}
+	}
 
-  logout() {
-    // this.currentUser = {
-    //   id: -1,
-    //   username: "",
-    //   favoriteColor: "",
-    //   pets: []
-    // }
-    // if (this.router.url == "/profile") {
-    //   this.router.navigate(["/login"]);
-    // }
-    // if (this.router.url == "/FothuPets/map(petbar:available//battles:available//levelUps:possible)") {
-    //   //kill all pets here
-    //   this.router.navigate([{ outlets: { primary: ['FothuPets'], petbar: null, battles: null, levelUps: null } }]);
-    // }
-    window.location.href=environment.homeURL;
-  }
+	async logIn() {
+		let returnedPromise = await fetch(`${environment.fothuZoneEC2Link}/users/login`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(this.loggingInUser) });
+		let returnedUser = await returnedPromise.json();
+		if (returnedPromise.status.toString()[0] == "1" || returnedPromise.status.toString()[0] == "4" || returnedPromise.status.toString()[0] == "5") {
+			this.incorrectLogin = true;
+		} else {
+			this.currentUser = returnedUser;
+			this.incorrectLogin = false;
+			this.router.navigate(["home"]);
+		}
+	}
 
-  async updateUser() {
-    let returnedPromise = await fetch(`${environment.fothuZoneEC2Link}/users/username/${this.currentUser.username}`);
-    let returnedUser = await returnedPromise.json();
-    this.currentUser = returnedUser;
-  }
+	logout() {
+		window.location.href = environment.homeURL;
+	}
+
+	//Why?
+	async updateUser() {
+		let returnedPromise = await fetch(`${environment.fothuZoneEC2Link}/users/username/${this.currentUser.username}`);
+		let returnedUser = await returnedPromise.json();
+		this.currentUser = returnedUser;
+	}
 }
