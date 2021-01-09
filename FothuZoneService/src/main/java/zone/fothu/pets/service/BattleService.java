@@ -4,17 +4,28 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import zone.fothu.pets.model.adventure.Battle;
-import zone.fothu.pets.model.adventure.ChallengeRequest;
+import zone.fothu.pets.model.adventure.ChallengeRequestDTO;
 import zone.fothu.pets.model.profile.Pet;
+import zone.fothu.pets.repository.BattleLogRepository;
+import zone.fothu.pets.repository.BattleRepository;
+import zone.fothu.pets.repository.ChallengeRequestDTORepository;
 
 //@Service
 public class BattleService implements Serializable {
 
     private static final long serialVersionUID = -7951721923780422911L;
 
+    @Autowired
+    BattleRepository battleRepository;
+    @Autowired
+    BattleLogRepository battleLogRepository;
+    @Autowired
+    ChallengeRequestDTORepository challengeRequestDTORepository;
+    
     private final int accuracyHurdle = 75;
     private final int defendHurdle = 50;
     private final int aimHurdle = 50;
@@ -31,12 +42,12 @@ public class BattleService implements Serializable {
     // ROUND DAMAGE VALUE AND DEFENCE VALUES DOWN (DID NOT MEET THRESHOLD FOR THE
     // NEXT VALUE)
 
-    public ChallengeRequest createNewChallengeRequest(int attackerId, int defenderId) {
+    public ChallengeRequestDTO createNewChallengeRequest(int attackerId, int defenderId) {
         // create new challenge request in the DB
         return newChallengeRequest;
     }
 
-    public ChallengeRequest acceptChallengeRequest(int challengeRequestId) {
+    public ChallengeRequestDTO acceptChallengeRequest(int challengeRequestId) {
         // ChallengeRequest acceptedChallengeRequest =
         // challengeRepository.getChallengeRequestById(challengeRequestId).setAcceptedStatus(true);
         // challengeRepository.update(acceptedChallengeRequest);
@@ -45,7 +56,7 @@ public class BattleService implements Serializable {
         return acceptedChallengeRequest;
     }
 
-    public ChallengeRequest rejectChallengeRequest(int challengeRequestId) {
+    public ChallengeRequestDTO rejectChallengeRequest(int challengeRequestId) {
         // ChallengeRequest rejectedChallengeRequest =
         // challengeRepository.getChallengeRequestById(challengeRequestId).setRejectedStatus(true);
         // challengeRepository.update(rejectedChallengeRequest);
