@@ -1,0 +1,33 @@
+<h3>Challenge Another Player</h3>
+<br />
+<br />
+<form class="w-50">
+	<div class="form-group">
+		<div><label>Choose A Challenger</label></div>
+		<div><input type="text" placeholder="Search.." [(ngModel)]="this.filterString" (keyup)="this.filterUserList()" name="userSearch" /></div>
+		<br />
+		<br />
+		<select id="userSelect" class="form-control" [(ngModel)]="this.challengeUserId" name="userId">
+			<option value="0" selected disabled hidden>Challengers</option>
+			<option *ngFor="let user of this.filterArray" value="user.id">
+				<div *ngIf="user.id">{{ user.username }}</div>
+			</option>
+			<option *ngIf="this.filterArray.length == 0" class="text-danger" disabled>No matching users</option>
+		</select>
+	</div>
+
+	<button class="btn btn-primary" [disabled]="!challengeUserId" (click)="this.createNewChallengeRequest()">Submit</button>
+	<div *ngIf="this.unableToCreateChallenge" class="text-danger">Unable To Create Challenge, Try Again!</div>
+</form>
+<!-- <div *ngIf="this.challengeUserId">
+	<div *ngFor="let pet of this.getPetsForChallenger(this.challengeUserId)">
+		<span>
+			<div>
+				<img [src]="pet.image.imageURL" [alt]="pet.name" />
+			</div>
+			<div>
+				{{ pet.name }}
+			</div>
+		</span>
+	</div>
+</div> -->

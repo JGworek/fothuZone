@@ -22,13 +22,13 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer, WebApp
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/fothu-zone-websocket").setAllowedOrigins("*").withSockJS();
+        registry.addEndpoint("/fothuZoneWebsocketConnection").setAllowedOrigins("*").withSockJS();
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.setApplicationDestinationPrefixes("/fothu-zone-sendpoint").enableSimpleBroker("/battle",
-            "/battle-history");
+        registry.setApplicationDestinationPrefixes("/fothuZoneSendPoint").enableSimpleBroker("/battleSubscription",
+            "/challengeRequestSubscription", "/liveChatSubscription");
     }
 
     @Override

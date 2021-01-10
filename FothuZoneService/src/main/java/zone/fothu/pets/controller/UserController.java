@@ -9,9 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -103,10 +103,14 @@ public class UserController implements Serializable {
         }
     }
 
-    @PatchMapping("/update")
+    @PutMapping("/update")
     public User updateUser(@RequestBody User updatedUser)
         throws UserNotFoundException, PSQLException, UserNotUpdatedException {
         return userService.updateUser(updatedUser);
     }
-
+    
+    @GetMapping("/availableChallengeUsers/userId/{id}")
+    public ResponseEntity<List<User>> getAllAvailableChallengeUsers(@PathVariable int id) {
+    	return ResponseEntity.ok(userService.getAvailableChallengeUsers(id));
+    }
 }

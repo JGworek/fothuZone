@@ -13,6 +13,7 @@ import { PetbarComponent } from "./pets/petbar/petbar.component";
 import { MapComponent } from "./pets/map/map.component";
 import { UserGuardGuard as UserGuard } from "./auth/user-guard.guard";
 import { LevelUpComponent } from "./pets/level-up/level-up.component";
+import { CreateChallengeComponent } from "./pets/create-challenge/create-challenge.component";
 
 const routes: Routes = [
 	{ path: "", redirectTo: "home", pathMatch: "full" },
@@ -24,6 +25,7 @@ const routes: Routes = [
 	{ path: "profile", component: ProfileComponent, canActivate: [UserGuard] },
 	{ path: "FothuPets", component: PetsHomeComponent, canActivate: [UserGuard] },
 	{ path: "newPet", component: NewPetComponent, canActivate: [UserGuard] },
+	{ path: "challenge", component: CreateChallengeComponent, canActivate: [UserGuard] },
 	{ path: "dungeon", component: MapComponent, canActivate: [UserGuard] },
 	{ path: "available", component: PetbarComponent, outlet: "petbar", canActivate: [UserGuard] },
 	{ path: "available", component: BattleComponent, outlet: "battles", canActivate: [UserGuard] },

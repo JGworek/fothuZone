@@ -39,4 +39,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query(nativeQuery = true, value = "SELECT * FROM pets.users where LOWER(username) = ?1 AND secret_password = ?2")
     UserDTO getRecoveredUser(String username, String encodedSecretPassword);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE id NOT IN (?1, 2147483647)")
+	List<User> getAvailableChallengeUsers(int id);
 }

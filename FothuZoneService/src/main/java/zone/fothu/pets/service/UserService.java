@@ -93,4 +93,13 @@ public class UserService implements Serializable {
             passwordEncoder.encode(recoveringUser.getSecretPassword()));
         return recoveredUser;
     }
+
+	public List<User> getAvailableChallengeUsers(int id) {
+		List<User> availableChallengeUsers = userRepository.getAvailableChallengeUsers(id);
+		for (User user : availableChallengeUsers) {
+            user.setUserPassword(null);
+            user.setSecretPassword(null);
+        }
+		return availableChallengeUsers;
+	}
 }
