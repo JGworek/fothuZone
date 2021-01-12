@@ -1,33 +1,33 @@
 <div class="d-flex justify-content-center">
-    <button class="btn btn-danger text-white btn-outline-dark" *ngIf="this.currentCount == 0" (click)="this.nextCount()">{{this.currentLanguage == 'english' ? 'Start!' : '¡Empeza!'}}</button>
-    <button class="btn btn-danger text-white btn-outline-dark" *ngIf="this.currentCount == 81" (click)="this.resetCount()">{{this.currentLanguage == 'english' ? 'Restart!' : '¡Reinica!'}}</button>
+	<button class="btn btn-danger text-white btn-outline-dark" *ngIf="this.currentCount == 0" (click)="this.nextCount()">{{ this.currentLanguage == "english" ? "Start!" : "¡Empeza!" }}</button>
+	<button class="btn btn-danger text-white btn-outline-dark" *ngIf="this.currentCount == 81" (click)="this.resetCount()">{{ this.currentLanguage == "english" ? "Restart!" : "¡Reinica!" }}</button>
 </div>
-<br>
+<br />
 <div class="d-flex justify-content-between">
-    <a class="btn btn-info text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount%2 == 0 && this.currentCount != 81" (click)="this.previousCount()">Back</a>
-    <a class="btn btn-primary text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount%2 != 0 && this.currentCount != 81" (click)="this.previousCount()">Back</a>
-    <a class="btn invisible" *ngIf="this.currentCount == 81"></a>
-    <span class="text-center" *ngIf="this.currentCount > 0">{{this.currentLanguage == 'english' ? this.currentEnglishText : this.currentSpanishText}}</span>
-    <a class="btn btn-info text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount%2 != 0 && this.currentCount != 81" (click)="this.nextCount()">Next</a>
-    <a class="btn btn-primary text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount%2 == 0 && this.currentCount != 81" (click)="this.nextCount()">Next</a>
-    <a class="btn invisible" *ngIf="this.currentCount == 81"></a>
+	<a class="btn btn-info text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount % 2 == 0 && this.currentCount != 81" (click)="this.previousCount()">{{ this.currentLanguage == "english" ? "Back" : "Siguiente" }}</a>
+	<a class="btn btn-primary text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount % 2 != 0 && this.currentCount != 81" (click)="this.previousCount()">{{ this.currentLanguage == "english" ? "Back" : "Siguiente" }}</a>
+	<a class="btn invisible" *ngIf="this.currentCount == 81"></a>
+	<span class="text-center" *ngIf="this.currentCount > 0">{{ this.currentLanguage == "english" ? this.currentEnglishText : this.currentSpanishText }}</span>
+	<a class="btn btn-info text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount % 2 != 0 && this.currentCount != 81" (click)="this.nextCount()">{{ this.currentLanguage == "english" ? "Next" : "Atras" }}</a>
+	<a class="btn btn-primary text-white h-25 n btn-outline-dark" *ngIf="this.currentCount > 0 && this.currentCount % 2 == 0 && this.currentCount != 81" (click)="this.nextCount()">{{ this.currentLanguage == "english" ? "Next" : "Atras" }}</a>
+	<a class="btn invisible" *ngIf="this.currentCount == 81"></a>
 </div>
-<br>
+<br />
 <div id="rosary">
-    <img class="mx-auto d-block" [src]="'https://fothuzone-rosary.s3.amazonaws.com/Rosary_'+this.currentCount+'.jpg'" alt="Image of the Rosary">
+	<img class="mx-auto d-block" [src]="'https://fothuzone-rosary.s3.amazonaws.com/Rosary_' + this.currentCount + '.jpg'" alt="Image of the Rosary" />
 </div>
-<hr/>
+<hr />
 <div class="navbar">
-    <button id="luminous" [ngClass]="{'btn':true, 'btn-outline-dark':this.luminousInactive, 'btn-primary':this.luminousActive}" (click)="this.changeToLuminousMysteries()">{{this.currentLanguage == 'english' ? 'Luminous Mysteries' : 'Misterios Luminosos'}}</button>
-    <button id="sorrowful" [ngClass]="{'btn':true, 'btn-outline-dark':this.sorrowfulInactive, 'btn-primary':this.sorrowfulActive}" (click)="this.changeToSorrowfulMysteries()">{{this.currentLanguage == 'english' ? 'Sorrowful Mysteries' : 'Misterios Dolorosos'}}</button>
-    <button id="glorious" [ngClass]="{'btn':true, 'btn-outline-dark':this.gloriousInactive, 'btn-primary':this.gloriousActive}" (click)="this.changeToGloriousMysteries()">{{this.currentLanguage == 'english' ? 'Glorious Mysteries' : 'Misterios Gloriosos'}}</button>
-    <button id="joyful" [ngClass]="{'btn':true, 'btn-outline-dark':this.joyfulInactive, 'btn-primary':this.joyfulActive}" (click)="this.changeToJoyfulMysteries()">{{this.currentLanguage == 'english' ? 'Joyful Mysteries' : 'Misterios Gozosos'}}</button>
+	<button id="luminous" [ngClass]="{ btn: true, 'btn-outline-dark': this.luminousInactive, 'btn-primary': this.luminousActive }" (click)="this.changeToLuminousMysteries()">{{ this.currentLanguage == "english" ? "Luminous Mysteries" : "Misterios Luminosos" }}</button>
+	<button id="sorrowful" [ngClass]="{ btn: true, 'btn-outline-dark': this.sorrowfulInactive, 'btn-primary': this.sorrowfulActive }" (click)="this.changeToSorrowfulMysteries()">{{ this.currentLanguage == "english" ? "Sorrowful Mysteries" : "Misterios Dolorosos" }}</button>
+	<button id="glorious" [ngClass]="{ btn: true, 'btn-outline-dark': this.gloriousInactive, 'btn-primary': this.gloriousActive }" (click)="this.changeToGloriousMysteries()">{{ this.currentLanguage == "english" ? "Glorious Mysteries" : "Misterios Gloriosos" }}</button>
+	<button id="joyful" [ngClass]="{ btn: true, 'btn-outline-dark': this.joyfulInactive, 'btn-primary': this.joyfulActive }" (click)="this.changeToJoyfulMysteries()">{{ this.currentLanguage == "english" ? "Joyful Mysteries" : "Misterios Gozosos" }}</button>
 </div>
-<hr/>
+<hr />
 <div class="navbar">
-    <button id="invis-left" class="btn btn-outline-dark invisible"></button>
-    <button id="english" [ngClass]="{'btn':true, 'btn-outline-dark':this.englishInactive, 'btn-primary':this.englishActive}" (click)="this.changeToEnglish()">{{this.currentLanguage == 'english' ? 'English' : 'Inglés'}}</button>
-    <button id="spanish" [ngClass]="{'btn':true, 'btn-outline-dark':this.spanishInactive, 'btn-primary':this.spanishActive}" (click)="this.changeToSpanish()">{{this.currentLanguage == 'english' ? 'Spanish' : 'Español'}}</button>
-    <button id="invis-right" class="btn btn-outline-dark invisible"></button>
+	<button id="invis-left" class="btn btn-outline-dark invisible"></button>
+	<button id="english" [ngClass]="{ btn: true, 'btn-outline-dark': this.englishInactive, 'btn-primary': this.englishActive }" (click)="this.changeToEnglish()">{{ this.currentLanguage == "english" ? "English" : "Inglés" }}</button>
+	<button id="spanish" [ngClass]="{ btn: true, 'btn-outline-dark': this.spanishInactive, 'btn-primary': this.spanishActive }" (click)="this.changeToSpanish()">{{ this.currentLanguage == "english" ? "Spanish" : "Español" }}</button>
+	<button id="invis-right" class="btn btn-outline-dark invisible"></button>
 </div>
-<hr/>
+<hr />
