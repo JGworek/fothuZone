@@ -7,9 +7,9 @@
 		<div><input type="text" placeholder="Search.." [(ngModel)]="this.filterString" (keyup)="this.filterUserList()" name="userSearch" /></div>
 		<br />
 		<br />
-		<select id="userSelect" class="form-control" [(ngModel)]="this.challengeUserId" name="userId">
+		<select id="userSelect" class="form-control" [(ngModel)]="this.challengeUserId" (change)="this.getPetsForChallenger(this.challengeUserId)" name="userId">
 			<option value="0" selected disabled hidden>Challengers</option>
-			<option *ngFor="let user of this.filterArray" value="user.id">
+			<option *ngFor="let user of this.filterArray" [value]="user.id">
 				<div *ngIf="user.id">{{ user.username }}</div>
 			</option>
 			<option *ngIf="this.filterArray.length == 0" class="text-danger" disabled>No matching users</option>
@@ -19,15 +19,20 @@
 	<button class="btn btn-primary" [disabled]="!challengeUserId" (click)="this.createNewChallengeRequest()">Submit</button>
 	<div *ngIf="this.unableToCreateChallenge" class="text-danger">Unable To Create Challenge, Try Again!</div>
 </form>
-<!-- <div *ngIf="this.challengeUserId">
-	<div *ngFor="let pet of this.getPetsForChallenger(this.challengeUserId)">
-		<span>
+<div *ngIf="this.challengeUserId">
+	<div *ngFor="let pet of this.challengerPets">
+		<span class="big-pet-background">
 			<div>
-				<img [src]="pet.image.imageURL" [alt]="pet.name" />
+				<div [ngClass]="['black', 'petcenter', 'big-pet-background']">
+					<img *ngIf="pet.image" class="big-pet-image" [src]="pet.image.imageURL" [alt]="pet.name" />
+				</div>
+				<div class="progress border border-dark wrapper big-pet-health-bar">
+					<div [class]="userService.getHealthBarColor(((pet.currentHealth / pet.maxHealth) * 100).toFixed(0))" [ngStyle]="{ width: ((pet.currentHealth / pet.maxHealth) * 100).toFixed(0) + '%', 'font-size': 'large', color: 'black', height: '25px' }"></div>
+					<div class="data">{{ pet.currentHealth }}/{{ pet.maxHealth }} HP</div>
+				</div>
+				<div>Lvl {{ pet.petLevel }} {{ pet.name }}</div>
 			</div>
-			<div>
-				{{ pet.name }}
-			</div>
+			<br />
 		</span>
 	</div>
-</div> -->
+</div>

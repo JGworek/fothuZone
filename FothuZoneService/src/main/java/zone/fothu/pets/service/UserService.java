@@ -12,6 +12,7 @@ import zone.fothu.pets.exception.UserNotFoundException;
 import zone.fothu.pets.exception.UserNotUpdatedException;
 import zone.fothu.pets.model.profile.User;
 import zone.fothu.pets.model.profile.UserDTO;
+import zone.fothu.pets.repository.UserDTORepository;
 import zone.fothu.pets.repository.UserRepository;
 
 @Service
@@ -21,6 +22,9 @@ public class UserService implements Serializable {
 
     @Autowired
     UserRepository userRepository;
+    
+    @Autowired
+    UserDTORepository userDTORepository;
 
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
@@ -64,6 +68,15 @@ public class UserService implements Serializable {
         }
         return userList;
     }
+    
+	public List<UserDTO> getAllUserDTOs() {
+		List<UserDTO> userList = userDTORepository.findAllDTOs();
+        for (UserDTO user : userList) {
+            user.setUserPassword(null);
+            user.setSecretPassword(null);
+        }
+        return userList;
+	}
 
     public User getUserWithId(int id) throws UserNotFoundException {
         User userFromId = userRepository.findById(id);
@@ -102,4 +115,15 @@ public class UserService implements Serializable {
         }
 		return availableChallengeUsers;
 	}
+
+	public List<UserDTO> getAvailableChallengeUserDTOs(int id) {
+		List<UserDTO> availableChallengeUsers = userDTORepository.getAvailableChallengeUserDTOs(id);
+		for (UserDTO user : availableChallengeUsers) {
+            user.setUserPassword(null);
+            user.setSecretPassword(null);
+        }
+		return availableChallengeUsers;
+	}
+
+
 }

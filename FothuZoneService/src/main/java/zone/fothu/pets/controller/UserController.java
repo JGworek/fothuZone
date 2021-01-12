@@ -38,11 +38,13 @@ public class UserController implements Serializable {
 
     @GetMapping("/all")
     public ResponseEntity<List<User>> getAllUsers() {
-        try {
             return ResponseEntity.ok(userService.getAllUsers());
-        } catch (RuntimeException e) {
-            throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "Users not found", e);
-        }
+    }
+    
+    @GetMapping("/all/DTO")
+    public ResponseEntity<List<UserDTO>> getAllUserDTOs() {
+            return ResponseEntity.ok(userService.getAllUserDTOs());
+
     }
 
     @GetMapping("/id/{id}")
@@ -112,5 +114,10 @@ public class UserController implements Serializable {
     @GetMapping("/availableChallengeUsers/userId/{id}")
     public ResponseEntity<List<User>> getAllAvailableChallengeUsers(@PathVariable int id) {
     	return ResponseEntity.ok(userService.getAvailableChallengeUsers(id));
+    }
+    
+    @GetMapping("/availableChallengeUserDTOs/userId/{id}")
+    public ResponseEntity<List<UserDTO>> getAllAvailableChallengeUserDTOs(@PathVariable int id) {
+    	return ResponseEntity.ok(userService.getAvailableChallengeUserDTOs(id));
     }
 }

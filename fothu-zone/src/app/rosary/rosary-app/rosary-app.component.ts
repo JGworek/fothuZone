@@ -8,7 +8,7 @@ const HAIL_MARY: string = "Hail Mary, full of grace. The Lord is with thee. Bles
 const GLORY_BE: string = "Glory be to the Father, and to the Son, and to the Holy Spirit. As it was in the beginning, is now, and ever shall be, world without end. Amen.";
 const OH_MY_JESUS: string = "O my Jesus, forgive us of our sins. Save us from the fires of hell. Lead all souls into heaven, especially those in most need of thy mercy.";
 const HAIL_HOLY_QUEEN: string =
-	"Hail Holy Queen, Mother of Mercy, hail our Life, our Sweetness, and our hope. To thee we cry, poor banished children of Eve. To thee we send up our sighs, mourning and weeping in this vale of tears. Turn then most gracious advocate, Thine eyes of mercy toward us, and after this, our exile, show unto us, the blessed fruit of thy womb, Jesus. O clement, O loving, O sweet Virgin Mary. Pray for us O Holy Mother of God, That we may be made worthy of the promises of Christ.";
+	"Hail Holy Queen, Mother of Mercy, hail our Life, our Sweetness, and our hope. To thee we cry, poor banished children of Eve. To thee we send up our sighs, mourning and weeping in this valley of tears. Turn then most gracious advocate, Thine eyes of mercy toward us, and after this, our exile, show unto us, the blessed fruit of thy womb, Jesus. O clement, O loving, O sweet Virgin Mary. Pray for us O Holy Mother of God, That we may be made worthy of the promises of Christ.";
 const FINAL_PRAYER: string = "Let us pray. O God, whose only begotten Son, by His life, death, and resurrection, has purchased for us the rewards of eternal life, grant, we beseech Thee, that meditating upon these mysteries of the Most Holy Rosary of the Blessed Virgin Mary, we may imitate what they contain and obtain what they promise, through the same Christ Our Lord. Amen.";
 const JOYFUL_MYSTERIES: Array<string> = ["The Annunciation", "The Visitation", "The Nativity", "The Presentation in the Temple", "The Finding in the Temple"];
 const SORROWFUL_MYSTERIES: Array<string> = ["The Agony in the Garden", "The Scourging at the Pillar", "The Crowning with Thorns", "The Carrying of the Cross", "The Crucifixion"];
@@ -62,116 +62,6 @@ export class RosaryAppComponent implements OnInit {
 	spanishInactive: boolean = false;
 	spanishActive: boolean = false;
 
-	async getCurrentDay() {
-		let dayJson = await fetch("http://calapi.inadiutorium.cz/api/v0/en/calendars/default/today");
-		this.currentDay = await dayJson.json();
-	}
-
-	signOfTheCross() {
-		this.currentEnglishText = SIGN_OF_THE_CROSS;
-		this.currentSpanishText = SIGN_OF_THE_CROSS_ESP;
-	}
-
-	apostlesCreed() {
-		this.currentEnglishText = APOSTLES_CREED;
-		this.currentSpanishText = APOSTLES_CREED_ESP;
-	}
-
-	ourFather() {
-		this.currentEnglishText = OUR_FATHER;
-		this.currentSpanishText = OUR_FATHER_ESP;
-	}
-
-	gloryBe() {
-		this.currentEnglishText = GLORY_BE;
-		this.currentSpanishText = GLORY_BE_ESP;
-	}
-
-	ohMyJesus() {
-		this.currentEnglishText = OH_MY_JESUS;
-		this.currentSpanishText = OH_MY_JESUS_ESP;
-	}
-
-	hailHolyQueen() {
-		this.currentEnglishText = HAIL_HOLY_QUEEN;
-		this.currentSpanishText = HAIL_HOLY_QUEEN_ESP;
-	}
-
-	finalPrayer() {
-		this.currentEnglishText = FINAL_PRAYER;
-		this.currentSpanishText = FINAL_PRAYER_ESP;
-	}
-
-	hailMary() {
-		this.currentEnglishText = HAIL_MARY;
-		this.currentSpanishText = HAIL_MARY_ESP;
-	}
-
-	mystery() {
-		switch (this.mysteryCount) {
-			case 0: {
-				this.englishNumberAsAWord = "First";
-				this.spanishNumberAsAWord = "Primer";
-				break;
-			}
-			case 1: {
-				this.englishNumberAsAWord = "Second";
-				this.spanishNumberAsAWord = "Segundo";
-				break;
-			}
-			case 2: {
-				this.englishNumberAsAWord = "Third";
-				this.spanishNumberAsAWord = "Tercer";
-				break;
-			}
-			case 3: {
-				this.englishNumberAsAWord = "Fourth";
-				this.spanishNumberAsAWord = "Cuarto";
-				break;
-			}
-			case 4: {
-				this.englishNumberAsAWord = "Fifth";
-				this.spanishNumberAsAWord = "Quinto";
-				break;
-			}
-		}
-		this.currentEnglishText = `The ${this.englishNumberAsAWord} Mystery is: ${this.todaysMystery[this.mysteryCount]}.`;
-		this.currentSpanishText = `El ${this.spanishNumberAsAWord} misterioso es: ${this.todaysESPMystery[this.mysteryCount]}.`;
-	}
-
-	changeMystery() {
-		switch (this.mysteryCount) {
-			case 0: {
-				this.englishNumberAsAWord = "First";
-				break;
-			}
-			case 1: {
-				this.englishNumberAsAWord = "Second";
-				break;
-			}
-			case 2: {
-				this.englishNumberAsAWord = "Third";
-				break;
-			}
-			case 3: {
-				this.englishNumberAsAWord = "Fourth";
-				break;
-			}
-			case 4: {
-				this.englishNumberAsAWord = "Fifth";
-				break;
-			}
-		}
-		if (this.currentCount == this.checkMysteryNumbers()) {
-			this.currentEnglishText = `The ${this.englishNumberAsAWord} Mystery is: ${this.todaysMystery[this.mysteryCount]}`;
-			this.currentSpanishText = `El ${this.spanishNumberAsAWord} misterioso es: ${this.todaysESPMystery[this.mysteryCount]}.`;
-		}
-	}
-
-	reloadCurrentDay() {
-		this.getCurrentDay();
-	}
-
 	signOfTheCrossNumbers: Array<number> = [1, 81];
 	apostlesCreedNumbers: Array<number> = [2];
 	hailMaryNumbers: Array<number> = [4, 5, 6, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76];
@@ -183,290 +73,12 @@ export class RosaryAppComponent implements OnInit {
 	finalPrayerNumbers: Array<number> = [80];
 	plusOneMysteryNumbers: Array<number> = [10, 24, 38, 52, 66];
 
-	checkSignOfTheCrossNumbers() {
-		for (let i = 0; i <= this.signOfTheCrossNumbers.length; i++) {
-			if (this.currentCount == this.signOfTheCrossNumbers[i]) {
-				return this.signOfTheCrossNumbers[i];
-			} else {
-				continue;
-			}
-		}
+	async getCurrentDay() {
+		let dayJson = await fetch("http://calapi.inadiutorium.cz/api/v0/en/calendars/default/today");
+		this.currentDay = await dayJson.json();
 	}
 
-	checkApostlesCreedNumbers() {
-		for (let i = 0; i <= this.apostlesCreedNumbers.length; i++) {
-			if (this.currentCount == this.apostlesCreedNumbers[i]) {
-				return this.apostlesCreedNumbers[i];
-			} else {
-				continue;
-			}
-		}
-	}
-
-	checkHailMaryNumbers() {
-		for (let i = 0; i <= this.hailMaryNumbers.length; i++) {
-			if (this.currentCount == this.hailMaryNumbers[i]) {
-				return this.hailMaryNumbers[i];
-			} else {
-				continue;
-			}
-		}
-	}
-
-	checkOurFatherNumbers() {
-		for (let i = 0; i <= this.ourFatherNumbers.length; i++) {
-			if (this.currentCount == this.ourFatherNumbers[i]) {
-				return this.ourFatherNumbers[i];
-			} else {
-				continue;
-			}
-		}
-	}
-
-	checkGloryBeNumbers() {
-		for (let i = 0; i <= this.gloryBeNumbers.length; i++) {
-			if (this.currentCount == this.gloryBeNumbers[i]) {
-				return this.gloryBeNumbers[i];
-			} else {
-				continue;
-			}
-		}
-	}
-
-	checkMysteryNumbers() {
-		for (let i = 0; i <= this.mysteryNumbers.length; i++) {
-			if (this.currentCount == this.mysteryNumbers[i]) {
-				return this.mysteryNumbers[i];
-			} else {
-				continue;
-			}
-		}
-	}
-
-	checkPlusOneMysteryNumbers() {
-		for (let i = 0; i <= this.plusOneMysteryNumbers.length; i++) {
-			if (this.currentCount == this.plusOneMysteryNumbers[i]) {
-				return this.plusOneMysteryNumbers[i];
-			} else {
-				continue;
-			}
-		}
-	}
-
-	checkOhMyJesusNumbers() {
-		for (let i = 0; i <= this.ohMyJesusNumbers.length; i++) {
-			if (this.currentCount == this.ohMyJesusNumbers[i]) {
-				return this.ohMyJesusNumbers[i];
-			} else {
-				continue;
-			}
-		}
-	}
-
-	checkHailHolyQueenNumbers() {
-		for (let i = 0; i <= this.hailHolyQueenNumbers.length; i++) {
-			if (this.currentCount == this.hailHolyQueenNumbers[i]) {
-				return this.hailHolyQueenNumbers[i];
-			} else {
-				continue;
-			}
-		}
-	}
-
-	checkFinalPrayerNumbers() {
-		for (let i = 0; i <= this.finalPrayerNumbers.length; i++) {
-			if (this.currentCount == this.finalPrayerNumbers[i]) {
-				return this.finalPrayerNumbers[i];
-			} else {
-				continue;
-			}
-		}
-	}
-
-	nextCount() {
-		if (this.currentCount == this.checkMysteryNumbers()) {
-			++this.mysteryCount;
-		}
-		++this.currentCount;
-		if (this.currentCount == this.checkSignOfTheCrossNumbers()) {
-			this.signOfTheCross();
-		} else if (this.currentCount == this.checkApostlesCreedNumbers()) {
-			this.apostlesCreed();
-		} else if (this.currentCount == this.checkOurFatherNumbers()) {
-			this.ourFather();
-		} else if (this.currentCount == this.checkHailMaryNumbers()) {
-			this.hailMary();
-		} else if (this.currentCount == this.checkGloryBeNumbers()) {
-			this.gloryBe();
-		} else if (this.currentCount == this.checkMysteryNumbers()) {
-			this.mystery();
-		} else if (this.currentCount == this.checkHailHolyQueenNumbers()) {
-			this.hailHolyQueen();
-		} else if (this.currentCount == this.checkFinalPrayerNumbers()) {
-			this.finalPrayer();
-		} else if (this.currentCount == this.checkOhMyJesusNumbers()) {
-			this.ohMyJesus();
-		}
-		console.log(this.currentCount);
-	}
-
-	resetCount() {
-		this.currentCount = 0;
-		this.mysteryCount = 0;
-	}
-
-	previousCount() {
-		if (this.currentCount == this.checkPlusOneMysteryNumbers()) {
-			--this.mysteryCount;
-		}
-		--this.currentCount;
-		if (this.currentCount == this.checkSignOfTheCrossNumbers()) {
-			this.signOfTheCross();
-		} else if (this.currentCount == this.checkApostlesCreedNumbers()) {
-			this.apostlesCreed();
-		} else if (this.currentCount == this.checkOurFatherNumbers()) {
-			this.ourFather();
-		} else if (this.currentCount == this.checkHailMaryNumbers()) {
-			this.hailMary();
-		} else if (this.currentCount == this.checkGloryBeNumbers()) {
-			this.gloryBe();
-		} else if (this.currentCount == this.checkMysteryNumbers()) {
-			this.mystery();
-		} else if (this.currentCount == this.checkHailHolyQueenNumbers()) {
-			this.hailHolyQueen();
-		} else if (this.currentCount == this.checkFinalPrayerNumbers()) {
-			this.finalPrayer();
-		} else if (this.currentCount == this.checkOhMyJesusNumbers()) {
-			this.ohMyJesus();
-		}
-	}
-
-	setLuminousMysteries() {
-		this.todaysMystery = LUMINOUS_MYSTERIES;
-		this.todaysESPMystery = LUMINOUS_MYSTERIES_ESP;
-		this.luminousActive = true;
-		this.luminousInactive = false;
-		this.sorrowfulActive = false;
-		this.sorrowfulInactive = true;
-		this.gloriousActive = false;
-		this.gloriousInactive = true;
-		this.joyfulActive = false;
-		this.joyfulInactive = true;
-	}
-
-	changeToLuminousMysteries() {
-		this.todaysMystery = LUMINOUS_MYSTERIES;
-		this.todaysESPMystery = LUMINOUS_MYSTERIES_ESP;
-		this.luminousActive = true;
-		this.luminousInactive = false;
-		this.sorrowfulActive = false;
-		this.sorrowfulInactive = true;
-		this.gloriousActive = false;
-		this.gloriousInactive = true;
-		this.joyfulActive = false;
-		this.joyfulInactive = true;
-		this.changeMystery();
-	}
-
-	setSorrowfulMysteries() {
-		this.todaysMystery = SORROWFUL_MYSTERIES;
-		this.todaysESPMystery = SORROWFUL_MYSTERIES_ESP;
-		this.luminousActive = false;
-		this.luminousInactive = true;
-		this.sorrowfulActive = true;
-		this.sorrowfulInactive = false;
-		this.gloriousActive = false;
-		this.gloriousInactive = true;
-		this.joyfulActive = false;
-		this.joyfulInactive = true;
-	}
-
-	changeToSorrowfulMysteries() {
-		this.todaysMystery = SORROWFUL_MYSTERIES;
-		this.todaysESPMystery = SORROWFUL_MYSTERIES_ESP;
-		this.luminousActive = false;
-		this.luminousInactive = true;
-		this.sorrowfulActive = true;
-		this.sorrowfulInactive = false;
-		this.gloriousActive = false;
-		this.gloriousInactive = true;
-		this.joyfulActive = false;
-		this.joyfulInactive = true;
-		this.changeMystery();
-	}
-
-	setGloriousMysteries() {
-		this.todaysMystery = GLORIOUS_MYSTERIES;
-		this.todaysESPMystery = GLORIOUS_MYSTERIES_ESP;
-		this.luminousActive = false;
-		this.luminousInactive = true;
-		this.sorrowfulActive = false;
-		this.sorrowfulInactive = true;
-		this.gloriousActive = true;
-		this.gloriousInactive = false;
-		this.joyfulActive = false;
-		this.joyfulInactive = true;
-	}
-
-	changeToGloriousMysteries() {
-		this.todaysMystery = GLORIOUS_MYSTERIES;
-		this.todaysESPMystery = GLORIOUS_MYSTERIES_ESP;
-		this.luminousActive = false;
-		this.luminousInactive = true;
-		this.sorrowfulActive = false;
-		this.sorrowfulInactive = true;
-		this.gloriousActive = true;
-		this.gloriousInactive = false;
-		this.joyfulActive = false;
-		this.joyfulInactive = true;
-		this.changeMystery();
-	}
-
-	setJoyfulMysteries() {
-		this.todaysMystery = JOYFUL_MYSTERIES;
-		this.todaysESPMystery = JOYFUL_MYSTERIES_ESP;
-		this.luminousActive = false;
-		this.luminousInactive = true;
-		this.sorrowfulActive = false;
-		this.sorrowfulInactive = true;
-		this.gloriousActive = false;
-		this.gloriousInactive = true;
-		this.joyfulActive = true;
-		this.joyfulInactive = false;
-	}
-
-	changeToJoyfulMysteries() {
-		this.todaysMystery = JOYFUL_MYSTERIES;
-		this.todaysESPMystery = JOYFUL_MYSTERIES_ESP;
-		this.luminousActive = false;
-		this.luminousInactive = true;
-		this.sorrowfulActive = false;
-		this.sorrowfulInactive = true;
-		this.gloriousActive = false;
-		this.gloriousInactive = true;
-		this.joyfulActive = true;
-		this.joyfulInactive = false;
-		this.changeMystery();
-	}
-
-	changeToEnglish() {
-		this.currentLanguage = "english";
-		this.englishActive = true;
-		this.englishInactive = false;
-		this.spanishActive = false;
-		this.spanishInactive = true;
-	}
-
-	changeToSpanish() {
-		this.currentLanguage = "spanish";
-		this.englishActive = false;
-		this.englishInactive = true;
-		this.spanishActive = true;
-		this.spanishInactive = false;
-	}
-
-	ngOnInit() {
-		this.changeToEnglish();
+	setTodaysMysteries() {
 		var date = new Date();
 		switch (date.getDay()) {
 			case 1: {
@@ -507,5 +119,229 @@ export class RosaryAppComponent implements OnInit {
 				break;
 			}
 		}
+	}
+
+	mystery() {
+		switch (this.mysteryCount) {
+			case 0: {
+				this.englishNumberAsAWord = "First";
+				this.spanishNumberAsAWord = "Primer";
+				break;
+			}
+			case 1: {
+				this.englishNumberAsAWord = "Second";
+				this.spanishNumberAsAWord = "Segundo";
+				break;
+			}
+			case 2: {
+				this.englishNumberAsAWord = "Third";
+				this.spanishNumberAsAWord = "Tercer";
+				break;
+			}
+			case 3: {
+				this.englishNumberAsAWord = "Fourth";
+				this.spanishNumberAsAWord = "Cuarto";
+				break;
+			}
+			case 4: {
+				this.englishNumberAsAWord = "Fifth";
+				this.spanishNumberAsAWord = "Quinto";
+				break;
+			}
+		}
+		this.currentEnglishText = `The ${this.englishNumberAsAWord} Mystery is: ${this.todaysMystery[this.mysteryCount]}.`;
+		this.currentSpanishText = `El ${this.spanishNumberAsAWord} misterioso es: ${this.todaysESPMystery[this.mysteryCount]}.`;
+	}
+
+	reloadCurrentDay() {
+		this.getCurrentDay();
+	}
+
+	nextCount() {
+		if (this.mysteryNumbers.includes(this.currentCount)) {
+			++this.mysteryCount;
+		}
+		++this.currentCount;
+		this.changeText();
+	}
+
+	resetCount() {
+		this.currentCount = 0;
+		this.mysteryCount = 0;
+	}
+
+	previousCount() {
+		if (this.mysteryNumbers.includes(this.currentCount)) {
+			--this.mysteryCount;
+		}
+		--this.currentCount;
+		this.changeText();
+	}
+
+	changeText() {
+		if (this.hailMaryNumbers.includes(this.currentCount)) {
+			this.currentEnglishText = HAIL_MARY;
+			this.currentSpanishText = HAIL_MARY_ESP;
+		} else if (this.signOfTheCrossNumbers.includes(this.currentCount)) {
+			this.currentEnglishText = SIGN_OF_THE_CROSS;
+			this.currentSpanishText = SIGN_OF_THE_CROSS_ESP;
+		} else if (this.apostlesCreedNumbers.includes(this.currentCount)) {
+			this.currentEnglishText = APOSTLES_CREED;
+			this.currentSpanishText = APOSTLES_CREED_ESP;
+		} else if (this.ourFatherNumbers.includes(this.currentCount)) {
+			this.currentEnglishText = OUR_FATHER;
+			this.currentSpanishText = OUR_FATHER_ESP;
+		} else if (this.gloryBeNumbers.includes(this.currentCount)) {
+			this.currentEnglishText = GLORY_BE;
+			this.currentSpanishText = GLORY_BE_ESP;
+		} else if (this.hailHolyQueenNumbers.includes(this.currentCount)) {
+			this.currentEnglishText = HAIL_HOLY_QUEEN;
+			this.currentSpanishText = HAIL_HOLY_QUEEN_ESP;
+		} else if (this.finalPrayerNumbers.includes(this.currentCount)) {
+			this.currentEnglishText = FINAL_PRAYER;
+			this.currentSpanishText = FINAL_PRAYER_ESP;
+		} else if (this.ohMyJesusNumbers.includes(this.currentCount)) {
+			this.currentEnglishText = OH_MY_JESUS;
+			this.currentSpanishText = OH_MY_JESUS_ESP;
+		} else if (this.mysteryNumbers.includes(this.currentCount)) {
+			this.mystery();
+		}
+	}
+
+	setLuminousMysteries() {
+		this.todaysMystery = LUMINOUS_MYSTERIES;
+		this.todaysESPMystery = LUMINOUS_MYSTERIES_ESP;
+		this.luminousActive = true;
+		this.luminousInactive = false;
+		this.sorrowfulActive = false;
+		this.sorrowfulInactive = true;
+		this.gloriousActive = false;
+		this.gloriousInactive = true;
+		this.joyfulActive = false;
+		this.joyfulInactive = true;
+	}
+
+	changeToLuminousMysteries() {
+		this.todaysMystery = LUMINOUS_MYSTERIES;
+		this.todaysESPMystery = LUMINOUS_MYSTERIES_ESP;
+		this.luminousActive = true;
+		this.luminousInactive = false;
+		this.sorrowfulActive = false;
+		this.sorrowfulInactive = true;
+		this.gloriousActive = false;
+		this.gloriousInactive = true;
+		this.joyfulActive = false;
+		this.joyfulInactive = true;
+		if (this.mysteryNumbers.includes(this.currentCount)) {
+			this.mystery();
+		}
+	}
+
+	setSorrowfulMysteries() {
+		this.todaysMystery = SORROWFUL_MYSTERIES;
+		this.todaysESPMystery = SORROWFUL_MYSTERIES_ESP;
+		this.luminousActive = false;
+		this.luminousInactive = true;
+		this.sorrowfulActive = true;
+		this.sorrowfulInactive = false;
+		this.gloriousActive = false;
+		this.gloriousInactive = true;
+		this.joyfulActive = false;
+		this.joyfulInactive = true;
+	}
+
+	changeToSorrowfulMysteries() {
+		this.todaysMystery = SORROWFUL_MYSTERIES;
+		this.todaysESPMystery = SORROWFUL_MYSTERIES_ESP;
+		this.luminousActive = false;
+		this.luminousInactive = true;
+		this.sorrowfulActive = true;
+		this.sorrowfulInactive = false;
+		this.gloriousActive = false;
+		this.gloriousInactive = true;
+		this.joyfulActive = false;
+		this.joyfulInactive = true;
+		if (this.mysteryNumbers.includes(this.currentCount)) {
+			this.mystery();
+		}
+	}
+
+	setGloriousMysteries() {
+		this.todaysMystery = GLORIOUS_MYSTERIES;
+		this.todaysESPMystery = GLORIOUS_MYSTERIES_ESP;
+		this.luminousActive = false;
+		this.luminousInactive = true;
+		this.sorrowfulActive = false;
+		this.sorrowfulInactive = true;
+		this.gloriousActive = true;
+		this.gloriousInactive = false;
+		this.joyfulActive = false;
+		this.joyfulInactive = true;
+	}
+
+	changeToGloriousMysteries() {
+		this.todaysMystery = GLORIOUS_MYSTERIES;
+		this.todaysESPMystery = GLORIOUS_MYSTERIES_ESP;
+		this.luminousActive = false;
+		this.luminousInactive = true;
+		this.sorrowfulActive = false;
+		this.sorrowfulInactive = true;
+		this.gloriousActive = true;
+		this.gloriousInactive = false;
+		this.joyfulActive = false;
+		this.joyfulInactive = true;
+		if (this.mysteryNumbers.includes(this.currentCount)) {
+			this.mystery();
+		}
+	}
+
+	setJoyfulMysteries() {
+		this.todaysMystery = JOYFUL_MYSTERIES;
+		this.todaysESPMystery = JOYFUL_MYSTERIES_ESP;
+		this.luminousActive = false;
+		this.luminousInactive = true;
+		this.sorrowfulActive = false;
+		this.sorrowfulInactive = true;
+		this.gloriousActive = false;
+		this.gloriousInactive = true;
+		this.joyfulActive = true;
+		this.joyfulInactive = false;
+	}
+
+	changeToJoyfulMysteries() {
+		this.todaysMystery = JOYFUL_MYSTERIES;
+		this.todaysESPMystery = JOYFUL_MYSTERIES_ESP;
+		this.luminousActive = false;
+		this.luminousInactive = true;
+		this.sorrowfulActive = false;
+		this.sorrowfulInactive = true;
+		this.gloriousActive = false;
+		this.gloriousInactive = true;
+		this.joyfulActive = true;
+		this.joyfulInactive = false;
+		if (this.mysteryNumbers.includes(this.currentCount)) {
+			this.mystery();
+		}
+	}
+
+	changeToEnglish() {
+		this.currentLanguage = "english";
+		this.englishActive = true;
+		this.englishInactive = false;
+		this.spanishActive = false;
+		this.spanishInactive = true;
+	}
+
+	changeToSpanish() {
+		this.currentLanguage = "spanish";
+		this.englishActive = false;
+		this.englishInactive = true;
+		this.spanishActive = true;
+		this.spanishInactive = false;
+	}
+
+	ngOnInit() {
+		this.changeToEnglish();
+		this.setTodaysMysteries();
 	}
 }

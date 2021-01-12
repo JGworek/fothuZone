@@ -22,7 +22,7 @@ import zone.fothu.pets.service.AutoBattleService;
 
 @RestController
 @CrossOrigin
-@RequestMapping(path = "/autoBattle")
+@RequestMapping(path = "/autoBattles")
 public class AutoBattleController implements Serializable {
 
     private static final long serialVersionUID = -6467395004412840497L;

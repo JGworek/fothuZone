@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { Pet } from "src/app/models/Pet";
 import { User } from "src/app/models/User";
+import { UserDTO } from "src/app/models/UserDTO";
 import { environment } from "src/environments/environment";
 import { UserService } from "../../service/user.service";
 
@@ -17,17 +19,18 @@ export class CreateChallengeComponent implements OnInit {
 	unableToCreateChallenge: boolean = false;
 	filterString: string = "";
 	filterArray: Array<User> = [];
+	challengerPets: Array<Pet> = [];
 
 	async getAllUsersBesideLoggedInUser() {
-		let jsonUserList = await fetch(`${environment.fothuZoneEC2Link}/users/availableChallengeUsers/userId/${this.userService.currentUser.id}`);
-		this.userList = await jsonUserList.json();
+		let userListJSON = await fetch(`${environment.fothuZoneEC2Link}/users/availableChallengeUserDTOs/userId/${this.userService.currentUser.id}`);
+		this.userList = await userListJSON.json();
 		this.filterArray = this.userList;
 	}
 
 	async createNewChallengeRequest() {
-		let jsonChallengeRequest = await fetch(`${environment.fothuZoneEC2Link}/challengeRequest/new/challengerId/${this.userService.currentUser.id}/opponentId/${this.challengeUserId}`, { method: "POST" });
-		let returnedChallengeRequest = await jsonChallengeRequest.json();
-		if (jsonChallengeRequest.status.toString()[0] == "1" || jsonChallengeRequest.status.toString()[0] == "4" || jsonChallengeRequest.status.toString()[0] == "5") {
+		let challengeRequestJSON = await fetch(`${environment.fothuZoneEC2Link}/challengeRequest/new/challengerId/${this.userService.currentUser.id}/opponentId/${this.challengeUserId}`, { method: "POST" });
+		let returnedChallengeRequest = await challengeRequestJSON.json();
+		if (challengeRequestJSON.status.toString()[0] == "1" || challengeRequestJSON.status.toString()[0] == "4" || challengeRequestJSON.status.toString()[0] == "5") {
 			this.unableToCreateChallenge = true;
 		} else {
 			//CREATE TOAST MESSAGE TO SAY CHALLENGE REQUEST
@@ -42,12 +45,10 @@ export class CreateChallengeComponent implements OnInit {
 		});
 	}
 
-	getPetsForChallenger(id: number) {
-		for (let i = 0; i < this.userList.length; i++) {
-			if (this.userList[i].id == id) {
-				return this.userList[i].pets;
-			}
-		}
+	async getPetsForChallenger(id: number) {
+		let challengerJSON = await fetch(`${environment.fothuZoneEC2Link}/users/id/${id}`);
+		let challenger = await challengerJSON.json();
+		this.challengerPets = challenger.pets;
 	}
 
 	ngOnInit(): void {

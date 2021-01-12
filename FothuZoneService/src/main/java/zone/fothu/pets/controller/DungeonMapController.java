@@ -19,7 +19,7 @@ import zone.fothu.pets.repository.PetRepository;
 
 @RestController
 @CrossOrigin
-@RequestMapping(path = "/map")
+@RequestMapping(path = "/maps")
 public class DungeonMapController implements Serializable {
 
     private static final long serialVersionUID = 6402680653396347736L;

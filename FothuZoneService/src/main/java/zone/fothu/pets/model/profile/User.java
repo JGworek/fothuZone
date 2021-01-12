@@ -44,87 +44,87 @@ public class User implements Serializable {
         super();
     }
 
-    public User(int id, String username, String favoriteColor, String userPassword, String secretPassword,
-        List<Pet> pets) {
-        super();
-        this.id = id;
-        this.username = username;
-        this.favoriteColor = favoriteColor;
-        this.userPassword = userPassword;
-        this.secretPassword = secretPassword;
-        this.pets = pets;
-    }
+	public User(int id, String username, String favoriteColor, String userPassword, String secretPassword,
+			List<Pet> pets) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.favoriteColor = favoriteColor;
+		this.userPassword = userPassword;
+		this.secretPassword = secretPassword;
+		this.pets = pets;
+	}
 
-    public int getId() {
-        return id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public String getFavoriteColor() {
-        return favoriteColor;
-    }
+	public String getFavoriteColor() {
+		return favoriteColor;
+	}
 
-    public void setFavoriteColor(String favoriteColor) {
-        this.favoriteColor = favoriteColor;
-    }
+	public void setFavoriteColor(String favoriteColor) {
+		this.favoriteColor = favoriteColor;
+	}
 
-    public String getUserPassword() {
-        return userPassword;
-    }
+	public String getUserPassword() {
+		return userPassword;
+	}
 
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
-    }
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
+	}
 
-    public String getSecretPassword() {
-        return secretPassword;
-    }
+	public String getSecretPassword() {
+		return secretPassword;
+	}
 
-    public void setSecretPassword(String secretPassword) {
-        this.secretPassword = secretPassword;
-    }
+	public void setSecretPassword(String secretPassword) {
+		this.secretPassword = secretPassword;
+	}
 
-    public List<Pet> getPets() {
-        return pets;
-    }
+	public List<Pet> getPets() {
+		return pets;
+	}
 
-    public void setPets(List<Pet> pets) {
-        this.pets = pets;
-    }
+	public void setPets(List<Pet> pets) {
+		this.pets = pets;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(favoriteColor, id, pets, secretPassword, userPassword, username);
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hash(favoriteColor, id, pets, secretPassword, userPassword, username);
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (!(obj instanceof User)) {
-            return false;
-        }
-        User other = (User) obj;
-        return Objects.equals(favoriteColor, other.favoriteColor) && id == other.id && Objects.equals(pets, other.pets)
-            && Objects.equals(secretPassword, other.secretPassword) && Objects.equals(userPassword, other.userPassword)
-            && Objects.equals(username, other.username);
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof User)) {
+			return false;
+		}
+		User other = (User) obj;
+		return Objects.equals(favoriteColor, other.favoriteColor) && id == other.id && Objects.equals(pets, other.pets)
+				&& Objects.equals(secretPassword, other.secretPassword)
+				&& Objects.equals(userPassword, other.userPassword) && Objects.equals(username, other.username);
+	}
 
-    @Override
-    public String toString() {
-        return "User [id=" + id + ", username=" + username + ", favoriteColor=" + favoriteColor + ", userPassword="
-            + userPassword + ", secretPassword=" + secretPassword + ", pets=" + pets + "]";
-    }
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", favoriteColor=" + favoriteColor + ", userPassword="
+				+ userPassword + ", secretPassword=" + secretPassword + ", pets=" + pets + "]";
+	}
 }
