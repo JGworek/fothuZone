@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "/battles")
 public class BattleController implements Serializable {
 
-    private static final long serialVersionUID = 7455066211780881774L;
+	private static final long serialVersionUID = 7455066211780881774L;
 
 }

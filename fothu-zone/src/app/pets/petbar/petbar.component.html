@@ -1,7 +1,7 @@
 <div class="container petbar float-right d-none d-lg-block d-xl-block d-xxl-block align-items-center" [ngStyle]="{ 'width.px': userService.currentUser.pets.length * 145 }">
 	<div class="row justify-content-end align-items-center">
 		<div *ngFor="let pet of userService.currentUser.pets; let numberOfindex = index">
-			<div class="col-xl-12 col-md-4 col-sm-6 bg-secondary border-top border-bottom border-left border-dark pt-1 petbar-background">
+			<div class="col-xl-12 border-top border-bottom border-left border-dark pt-1 petbar-background">
 				<div [ngClass]="[userService.currentUser.favoriteColor, 'petcenter', 'petbar-image-background']">
 					<a class="petbar-image" href="javascript:void(0)" (click)="this.goToProfile()"><img class="petbar-image" *ngIf="pet.image" [src]="pet.image.imageURL" [alt]="pet.name" /></a>
 				</div>

@@ -1,15 +1,29 @@
-<app-pets></app-pets>
+<h2 class="border border-dark rounded center container-fluid order-0 bg-warning-fothu py-2">FothuPets</h2>
 <div class="container-fluid h-100">
 	<div class="row h-100 align-items-start no-gutters father">
+		<div class="col-12 col-lg-9 pets-content h-75 border border-dark rounded son order-1 bg-success-fothu">
+			<div class="row no-gutters align-items-start">
+				<h4 class="col-12 no-gutters pets-content font-weight-bold">Things To Do!</h4>
+				<div class="col-12 no-gutters pets-content">
+					<a class="btn btn-primary-fothu" routerLink="/newPet">New Pet</a>
+					<a class="btn btn-warning-fothu" routerLink="/dungeon">Head To Mumble's Creek (ALPHA)</a>
+					<a class="btn btn-dark-fothu" routerLink="/challenge">Challenge Another Player</a>
+				</div>
+				<!-- <div class="col-12 no-gutters pets-content">more content</div>
+				<div class="col-12 no-gutters pets-content">more content</div>
+				<div class="col-12 no-gutters pets-content">more content</div> -->
+			</div>
+		</div>
+
 		<div [ngStyle]="{ right: 0 }" class="d-none d-lg-block col-lg-3 m-0 p-0 order-2 h-75 son border border-dark rounded">
 			<!-- sidebar -->
 			<div class="row d-none d-lg-block m-0 p-0 h-100 align-items-center">
-				<div class="d-none d-lg-block col-lg-12 align-self-center border-bottom border-dark">
+				<div class="d-none d-lg-block col-lg-12 align-self-center border-bottom border-dark bg-primary-fothu text-white">
 					<h4 class="center">Current Battles</h4>
 					<!-- ngFor current battles -->
 					<div class="row overflow-current-battles">
 						<div class="col-12">
-							<div class="center">battle one</div>
+							<!-- <div class="center">battle one</div>
 							<div class="center">battle two</div>
 							<div class="center">battle two</div>
 							<div class="center">battle two</div>
@@ -19,17 +33,17 @@
 							<div class="center">battle two</div>
 							<div class="center">battle two</div>
 							<div class="center">battle two</div>
-							<div class="center">battle two</div>
+							<div class="center">battle two</div> -->
 							<!-- every challenge/battle will be its own column with 1-2 buttons -->
 						</div>
 					</div>
 				</div>
-				<div class="d-none d-lg-block col-lg-12 align-self-center">
+				<div class="d-none d-lg-block col-lg-12 align-self-center bg-dark-fothu text-white">
 					<h4 class="center">Battle Requests</h4>
 					<!-- ngFor battle requests -->
 					<div class="row">
 						<div class="col-12 overflow-battle-requests">
-							<div class="center">request one</div>
+							<!-- <div class="center">request one</div>
 							<div class="center">request two</div>
 							<div class="center">battle two</div>
 							<div class="center">battle two</div>
@@ -44,23 +58,10 @@
 							<div class="center">battle two</div>
 							<div class="center">battle two</div>
 							<div class="center">battle two</div>
-							<div class="center">battle two</div>
+							<div class="center">battle two</div> -->
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
-		<div class="col-12 col-lg-9 pets-content h-75 border border-dark rounded son">
-			<div class="row no-gutters align-items-start">
-				<h5 class="col-12 no-gutters pets-content">title bar</h5>
-				<div class="col-12 no-gutters pets-content">
-					<a class="btn btn-primary" routerLink="/newPet">New Pet</a>
-					<a class="btn btn-secondary" routerLink="/dungeon">Head To Mumble's Creek (ALPHA)</a>
-					<a class="btn btn-success" routerLink="/challenge">Challenge Another Player</a>
-				</div>
-				<div class="col-12 no-gutters pets-content">more content</div>
-				<div class="col-12 no-gutters pets-content">more content</div>
-				<div class="col-12 no-gutters pets-content">more content</div>
 			</div>
 		</div>
 	</div>

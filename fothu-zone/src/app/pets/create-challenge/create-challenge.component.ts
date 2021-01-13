@@ -20,6 +20,7 @@ export class CreateChallengeComponent implements OnInit {
 	filterString: string = "";
 	filterArray: Array<User> = [];
 	challengerPets: Array<Pet> = [];
+	challengerUser: User;
 
 	async getAllUsersBesideLoggedInUser() {
 		let userListJSON = await fetch(`${environment.fothuZoneEC2Link}/users/availableChallengeUserDTOs/userId/${this.userService.currentUser.id}`);
@@ -28,7 +29,7 @@ export class CreateChallengeComponent implements OnInit {
 	}
 
 	async createNewChallengeRequest() {
-		let challengeRequestJSON = await fetch(`${environment.fothuZoneEC2Link}/challengeRequest/new/challengerId/${this.userService.currentUser.id}/opponentId/${this.challengeUserId}`, { method: "POST" });
+		let challengeRequestJSON = await fetch(`${environment.fothuZoneEC2Link}/challengeRequests/new/challengerId/${this.userService.currentUser.id}/opponentId/${this.challengeUserId}`, { method: "POST" });
 		let returnedChallengeRequest = await challengeRequestJSON.json();
 		if (challengeRequestJSON.status.toString()[0] == "1" || challengeRequestJSON.status.toString()[0] == "4" || challengeRequestJSON.status.toString()[0] == "5") {
 			this.unableToCreateChallenge = true;
@@ -48,6 +49,7 @@ export class CreateChallengeComponent implements OnInit {
 	async getPetsForChallenger(id: number) {
 		let challengerJSON = await fetch(`${environment.fothuZoneEC2Link}/users/id/${id}`);
 		let challenger = await challengerJSON.json();
+		this.challengerUser = challenger;
 		this.challengerPets = challenger.pets;
 	}
 

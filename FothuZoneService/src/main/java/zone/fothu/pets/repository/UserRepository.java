@@ -15,34 +15,31 @@ import zone.fothu.pets.model.profile.UserDTO;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    @Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE id = ?1")
-    User findById(int id) throws UserNotFoundException;
+	@Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE id = ?1")
+	User findById(int id);
 
-    @Override
-    @Query(nativeQuery = true, value = "SELECT * FROM pets.users")
-    List<User> findAll();
+	@Override
+	@Query(nativeQuery = true, value = "SELECT * FROM pets.users ORDER BY id ASC")
+	List<User> findAll();
 
-    @Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE LOWER(username) = ?1")
-    User findByUsername(String username) throws UserNotFoundException;
+	@Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE LOWER(username) = ?1")
+	User findByUsername(String username);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE password = ?1")
-    User findByPassword(String password) throws UserNotFoundException;
+	@Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE password = ?1")
+	User findByPassword(String password);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE LOWER(username) = ?1 AND user_password = ?2")
-    User findByUsernameAndPassword(String username, String password) throws UserNotFoundException;
+	@Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE LOWER(username) = ?1 AND user_password = ?2")
+	User findByUsernameAndPassword(String username, String password);
 
-    @Modifying
-    @Transactional
-    @Query(nativeQuery = true, value = "UPDATE pets.users SET username = ?2, user_password = ?3, favorite_color = ?4 WHERE id = ?1")
-    void updateUser(int id, String username, String userPassword, String favoriteColor)
-        throws UserNotUpdatedException, PSQLException;
+	@Modifying
+	@Transactional
+	@Query(nativeQuery = true, value = "UPDATE pets.users SET username = ?2, user_password = ?3, favorite_color = ?4 WHERE id = ?1")
+	void updateUser(int id, String username, String userPassword, String favoriteColor);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM pets.users where LOWER(username) = ?1 AND secret_password = ?2")
-    UserDTO getRecoveredUser(String username, String encodedSecretPassword);
+	@Query(nativeQuery = true, value = "SELECT * FROM pets.users where LOWER(username) = ?1 AND secret_password = ?2")
+	UserDTO getRecoveredUser(String username, String encodedSecretPassword);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE id NOT IN (?1, 2147483647)")
+	@Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE id NOT IN (?1, 2147483647)")
 	List<User> getAvailableChallengeUsers(int id);
-
-
 
 }

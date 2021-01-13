@@ -5,8 +5,8 @@
 <br />
 <h4>Current Apps:</h4>
 
-<button type="button" class="list-group-item nav-link btn-lg w-50 bg-primary" *ngIf="this.userService.currentUser.id != -1" routerLink="/FothuPets">Fothu Pets</button>
-<button type="button" class="list-group-item nav-link btn-lg w-50 bg-primary" *ngIf="this.userService.currentUser.id == -1" routerLink="/login">Login To Fothu Pets</button>
+<button type="button" class="list-group-item nav-link btn-lg w-50 bg-primary-fothu text-white" *ngIf="this.userService.currentUser.id != -1" routerLink="/FothuPets">Fothu Pets</button>
+<button type="button" class="list-group-item nav-link btn-lg w-50 bg-primary-fothu" *ngIf="this.userService.currentUser.id == -1" routerLink="/login">Login To Fothu Pets</button>
 <button type="button" class="list-group-item nav-link btn-lg w-50 bg-warning" routerLink="/schola">The Schola Rehearsal, By Matthew Gworek</button>
-<button type="button" class="list-group-item nav-link btn-lg w-50 bg-danger" routerLink="/rosary">The Catholic Rosary</button>
+<button type="button" class="list-group-item nav-link btn-lg w-50 bg-danger-fothu text-white" routerLink="/rosary">The Catholic Rosary</button>
 <!-- <a class="btn-lg w-50 btn-dark text-center" href="https://fothuzone-rosary.s3.amazonaws.com/cp3u.pdf" role="button">Hymnal</a> -->

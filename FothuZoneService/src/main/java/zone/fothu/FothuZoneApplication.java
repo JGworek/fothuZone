@@ -21,35 +21,33 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @ComponentScan("zone.fothu")
 public class FothuZoneApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(FothuZoneApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(FothuZoneApplication.class, args);
+	}
 
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	@Bean
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-    @Bean
-    public AnnotationConfigApplicationContext annotationConfigApplicationContext() {
-        return new AnnotationConfigApplicationContext();
-    }
+	@Bean
+	public AnnotationConfigApplicationContext annotationConfigApplicationContext() {
+		return new AnnotationConfigApplicationContext();
+	}
 
-    // server:port/swagger-ui.html
-    @Bean
-    public Docket productApi() {
-        return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any())
-            .paths(PathSelectors.any()).build();
-    }
+	// server:port/swagger-ui.html
+	@Bean
+	public Docket productApi() {
+		return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any()).paths(PathSelectors.any()).build();
+	}
 
-    public final Object that = null;
-    {
-        try {
-            this.getClass().getDeclaredField("that").set(that,
-                this.getClass().getDeclaredConstructors()[0].newInstance());
-        } catch (Throwable t) {
-            Object[] those = new Object[] { this, that };
-        }
-    }
+	public final Object that = null;
+	{
+		try {
+			this.getClass().getDeclaredField("that").set(that, this.getClass().getDeclaredConstructors()[0].newInstance());
+		} catch (Throwable t) {
+			Object[] those = new Object[] { this, that };
+		}
+	}
 
 }

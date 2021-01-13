@@ -25,67 +25,65 @@ import zone.fothu.pets.service.AutoBattleService;
 @RequestMapping(path = "/autoBattles")
 public class AutoBattleController implements Serializable {
 
-    private static final long serialVersionUID = -6467395004412840497L;
+	private static final long serialVersionUID = -6467395004412840497L;
 
-    @Autowired
-    AutoBattleRepository autoBattleRepository;
-    @Autowired
-    AutoBattleLogRepository autoBattleLogRepository;
-    @Autowired
-    AutoBattleService autoBattleService;
+	@Autowired
+	AutoBattleRepository autoBattleRepository;
+	@Autowired
+	AutoBattleLogRepository autoBattleLogRepository;
+	@Autowired
+	AutoBattleService autoBattleService;
 
-    @GetMapping("/all")
-    public ResponseEntity<List<AutoBattle>> getAllBattles() {
-        List<AutoBattle> battles = autoBattleRepository.findAll();
-        for (AutoBattle battle : battles) {
-            if (battle.getAttackingPet().getOwner() != null) {
-                battle.getAttackingPet().getOwner().setUserPassword(null);
-            }
-            if (battle.getDefendingPet().getOwner() != null) {
-                battle.getDefendingPet().getOwner().setUserPassword(null);
-            }
-        }
-        return ResponseEntity.ok(battles);
-    }
+	@GetMapping("/all")
+	public ResponseEntity<List<AutoBattle>> getAllBattles() {
+		List<AutoBattle> battles = autoBattleRepository.findAll();
+		for (AutoBattle battle : battles) {
+			if (battle.getAttackingPet().getOwner() != null) {
+				battle.getAttackingPet().getOwner().setUserPassword(null);
+			}
+			if (battle.getDefendingPet().getOwner() != null) {
+				battle.getDefendingPet().getOwner().setUserPassword(null);
+			}
+		}
+		return ResponseEntity.ok(battles);
+	}
 
-    @GetMapping("/id/{id}")
-    public ResponseEntity<AutoBattle> getBattleById(@PathVariable int id) throws BattleNotFoundException {
-        AutoBattle battle = autoBattleRepository.findById(id);
-        if (battle.getAttackingPet().getOwner() != null) {
-            battle.getAttackingPet().getOwner().setUserPassword(null);
-        }
-        if (battle.getDefendingPet().getOwner() != null) {
-            battle.getDefendingPet().getOwner().setUserPassword(null);
-            ;
-        }
-        return ResponseEntity.ok(battle);
-    }
+	@GetMapping("/id/{id}")
+	public ResponseEntity<AutoBattle> getBattleById(@PathVariable int id) throws BattleNotFoundException {
+		AutoBattle battle = autoBattleRepository.findById(id);
+		if (battle.getAttackingPet().getOwner() != null) {
+			battle.getAttackingPet().getOwner().setUserPassword(null);
+		}
+		if (battle.getDefendingPet().getOwner() != null) {
+			battle.getDefendingPet().getOwner().setUserPassword(null);
+			;
+		}
+		return ResponseEntity.ok(battle);
+	}
 
-    @PostMapping("/new/pve/attackerId/{attackerId}/defenderId/{defenderId}")
-    public ResponseEntity<AutoBattleDTO> createNewPVEBattle(@PathVariable int attackerId, @PathVariable int defenderId)
-        throws BattleNotFoundException, PetNotFoundException {
-        AutoBattleDTO battleResult = autoBattleService.battle(attackerId, defenderId, "pve");
-        AutoBattle battle = battleResult.getBattle();
-        if (battle.getAttackingPet().getOwner() != null) {
-            battleResult.getBattle().getAttackingPet().getOwner().setUserPassword(null);
-        }
-        if (battle.getDefendingPet().getOwner() != null) {
-            battleResult.getBattle().getDefendingPet().getOwner().setUserPassword(null);
-        }
-        return ResponseEntity.ok(battleResult);
-    }
+	@PostMapping("/new/pve/attackerId/{attackerId}/defenderId/{defenderId}")
+	public ResponseEntity<AutoBattleDTO> createNewPVEBattle(@PathVariable int attackerId, @PathVariable int defenderId) throws BattleNotFoundException, PetNotFoundException {
+		AutoBattleDTO battleResult = autoBattleService.battle(attackerId, defenderId, "pve");
+		AutoBattle battle = battleResult.getBattle();
+		if (battle.getAttackingPet().getOwner() != null) {
+			battleResult.getBattle().getAttackingPet().getOwner().setUserPassword(null);
+		}
+		if (battle.getDefendingPet().getOwner() != null) {
+			battleResult.getBattle().getDefendingPet().getOwner().setUserPassword(null);
+		}
+		return ResponseEntity.ok(battleResult);
+	}
 
-    @PostMapping("/new/pvp/attackerId/{attackerId}/defenderId/{defenderId}")
-    public ResponseEntity<AutoBattleDTO> createNewPVPBattle(@PathVariable int attackerId, @PathVariable int defenderId)
-        throws BattleNotFoundException, PetNotFoundException {
-        AutoBattleDTO battleResult = autoBattleService.battle(attackerId, defenderId, "pvp");
-        AutoBattle battle = battleResult.getBattle();
-        if (battle.getAttackingPet().getOwner() != null) {
-            battleResult.getBattle().getAttackingPet().getOwner().setUserPassword(null);
-        }
-        if (battle.getDefendingPet().getOwner() != null) {
-            battleResult.getBattle().getDefendingPet().getOwner().setUserPassword(null);
-        }
-        return ResponseEntity.ok(battleResult);
-    }
+	@PostMapping("/new/pvp/attackerId/{attackerId}/defenderId/{defenderId}")
+	public ResponseEntity<AutoBattleDTO> createNewPVPBattle(@PathVariable int attackerId, @PathVariable int defenderId) throws BattleNotFoundException, PetNotFoundException {
+		AutoBattleDTO battleResult = autoBattleService.battle(attackerId, defenderId, "pvp");
+		AutoBattle battle = battleResult.getBattle();
+		if (battle.getAttackingPet().getOwner() != null) {
+			battleResult.getBattle().getAttackingPet().getOwner().setUserPassword(null);
+		}
+		if (battle.getDefendingPet().getOwner() != null) {
+			battleResult.getBattle().getDefendingPet().getOwner().setUserPassword(null);
+		}
+		return ResponseEntity.ok(battleResult);
+	}
 }

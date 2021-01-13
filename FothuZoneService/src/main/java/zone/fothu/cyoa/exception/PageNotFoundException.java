@@ -2,9 +2,9 @@ package zone.fothu.cyoa.exception;
 
 public class PageNotFoundException extends RuntimeException {
 
-    private static final long serialVersionUID = -2329992299469419407L;
+	private static final long serialVersionUID = -2329992299469419407L;
 
-    public PageNotFoundException(String message) {
-        super(message);
-    }
+	public PageNotFoundException(String message) {
+		super(message);
+	}
 }

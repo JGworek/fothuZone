@@ -13,37 +13,35 @@ import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
 
-
 @Component
 @Entity
 @Table(name = "challenge_requests", schema = "pets")
 public class ChallengeRequestDTO implements Serializable {
 
 	private static final long serialVersionUID = 8422718846877792019L;
-	
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
-    @Column(name = "accepted_status")
-    private boolean acceptedStatus;
-    @Column(name = "rejected_status")
-    private boolean rejectedStatus;
-    @Column(name = "attacker_id")
-    private int attackingUserId;
-    @Column(name = "defender_id")
-    private int defendingUserId;
-    @Column(name = "resulting_battle")
-    private int resultingBattleId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private int id;
+	@Column(name = "accepted_status")
+	private boolean acceptedStatus;
+	@Column(name = "rejected_status")
+	private boolean rejectedStatus;
+	@Column(name = "attacker_id")
+	private int attackingUserId;
+	@Column(name = "defender_id")
+	private int defendingUserId;
+	@Column(name = "resulting_battle")
+	private int resultingBattleId;
 	@Column(name = "created_on")
 	private LocalDateTime createdOn;
 
-    public ChallengeRequestDTO() {
-        super();
-    }
+	public ChallengeRequestDTO() {
+		super();
+	}
 
-	public ChallengeRequestDTO(int id, boolean acceptedStatus, boolean rejectedStatus, int attackingUserId,
-			int defendingUserId, int resultingBattleId, LocalDateTime createdOn) {
+	public ChallengeRequestDTO(int id, boolean acceptedStatus, boolean rejectedStatus, int attackingUserId, int defendingUserId, int resultingBattleId, LocalDateTime createdOn) {
 		super();
 		this.id = id;
 		this.acceptedStatus = acceptedStatus;
@@ -112,8 +110,7 @@ public class ChallengeRequestDTO implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(acceptedStatus, attackingUserId, createdOn, defendingUserId, id, rejectedStatus,
-				resultingBattleId);
+		return Objects.hash(acceptedStatus, attackingUserId, createdOn, defendingUserId, id, rejectedStatus, resultingBattleId);
 	}
 
 	@Override
@@ -125,16 +122,11 @@ public class ChallengeRequestDTO implements Serializable {
 			return false;
 		}
 		ChallengeRequestDTO other = (ChallengeRequestDTO) obj;
-		return acceptedStatus == other.acceptedStatus && attackingUserId == other.attackingUserId
-				&& Objects.equals(createdOn, other.createdOn) && defendingUserId == other.defendingUserId
-				&& id == other.id && rejectedStatus == other.rejectedStatus
-				&& resultingBattleId == other.resultingBattleId;
+		return acceptedStatus == other.acceptedStatus && attackingUserId == other.attackingUserId && Objects.equals(createdOn, other.createdOn) && defendingUserId == other.defendingUserId && id == other.id && rejectedStatus == other.rejectedStatus && resultingBattleId == other.resultingBattleId;
 	}
 
 	@Override
 	public String toString() {
-		return "ChallengeRequestDTO [id=" + id + ", acceptedStatus=" + acceptedStatus + ", rejectedStatus="
-				+ rejectedStatus + ", attackingUserId=" + attackingUserId + ", defendingUserId=" + defendingUserId
-				+ ", resultingBattleId=" + resultingBattleId + ", createdOn=" + createdOn + "]";
+		return "ChallengeRequestDTO [id=" + id + ", acceptedStatus=" + acceptedStatus + ", rejectedStatus=" + rejectedStatus + ", attackingUserId=" + attackingUserId + ", defendingUserId=" + defendingUserId + ", resultingBattleId=" + resultingBattleId + ", createdOn=" + createdOn + "]";
 	}
 }

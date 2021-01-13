@@ -22,39 +22,39 @@ import zone.fothu.pets.repository.PetRepository;
 @RequestMapping(path = "/maps")
 public class DungeonMapController implements Serializable {
 
-    private static final long serialVersionUID = 6402680653396347736L;
+	private static final long serialVersionUID = 6402680653396347736L;
 
-    @Autowired
-    DungeonMapRepository mapRepository;
+	@Autowired
+	DungeonMapRepository mapRepository;
 
-    @Autowired
-    PetRepository PetRepository;
+	@Autowired
+	PetRepository PetRepository;
 
-    @GetMapping("/all")
-    public ResponseEntity<List<DungeonMap>> getAllMaps() {
-        List<DungeonMap> maps = mapRepository.findAll();
-        return ResponseEntity.ok(maps);
-    }
+	@GetMapping("/all")
+	public ResponseEntity<List<DungeonMap>> getAllMaps() {
+		List<DungeonMap> maps = mapRepository.findAll();
+		return ResponseEntity.ok(maps);
+	}
 
-    @GetMapping("/id/{id}")
-    public ResponseEntity<DungeonMap> getMapById(@PathVariable int id) {
-        DungeonMap map = mapRepository.findMapById(id);
-        return ResponseEntity.ok(map);
-    }
+	@GetMapping("/id/{id}")
+	public ResponseEntity<DungeonMap> getMapById(@PathVariable int id) {
+		DungeonMap map = mapRepository.findMapById(id);
+		return ResponseEntity.ok(map);
+	}
 
-    @GetMapping("/name/{name}")
-    public ResponseEntity<List<DungeonMap>> getAllMapsByName(@PathVariable String name) {
-        String mapName = name.replace("%20", " ");
-        List<DungeonMap> maps = mapRepository.findMapsByName(mapName);
-        return ResponseEntity.ok(maps);
-    }
+	@GetMapping("/name/{name}")
+	public ResponseEntity<List<DungeonMap>> getAllMapsByName(@PathVariable String name) {
+		String mapName = name.replace("%20", " ");
+		List<DungeonMap> maps = mapRepository.findMapsByName(mapName);
+		return ResponseEntity.ok(maps);
+	}
 
-    @PostMapping("/new")
-    public ResponseEntity<List<DungeonMap>> createNewMaps(@RequestBody List<DungeonMap> newMaps) {
-        for (DungeonMap map : newMaps) {
-            mapRepository.save(map);
-        }
-        List<DungeonMap> maps = mapRepository.findMapsByName(newMaps.get(0).getName());
-        return ResponseEntity.ok(maps);
-    }
+	@PostMapping("/new")
+	public ResponseEntity<List<DungeonMap>> createNewMaps(@RequestBody List<DungeonMap> newMaps) {
+		for (DungeonMap map : newMaps) {
+			mapRepository.save(map);
+		}
+		List<DungeonMap> maps = mapRepository.findMapsByName(newMaps.get(0).getName());
+		return ResponseEntity.ok(maps);
+	}
 }

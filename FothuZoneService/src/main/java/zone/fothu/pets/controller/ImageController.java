@@ -25,41 +25,40 @@ import zone.fothu.pets.service.ImageService;
 @RequestMapping(path = "/images")
 public class ImageController implements Serializable {
 
-    private static final long serialVersionUID = -6651376789756065729L;
+	private static final long serialVersionUID = -6651376789756065729L;
 
-    @Autowired
-    ImageRepository imageRepository;
-    @Autowired
-    PetRepository petRepository;
-    @Autowired
-    ImageService imageService;
+	@Autowired
+	ImageRepository imageRepository;
+	@Autowired
+	PetRepository petRepository;
+	@Autowired
+	ImageService imageService;
 
-    @GetMapping("/all")
-    public List<Image> getAllImages() {
-        return imageRepository.getAllImages();
-    }
+	@GetMapping("/all")
+	public List<Image> getAllImages() {
+		return imageRepository.getAllImages();
+	}
 
-    @GetMapping("/id/{id}")
-    public ResponseEntity<Image> getImageWithId(@PathVariable int id) {
-        Image image = imageRepository.findImageById(id);
-        return ResponseEntity.ok(image);
-    }
+	@GetMapping("/id/{id}")
+	public ResponseEntity<Image> getImageWithId(@PathVariable int id) {
+		Image image = imageRepository.findImageById(id);
+		return ResponseEntity.ok(image);
+	}
 
-    @GetMapping("/new")
-    public ResponseEntity<Image> createPetImage(@RequestBody Image newImage) {
-        Image image = imageService.saveNewImage(newImage);
-        return ResponseEntity.ok(image);
-    }
+	@GetMapping("/new")
+	public ResponseEntity<Image> createPetImage(@RequestBody Image newImage) {
+		Image image = imageService.saveNewImage(newImage);
+		return ResponseEntity.ok(image);
+	}
 
-    @PostMapping("set/petId/{petId}/imageId/{imageId}")
-    public ResponseEntity<Pet> addPetImage(@PathVariable int petId, @PathVariable int imageId)
-        throws PetNotFoundException {
-        imageRepository.setPetImage(petId, imageId);
-        Pet pet = petRepository.findById(petId);
-        if (pet.getOwner() != null) {
-            pet.getOwner().setUserPassword(null);
-        }
-        return ResponseEntity.ok(pet);
-    }
+	@PostMapping("set/petId/{petId}/imageId/{imageId}")
+	public ResponseEntity<Pet> addPetImage(@PathVariable int petId, @PathVariable int imageId) throws PetNotFoundException {
+		imageRepository.setPetImage(petId, imageId);
+		Pet pet = petRepository.findById(petId);
+		if (pet.getOwner() != null) {
+			pet.getOwner().setUserPassword(null);
+		}
+		return ResponseEntity.ok(pet);
+	}
 
 }

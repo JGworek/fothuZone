@@ -20,27 +20,25 @@ import javax.servlet.ServletRegistration;
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer, WebApplicationInitializer {
 
-    @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/fothuZoneWebsocketConnection").setAllowedOrigins("*").withSockJS();
-    }
+	@Override
+	public void registerStompEndpoints(StompEndpointRegistry registry) {
+		registry.addEndpoint("/fothuZoneWebsocketConnection").setAllowedOrigins("*").withSockJS();
+	}
 
-    @Override
-    public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.setApplicationDestinationPrefixes("/fothuZoneSendPoint").enableSimpleBroker("/battleSubscription",
-            "/challengeRequestSubscription", "/liveChatSubscription");
-    }
+	@Override
+	public void configureMessageBroker(MessageBrokerRegistry registry) {
+		registry.setApplicationDestinationPrefixes("/fothuZoneSendPoint").enableSimpleBroker("/battleSubscription", "/challengeRequestSubscription", "/liveChatSubscription");
+	}
 
-    @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
-        AnnotationConfigWebApplicationContext container = new AnnotationConfigWebApplicationContext();
-        container.register(WebSocketConfig.class);
+	@Override
+	public void onStartup(ServletContext servletContext) throws ServletException {
+		AnnotationConfigWebApplicationContext container = new AnnotationConfigWebApplicationContext();
+		container.register(WebSocketConfig.class);
 
-        servletContext.addListener(new ContextLoaderListener(container));
-        ServletRegistration.Dynamic dispatcher = servletContext.addServlet("DispatcherServlet",
-            new DispatcherServlet(container));
-        dispatcher.setLoadOnStartup(1);
-        dispatcher.addMapping("/");
-    }
+		servletContext.addListener(new ContextLoaderListener(container));
+		ServletRegistration.Dynamic dispatcher = servletContext.addServlet("DispatcherServlet", new DispatcherServlet(container));
+		dispatcher.setLoadOnStartup(1);
+		dispatcher.addMapping("/");
+	}
 
 }

@@ -9,10 +9,10 @@ import zone.fothu.pets.model.adventure.DungeonMap;
 
 public interface DungeonMapRepository extends JpaRepository<DungeonMap, Integer> {
 
-    @Query(nativeQuery = true, value = "SELECT * FROM pets.dungeon_maps WHERE id = ?1")
-    DungeonMap findMapById(int imageId);
+	@Query(nativeQuery = true, value = "SELECT * FROM pets.dungeon_maps WHERE id = ?1")
+	DungeonMap findMapById(int imageId);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM pets.dungeon_maps WHERE name = ?1 ORDER BY id ASC")
-    List<DungeonMap> findMapsByName(String name);
+	@Query(nativeQuery = true, value = "SELECT * FROM pets.dungeon_maps WHERE name = ?1 ORDER BY id ASC")
+	List<DungeonMap> findMapsByName(String name);
 
 }

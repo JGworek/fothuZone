@@ -84,6 +84,10 @@ public class Battle implements Serializable {
 	private double attackingPetBaseSpeed;
 	@Column(name = "defending_pet_base_speed")
 	private double defendingPetBaseSpeed;
+	@Column(name = "attacking_pet_base_accuracy")
+	private double attackingPetBaseAccuracy;
+	@Column(name = "defending_pet_base_accuracy")
+	private double defendingPetBaseAccuracy;
 	@Column(name = "curent_turn_count")
 	private int currentTurnCount;
 
@@ -106,14 +110,8 @@ public class Battle implements Serializable {
 		super();
 	}
 
-	public Battle(int id, String battleType, Pet attackingPet, Pet defendingPet, Pet winningPet, Pet losingPet,
-			int attackingPetCurrentHealth, int defendingPetCurrentHealth, double attackingPetCurrentAttackModifier,
-			double defendingPetCurrentAttackModifier, double attackingPetCurrentArmorModifier,
-			double defendingPetCurrentArmorModifier, double attackingPetCurrentAccuracyModifier,
-			double defendingPetCurrentAccuracyModifier, double attackingPetBaseAttackPower,
-			double defendingPetBaseAttackPower, double attackingPetBaseArmor, double defendingPetBaseArmor,
-			double attackingPetBaseSpeed, double defendingPetBaseSpeed, int currentTurnCount, Pet currentTurnPet,
-			boolean battleFinished, LocalDateTime createdOn, List<BattleLog> battleLogs) {
+	public Battle(int id, String battleType, Pet attackingPet, Pet defendingPet, Pet winningPet, Pet losingPet, int attackingPetCurrentHealth, int defendingPetCurrentHealth, double attackingPetCurrentAttackModifier, double defendingPetCurrentAttackModifier, double attackingPetCurrentArmorModifier, double defendingPetCurrentArmorModifier, double attackingPetCurrentAccuracyModifier, double defendingPetCurrentAccuracyModifier, double attackingPetBaseAttackPower, double defendingPetBaseAttackPower,
+			double attackingPetBaseArmor, double defendingPetBaseArmor, double attackingPetBaseSpeed, double defendingPetBaseSpeed, double attackingPetBaseAccuracy, double defendingPetBaseAccuracy, int currentTurnCount, Pet currentTurnPet, boolean battleFinished, LocalDateTime createdOn, List<BattleLog> battleLogs) {
 		super();
 		this.id = id;
 		this.battleType = battleType;
@@ -135,6 +133,8 @@ public class Battle implements Serializable {
 		this.defendingPetBaseArmor = defendingPetBaseArmor;
 		this.attackingPetBaseSpeed = attackingPetBaseSpeed;
 		this.defendingPetBaseSpeed = defendingPetBaseSpeed;
+		this.attackingPetBaseAccuracy = attackingPetBaseAccuracy;
+		this.defendingPetBaseAccuracy = defendingPetBaseAccuracy;
 		this.currentTurnCount = currentTurnCount;
 		this.currentTurnPet = currentTurnPet;
 		this.battleFinished = battleFinished;
@@ -302,6 +302,22 @@ public class Battle implements Serializable {
 		this.defendingPetBaseSpeed = defendingPetBaseSpeed;
 	}
 
+	public double getAttackingPetBaseAccuracy() {
+		return attackingPetBaseAccuracy;
+	}
+
+	public void setAttackingPetBaseAccuracy(double attackingPetBaseAccuracy) {
+		this.attackingPetBaseAccuracy = attackingPetBaseAccuracy;
+	}
+
+	public double getDefendingPetBaseAccuracy() {
+		return defendingPetBaseAccuracy;
+	}
+
+	public void setDefendingPetBaseAccuracy(double defendingPetBaseAccuracy) {
+		this.defendingPetBaseAccuracy = defendingPetBaseAccuracy;
+	}
+
 	public int getCurrentTurnCount() {
 		return currentTurnCount;
 	}
@@ -344,13 +360,8 @@ public class Battle implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(attackingPet, attackingPetBaseArmor, attackingPetBaseAttackPower, attackingPetBaseSpeed,
-				attackingPetCurrentAccuracyModifier, attackingPetCurrentArmorModifier,
-				attackingPetCurrentAttackModifier, attackingPetCurrentHealth, battleFinished, battleLogs, battleType,
-				createdOn, currentTurnCount, currentTurnPet, defendingPet, defendingPetBaseArmor,
-				defendingPetBaseAttackPower, defendingPetBaseSpeed, defendingPetCurrentAccuracyModifier,
-				defendingPetCurrentArmorModifier, defendingPetCurrentAttackModifier, defendingPetCurrentHealth, id,
-				losingPet, winningPet);
+		return Objects.hash(attackingPet, attackingPetBaseAccuracy, attackingPetBaseArmor, attackingPetBaseAttackPower, attackingPetBaseSpeed, attackingPetCurrentAccuracyModifier, attackingPetCurrentArmorModifier, attackingPetCurrentAttackModifier, attackingPetCurrentHealth, battleFinished, battleLogs, battleType, createdOn, currentTurnCount, currentTurnPet, defendingPet, defendingPetBaseAccuracy, defendingPetBaseArmor, defendingPetBaseAttackPower, defendingPetBaseSpeed,
+				defendingPetCurrentAccuracyModifier, defendingPetCurrentArmorModifier, defendingPetCurrentAttackModifier, defendingPetCurrentHealth, id, losingPet, winningPet);
 	}
 
 	@Override
@@ -362,56 +373,19 @@ public class Battle implements Serializable {
 			return false;
 		}
 		Battle other = (Battle) obj;
-		return Objects.equals(attackingPet, other.attackingPet)
-				&& Double.doubleToLongBits(attackingPetBaseArmor) == Double
-						.doubleToLongBits(other.attackingPetBaseArmor)
-				&& Double.doubleToLongBits(attackingPetBaseAttackPower) == Double
-						.doubleToLongBits(other.attackingPetBaseAttackPower)
-				&& Double.doubleToLongBits(attackingPetBaseSpeed) == Double
-						.doubleToLongBits(other.attackingPetBaseSpeed)
-				&& Double.doubleToLongBits(attackingPetCurrentAccuracyModifier) == Double
-						.doubleToLongBits(other.attackingPetCurrentAccuracyModifier)
-				&& Double.doubleToLongBits(attackingPetCurrentArmorModifier) == Double
-						.doubleToLongBits(other.attackingPetCurrentArmorModifier)
-				&& Double.doubleToLongBits(attackingPetCurrentAttackModifier) == Double
-						.doubleToLongBits(other.attackingPetCurrentAttackModifier)
-				&& attackingPetCurrentHealth == other.attackingPetCurrentHealth
-				&& battleFinished == other.battleFinished && Objects.equals(battleLogs, other.battleLogs)
-				&& Objects.equals(battleType, other.battleType) && Objects.equals(createdOn, other.createdOn)
-				&& currentTurnCount == other.currentTurnCount && Objects.equals(currentTurnPet, other.currentTurnPet)
-				&& Objects.equals(defendingPet, other.defendingPet)
-				&& Double.doubleToLongBits(defendingPetBaseArmor) == Double
-						.doubleToLongBits(other.defendingPetBaseArmor)
-				&& Double.doubleToLongBits(defendingPetBaseAttackPower) == Double
-						.doubleToLongBits(other.defendingPetBaseAttackPower)
-				&& Double.doubleToLongBits(defendingPetBaseSpeed) == Double
-						.doubleToLongBits(other.defendingPetBaseSpeed)
-				&& Double.doubleToLongBits(defendingPetCurrentAccuracyModifier) == Double
-						.doubleToLongBits(other.defendingPetCurrentAccuracyModifier)
-				&& Double.doubleToLongBits(defendingPetCurrentArmorModifier) == Double
-						.doubleToLongBits(other.defendingPetCurrentArmorModifier)
-				&& Double.doubleToLongBits(defendingPetCurrentAttackModifier) == Double
-						.doubleToLongBits(other.defendingPetCurrentAttackModifier)
-				&& defendingPetCurrentHealth == other.defendingPetCurrentHealth && id == other.id
-				&& Objects.equals(losingPet, other.losingPet) && Objects.equals(winningPet, other.winningPet);
+		return Objects.equals(attackingPet, other.attackingPet) && Double.doubleToLongBits(attackingPetBaseAccuracy) == Double.doubleToLongBits(other.attackingPetBaseAccuracy) && Double.doubleToLongBits(attackingPetBaseArmor) == Double.doubleToLongBits(other.attackingPetBaseArmor) && Double.doubleToLongBits(attackingPetBaseAttackPower) == Double.doubleToLongBits(other.attackingPetBaseAttackPower)
+				&& Double.doubleToLongBits(attackingPetBaseSpeed) == Double.doubleToLongBits(other.attackingPetBaseSpeed) && Double.doubleToLongBits(attackingPetCurrentAccuracyModifier) == Double.doubleToLongBits(other.attackingPetCurrentAccuracyModifier) && Double.doubleToLongBits(attackingPetCurrentArmorModifier) == Double.doubleToLongBits(other.attackingPetCurrentArmorModifier)
+				&& Double.doubleToLongBits(attackingPetCurrentAttackModifier) == Double.doubleToLongBits(other.attackingPetCurrentAttackModifier) && attackingPetCurrentHealth == other.attackingPetCurrentHealth && battleFinished == other.battleFinished && Objects.equals(battleLogs, other.battleLogs) && Objects.equals(battleType, other.battleType) && Objects.equals(createdOn, other.createdOn) && currentTurnCount == other.currentTurnCount && Objects.equals(currentTurnPet, other.currentTurnPet)
+				&& Objects.equals(defendingPet, other.defendingPet) && Double.doubleToLongBits(defendingPetBaseAccuracy) == Double.doubleToLongBits(other.defendingPetBaseAccuracy) && Double.doubleToLongBits(defendingPetBaseArmor) == Double.doubleToLongBits(other.defendingPetBaseArmor) && Double.doubleToLongBits(defendingPetBaseAttackPower) == Double.doubleToLongBits(other.defendingPetBaseAttackPower)
+				&& Double.doubleToLongBits(defendingPetBaseSpeed) == Double.doubleToLongBits(other.defendingPetBaseSpeed) && Double.doubleToLongBits(defendingPetCurrentAccuracyModifier) == Double.doubleToLongBits(other.defendingPetCurrentAccuracyModifier) && Double.doubleToLongBits(defendingPetCurrentArmorModifier) == Double.doubleToLongBits(other.defendingPetCurrentArmorModifier)
+				&& Double.doubleToLongBits(defendingPetCurrentAttackModifier) == Double.doubleToLongBits(other.defendingPetCurrentAttackModifier) && defendingPetCurrentHealth == other.defendingPetCurrentHealth && id == other.id && Objects.equals(losingPet, other.losingPet) && Objects.equals(winningPet, other.winningPet);
 	}
 
 	@Override
 	public String toString() {
-		return "Battle [id=" + id + ", battleType=" + battleType + ", attackingPet=" + attackingPet + ", defendingPet="
-				+ defendingPet + ", winningPet=" + winningPet + ", losingPet=" + losingPet
-				+ ", attackingPetCurrentHealth=" + attackingPetCurrentHealth + ", defendingPetCurrentHealth="
-				+ defendingPetCurrentHealth + ", attackingPetCurrentAttackModifier=" + attackingPetCurrentAttackModifier
-				+ ", defendingPetCurrentAttackModifier=" + defendingPetCurrentAttackModifier
-				+ ", attackingPetCurrentArmorModifier=" + attackingPetCurrentArmorModifier
-				+ ", defendingPetCurrentArmorModifier=" + defendingPetCurrentArmorModifier
-				+ ", attackingPetCurrentAccuracyModifier=" + attackingPetCurrentAccuracyModifier
-				+ ", defendingPetCurrentAccuracyModifier=" + defendingPetCurrentAccuracyModifier
-				+ ", attackingPetBaseAttackPower=" + attackingPetBaseAttackPower + ", defendingPetBaseAttackPower="
-				+ defendingPetBaseAttackPower + ", attackingPetBaseArmor=" + attackingPetBaseArmor
-				+ ", defendingPetBaseArmor=" + defendingPetBaseArmor + ", attackingPetBaseSpeed="
-				+ attackingPetBaseSpeed + ", defendingPetBaseSpeed=" + defendingPetBaseSpeed + ", currentTurnCount="
-				+ currentTurnCount + ", currentTurnPet=" + currentTurnPet + ", battleFinished=" + battleFinished
-				+ ", createdOn=" + createdOn + ", battleLogs=" + battleLogs + "]";
+		return "Battle [id=" + id + ", battleType=" + battleType + ", attackingPet=" + attackingPet + ", defendingPet=" + defendingPet + ", winningPet=" + winningPet + ", losingPet=" + losingPet + ", attackingPetCurrentHealth=" + attackingPetCurrentHealth + ", defendingPetCurrentHealth=" + defendingPetCurrentHealth + ", attackingPetCurrentAttackModifier=" + attackingPetCurrentAttackModifier + ", defendingPetCurrentAttackModifier=" + defendingPetCurrentAttackModifier
+				+ ", attackingPetCurrentArmorModifier=" + attackingPetCurrentArmorModifier + ", defendingPetCurrentArmorModifier=" + defendingPetCurrentArmorModifier + ", attackingPetCurrentAccuracyModifier=" + attackingPetCurrentAccuracyModifier + ", defendingPetCurrentAccuracyModifier=" + defendingPetCurrentAccuracyModifier + ", attackingPetBaseAttackPower=" + attackingPetBaseAttackPower + ", defendingPetBaseAttackPower=" + defendingPetBaseAttackPower + ", attackingPetBaseArmor="
+				+ attackingPetBaseArmor + ", defendingPetBaseArmor=" + defendingPetBaseArmor + ", attackingPetBaseSpeed=" + attackingPetBaseSpeed + ", defendingPetBaseSpeed=" + defendingPetBaseSpeed + ", attackingPetBaseAccuracy=" + attackingPetBaseAccuracy + ", defendingPetBaseAccuracy=" + defendingPetBaseAccuracy + ", currentTurnCount=" + currentTurnCount + ", currentTurnPet=" + currentTurnPet + ", battleFinished=" + battleFinished + ", createdOn=" + createdOn + ", battleLogs=" + battleLogs
+				+ "]";
 	}
 }

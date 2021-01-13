@@ -7,6 +7,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class BattleDTO implements Serializable {
 
-    private static final long serialVersionUID = -283335836780804838L;
+	private static final long serialVersionUID = -283335836780804838L;
 
 }
