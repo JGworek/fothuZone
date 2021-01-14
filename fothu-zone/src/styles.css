@@ -146,6 +146,13 @@ span {
 	line-height: 170%;
 }
 
+.big-data {
+	position: absolute;
+	text-align: center;
+	width: 100%;
+	line-height: 190%;
+}
+
 .father {
 	position: relative;
 }
@@ -177,6 +184,11 @@ span {
 .big-pet-health-bar {
 	width: 310px;
 	height: 25px;
+}
+
+.big-pet-battle-health-bar {
+	width: 310px;
+	height: 50px;
 }
 
 .medium-pet-background {
@@ -231,7 +243,7 @@ span {
 }
 
 .overlay {
-	top: 6%;
+	top: 6.99%;
 	bottom: 20%;
 	min-width: 100%;
 	border-width: 10px !important;
@@ -248,6 +260,14 @@ span {
 
 .battle-box {
 	min-height: 50%;
+}
+
+.battle-pets {
+	margin: auto;
+	display: block;
+	text-align: center;
+	width: auto;
+	height: auto;
 }
 
 /* Dungeon CSS */
