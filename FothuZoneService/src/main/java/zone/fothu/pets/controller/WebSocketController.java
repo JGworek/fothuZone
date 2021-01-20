@@ -26,7 +26,7 @@ public class WebSocketController {
 		try {
 			template.convertAndSend("/battle/battleId/{battleId}", battleService.attackingPetAttack(battleId, petId));
 		} catch (Exception e) {
-			// hey look they did something wrong
+			System.out.println("hey look they probably did something wrong");
 		}
 	}
 
@@ -35,7 +35,7 @@ public class WebSocketController {
 		try {
 			template.convertAndSend("/battle/battleId/{battleId}", battleService.defendingPetAttack(battleId, petId));
 		} catch (Exception e) {
-			// hey look they did something wrong
+			System.out.println("hey look they probably did something wrong");
 		}
 	}
 
@@ -44,7 +44,7 @@ public class WebSocketController {
 		try {
 			template.convertAndSend("/battle/battleId/{battleId}", battleService.attackingPetDefend(battleId, petId));
 		} catch (Exception e) {
-			// hey look they did something wrong
+			System.out.println("hey look they probably did something wrong");
 		}
 	}
 
@@ -53,7 +53,7 @@ public class WebSocketController {
 		try {
 			template.convertAndSend("/battle/battleId/{battleId}", battleService.defendingPetDefend(battleId, petId));
 		} catch (Exception e) {
-			// hey look they did something wrong
+			System.out.println("hey look they probably did something wrong");
 		}
 	}
 
@@ -62,7 +62,7 @@ public class WebSocketController {
 		try {
 			template.convertAndSend("/battle/battleId/{battleId}", battleService.attackingPetAim(battleId, petId));
 		} catch (Exception e) {
-			// hey look they did something wrong
+			System.out.println("hey look they probably did something wrong");
 		}
 	}
 
@@ -71,7 +71,7 @@ public class WebSocketController {
 		try {
 			template.convertAndSend("/battle/battleId/{battleId}", battleService.defendingPetAim(battleId, petId));
 		} catch (Exception e) {
-			// hey look they did something wrong
+			System.out.println("hey look they probably did something wrong");
 		}
 	}
 
@@ -80,7 +80,7 @@ public class WebSocketController {
 		try {
 			template.convertAndSend("/battle/battleId/{battleId}", battleService.attackingPetSharpen(battleId, petId));
 		} catch (Exception e) {
-			// hey look they did something wrong
+			System.out.println("hey look they probably did something wrong");
 		}
 	}
 
@@ -89,7 +89,7 @@ public class WebSocketController {
 		try {
 			template.convertAndSend("/battle/battleId/{battleId}", battleService.defendingPetSharpen(battleId, petId));
 		} catch (Exception e) {
-			// hey look they did something wrong
+			System.out.println("hey look they probably did something wrong");
 		}
 	}
 

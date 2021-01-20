@@ -14,12 +14,18 @@ import { MapComponent } from "./pets/map/map.component";
 import { UserGuardGuard as UserGuard } from "./auth/user-guard.guard";
 import { LevelUpComponent } from "./pets/level-up/level-up.component";
 import { CreateChallengeComponent } from "./pets/create-challenge/create-challenge.component";
+import { HymnalComponent } from "./rosary/hymnal/hymnal.component";
 
 const routes: Routes = [
 	{ path: "", redirectTo: "home", pathMatch: "full" },
 	{ path: "home", component: HomeComponent },
 	{ path: "schola", component: PageComponent },
 	{ path: "rosary", component: RosaryAppComponent },
+	{
+		path: "hymnal",
+		component: HymnalComponent,
+		// resolve: { url: "https://fothuzone-rosary.s3.amazonaws.com/cp3u.pdf" }
+	},
 	{ path: "playground", component: PlaygroundPageComponent },
 	{ path: "login", component: LoginComponent },
 	{ path: "profile", component: ProfileComponent, canActivate: [UserGuard] },
