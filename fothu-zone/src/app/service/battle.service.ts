@@ -44,6 +44,7 @@ export class BattleService {
 				id: -1,
 				username: "",
 				favoriteColor: "",
+				adminStatus: false,
 			},
 		},
 		defendingPet: {
@@ -67,6 +68,7 @@ export class BattleService {
 				id: -1,
 				username: "",
 				favoriteColor: "",
+				adminStatus: false,
 			},
 		},
 		winningPet: {
@@ -87,6 +89,7 @@ export class BattleService {
 				id: -1,
 				username: "",
 				favoriteColor: "",
+				adminStatus: false,
 			},
 		},
 		losingPet: {
@@ -107,6 +110,7 @@ export class BattleService {
 				id: -1,
 				username: "",
 				favoriteColor: "",
+				adminStatus: false,
 			},
 		},
 		attackingPetCurrentHealth: -1,
@@ -142,6 +146,7 @@ export class BattleService {
 				id: -1,
 				username: "",
 				favoriteColor: "",
+				adminStatus: false,
 			},
 		},
 		battleFinished: false,

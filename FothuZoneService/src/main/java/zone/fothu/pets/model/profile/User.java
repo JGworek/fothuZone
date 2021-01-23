@@ -12,7 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+
 import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Component
@@ -34,7 +36,8 @@ public class User implements Serializable {
 	private String userPassword;
 	@Column(name = "secret_password")
 	private String secretPassword;
-
+	@Column(name = "admin_status")
+	private boolean adminStatus;
 	@OneToMany(mappedBy = "owner")
 	@JsonIgnoreProperties("owner")
 	@OrderBy("id")
@@ -44,13 +47,14 @@ public class User implements Serializable {
 		super();
 	}
 
-	public User(int id, String username, String favoriteColor, String userPassword, String secretPassword, List<Pet> pets) {
+	public User(int id, String username, String favoriteColor, String userPassword, String secretPassword, boolean adminStatus, List<Pet> pets) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.favoriteColor = favoriteColor;
 		this.userPassword = userPassword;
 		this.secretPassword = secretPassword;
+		this.adminStatus = adminStatus;
 		this.pets = pets;
 	}
 
@@ -94,6 +98,14 @@ public class User implements Serializable {
 		this.secretPassword = secretPassword;
 	}
 
+	public boolean isAdminStatus() {
+		return adminStatus;
+	}
+
+	public void setAdminStatus(boolean adminStatus) {
+		this.adminStatus = adminStatus;
+	}
+
 	public List<Pet> getPets() {
 		return pets;
 	}
@@ -104,7 +116,7 @@ public class User implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(favoriteColor, id, pets, secretPassword, userPassword, username);
+		return Objects.hash(adminStatus, favoriteColor, id, pets, secretPassword, userPassword, username);
 	}
 
 	@Override
@@ -116,11 +128,11 @@ public class User implements Serializable {
 			return false;
 		}
 		User other = (User) obj;
-		return Objects.equals(favoriteColor, other.favoriteColor) && id == other.id && Objects.equals(pets, other.pets) && Objects.equals(secretPassword, other.secretPassword) && Objects.equals(userPassword, other.userPassword) && Objects.equals(username, other.username);
+		return adminStatus == other.adminStatus && Objects.equals(favoriteColor, other.favoriteColor) && id == other.id && Objects.equals(pets, other.pets) && Objects.equals(secretPassword, other.secretPassword) && Objects.equals(userPassword, other.userPassword) && Objects.equals(username, other.username);
 	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", favoriteColor=" + favoriteColor + ", userPassword=" + userPassword + ", secretPassword=" + secretPassword + ", pets=" + pets + "]";
+		return "User [id=" + id + ", username=" + username + ", favoriteColor=" + favoriteColor + ", userPassword=" + userPassword + ", secretPassword=" + secretPassword + ", adminStatus=" + adminStatus + ", pets=" + pets + "]";
 	}
 }

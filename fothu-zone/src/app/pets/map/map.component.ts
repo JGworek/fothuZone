@@ -42,6 +42,7 @@ export class MapComponent implements OnInit {
 				id: 2,
 				username: "UberMentch",
 				favoriteColor: "purple",
+				adminStatus: false,
 			},
 		},
 	};

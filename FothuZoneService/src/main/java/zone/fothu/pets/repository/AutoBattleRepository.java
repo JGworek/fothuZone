@@ -16,22 +16,22 @@ public interface AutoBattleRepository extends JpaRepository<AutoBattle, Integer>
 	@Query(nativeQuery = true, value = "SELECT * FROM pets.battles")
 	List<AutoBattle> findAll();
 
-	@Query(nativeQuery = true, value = "SELECT * FROM pets.battles WHERE id = ?1")
+	@Query(nativeQuery = true, value = "SELECT * FROM pets.battles WHERE id = ?id")
 	AutoBattle findById(int id) throws BattleNotFoundException;
 
 	@Query(nativeQuery = true, value = "SELECT MAX(id) FROM pets.battles")
 	int findLatestBattleID();
 
-	@Query(nativeQuery = true, value = "SELECT * FROM pets.battles WHERE attacking_pet = ?1 OR defending_pet = ?1")
-	List<AutoBattle> findAllBattlesForOnePet(int id);
+	@Query(nativeQuery = true, value = "SELECT * FROM pets.battles WHERE attacking_pet = ?petId OR defending_pet = ?petId")
+	List<AutoBattle> findAllBattlesForOnePet(int petId);
 
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value = "INSERT INTO pets.battles VALUES (DEFAULT, ?1, ?2, null)")
-	void saveNewBattle(int attackingPet, int defendingPet);
+	@Query(nativeQuery = true, value = "INSERT INTO pets.battles VALUES (DEFAULT, ?attackingPetId, ?defendingPetId, null)")
+	void saveNewBattle(int attackingPetId, int defendingPetId);
 
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value = "UPDATE pets.battles SET winning_pet_id = ?2, losing_pet_id = ?3 WHERE id = ?1")
-	void setWinner(int id, int winningPetId, int losingPetId);
+	@Query(nativeQuery = true, value = "UPDATE pets.battles SET winning_pet_id = ?winningPetId, losing_pet_id = ?losingPetId WHERE id = ?battleId")
+	void setWinner(int battleId, int winningPetId, int losingPetId);
 }

@@ -19,12 +19,14 @@ export class UserService {
 		favoriteColor: "",
 		userPassword: "",
 		secretPassword: "",
+		adminStatus: false,
 	};
 
 	currentUser: User = {
 		id: -1,
 		username: "",
 		favoriteColor: "",
+		adminStatus: false,
 		pets: [],
 	};
 
@@ -34,6 +36,7 @@ export class UserService {
 		favoriteColor: "",
 		userPassword: "",
 		secretPassword: "",
+		adminStatus: false,
 	};
 
 	getHealthBarColor(percentNumber) {

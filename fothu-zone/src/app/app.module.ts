@@ -17,12 +17,28 @@ import { PetsModule } from "./pets/pets.module";
 import { RosaryModule } from "./rosary/rosary.module";
 import { CYOAModule } from "./cyoa/cyoa.module";
 import { FilterPipeModule } from "ngx-filter-pipe";
+import { BackButtonDisableModule } from "angular-disable-browser-back-button";
 
 import { RouterModule } from "@angular/router";
 
 @NgModule({
 	declarations: [AppComponent, NavbarComponent, HomeComponent, PlaygroundPageComponent, ProfileComponent, LoginComponent],
-	imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, NgbModule, CommonModule, PetsModule, RosaryModule, RouterModule, CYOAModule, FilterPipeModule],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		HttpClientModule,
+		FormsModule,
+		NgbModule,
+		CommonModule,
+		PetsModule,
+		RosaryModule,
+		RouterModule,
+		CYOAModule,
+		FilterPipeModule,
+		// BackButtonDisableModule.forRoot({
+		// 	preserveScrollPosition: true,
+		// }),
+	],
 	providers: [UserService],
 	bootstrap: [AppComponent],
 })

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import zone.fothu.pets.exception.PetNotFoundException;
@@ -35,8 +36,8 @@ public class ImageController implements Serializable {
 	ImageService imageService;
 
 	@GetMapping("/all")
-	public List<Image> getAllImages() {
-		return imageRepository.getAllImages();
+	public ResponseEntity<List<Image>> getAllImages() {
+		return ResponseEntity.ok(imageRepository.getAllImages());
 	}
 
 	@GetMapping("/id/{id}")
@@ -59,6 +60,12 @@ public class ImageController implements Serializable {
 			pet.getOwner().setUserPassword(null);
 		}
 		return ResponseEntity.ok(pet);
+	}
+
+	// images/some?numberOfImages=#
+	@GetMapping("/some")
+	public ResponseEntity<List<Image>> getSomeRandomPetImages(@RequestParam int numberOfImages) {
+		return ResponseEntity.ok(imageRepository.getRandomImagesOfCertainNumber(numberOfImages));
 	}
 
 }

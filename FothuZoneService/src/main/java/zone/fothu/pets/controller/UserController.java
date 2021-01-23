@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+
+import zone.fothu.pets.exception.UnsupportedColorException;
 import zone.fothu.pets.exception.UserNotFoundException;
 import zone.fothu.pets.exception.UserNotUpdatedException;
+import zone.fothu.pets.exception.UsernameAlreadyExistsException;
 import zone.fothu.pets.model.profile.User;
 import zone.fothu.pets.model.profile.UserDTO;
 import zone.fothu.pets.repository.UserRepository;
@@ -75,13 +78,16 @@ public class UserController implements Serializable {
 	}
 
 	@PostMapping("/new")
-	public User createUser(@RequestBody User newUser) {
+	public ResponseEntity<User> createUser(@RequestBody UserDTO newUser) {
+		User createdNewUser;
 		try {
-			return userService.saveNewUser(newUser);
-			// return userRepository.save(newUser);
-		} catch (IllegalArgumentException e) {
-			throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "User not created", e);
+			createdNewUser = userService.saveNewUser(newUser);
+		} catch (UsernameAlreadyExistsException e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+		} catch (UnsupportedColorException e) {
+			return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).build();
 		}
+		return ResponseEntity.ok(createdNewUser);
 	}
 
 	@PostMapping("/login")

@@ -4,6 +4,7 @@ export class User {
 	id: number;
 	username: string;
 	favoriteColor: string;
+	adminStatus: boolean;
 	pets: Array<{
 		id: number;
 		name: string;

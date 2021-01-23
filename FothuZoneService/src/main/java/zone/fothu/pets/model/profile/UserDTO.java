@@ -31,18 +31,21 @@ public class UserDTO implements Serializable {
 	private String userPassword;
 	@Column(name = "secret_password")
 	private String secretPassword;
+	@Column(name = "admin_status")
+	private boolean adminStatus;
 
 	public UserDTO() {
 		super();
 	}
 
-	public UserDTO(int id, String username, String favoriteColor, String userPassword, String secretPassword) {
+	public UserDTO(int id, String username, String favoriteColor, String userPassword, String secretPassword, boolean adminStatus) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.favoriteColor = favoriteColor;
 		this.userPassword = userPassword;
 		this.secretPassword = secretPassword;
+		this.adminStatus = adminStatus;
 	}
 
 	public int getId() {
@@ -85,9 +88,17 @@ public class UserDTO implements Serializable {
 		this.secretPassword = secretPassword;
 	}
 
+	public boolean isAdminStatus() {
+		return adminStatus;
+	}
+
+	public void setAdminStatus(boolean adminStatus) {
+		this.adminStatus = adminStatus;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(favoriteColor, id, secretPassword, userPassword, username);
+		return Objects.hash(adminStatus, favoriteColor, id, secretPassword, userPassword, username);
 	}
 
 	@Override
@@ -99,11 +110,11 @@ public class UserDTO implements Serializable {
 			return false;
 		}
 		UserDTO other = (UserDTO) obj;
-		return Objects.equals(favoriteColor, other.favoriteColor) && id == other.id && Objects.equals(secretPassword, other.secretPassword) && Objects.equals(userPassword, other.userPassword) && Objects.equals(username, other.username);
+		return adminStatus == other.adminStatus && Objects.equals(favoriteColor, other.favoriteColor) && id == other.id && Objects.equals(secretPassword, other.secretPassword) && Objects.equals(userPassword, other.userPassword) && Objects.equals(username, other.username);
 	}
 
 	@Override
 	public String toString() {
-		return "UserDTO [id=" + id + ", username=" + username + ", favoriteColor=" + favoriteColor + ", userPassword=" + userPassword + ", secretPassword=" + secretPassword + "]";
+		return "UserDTO [id=" + id + ", username=" + username + ", favoriteColor=" + favoriteColor + ", userPassword=" + userPassword + ", secretPassword=" + secretPassword + ", adminStatus=" + adminStatus + "]";
 	}
 }

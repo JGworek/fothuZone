@@ -3,7 +3,6 @@ package zone.fothu.pets.controller;
 import java.io.Serializable;
 import java.util.List;
 
-import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,9 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import zone.fothu.pets.exception.PetNotFoundException;
-import zone.fothu.pets.exception.PetNotUpdatedException;
-import zone.fothu.pets.exception.UserNotFoundException;
+
 import zone.fothu.pets.model.profile.Pet;
 import zone.fothu.pets.repository.ImageRepository;
 import zone.fothu.pets.repository.PetRepository;
@@ -99,7 +96,7 @@ public class PetController implements Serializable {
 
 	@PutMapping("/update")
 	public ResponseEntity<Pet> updatePet(@RequestBody Pet updatedPet) {
-		petRepository.updatePet(updatedPet.getId(), updatedPet.getName(), updatedPet.getType(), updatedPet.getHunger(), updatedPet.getCurrentHealth(), updatedPet.getMaxHealth(), updatedPet.getStrength(), updatedPet.getAgility(), updatedPet.getIntelligence(), updatedPet.getPetLevel(), updatedPet.getCurrentXP());
+		petRepository.updatePet(updatedPet.getId(), updatedPet.getName(), updatedPet.getHunger(), updatedPet.getCurrentHealth(), updatedPet.getMaxHealth(), updatedPet.getStrength(), updatedPet.getAgility(), updatedPet.getIntelligence(), updatedPet.getPetLevel(), updatedPet.getCurrentXP());
 
 		Pet pet = petRepository.findById(updatedPet.getId());
 		if (pet.getOwner() != null) {

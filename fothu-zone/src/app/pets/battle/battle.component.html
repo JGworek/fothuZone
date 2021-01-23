@@ -1,4 +1,4 @@
-<div class="container z-index-2 position-absolute overlay bg-success-fothu border border-primary-fothu border-left-0 border-right-0">
+<div class="container-fluid position-absolute overlay bg-info-fothu border border-dark-fothu border-left-0 border-right-0">
 	<div class="row">
 		<div class="col">
 			<br />
@@ -12,52 +12,84 @@
 						<br />
 						<h4 class="text-white">Chumbo</h4>
 						<br />
-						<div class="big-pet-background purple img-responsive center-block d-block mx-auto">
-							<img class="big-pet-image" src="https://fothuzone-pets.s3.amazonaws.com/angry-dinosaur-showing-teeth-clipart.jpg" alt="Chumbo" />
+						<div class="d-none d-xl-block">
+							<div class="big-pet-background purple img-responsive center-block mx-auto petcenter">
+								<img class="big-pet-image" src="https://fothuzone-pets.s3.amazonaws.com/angry-dinosaur-showing-teeth-clipart.jpg" alt="Chumbo" />
+							</div>
 						</div>
-						<div class="progress border border-dark wrapper big-pet-battle-health-bar mx-auto">
-							<!-- conditional health bar color and text -->
-							<div class="progress-bar bg-success" [ngStyle]="{ width: ((10 / 10) * 100).toFixed(0) + '%', 'font-size': 'small', color: 'black', height: '50px' }"></div>
-							<h4 class="big-data">full HP</h4>
+						<div class="d-block d-xl-none">
+							<div class="medium-pet-background purple img-responsive center-block mx-auto petcenter">
+								<img class="medium-pet-image" src="https://fothuzone-pets.s3.amazonaws.com/angry-dinosaur-showing-teeth-clipart.jpg" alt="Chumbo" />
+							</div>
+						</div>
+						<div class="d-none d-xl-block">
+							<div class="progress border border-dark wrapper big-pet-battle-health-bar mx-auto">
+								<!-- conditional health bar color and text -->
+								<div class="progress-bar bg-success d-none d-lg-block" [ngStyle]="{ width: ((10 / 10) * 100).toFixed(0) + '%', 'font-size': 'small', color: 'black', height: '50px' }"></div>
+								<h4 class="big-data d-none d-lg-block">full HP</h4>
+							</div>
+						</div>
+						<div class="d-block d-xl-none">
+							<div class="progress border border-dark wrapper medium-pet-battle-health-bar mx-auto">
+								<!-- conditional health bar color and text -->
+								<div class="progress-bar bg-success" [ngStyle]="{ width: ((10 / 10) * 100).toFixed(0) + '%', 'font-size': 'small', color: 'black', height: '50px' }"></div>
+								<h4 class="big-data">full HP</h4>
+							</div>
 						</div>
 						<br />
-						<div class="">
-							<div class="btn-group-vertical btn-group-lg m-1">
-								<button class="btn btn-dark battle-button m-1">Attack</button>
-								<button class="btn btn-primary battle-button m-1">Aim</button>
-							</div>
-							<div class="btn-group-vertical btn-group-lg m-1">
-								<button class="btn btn-danger-fothu battle-button m-1">Defend</button>
-								<button class="btn btn-primary-fothu battle-button m-1">Sharpen</button>
-							</div>
+
+						<div class="btn-group-vertical btn-group-lg m-1">
+							<button class="btn btn-secondary-fothu bg-secondary-fothu battle-button text-white m-1">Attack</button>
+							<button class="btn btn-info-fothu bg-info-fothu battle-button m-1">Aim</button>
 						</div>
+						<div class="btn-group-vertical btn-group-lg m-1">
+							<button class="btn btn-success-fothu bg-success-fothu battle-button text-white m-1">Defend</button>
+							<button class="btn btn-light-fothu bg-light-fothu battle-button m-1">Sharpen</button>
+						</div>
+
 						<br />
 					</div>
-
 					<div class="col-12 col-md-4 battle-pets">
+						<h4>&nbsp;</h4>
 						<h4>COOL BATTLE TEXT</h4>
+						<h4>&nbsp;</h4>
 					</div>
-
 					<div class="col-12 col-md-4 battle-pets bg-dark-fothu rounded">
 						<br />
 						<h4 class="text-white">Brisky</h4>
 						<br />
-						<div class="big-pet-background blue img-responsive center-block d-block mx-auto">
-							<img class="big-pet-image" src="https://fothuzone-pets.s3.amazonaws.com/baby-triceratop-dinosaur-cartoon-clipart.jpg" alt="Chumbo" />
+						<div class="d-none d-xl-block">
+							<div class="big-pet-background blue img-responsive center-block mx-auto petcenter">
+								<img class="big-pet-image" src="https://fothuzone-pets.s3.amazonaws.com/baby-triceratop-dinosaur-cartoon-clipart.jpg" alt="Brisky" />
+							</div>
 						</div>
-						<div class="progress border border-dark wrapper big-pet-battle-health-bar mx-auto">
-							<!-- conditional health bar color and text -->
-							<div class="progress-bar bg-success" [ngStyle]="{ width: ((10 / 10) * 100).toFixed(0) + '%', 'font-size': 'small', color: 'black', height: '50px' }"></div>
-							<h4 class="big-data" style="visibility: hidden">full HP</h4>
+						<div class="d-block d-xl-none">
+							<div class="medium-pet-background blue img-responsive center-block mx-auto petcenter">
+								<img class="medium-pet-image" src="https://fothuzone-pets.s3.amazonaws.com/baby-triceratop-dinosaur-cartoon-clipart.jpg" alt="Brisky" />
+							</div>
+						</div>
+						<div class="d-none d-xl-block">
+							<div class="progress border border-dark wrapper big-pet-battle-health-bar mx-auto">
+								<!-- conditional health bar color and text -->
+								<div class="progress-bar bg-success" [ngStyle]="{ width: ((10 / 10) * 100).toFixed(0) + '%', 'font-size': 'small', color: 'black', height: '50px' }"></div>
+								<h4 class="big-data" style="visibility: hidden">full HP</h4>
+							</div>
+						</div>
+						<div class="d-block d-xl-none">
+							<div class="progress border border-dark wrapper medium-pet-battle-health-bar mx-auto">
+								<!-- conditional health bar color and text -->
+								<div class="progress-bar bg-success" [ngStyle]="{ width: ((10 / 10) * 100).toFixed(0) + '%', 'font-size': 'small', color: 'black', height: '50px' }"></div>
+								<h4 class="big-data" style="visibility: hidden">full HP</h4>
+							</div>
 						</div>
 						<br />
 						<div class="btn-group-vertical btn-group-lg m-1" style="visibility: hidden">
-							<button class="btn btn-dark battle-button m-1">Attack</button>
-							<button class="btn btn-primary battle-button m-1">Aim</button>
+							<button class="btn btn-secondary-fothu bg-secondary-fothu battle-button text-white m-1">Attack</button>
+							<button class="btn btn-success-fothu bg-success-fothu battle-button m-1">Aim</button>
 						</div>
 						<div class="btn-group-vertical btn-group-lg m-1" style="visibility: hidden">
-							<button class="btn btn-danger-fothu battle-button m-1">Defend</button>
-							<button class="btn btn-primary-fothu battle-button m-1">Sharpen</button>
+							<button class="btn btn-success-fothu bg-success-fothu battle-button text-white m-1">Defend</button>
+							<button class="btn btn-light-fothu bg-light-fothu battle-button m-1">Sharpen</button>
 						</div>
 						<br />
 					</div>

@@ -18,5 +18,6 @@ export class Pet {
 		id: number;
 		username: string;
 		favoriteColor: string;
+		adminStatus: boolean;
 	};
 }

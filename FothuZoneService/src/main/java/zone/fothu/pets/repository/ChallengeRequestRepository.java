@@ -11,7 +11,7 @@ public interface ChallengeRequestRepository extends JpaRepository<ChallengeReque
 
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value = "INSERT INTO pets.challenge_requests VALUES (DEFAULT, false, false, ?1, ?2, null, DEFAULT)")
+	@Query(nativeQuery = true, value = "INSERT INTO pets.challenge_requests VALUES (DEFAULT, false, false, ?attackerId, ?defenderId, null, DEFAULT)")
 	ChallengeRequest createNewChallengeRequest(int attackerId, int defenderId);
 
 }

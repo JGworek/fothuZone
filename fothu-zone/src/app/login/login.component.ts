@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { UserService } from "../service/user.service";
 import { Router } from "@angular/router";
+import { SupportedColor } from "../models/SupportedColor";
+import { environment } from "src/environments/environment";
 
 @Component({
 	selector: "app-login",
@@ -10,5 +12,14 @@ import { Router } from "@angular/router";
 export class LoginComponent implements OnInit {
 	constructor(public userService: UserService, private router: Router) {}
 
-	ngOnInit(): void {}
+	supportedColors: Array<SupportedColor> = [];
+
+	async getSupportedColors() {
+		let colorJSON = await fetch(`${environment.fothuZoneEC2Link}/supportedColors/all`);
+		this.supportedColors = await colorJSON.json();
+	}
+
+	ngOnInit(): void {
+		this.getSupportedColors();
+	}
 }

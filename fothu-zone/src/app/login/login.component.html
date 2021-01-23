@@ -22,29 +22,26 @@
 	<form class="w-50">
 		<div class="form-group">
 			<label>Enter Username</label>
-			<input [(ngModel)]="this.userService.newUser.username" name="username" type="text" class="form-control" id="usernameInput" aria-describedby="emailHelp" placeholder="username" />
+			<input [(ngModel)]="this.userService.newUser.username" name="username" type="text" class="form-control" id="usernameInput" aria-describedby="emailHelp" placeholder="username" required />
 		</div>
 		<div class="form-group">
 			<label>Enter Password</label>
-			<input [(ngModel)]="this.userService.newUser.userPassword" name="password" type="password" class="form-control" id="passwordInput" placeholder="password" />
+			<input [(ngModel)]="this.userService.newUser.userPassword" name="password" type="password" class="form-control" id="passwordInput" placeholder="password" required />
 		</div>
 		<div class="form-group">
 			<label>Enter Password Again</label>
-			<input [(ngModel)]="this.userService.samePassword" name="password" type="password" class="form-control" id="passwordInput" placeholder="password" />
+			<input [(ngModel)]="this.userService.samePassword" name="password" type="password" class="form-control" id="passwordInput" placeholder="password" required />
 		</div>
-		<div *ngIf="this.userService.samePassword.length && this.userService.newUser.userPassword != this.userService.samePassword" class="text-danger">Passwords do not match!</div>
-		<br *ngIf="this.userService.samePassword.length && this.userService.newUser.userPassword != this.userService.samePassword" />
+		<div *ngIf="this.userService.newUser.userPassword && this.userService.newUser.userPassword != this.userService.samePassword" class="text-danger">Passwords do not match!</div>
+		<br *ngIf="this.userService.newUser.userPassword && this.userService.newUser.userPassword != this.userService.samePassword" />
 		<div class="form-group">
 			<div><label>Favorite Color</label></div>
-			<select class="form-control" [(ngModel)]="this.userService.newUser.favoriteColor">
-				<option value="blue">Blue</option>
-				<option value="red">Red</option>
-				<option value="yellow">Yellow</option>
-				<option value="green">Green</option>
-				<option value="purple">Purple</option>
-				<option value="orange">Orange</option>
+			<select class="form-control" [(ngModel)]="this.userService.newUser.favoriteColor" name="favoriteColor" required>
+				<!-- <option *ngIf="!this.supportedColors.length" value="black"><span style="background-color: black">&nbsp;&nbsp;&nbsp;&nbsp;</span>Black</option> -->
+				<option value="" disabled selected>Select a color</option>
+				<option *ngFor="let supportedColor of this.supportedColors" [value]="supportedColor.color" [style]="{ 'background-color': supportedColor.color, color: 'white', 'font-weight': 'bold' }">{{ supportedColor.color | titlecase }}</option>
 			</select>
 		</div>
-		<button class="btn btn-primary" (click)="this.userService.logIn()">Submit</button>
+		<input type="submit" class="btn btn-primary" (click)="this.userService.logIn()" value="submit" />
 	</form>
 </div>

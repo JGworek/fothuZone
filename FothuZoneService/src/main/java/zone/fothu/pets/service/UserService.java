@@ -8,10 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import zone.fothu.pets.exception.UnsupportedColorException;
 import zone.fothu.pets.exception.UserNotFoundException;
 import zone.fothu.pets.exception.UserNotUpdatedException;
+import zone.fothu.pets.exception.UsernameAlreadyExistsException;
+import zone.fothu.pets.model.profile.SupportedColor;
 import zone.fothu.pets.model.profile.User;
 import zone.fothu.pets.model.profile.UserDTO;
+import zone.fothu.pets.repository.SupportedColorRepository;
 import zone.fothu.pets.repository.UserDTORepository;
 import zone.fothu.pets.repository.UserRepository;
 
@@ -22,20 +26,38 @@ public class UserService implements Serializable {
 
 	@Autowired
 	UserRepository userRepository;
-
 	@Autowired
 	UserDTORepository userDTORepository;
-
+	@Autowired
+	SupportedColorRepository supportedColorRepository;
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
 
-	public User saveNewUser(User newUser) {
-		newUser.setUserPassword(passwordEncoder.encode(newUser.getUserPassword()));
-		newUser.setSecretPassword(passwordEncoder.encode(newUser.getSecretPassword()));
-		userRepository.save(newUser);
-		newUser.setUserPassword(null);
-		newUser.setSecretPassword(null);
-		return newUser;
+	public User saveNewUser(UserDTO newUser) {
+		boolean userExists = true;
+		User createdNewUser;
+		try {
+			SupportedColor checkColor = supportedColorRepository.getOne(newUser.getFavoriteColor());
+		} catch (NullPointerException e) {
+			throw new UnsupportedColorException("Submitted color not supported!");
+		}
+		try {
+			User checkUser = userRepository.findByUsername(newUser.getUserPassword());
+		} catch (NullPointerException e) {
+			userExists = false;
+			newUser.setUserPassword(passwordEncoder.encode(newUser.getUserPassword()));
+			newUser.setSecretPassword(passwordEncoder.encode(newUser.getSecretPassword()));
+			userDTORepository.save(newUser);
+		}
+
+		if (userExists = false) {
+			createdNewUser = userRepository.findById(userRepository.findLatestUserId());
+			createdNewUser.setUserPassword(null);
+			createdNewUser.setSecretPassword(null);
+		} else {
+			throw new UsernameAlreadyExistsException("Username already taken!");
+		}
+		return createdNewUser;
 	}
 
 	public User logInNewUser(User loggingInUser) throws UserNotFoundException {

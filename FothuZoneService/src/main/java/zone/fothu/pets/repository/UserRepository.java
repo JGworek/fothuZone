@@ -2,14 +2,11 @@ package zone.fothu.pets.repository;
 
 import java.util.List;
 
-import org.postgresql.util.PSQLException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-import zone.fothu.pets.exception.UserNotFoundException;
-import zone.fothu.pets.exception.UserNotUpdatedException;
 import zone.fothu.pets.model.profile.User;
 import zone.fothu.pets.model.profile.UserDTO;
 
@@ -41,5 +38,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 	@Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE id NOT IN (?1, 2147483647)")
 	List<User> getAvailableChallengeUsers(int id);
+
+	@Query(nativeQuery = true, value = "SELECT MAX(id) FROM pets.users WHERE id NOT IN (SELECT MAX(id) FROM pets.users);")
+	int findLatestUserId();
 
 }
