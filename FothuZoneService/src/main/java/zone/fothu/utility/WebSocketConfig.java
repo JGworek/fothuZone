@@ -1,5 +1,9 @@
 package zone.fothu.utility;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
+
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -10,10 +14,8 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
+import org.springframework.web.socket.server.standard.TomcatRequestUpgradeStrategy;
+import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 
 @Configuration
 @ComponentScan("zone.fothu")
@@ -22,12 +24,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer, WebApp
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/fothuZoneWebsocketConnection").setAllowedOrigins("*").withSockJS();
+		registry.addEndpoint("/ws").setHandshakeHandler(new DefaultHandshakeHandler(new TomcatRequestUpgradeStrategy())).setAllowedOrigins("*");
 	}
 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
-		registry.setApplicationDestinationPrefixes("/fothuZoneSendPoint").enableSimpleBroker("/battleSubscription", "/challengeRequestSubscription", "/liveChatSubscription");
+		registry.setApplicationDestinationPrefixes("/fothuZoneSendPoint").enableSimpleBroker("/userSubscription", "/battleSubscription", "/challengeSubscription", "/currentBattlesSubscription", "/liveChatSubscription");
 	}
 
 	@Override

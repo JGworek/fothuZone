@@ -27,7 +27,7 @@
 									<a
 										*ngIf="currentMap.nonBarrenCells.includes(i * 10 + j) && checkIfNearby(i * 10 + j)"
 										[ngClass]="{
-											'btn btn-primary-fothu bg-primary-fothu font-weight-bold': true
+											'btn btn-dark-fothu bg-dark-fothu text-white font-weight-bold': true
 										}"
 										(click)="setCurrentRoom(i * 10 + j)"
 									>
@@ -38,10 +38,10 @@
 						</tbody>
 					</table>
 				</div>
-				<div *ngIf="this.petSelect == !true && userService.currentUser.id != -1" class="col-12 m-0 p-0 text-center">
+				<div *ngIf="this.petSelect == !true && userService.currentUser.id" class="col-12 m-0 p-0 text-center">
 					<h5>Select your figher:</h5>
 				</div>
-				<div *ngIf="this.petSelect == !true && userService.currentUser.id != -1" class="col-12 d-flex justify-content-center no-gutters">
+				<div *ngIf="this.petSelect == !true && userService.currentUser.id" class="col-12 d-flex justify-content-center no-gutters">
 					<button
 						*ngFor="let pet of userService.currentUser.pets"
 						[ngClass]="{
@@ -54,7 +54,7 @@
 					<!-- [routerLink]="[{outlets: {primary: ['FothuPets'], petbar: ['visible'] }}]" -->
 				</div>
 				<button (click)="this.battleService.currentBattle.id = 1">Open Battle</button>
-				<button (click)="this.battleService.currentBattle.id = -1">Close Battle</button>
+				<button (click)="this.battleService.currentBattle.id = 0">Close Battle</button>
 				<button (click)="this.levelUpService.currentLevelingUpPet.availableLevelUps = 1; this.checkLevelUps()">1 Level Up</button>
 				<button (click)="this.levelUpService.currentLevelingUpPet.availableLevelUps = 0; this.checkLevelUps()">No Level Up</button>
 			</div>

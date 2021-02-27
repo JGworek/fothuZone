@@ -248,6 +248,22 @@ span {
 	border-width: thick;
 }
 
+.black-glow {
+	box-shadow: 0px 0px 30px black;
+}
+
+.red-glow {
+	box-shadow: 0px 0px 30px red;
+}
+
+.green-glow {
+	box-shadow: 0px 0px 30px green;
+}
+
+.blue-glow {
+	box-shadow: 0px 0px 30px blue;
+}
+
 .wrapper {
 	position: relative;
 }
@@ -354,6 +370,12 @@ span {
 	justify-content: center;
 }
 
+.boxcenter {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .petbar {
 	position: fixed;
 	bottom: 0;
@@ -394,6 +416,13 @@ span {
 	height: auto;
 }
 
+.profile-pets {
+	display: block;
+	text-align: center;
+	width: auto;
+	height: auto;
+}
+
 /* Dungeon CSS */
 
 .mapTable,
@@ -402,9 +431,20 @@ span {
 	border-collapse: collapse;
 }
 
-.mapTd {
-	height: 55px;
-	width: 72px;
+@media (min-width: 0px) {
+	.mapTd {
+		height: 37px;
+		width: 65px;
+		text-align: center;
+	}
+}
+
+@media (min-width: 960px) {
+	.mapTd {
+		height: 45px;
+		width: 75px;
+		text-align: center;
+	}
 }
 
 .mapPositioning {
@@ -415,15 +455,15 @@ span {
 }
 
 .barren {
-	background-color: dimgray;
+	background-color: #504f54;
 }
 
 .notExplored {
-	background-color: dimgray;
+	background-color: #504f54;
 }
 
 .activeRoom {
-	background-color: #f0ad4e;
+	background-color: #efc501;
 }
 
 .boss {
@@ -431,15 +471,15 @@ span {
 }
 
 .start {
-	background-color: #2c87c9 !important;
+	background-color: #000080 !important;
 }
 
 .ladder {
-	background-color: #e09f3e !important;
+	background-color: #98720b !important;
 }
 
 .nearby {
-	background-color: #99aa38 !important;
+	background-color: #c5c6c7 !important;
 }
 
 /* Bootstrap */
@@ -519,10 +559,10 @@ span {
 } */
 
 @media (min-width: 0px) {
-	.btn {
+	/* .btn {
 		font-size: 11px;
 		padding: 4px 6px;
-	}
+	} */
 	.overlay {
 		top: 5.3%;
 		min-width: 100%;
@@ -532,10 +572,10 @@ span {
 }
 
 @media (min-width: 540px) {
-	.btn {
+	/* .btn {
 		font-size: 11px;
 		padding: 4px 6px;
-	}
+	} */
 	.overlay {
 		top: 5.3%;
 		min-width: 100%;
@@ -545,10 +585,10 @@ span {
 }
 
 @media (min-width: 720px) {
-	.btn {
+	/* .btn {
 		font-size: 12px;
 		padding: 6px 12px;
-	}
+	} */
 	.overlay {
 		top: 5.7%;
 		min-width: 100%;
@@ -558,10 +598,10 @@ span {
 }
 
 @media (min-width: 960px) {
-	.btn {
+	/* .btn {
 		font-size: 14px;
 		padding: 8px 12px;
-	}
+	} */
 	.overlay {
 		top: 6.8%;
 		min-width: 100%;
@@ -571,10 +611,10 @@ span {
 }
 
 @media (min-width: 1140px) {
-	.btn {
+	/* .btn {
 		padding: 10px 16px;
 		font-size: 18px;
-	}
+	} */
 
 	.overlay {
 		top: 7.8%;

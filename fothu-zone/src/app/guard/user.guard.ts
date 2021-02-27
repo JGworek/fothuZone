@@ -5,11 +5,11 @@ import { UserService } from "../service/user.service";
 @Injectable({
 	providedIn: "root",
 })
-export class UserGuardGuard implements CanActivate {
+export class UserGuard implements CanActivate {
 	constructor(private userService: UserService, private router: Router) {}
 
 	canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-		if (this.userService.currentUser.id == -1) {
+		if (!this.userService.currentUser.id) {
 			return this.router.parseUrl("/login");
 		}
 		return true;

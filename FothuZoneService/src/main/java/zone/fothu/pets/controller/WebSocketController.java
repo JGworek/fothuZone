@@ -7,12 +7,15 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import zone.fothu.pets.service.BattleService;
+import zone.fothu.pets.service.UserService;
 
 @Controller
 public class WebSocketController {
 
 	@Autowired
 	BattleService battleService;
+	@Autowired
+	UserService userService;
 
 	private final SimpMessagingTemplate template;
 
@@ -93,4 +96,29 @@ public class WebSocketController {
 		}
 	}
 
+	@MessageMapping("/battles/pvp/battleId/{battleId}/setAttackingPetId/{attackingPetId}/")
+	public void setAttackingPet(@DestinationVariable int battleId, @DestinationVariable int attackingPetId) {
+		try {
+			template.convertAndSend("/battle/battleId/{battleId}", battleService.updateBattleWithAttackingPet(battleId, attackingPetId));
+		} catch (Exception e) {
+			System.out.println("hey look they probably did something wrong");
+		}
+	}
+
+	@MessageMapping("/battles/pvp/battleId/{battleId}/setDefendingPetId/{defendingPetId}/")
+	public void setDefendingPet(@DestinationVariable int battleId, @DestinationVariable int defendingPetId) {
+		try {
+			template.convertAndSend("/battle/battleId/{battleId}", battleService.updateBattleWithDefendingPet(battleId, defendingPetId));
+		} catch (Exception e) {
+			System.out.println("hey look they probably did something wrong");
+		}
+	}
+
+	public void updateLoggedInUser(int userId) {
+		try {
+			template.convertAndSend("/userSubscription/" + userId, userService.getUserWithId(userId));
+		} catch (Exception e) {
+			System.out.println("hey look they probably did something wrong");
+		}
+	}
 }

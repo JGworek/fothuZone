@@ -5,11 +5,11 @@ import { UserService } from "src/app/service/user.service";
 import { DungeonMap } from "../../models/DungeonMap";
 
 @Component({
-	selector: "app-map",
-	templateUrl: "./map.component.html",
-	styleUrls: ["./map.component.css"],
+	selector: "app-dungeon",
+	templateUrl: "./dungeon.component.html",
+	styleUrls: ["./dungeon.component.css"],
 })
-export class MapComponent implements OnInit {
+export class DungeonComponent implements OnInit {
 	constructor(public userService: UserService, public battleService: BattleService, public levelUpService: LevelUpService) {}
 
 	currentMap: DungeonMap = {

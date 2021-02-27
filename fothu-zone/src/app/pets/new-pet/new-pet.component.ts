@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Image } from "src/app/models/Image";
+import { PetDTO } from "src/app/models/PetDTO";
+import { UserService } from "src/app/service/user.service";
 import { environment } from "src/environments/environment";
 
 @Component({
@@ -8,22 +10,35 @@ import { environment } from "src/environments/environment";
 	styleUrls: ["./new-pet.component.css"],
 })
 export class NewPetComponent implements OnInit {
-	constructor() {}
+	constructor(private userService: UserService) {}
 
-	numberOfPets: number = 20;
+	numberOfPets: number = 16;
 
-	availableNewPets: any;
+	availableNewPets: Array<Image> = [];
 	newPetSelectionImage: Image;
 	newPetImage: any;
-	petImageSelected: boolean = false;
-	unableToSelectImage: boolean = false;
+	currentNewPet: PetDTO = {
+		id: 0,
+		name: "",
+		imageId: 0,
+		hunger: 0,
+		type: "",
+		agility: 0,
+		strength: 0,
+		intelligence: 0,
+		petLevel: 1,
+		curentXP: 0,
+		currentHealth: 0,
+		maxHealth: 0,
+		ownerId: 0,
+		availableLevelUps: 0,
+	};
+	imageSelected: boolean = false;
+	unableToCreatePet: boolean = false;
 
-	async getPets() {
-		// let petResponse = await fetch(`https://api.unsplash.com/photos/random?query=animal&orientation=squarish&count=${this.numberOfPets}&client_id=MKjZ1XUDw1fFxzcMsjntxmHOMh8b4QKM58bKDyuG19Q`);
-		// let petResponse = await fetch("http://localhost:6969/images/all");
-		// console.log(petResponse);
-		// this.availableNewPets = await petResponse.json();
-		// console.log(this.availableNewPets);
+	async getPetImages() {
+		let petImagesJSON = await fetch(`${environment.fothuZoneEC2Link}/images/some?numberOfImages=${this.numberOfPets}`);
+		this.availableNewPets = await petImagesJSON.json();
 	}
 
 	async createNewPetImage(imageString) {
@@ -38,7 +53,28 @@ export class NewPetComponent implements OnInit {
 		// }
 	}
 
+	selectPetImage(imageId: number, imageURL: string) {
+		this.newPetImage = imageURL;
+		this.currentNewPet.imageId = imageId;
+		this.currentNewPet.ownerId = this.userService.currentUser.id;
+		this.imageSelected = true;
+	}
+
+	showNewPet() {
+		console.log(this.currentNewPet);
+	}
+
+	checkIfFormCompleted() {
+		if (this.currentNewPet.name == "") {
+			return false;
+		} else if (this.currentNewPet.type == "") {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	ngOnInit(): void {
-		this.getPets();
+		this.getPetImages();
 	}
 }

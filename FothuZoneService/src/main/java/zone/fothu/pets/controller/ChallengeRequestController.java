@@ -53,4 +53,14 @@ public class ChallengeRequestController implements Serializable {
 	ResponseEntity<List<ChallengeRequestDTO>> getAllPendingChallengeRequestsForUser(@PathVariable int userId) {
 		return ResponseEntity.ok(challengeRequestDTORepository.getAllPendingChallengeRequestsForUser(userId));
 	}
+
+	@GetMapping("/id/{id}")
+	ResponseEntity<ChallengeRequestDTO> getChallengeRequestWithId(@PathVariable int id) {
+		return ResponseEntity.ok(challengeRequestDTORepository.getOne(id));
+	}
+
+	@GetMapping("/battleId/{battleId}")
+	ResponseEntity<ChallengeRequestDTO> getChallengeRequestForBattle(@PathVariable int battleId) {
+		return ResponseEntity.ok(challengeRequestDTORepository.getChallengeRequestWithBattleId(battleId));
+	}
 }

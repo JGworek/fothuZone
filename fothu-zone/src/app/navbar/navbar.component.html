@@ -6,7 +6,7 @@
 		</button>
 		<div class="collapse navbar-collapse" [ngClass]="{ show: navbarOpen }" id="navbarSupportedContent">
 			<div class="nav-item">
-				<button class="btn bg-dark btn-outline-light m-1" *ngIf="this.userService.currentUser.id != -1" [routerLink]="[{ outlets: { primary: 'FothuPets', petbar: 'available', battles: 'available', levelUps: 'possible' } }]"><span class="text-light">FothuPets</span></button>
+				<button class="btn bg-dark btn-outline-light m-1" *ngIf="this.userService.currentUser.id" [routerLink]="[{ outlets: { primary: 'FothuPets', petbar: 'available', battles: 'available', levelUps: 'possible' } }]"><span class="text-light">FothuPets</span></button>
 			</div>
 			<div class="nav-item d-flex">
 				<div ngbDropdown class="d-inline-block">
@@ -18,10 +18,10 @@
 				</div>
 			</div>
 			<div class="d-flex ml-auto nav-item">
-				<div id="welcomeName" class="text-light mx-2 my-auto d-none d-md-block" *ngIf="this.userService.currentUser.id !== -1">Hello {{ userService.currentUser.username }}</div>
-				<button class="nav-item btn bg-dark btn-outline-light m-1" [routerLink]="[{ outlets: { primary: 'profile', petbar: null, battles: null, levelUps: 'possible' } }]" *ngIf="this.userService.currentUser.id !== -1">Profile</button>
-				<button class="nav-item btn bg-dark btn-outline-light m-1" (click)="this.userService.logout()" *ngIf="this.userService.currentUser.id !== -1">Logout</button>
-				<button class="nav-item btn bg-dark btn-outline-light m-1" [routerLink]="[{ outlets: { primary: 'login', petbar: null, battles: null, levelUps: null } }]" *ngIf="this.userService.currentUser.id == -1">Login To Pets</button>
+				<div id="welcomeName" class="text-light mx-2 my-auto d-none d-md-block" *ngIf="this.userService.currentUser.id">Hello {{ userService.currentUser.username }}</div>
+				<button class="nav-item btn bg-dark btn-outline-light m-1" [routerLink]="[{ outlets: { primary: 'profile', petbar: null, battles: null, levelUps: 'possible' } }]" *ngIf="this.userService.currentUser.id">Profile</button>
+				<button class="nav-item btn bg-dark btn-outline-light m-1" (click)="this.userService.logout()" *ngIf="this.userService.currentUser.id">Logout</button>
+				<button class="nav-item btn bg-dark btn-outline-light m-1" [routerLink]="['', { outlets: { primary: 'login', petbar: null, battles: null, levelUps: null } }]" *ngIf="!this.userService.currentUser.id">Login To Pets</button>
 			</div>
 		</div>
 	</div>

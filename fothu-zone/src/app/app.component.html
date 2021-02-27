@@ -1,5 +1,6 @@
+<app-toast-container></app-toast-container>
 <app-navbar></app-navbar>
 <router-outlet></router-outlet>
-<router-outlet *ngIf="this.battleService.currentBattle.id != -1" name="battles"></router-outlet>
+<router-outlet *ngIf="this.battleService.currentBattle.id" name="battles"></router-outlet>
 <router-outlet *ngIf="this.levelUpService.currentLevelingUpPet.availableLevelUps > 0" name="levelUps"></router-outlet>
-<router-outlet *ngIf="this.userService.currentUser.id != -1" name="petbar"></router-outlet>
+<router-outlet *ngIf="this.userService.currentUser.id" name="petbar"></router-outlet>

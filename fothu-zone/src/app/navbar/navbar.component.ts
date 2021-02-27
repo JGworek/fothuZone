@@ -17,10 +17,10 @@ export class NavbarComponent implements OnInit {
 
 	ngOnInit() {
 		//WHILE DEVELOPING IF YOU LEAVE THIS IN I SWEAR
-		// this.userService.loggingInUser.username = "Fothu";
-		// this.userService.loggingInUser.userPassword = "password123";
-		this.userService.loggingInUser.username = "ubermentch";
-		this.userService.loggingInUser.userPassword = "password";
+		this.userService.loggingInUser.username = "Fothu";
+		this.userService.loggingInUser.userPassword = "password123";
+		// this.userService.loggingInUser.username = "ubermentch";
+		// this.userService.loggingInUser.userPassword = "password";
 		this.userService.logIn();
 	}
 }

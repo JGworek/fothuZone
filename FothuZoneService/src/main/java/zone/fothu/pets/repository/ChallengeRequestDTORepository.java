@@ -29,7 +29,10 @@ public interface ChallengeRequestDTORepository extends JpaRepository<ChallengeRe
 	@Query(nativeQuery = true, value = "SELECT * FROM pets.challenge_requests")
 	List<ChallengeRequestDTO> getAllChallengeRequests();
 
-	@Query(nativeQuery = true, value = "SELECT * FROM pets.challenge_requests where defender_id = ?userId AND accepted_status = FALSE AND rejected_status = FALSE")
+	@Query(nativeQuery = true, value = "SELECT * FROM pets.challenge_requests where defender_id = ?1 AND accepted_status = FALSE AND rejected_status = FALSE")
 	List<ChallengeRequestDTO> getAllPendingChallengeRequestsForUser(int userId);
+
+	@Query(nativeQuery = true, value = "SELECT * FROM pets.challenge_requests where battle_id = ?battleId")
+	ChallengeRequestDTO getChallengeRequestWithBattleId(int battleId);
 
 }

@@ -12,36 +12,6 @@
 		</div>
 		<button class="btn btn-primary" (click)="this.userService.logIn()">Submit</button>
 	</form>
-	<div *ngIf="this.userService.incorrectLogin" class="text-danger">Incorrect Username/Password</div>
 	<br />
-	<a href="javascript:void(0)" (click)="this.userService.newUserCreation = true">New User?</a>
-</div>
-<div class="login" *ngIf="this.userService.newUserCreation == true">
-	<h3>Sign Up</h3>
-	<br />
-	<form class="w-50">
-		<div class="form-group">
-			<label>Enter Username</label>
-			<input [(ngModel)]="this.userService.newUser.username" name="username" type="text" class="form-control" id="usernameInput" aria-describedby="emailHelp" placeholder="username" required />
-		</div>
-		<div class="form-group">
-			<label>Enter Password</label>
-			<input [(ngModel)]="this.userService.newUser.userPassword" name="password" type="password" class="form-control" id="passwordInput" placeholder="password" required />
-		</div>
-		<div class="form-group">
-			<label>Enter Password Again</label>
-			<input [(ngModel)]="this.userService.samePassword" name="password" type="password" class="form-control" id="passwordInput" placeholder="password" required />
-		</div>
-		<div *ngIf="this.userService.newUser.userPassword && this.userService.newUser.userPassword != this.userService.samePassword" class="text-danger">Passwords do not match!</div>
-		<br *ngIf="this.userService.newUser.userPassword && this.userService.newUser.userPassword != this.userService.samePassword" />
-		<div class="form-group">
-			<div><label>Favorite Color</label></div>
-			<select class="form-control" [(ngModel)]="this.userService.newUser.favoriteColor" name="favoriteColor" required>
-				<!-- <option *ngIf="!this.supportedColors.length" value="black"><span style="background-color: black">&nbsp;&nbsp;&nbsp;&nbsp;</span>Black</option> -->
-				<option value="" disabled selected>Select a color</option>
-				<option *ngFor="let supportedColor of this.supportedColors" [value]="supportedColor.color" [style]="{ 'background-color': supportedColor.color, color: 'white', 'font-weight': 'bold' }">{{ supportedColor.color | titlecase }}</option>
-			</select>
-		</div>
-		<input type="submit" class="btn btn-primary" (click)="this.userService.logIn()" value="submit" />
-	</form>
+	<a href="javascript:void(0)" routerLink="/signUp">New User?</a>
 </div>

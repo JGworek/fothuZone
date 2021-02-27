@@ -5,4 +5,5 @@ export const environment = {
 	errorCodes: ERROR_STATUS_CODES,
 	fothuZoneEC2Link: "http://ec2-54-174-116-102.compute-1.amazonaws.com:6969",
 	homeURL: "http://fothu.zone",
+	fothuZoneWSLink: "ws://ec2-54-174-116-102.compute-1.amazonaws.com:6969",
 };

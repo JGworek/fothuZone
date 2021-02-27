@@ -3,6 +3,8 @@ import { Router } from "@angular/router";
 import { Pet } from "src/app/models/Pet";
 import { User } from "src/app/models/User";
 import { UserDTO } from "src/app/models/UserDTO";
+import { StatusCodeService } from "src/app/service/status-code.service";
+import { ToastService } from "src/app/service/toast.service";
 import { environment } from "src/environments/environment";
 import { UserService } from "../../service/user.service";
 
@@ -12,13 +14,12 @@ import { UserService } from "../../service/user.service";
 	styleUrls: ["./create-challenge.component.css"],
 })
 export class CreateChallengeComponent implements OnInit {
-	constructor(public userService: UserService, public router: Router) {}
+	constructor(public userService: UserService, public router: Router, private statusCodeService: StatusCodeService, private toastService: ToastService) {}
 
-	userList: Array<User> = [];
+	userList: Array<UserDTO> = [];
 	challengeUserId: number = 0;
-	unableToCreateChallenge: boolean = false;
 	filterString: string = "";
-	filterArray: Array<User> = [];
+	filterArray: Array<UserDTO> = [];
 	challengerPets: Array<Pet> = [];
 	challengerUser: User;
 
@@ -30,12 +31,11 @@ export class CreateChallengeComponent implements OnInit {
 
 	async createNewChallengeRequest() {
 		let challengeRequestJSON = await fetch(`${environment.fothuZoneEC2Link}/challengeRequests/new/challengerId/${this.userService.currentUser.id}/opponentId/${this.challengeUserId}`, { method: "POST" });
-		let returnedChallengeRequest = await challengeRequestJSON.json();
-		if (challengeRequestJSON.status.toString()[0] == "1" || challengeRequestJSON.status.toString()[0] == "4" || challengeRequestJSON.status.toString()[0] == "5") {
-			this.unableToCreateChallenge = true;
-		} else {
-			//CREATE TOAST MESSAGE TO SAY CHALLENGE REQUEST
+		if (this.statusCodeService.checkSuccessStatus(challengeRequestJSON)) {
+			this.toastService.successfulRequestToast("Challenge Successfully Created!");
 			this.router.navigate(["/FothuPets"]);
+		} else {
+			this.toastService.unableToSendRequestToast("Unable To Create Challenge. Try Again!");
 		}
 	}
 

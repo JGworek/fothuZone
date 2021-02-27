@@ -65,7 +65,7 @@ public class ImageController implements Serializable {
 	// images/some?numberOfImages=#
 	@GetMapping("/some")
 	public ResponseEntity<List<Image>> getSomeRandomPetImages(@RequestParam int numberOfImages) {
-		return ResponseEntity.ok(imageRepository.getRandomImagesOfCertainNumber(numberOfImages));
+		return ResponseEntity.ok(imageService.getRandomImagesOfCertainNumber(numberOfImages));
 	}
 
 }

@@ -17,7 +17,6 @@
 	</div>
 
 	<button class="btn btn-primary-fothu" [disabled]="!challengeUserId || this.challengerPets.length == 0" (click)="this.createNewChallengeRequest()">Submit</button>
-	<div *ngIf="this.unableToCreateChallenge" class="text-danger">Unable To Create Challenge, Try Again!</div>
 </form>
 <br />
 <h4 *ngIf="this.challengeUserId && this.challengerPets.length == 0">{{ this.challengerUser.username }} has no pets!</h4>
@@ -29,11 +28,11 @@
 				<div [ngClass]="['black', 'petcenter', 'medium-pet-background']">
 					<img *ngIf="pet.image" class="medium-pet-image" [src]="pet.image.imageURL" [alt]="pet.name" />
 				</div>
-				<div class="progress border border-dark wrapper medium-pet-health-bar">
+				<!-- <div class="progress border border-dark wrapper medium-pet-health-bar">
 					<div [class]="userService.getHealthBarColor(((pet.currentHealth / pet.maxHealth) * 100).toFixed(0))" [ngStyle]="{ width: ((pet.currentHealth / pet.maxHealth) * 100).toFixed(0) + '%', 'font-size': 'large', color: 'black', height: '25px' }"></div>
 					<div class="data">{{ pet.currentHealth }}/{{ pet.maxHealth }} HP</div>
-				</div>
-				<div class="text-center medium-pet-image">Lvl {{ pet.petLevel }} {{ pet.name }}</div>
+				</div> -->
+				<h6 class="text-center medium-pet-image">Lvl {{ pet.petLevel }} {{ pet.name }}</h6>
 				<br />
 			</div>
 		</div>

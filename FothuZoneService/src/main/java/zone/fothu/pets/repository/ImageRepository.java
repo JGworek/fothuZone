@@ -28,7 +28,7 @@ public interface ImageRepository extends JpaRepository<Image, Integer> {
 	@Query(nativeQuery = true, value = "SELECT * FROM pets.images")
 	List<Image> getAllImages();
 
-	@Query(nativeQuery = true, value = "SELECT * FROM pets.images ORDER BY RANDOM() LIMIT ?numberOfImages")
+	@Query(nativeQuery = true, value = "SELECT * FROM pets.images ORDER BY RANDOM() LIMIT ?1")
 	List<Image> getRandomImagesOfCertainNumber(int numberOfImages);
 
 	@Modifying

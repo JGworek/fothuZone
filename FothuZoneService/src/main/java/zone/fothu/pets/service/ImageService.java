@@ -29,4 +29,8 @@ public class ImageService implements Serializable {
 	public List<Image> getAllImages() {
 		return imageRepository.getAllImages();
 	}
+
+	public List<Image> getRandomImagesOfCertainNumber(int numberOfImages) {
+		return imageRepository.getRandomImagesOfCertainNumber(numberOfImages);
+	}
 }

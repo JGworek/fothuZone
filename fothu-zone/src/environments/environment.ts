@@ -9,6 +9,7 @@ export const environment = {
 	errorCodes: ERROR_STATUS_CODES,
 	fothuZoneEC2Link: "http://localhost:6969",
 	homeURL: "http://localhost:4200",
+	fothuZoneWSLink: "ws://localhost:6969",
 };
 
 /*

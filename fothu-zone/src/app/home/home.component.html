@@ -4,9 +4,26 @@
 <br />
 <br />
 <h4>Current Apps:</h4>
-
-<button type="button" class="list-group-item nav-link btn-lg w-50 bg-primary-fothu text-white" *ngIf="this.userService.currentUser.id != -1" routerLink="/FothuPets">Fothu Pets</button>
-<button type="button" class="list-group-item nav-link btn-lg w-50 bg-primary-fothu text-white" *ngIf="this.userService.currentUser.id == -1" routerLink="/login">Login To Fothu Pets</button>
-<button type="button" class="list-group-item nav-link btn-lg w-50 bg-warning" routerLink="/schola">The Schola Rehearsal, By Matthew Gworek</button>
-<button type="button" class="list-group-item nav-link btn-lg w-50 bg-danger-fothu" routerLink="/rosary">The Catholic Rosary</button>
-<!-- <a class="btn-lg w-50 btn-dark text-center" href="https://fothuzone-rosary.s3.amazonaws.com/cp3u.pdf" role="button">Hymnal</a> -->
+<hr />
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-12 col-sm-6">
+			<h5>Logged In Required</h5>
+			<br />
+			<button [ngClass]="{ 'list-group-item nav-link btn-lg w-100 text-white': true, 'disabled bg-info-fothu': !this.userService.currentUser.id, 'bg-primary-fothu': this.userService.currentUser.id }" [routerLink]="['', { outlets: { primary: 'FothuPets', petbar: 'available', battles: 'available', levelUps: 'possible' } }]">Fothu Pets</button>
+			<br />
+			<div *ngIf="!this.userService.currentUser.id">
+				<button class="list-group-item nav-link btn-lg w-100 bg-warning-fothu text-dark-fothu" *ngIf="!this.userService.currentUser.id" routerLink="/login">Login/Sign Up</button>
+				<br />
+			</div>
+		</div>
+		<div class="col-12 col-sm-6">
+			<h5>No Logged In Required</h5>
+			<br />
+			<button class="list-group-item nav-link btn-lg w-100 bg-secondary-fothu text-white" routerLink="/schola">The Schola Rehearsal, By Matthew Gworek</button>
+			<br />
+			<button class="list-group-item nav-link btn-lg w-100 bg-secondary-fothu text-white" routerLink="/rosary">The Catholic Rosary</button>
+			<br />
+		</div>
+	</div>
+</div>

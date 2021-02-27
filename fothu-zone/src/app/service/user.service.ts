@@ -1,17 +1,20 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
+import { RxStompService } from "@stomp/ng2-stompjs";
 import { environment } from "src/environments/environment";
 import { User } from "../models/User";
 import { UserDTO } from "../models/UserDTO";
+import { ToastService } from "./toast.service";
+import { StatusCodeService } from "./status-code.service";
 
 @Injectable({
 	providedIn: "root",
 })
 export class UserService {
-	constructor(private router: Router) {}
+	constructor(private router: Router, private RxStompService: RxStompService, private toastService: ToastService, private statusCodeService: StatusCodeService) {}
 	newUserCreation: boolean = false;
-	incorrectLogin: boolean = false;
 	samePassword: string;
+	userSubscription: any;
 
 	newUser: UserDTO = {
 		id: 0,
@@ -23,7 +26,7 @@ export class UserService {
 	};
 
 	currentUser: User = {
-		id: -1,
+		id: 0,
 		username: "",
 		favoriteColor: "",
 		adminStatus: false,
@@ -50,19 +53,26 @@ export class UserService {
 	}
 
 	async logIn() {
-		let returnedPromise = await fetch(`${environment.fothuZoneEC2Link}/users/login`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(this.loggingInUser) });
-		let returnedUser = await returnedPromise.json();
-		if (returnedPromise.status.toString()[0] == "1" || returnedPromise.status.toString()[0] == "4" || returnedPromise.status.toString()[0] == "5") {
-			this.incorrectLogin = true;
-		} else {
+		let userJSON = await fetch(`${environment.fothuZoneEC2Link}/users/login`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(this.loggingInUser) });
+		if (this.statusCodeService.checkSuccessStatus(userJSON)) {
+			let returnedUser = await userJSON.json();
 			this.currentUser = returnedUser;
-			this.incorrectLogin = false;
+			this.keepUserUpdated();
 			this.router.navigate(["home"]);
+		} else {
+			this.toastService.badRequestToast("Incorrect Username or Password");
 		}
 	}
 
 	logout() {
+		this.userSubscription.unsubscribe();
 		window.location.href = environment.homeURL;
+	}
+
+	keepUserUpdated() {
+		this.userSubscription = this.RxStompService.watch(`/userSubscription/${this.currentUser.id}`, { id: this.currentUser.id as any }).subscribe((userMessage) => {
+			this.currentUser = userMessage as any;
+		});
 	}
 
 	//Why?

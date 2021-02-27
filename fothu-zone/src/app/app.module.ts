@@ -16,30 +16,28 @@ import { UserService } from "./service/user.service";
 import { PetsModule } from "./pets/pets.module";
 import { RosaryModule } from "./rosary/rosary.module";
 import { CYOAModule } from "./cyoa/cyoa.module";
-import { FilterPipeModule } from "ngx-filter-pipe";
-import { BackButtonDisableModule } from "angular-disable-browser-back-button";
-
 import { RouterModule } from "@angular/router";
+import { SignUpComponent } from "./sign-up/sign-up.component";
+import { BattleService } from "./service/battle.service";
+import { LevelUpService } from "./service/level-up.service";
+import { InjectableRxStompConfig, RxStompService, rxStompServiceFactory } from "@stomp/ng2-stompjs";
+import { rxStompConfig } from "./rx-stomp.config";
+import { ToastContainerComponent } from "./toast-container/toast-container.component";
 
 @NgModule({
-	declarations: [AppComponent, NavbarComponent, HomeComponent, PlaygroundPageComponent, ProfileComponent, LoginComponent],
-	imports: [
-		BrowserModule,
-		AppRoutingModule,
-		HttpClientModule,
-		FormsModule,
-		NgbModule,
-		CommonModule,
-		PetsModule,
-		RosaryModule,
-		RouterModule,
-		CYOAModule,
-		FilterPipeModule,
-		// BackButtonDisableModule.forRoot({
-		// 	preserveScrollPosition: true,
-		// }),
+	declarations: [AppComponent, NavbarComponent, HomeComponent, PlaygroundPageComponent, ProfileComponent, LoginComponent, SignUpComponent, ToastContainerComponent],
+	imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, NgbModule, CommonModule, PetsModule, RosaryModule, RouterModule, CYOAModule],
+	providers: [
+		UserService,
+		BattleService,
+		LevelUpService,
+		{ provide: InjectableRxStompConfig, useValue: rxStompConfig },
+		{
+			provide: RxStompService,
+			useFactory: rxStompServiceFactory,
+			deps: [InjectableRxStompConfig],
+		},
 	],
-	providers: [UserService],
 	bootstrap: [AppComponent],
 })
 export class AppModule {}

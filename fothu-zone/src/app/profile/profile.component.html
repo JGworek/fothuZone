@@ -5,8 +5,8 @@
 	<br />
 	<!-- <h3>Favorite Color: {{userService.currentUser.favoriteColor}}</h3>
     <br> -->
-	<h2>Pets:</h2>
-	<div *ngFor="let pet of userService.currentUser.pets; let numberOfindex = index">
+	<!-- <h2>Pets:</h2>
+<div *ngFor="let pet of userService.currentUser.pets; let numberOfindex = index">
 		<div [ngClass]="[userService.currentUser.favoriteColor, 'petcenter', 'big-pet-background']">
 			<img *ngIf="pet.image" class="big-pet-image" [src]="pet.image.imageURL" [alt]="pet.name" />
 		</div>
@@ -14,9 +14,42 @@
 			<div [class]="userService.getHealthBarColor(((pet.currentHealth / pet.maxHealth) * 100).toFixed(0))" [ngStyle]="{ width: ((pet.currentHealth / pet.maxHealth) * 100).toFixed(0) + '%', 'font-size': 'large', color: 'black', height: '25px' }"></div>
 			<div class="data">{{ pet.currentHealth }}/{{ pet.maxHealth }} HP</div>
 		</div>
-		<!-- <div>{{numberOfindex+1}}</div> -->
 		<div>Name: {{ pet.name }}</div>
 		<div>Type: {{ pet.type }}</div>
 		<br />
+	</div> -->
+	<h4 class="text-left">Pets:</h4>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12 col-lg-6 col-xl-4 profile-pets" *ngFor="let pet of this.userService.currentUser.pets">
+				<div [ngClass]="[this.userService.currentUser.favoriteColor, 'medium-pet-background img-responsive center-block mx-auto petcenter']">
+					<img class="medium-pet-image" [src]="pet.image.imageURL" [alt]="pet.name" />
+				</div>
+
+				<div class="progress border border-dark wrapper medium-pet-health-bar mx-auto">
+					<div [class]="userService.getHealthBarColor(((pet.currentHealth / pet.maxHealth) * 100).toFixed(0))" [ngStyle]="{ width: ((pet.currentHealth / pet.maxHealth) * 100).toFixed(0) + '%', 'font-size': 'large', color: 'black', height: '25px' }"></div>
+					<div class="data">{{ pet.currentHealth }}/{{ pet.maxHealth }} HP</div>
+				</div>
+
+				<h6>Lvl {{ pet.petLevel }} {{ pet.name }}</h6>
+				<br />
+				<div class="btn-group btn-group-justified w-75" role="group" required>
+					<a style="pointer-events: none" [ngClass]="{ 'btn btn-danger text-white': true, 'red-glow': pet.type.toLowerCase() == 'strength' }"
+						><div>Strength:</div>
+						<div>{{ pet.strength }}</div></a
+					>
+					<a style="pointer-events: none" [ngClass]="{ 'btn btn-success text-white': true, 'green-glow': pet.type.toLowerCase() == 'agility' }"
+						><div>Agility:</div>
+						<div>{{ pet.agility }}</div></a
+					>
+					<a style="pointer-events: none" [ngClass]="{ 'btn btn-primary text-white': true, 'blue-glow': pet.type.toLowerCase() == 'intelligence' }"
+						><div>Intelligence:</div>
+						<div>{{ pet.intelligence }}</div></a
+					>
+				</div>
+				<br />
+				<br />
+			</div>
+		</div>
 	</div>
 </div>

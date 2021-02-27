@@ -144,13 +144,6 @@ public class BattleService implements Serializable {
 		}
 	}
 
-	Battle cleanOutTechnicalText(Battle currentBattle) {
-		for (BattleLog battleLog : currentBattle.getBattleLogs()) {
-			battleLog.setTurnTechnicalText(null);
-		}
-		return currentBattle;
-	}
-
 	public void checkCurrentTurnPet(Battle currentBattle, int petId) {
 		if (currentBattle.getCurrentTurnPet().getId() != petId) {
 			throw new WrongTurnException("It's not " + petRepository.getOne(petId).getName() + "'s turn!");
@@ -183,7 +176,9 @@ public class BattleService implements Serializable {
 		if (currentBattle.getBattleType() == "pve") {
 			Pet hurtPet = petRepository.getOne(otherPet.getId());
 			hurtPet.setCurrentHealth(otherPet.getCurrentHealth());
-			petRepository.save(hurtPet);
+			if (otherPet.getOwner().getId() != 2147483647) {
+				petRepository.save(hurtPet);
+			}
 		}
 		battleRepository.save(currentBattle);
 		return battleFinished;
@@ -366,9 +361,47 @@ public class BattleService implements Serializable {
 		}
 	}
 
-	public void prematureEndBattle(int battleId) {
+	public Battle prematureEndBattle(int battleId, String battleType) {
 		Battle endedBattle = battleRepository.getOne(battleId);
 		endedBattle.setBattleFinished(true);
+		if (battleType == "pve") {
+			if (endedBattle.getBattleType().toLowerCase() == battleType) {
+				List<Pet> userPets = petRepository.findAllPetsByUserId(endedBattle.getAttackingUser().getId());
+				for (Pet pet : userPets) {
+					pet.setCurrentHealth(0);
+					petRepository.save(pet);
+				}
+			}
+		}
 		battleRepository.save(endedBattle);
+		return cleanOutTechnicalText(endedBattle);
+	}
+
+	Battle cleanOutTechnicalText(Battle currentBattle) {
+		for (BattleLog battleLog : currentBattle.getBattleLogs()) {
+			battleLog.setTurnTechnicalText(null);
+		}
+		return cleanOutPasswords(currentBattle);
+	}
+
+	public Battle cleanOutPasswords(Battle battle) {
+		if (battle.getAttackingPet().getOwner() != null) {
+			battle.getAttackingPet().getOwner().setUserPassword(null);
+		}
+		if (battle.getDefendingPet().getOwner() != null) {
+			battle.getDefendingPet().getOwner().setUserPassword(null);
+		}
+		if (battle.getAttackingUser() != null) {
+			battle.getAttackingUser().setUserPassword(null);
+		}
+		if (battle.getDefendingUser() != null) {
+			battle.getDefendingUser().setUserPassword(null);
+		}
+		return battle;
+	}
+
+	public Battle getBattleById(int id) {
+		Battle battle = cleanOutPasswords(battleRepository.getOne(id));
+		return battle;
 	}
 }
