@@ -3,6 +3,7 @@ package zone.fothu.pets.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
@@ -25,90 +26,90 @@ public class WebSocketController {
 	}
 
 	@MessageMapping("/battles/battleId/{battleId}/attackingPet/petId/{petId}/attack")
-	public void attackWithAttackingPet(@DestinationVariable int battleId, @DestinationVariable int petId) {
+	public void attackWithAttackingPet(@DestinationVariable int battleId, @DestinationVariable int petId, @Payload String userId) {
 		try {
-			template.convertAndSend("/battle/battleId/{battleId}", battleService.attackingPetAttack(battleId, petId));
+			template.convertAndSend("/battleSubscription/battleId/" + battleId, battleService.attackingPetAttack(battleId, petId));
 		} catch (Exception e) {
-			System.out.println("hey look they probably did something wrong");
+			template.convertAndSend("/errorMessageSubscription/" + userId, "Unable to attack with that pet");
 		}
 	}
 
 	@MessageMapping("/battles/battleId/{battleId}/defendingPet/petId/{petId}/attack")
-	public void attackWithDefendingPet(@DestinationVariable int battleId, @DestinationVariable int petId) {
+	public void attackWithDefendingPet(@DestinationVariable int battleId, @DestinationVariable int petId, @Payload String userId) {
 		try {
-			template.convertAndSend("/battle/battleId/{battleId}", battleService.defendingPetAttack(battleId, petId));
+			template.convertAndSend("/battleSubscription/battleId/" + battleId, battleService.defendingPetAttack(battleId, petId));
 		} catch (Exception e) {
-			System.out.println("hey look they probably did something wrong");
+			template.convertAndSend("/errorMessageSubscription/" + userId, "Unable to attack with that pet");
 		}
 	}
 
 	@MessageMapping("/battles/battleId/{battleId}/attackingPet/petId/{petId}/defend")
-	public void defendWithAttackingPet(@DestinationVariable int battleId, @DestinationVariable int petId) {
+	public void defendWithAttackingPet(@DestinationVariable int battleId, @DestinationVariable int petId, @Payload String userId) {
 		try {
-			template.convertAndSend("/battle/battleId/{battleId}", battleService.attackingPetDefend(battleId, petId));
+			template.convertAndSend("/battleSubscription/battleId/" + battleId, battleService.attackingPetDefend(battleId, petId));
 		} catch (Exception e) {
-			System.out.println("hey look they probably did something wrong");
+			template.convertAndSend("/errorMessageSubscription/" + userId, "Unable to defend with that pet");
 		}
 	}
 
 	@MessageMapping("/battles/battleId/{battleId}/defendingPet/petId/{petId}/defend")
-	public void defendWithDefendingPet(@DestinationVariable int battleId, @DestinationVariable int petId) {
+	public void defendWithDefendingPet(@DestinationVariable int battleId, @DestinationVariable int petId, @Payload String userId) {
 		try {
-			template.convertAndSend("/battle/battleId/{battleId}", battleService.defendingPetDefend(battleId, petId));
+			template.convertAndSend("/battleSubscription/battleId/" + battleId, battleService.defendingPetDefend(battleId, petId));
 		} catch (Exception e) {
-			System.out.println("hey look they probably did something wrong");
+			template.convertAndSend("/errorMessageSubscription/" + userId, "Unable to defend with that pet");
 		}
 	}
 
 	@MessageMapping("/battles/battleId/{battleId}/attackingPet/petId/{petId}/aim")
-	public void aimWithAttackingPet(@DestinationVariable int battleId, @DestinationVariable int petId) {
+	public void aimWithAttackingPet(@DestinationVariable int battleId, @DestinationVariable int petId, @Payload String userId) {
 		try {
-			template.convertAndSend("/battle/battleId/{battleId}", battleService.attackingPetAim(battleId, petId));
+			template.convertAndSend("/battleSubscription/battleId/" + battleId, battleService.attackingPetAim(battleId, petId));
 		} catch (Exception e) {
-			System.out.println("hey look they probably did something wrong");
+			template.convertAndSend("/errorMessageSubscription/" + userId, "Unable to aim with that pet");
 		}
 	}
 
 	@MessageMapping("/battles/battleId/{battleId}/defendingPet/petId/{petId}/aim")
-	public void aimWithDefendingPet(@DestinationVariable int battleId, @DestinationVariable int petId) {
+	public void aimWithDefendingPet(@DestinationVariable int battleId, @DestinationVariable int petId, @Payload String userId) {
 		try {
-			template.convertAndSend("/battle/battleId/{battleId}", battleService.defendingPetAim(battleId, petId));
+			template.convertAndSend("/battleSubscription/battleId/" + battleId, battleService.defendingPetAim(battleId, petId));
 		} catch (Exception e) {
-			System.out.println("hey look they probably did something wrong");
+			template.convertAndSend("/errorMessageSubscription/" + userId, "Unable to aim with that pet");
 		}
 	}
 
 	@MessageMapping("/battles/battleId/{battleId}/attackingPet/petId/{petId}/sharpen")
-	public void sharpenWithAttackingPet(@DestinationVariable int battleId, @DestinationVariable int petId) {
+	public void sharpenWithAttackingPet(@DestinationVariable int battleId, @DestinationVariable int petId, @Payload String userId) {
 		try {
-			template.convertAndSend("/battle/battleId/{battleId}", battleService.attackingPetSharpen(battleId, petId));
+			template.convertAndSend("/battleSubscription/battleId/" + battleId, battleService.attackingPetSharpen(battleId, petId));
 		} catch (Exception e) {
-			System.out.println("hey look they probably did something wrong");
+			template.convertAndSend("/errorMessageSubscription/" + userId, "Unable to sharpen with that pet");
 		}
 	}
 
 	@MessageMapping("/battles/battleId/{battleId}/defendingPet/petId/{petId}/sharpen")
-	public void sharpenWithDefendingPet(@DestinationVariable int battleId, @DestinationVariable int petId) {
+	public void sharpenWithDefendingPet(@DestinationVariable int battleId, @DestinationVariable int petId, @Payload String userId) {
 		try {
-			template.convertAndSend("/battle/battleId/{battleId}", battleService.defendingPetSharpen(battleId, petId));
+			template.convertAndSend("/battleSubscription/battleId/" + battleId, battleService.defendingPetSharpen(battleId, petId));
 		} catch (Exception e) {
-			System.out.println("hey look they probably did something wrong");
+			template.convertAndSend("/errorMessageSubscription/" + userId, "Unable to sharpen with that pet");
 		}
 	}
 
 	@MessageMapping("/battles/pvp/battleId/{battleId}/setAttackingPetId/{attackingPetId}/")
-	public void setAttackingPet(@DestinationVariable int battleId, @DestinationVariable int attackingPetId) {
+	public void setAttackingPet(@DestinationVariable int battleId, @DestinationVariable int attackingPetId, @Payload String userId) {
 		try {
-			template.convertAndSend("/battle/battleId/{battleId}", battleService.updateBattleWithAttackingPet(battleId, attackingPetId));
+			template.convertAndSend("/battleSubscription/battleId/" + battleId, battleService.updateBattleWithAttackingPet(battleId, attackingPetId));
 		} catch (Exception e) {
 			System.out.println("hey look they probably did something wrong");
 		}
 	}
 
 	@MessageMapping("/battles/pvp/battleId/{battleId}/setDefendingPetId/{defendingPetId}/")
-	public void setDefendingPet(@DestinationVariable int battleId, @DestinationVariable int defendingPetId) {
+	public void setDefendingPet(@DestinationVariable int battleId, @DestinationVariable int defendingPetId, @Payload String userId) {
 		try {
-			template.convertAndSend("/battle/battleId/{battleId}", battleService.updateBattleWithDefendingPet(battleId, defendingPetId));
+			template.convertAndSend("/battleSubscription/battleId/" + battleId, battleService.updateBattleWithDefendingPet(battleId, defendingPetId));
 		} catch (Exception e) {
 			System.out.println("hey look they probably did something wrong");
 		}

@@ -15,7 +15,7 @@ public interface UserDTORepository extends JpaRepository<UserDTO, Integer> {
 	@Query(nativeQuery = true, value = "SELECT * FROM pets.users ORDER BY id ASC")
 	List<UserDTO> findAllDTOs();
 
-	@Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE NOT EXISTS (SELECT defender_id FROM pets.challenge_requests WHERE (attacker_id = ?id) AND (accepted_status = false OR rejected_status = FALSE)) AND id NOT IN (?id, 2147483647)")
+	@Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE NOT EXISTS (SELECT defender_id FROM pets.challenge_requests WHERE (attacker_id = ?1) AND (accepted_status = false OR rejected_status = FALSE)) AND id NOT IN (?1, 2147483647)")
 	List<UserDTO> getAvailableChallengeUserDTOs(int id);
 
 }

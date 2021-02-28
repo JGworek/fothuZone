@@ -15,6 +15,7 @@ export class UserService {
 	newUserCreation: boolean = false;
 	samePassword: string;
 	userSubscription: any;
+	errorSubscription: any;
 
 	newUser: UserDTO = {
 		id: 0,
@@ -58,6 +59,7 @@ export class UserService {
 			let returnedUser = await userJSON.json();
 			this.currentUser = returnedUser;
 			this.keepUserUpdated();
+			this.trackErrorMessageResponses();
 			this.router.navigate(["home"]);
 		} else {
 			this.toastService.badRequestToast("Incorrect Username or Password");
@@ -72,6 +74,12 @@ export class UserService {
 	keepUserUpdated() {
 		this.userSubscription = this.RxStompService.watch(`/userSubscription/${this.currentUser.id}`, { id: this.currentUser.id as any }).subscribe((userMessage) => {
 			this.currentUser = userMessage as any;
+		});
+	}
+
+	trackErrorMessageResponses() {
+		this.errorSubscription = this.RxStompService.watch(`/errorMessageSubscription/${this.currentUser.id}`, { id: this.currentUser.id as any }).subscribe((errorMessage) => {
+			this.toastService.badRequestToast(errorMessage);
 		});
 	}
 

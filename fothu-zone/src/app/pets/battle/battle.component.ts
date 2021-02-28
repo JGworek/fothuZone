@@ -14,7 +14,7 @@ export class BattleComponent implements OnInit {
 	battleSubscription;
 
 	subscribeToBattle(battleId: number) {
-		this.battleSubscription = this.RxStompService.watch(`/battleSubscription/${this.battleService.currentBattle.id}`, { id: this.userService.currentUser.id as any }).subscribe((battleMessage) => {
+		this.battleSubscription = this.RxStompService.watch(`/battleSubscription/battleId/${this.battleService.currentBattle.id}`, { id: this.userService.currentUser.id as any }).subscribe((battleMessage) => {
 			this.battleService.currentBattle = battleMessage as any;
 		});
 	}

@@ -203,44 +203,43 @@ export class BattleService {
 		}
 	}
 
-	/* sends */
-	setAttackingPet(battleId: number, battleType: string, attackingPetId: number) {
-		this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/${battleType}/battleId/${battleId}/setAttackingPetId/${attackingPetId}` });
+	setAttackingPVPPet(battleId: number, attackingPetId: number) {
+		this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/pvp/battleId/${battleId}/setAttackingPetId/${attackingPetId}`, body: this.userService.currentUser.id.toString() });
 	}
 
-	setDefendingPet(battleId: number, battleType: string, defendingPetId: number) {
-		this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/${battleType}/battleId/${battleId}/setDefendingPetId/${defendingPetId}` });
+	setDefendingPVPPet(battleId: number, defendingPetId: number) {
+		this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/pvp/battleId/${battleId}/setDefendingPetId/${defendingPetId}`, body: this.userService.currentUser.id.toString() });
 	}
 
 	attack(battleId: number, actingPetId: number) {
 		if (this.currentBattle.attackingPet.id == actingPetId) {
-			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/attackingPet/${actingPetId}/attack` });
+			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/attackingPet/${actingPetId}/attack`, body: this.userService.currentUser.id.toString() });
 		} else {
-			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/defendingPet/${actingPetId}/attack` });
+			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/defendingPet/${actingPetId}/attack`, body: this.userService.currentUser.id.toString() });
 		}
 	}
 
 	defend(battleId: number, actingPetId: number) {
 		if (this.currentBattle.attackingPet.id == actingPetId) {
-			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/attackingPet/${actingPetId}/defend` });
+			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/attackingPet/${actingPetId}/defend`, body: this.userService.currentUser.id.toString() });
 		} else {
-			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/defendingPet/${actingPetId}/defend` });
+			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/defendingPet/${actingPetId}/defend`, body: this.userService.currentUser.id.toString() });
 		}
 	}
 
 	aim(battleId: number, actingPetId: number) {
 		if (this.currentBattle.attackingPet.id == actingPetId) {
-			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/attackingPet/${actingPetId}/aim` });
+			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/attackingPet/${actingPetId}/aim`, body: this.userService.currentUser.id.toString() });
 		} else {
-			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/defendingPet/${actingPetId}/aim` });
+			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/defendingPet/${actingPetId}/aim`, body: this.userService.currentUser.id.toString() });
 		}
 	}
 
 	sharpen(battleId: number, actingPetId: number) {
 		if (this.currentBattle.attackingPet.id == actingPetId) {
-			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/attackingPet/${actingPetId}/sharpen` });
+			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/attackingPet/${actingPetId}/sharpen`, body: this.userService.currentUser.id.toString() });
 		} else {
-			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/defendingPet/${actingPetId}/sharpen` });
+			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/defendingPet/${actingPetId}/sharpen`, body: this.userService.currentUser.id.toString() });
 		}
 	}
 
@@ -249,8 +248,3 @@ export class BattleService {
 		let battle = await battleJSON.json();
 	}
 }
-
-//connect to FothuPetsWebsocket on login
-//get all current pvp battles from SB
-//get all current battle requests from SB
-//subscribe to the requests and battles ws endpoints to dynamically update new requests

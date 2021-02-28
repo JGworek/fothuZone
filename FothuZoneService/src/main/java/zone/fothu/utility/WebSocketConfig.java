@@ -29,7 +29,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer, WebApp
 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
-		registry.setApplicationDestinationPrefixes("/fothuZoneSendPoint").enableSimpleBroker("/userSubscription", "/battleSubscription", "/challengeSubscription", "/currentBattlesSubscription", "/liveChatSubscription");
+		registry.setApplicationDestinationPrefixes("/fothuZoneSendPoint").enableSimpleBroker("/userSubscription", "/battleSubscription", "/challengeSubscription", "/currentBattlesSubscription", "/errorMessageSubscription", "/liveChatSubscription");
 	}
 
 	@Override
