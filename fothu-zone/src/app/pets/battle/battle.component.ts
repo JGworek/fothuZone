@@ -15,7 +15,12 @@ export class BattleComponent implements OnInit {
 
 	subscribeToBattle(battleId: number) {
 		this.battleSubscription = this.RxStompService.watch(`/battleSubscription/battleId/${this.battleService.currentBattle.id}`, { id: this.userService.currentUser.id as any }).subscribe((battleMessage) => {
-			this.battleService.currentBattle = battleMessage as any;
+			if (battleMessage.body) {
+				console.log(battleMessage);
+				console.log(battleMessage.body);
+				let convertedBattleMessage = JSON.parse(battleMessage.body);
+				this.battleService.currentBattle = convertedBattleMessage;
+			}
 		});
 	}
 
@@ -25,6 +30,7 @@ export class BattleComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.subscribeToBattle(this.battleService.currentBattle.id);
+		console.log(this.battleService.currentBattle);
 	}
 
 	ngOnDestroy(): void {

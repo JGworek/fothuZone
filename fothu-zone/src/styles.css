@@ -16,6 +16,13 @@ span {
 	height: 5%;
 }
 
+hr {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	border: 0;
+	border-top: 1px solid rgba(0, 0, 0, 0.5);
+}
+
 .inactive-button {
 	background-color: gainsboro !important;
 	color: black !important;
@@ -52,8 +59,8 @@ span {
 
 .overflow-battle-requests {
 	display: block;
-	max-height: 378px;
-	height: 378px;
+	max-height: 280px;
+	height: 280px;
 	overflow: auto;
 }
 
@@ -262,6 +269,10 @@ span {
 
 .blue-glow {
 	box-shadow: 0px 0px 30px blue;
+}
+
+.white-glow {
+	box-shadow: 0px 0px 30px white;
 }
 
 .wrapper {
@@ -564,10 +575,10 @@ span {
 		padding: 4px 6px;
 	} */
 	.overlay {
-		top: 5.3%;
+		top: 6.5%;
 		min-width: 100%;
 		border-width: 10px !important;
-		height: 122%;
+		height: 200%;
 	}
 }
 
@@ -603,10 +614,10 @@ span {
 		padding: 8px 12px;
 	} */
 	.overlay {
-		top: 6.8%;
+		top: 4.8%;
 		min-width: 100%;
 		border-width: 10px !important;
-		height: 93.2%;
+		height: 95.2%;
 	}
 }
 
@@ -617,9 +628,9 @@ span {
 	} */
 
 	.overlay {
-		top: 7.8%;
+		top: 6%;
 		min-width: 100%;
 		border-width: 10px !important;
-		height: 92.2%;
+		height: 92.7%;
 	}
 }

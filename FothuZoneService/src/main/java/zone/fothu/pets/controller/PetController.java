@@ -12,12 +12,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import zone.fothu.pets.model.profile.Pet;
+import zone.fothu.pets.model.profile.PetDTO;
 import zone.fothu.pets.repository.ImageRepository;
+import zone.fothu.pets.repository.PetDTORepository;
 import zone.fothu.pets.repository.PetRepository;
 import zone.fothu.pets.repository.UserRepository;
+import zone.fothu.pets.service.PetService;
 
 @RestController
 @CrossOrigin
@@ -32,6 +36,12 @@ public class PetController implements Serializable {
 	UserRepository userRepository;
 	@Autowired
 	ImageRepository imageRepository;
+	@Autowired
+	PetDTORepository petDTORepository;
+	@Autowired
+	WebSocketBrokerController webSocketBrokerController;
+	@Autowired
+	PetService petService;
 
 	@GetMapping("/all")
 	public ResponseEntity<List<Pet>> getAllPets() {
@@ -46,10 +56,16 @@ public class PetController implements Serializable {
 
 	@GetMapping("/id/{id}")
 	public ResponseEntity<Pet> getPetById(@PathVariable int id) {
-		Pet pet = petRepository.findById(id);
+		Pet pet = petRepository.findById(id).get();
 		if (pet.getOwner() != null) {
 			pet.getOwner().setUserPassword(null);
 		}
+		return ResponseEntity.ok(pet);
+	}
+
+	@GetMapping("/DTO/id/{id}")
+	public ResponseEntity<PetDTO> getPetDTOById(@PathVariable int id) {
+		PetDTO pet = petDTORepository.findById(id).get();
 		return ResponseEntity.ok(pet);
 	}
 
@@ -98,7 +114,7 @@ public class PetController implements Serializable {
 	public ResponseEntity<Pet> updatePet(@RequestBody Pet updatedPet) {
 		petRepository.updatePet(updatedPet.getId(), updatedPet.getName(), updatedPet.getHunger(), updatedPet.getCurrentHealth(), updatedPet.getMaxHealth(), updatedPet.getStrength(), updatedPet.getAgility(), updatedPet.getIntelligence(), updatedPet.getPetLevel(), updatedPet.getCurrentXP());
 
-		Pet pet = petRepository.findById(updatedPet.getId());
+		Pet pet = petRepository.findById(updatedPet.getId()).get();
 		if (pet.getOwner() != null) {
 			pet.getOwner().setUserPassword(null);
 
@@ -136,7 +152,7 @@ public class PetController implements Serializable {
 	@PutMapping("/restoreHealth/pet/{id}")
 	public ResponseEntity<Pet> restoreOnePetsHealth(@PathVariable int id) {
 		petRepository.restoreOnePetsHealth(id);
-		Pet pet = petRepository.findById(id);
+		Pet pet = petRepository.findById(id).get();
 		if (pet.getOwner() != null) {
 			pet.getOwner().setUserPassword(null);
 		}
@@ -170,7 +186,7 @@ public class PetController implements Serializable {
 	@PutMapping("/restoreHealth/pet/petName/{petName}")
 	public ResponseEntity<Pet> restoresPetsHealthWithPetsName(@PathVariable String petName) {
 		petRepository.restoreOnePetsHealth(petRepository.findByPetName(petName).getId());
-		Pet pet = petRepository.findById(petRepository.findByPetName(petName).getId());
+		Pet pet = petRepository.findById(petRepository.findByPetName(petName).getId()).get();
 		if (pet.getOwner() != null) {
 			pet.getOwner().setUserPassword(null);
 		}
@@ -182,10 +198,24 @@ public class PetController implements Serializable {
 	@PutMapping("/id/{petId}/strength/{strength}/agility/{agility}/intelligence/{intelligence}")
 	public ResponseEntity<Pet> updatePetWithNewStats(@PathVariable int id, @PathVariable int strength, @PathVariable int agility, @PathVariable int intelligence) {
 		petRepository.setPetStats(id, strength, agility, intelligence);
-		Pet pet = petRepository.findById(id);
+		Pet pet = petRepository.findById(id).get();
 		if (pet.getOwner() != null) {
 			pet.getOwner().setUserPassword(null);
 		}
 		return ResponseEntity.ok(pet);
+	}
+
+	// pets/levelUp/petId/{petId}?highStat={highStat}&mediumStat={mediumStat}&lowStat={lowStat}
+	@PutMapping("/levelUp/petId/{petId}")
+	public ResponseEntity<PetDTO> levelUpPet(@PathVariable int petId, @RequestParam String highStat, @RequestParam String mediumStat, @RequestParam String lowStat) {
+		try {
+			PetDTO leveledUpPet = petService.levelUpPet(petId, highStat, mediumStat, lowStat);
+			webSocketBrokerController.updateUserSubscription(leveledUpPet.getOwnerId());
+			return ResponseEntity.ok(leveledUpPet);
+		} catch (Exception e) {
+			Pet failedToLevelUpPet = petRepository.findById(petId).get();
+			webSocketBrokerController.sendErrorMessage(failedToLevelUpPet.getOwner().getId(), "Failed to level up " + failedToLevelUpPet.getName());
+		}
+		return null;
 	}
 }

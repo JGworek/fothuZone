@@ -18,11 +18,13 @@ import javax.persistence.Table;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import zone.fothu.pets.model.profile.Pet;
 import zone.fothu.pets.model.profile.User;
 
 @Component
+@JsonSerialize
 @Entity
 @Table(name = "battles", schema = "pets")
 public class Battle implements Serializable {
@@ -39,32 +41,26 @@ public class Battle implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "attacking_user_id")
-	@JsonIgnoreProperties("battles")
 	private User attackingUser;
 
 	@ManyToOne
 	@JoinColumn(name = "defending_user_id")
-	@JsonIgnoreProperties("battles")
 	private User defendingUser;
 
 	@ManyToOne
 	@JoinColumn(name = "attacking_pet_id")
-	@JsonIgnoreProperties("battles")
 	private Pet attackingPet;
 
 	@ManyToOne
 	@JoinColumn(name = "defending_pet_id")
-	@JsonIgnoreProperties("battles")
 	private Pet defendingPet;
 
 	@ManyToOne
 	@JoinColumn(name = "winning_pet_id")
-	@JsonIgnoreProperties("battles")
 	private Pet winningPet;
 
 	@ManyToOne
 	@JoinColumn(name = "losing_pet_id")
-	@JsonIgnoreProperties("battles")
 	private Pet losingPet;
 
 	@Column(name = "attacking_pet_current_health")
@@ -99,12 +95,11 @@ public class Battle implements Serializable {
 	private double attackingPetBaseAccuracy;
 	@Column(name = "defending_pet_base_accuracy")
 	private double defendingPetBaseAccuracy;
-	@Column(name = "curent_turn_count")
+	@Column(name = "current_turn_count")
 	private int currentTurnCount;
 
 	@ManyToOne
 	@JoinColumn(name = "current_turn_pet_id")
-	@JsonIgnoreProperties("battles")
 	private Pet currentTurnPet;
 
 	@Column(name = "battle_finished")

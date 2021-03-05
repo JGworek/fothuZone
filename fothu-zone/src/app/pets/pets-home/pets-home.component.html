@@ -1,13 +1,29 @@
-<h2 class="border border-dark rounded center container-fluid order-0 bg-warning-fothu py-2">FothuPets</h2>
-<div class="container-fluid h-100">
+<h2 class="border border-dark rounded center container-fluid order-0 bg-dark-fothu text-white py-2 m-0">FothuPets</h2>
+<div class="container-fluid p-0 h-100 bg-white">
 	<div class="row h-100 align-items-start no-gutters father">
-		<div class="col-12 col-lg-9 pets-content h-75 border border-dark rounded son order-1 bg-success-fothu">
+		<div class="col-12 col-lg-9 pets-content h-75 son order-1 bg-white">
 			<div class="row no-gutters align-items-start">
-				<h4 class="col-12 no-gutters pets-content font-weight-bold">Things To Do!</h4>
-				<div class="col-12 no-gutters pets-content">
-					<a class="btn btn-primary-fothu bg-primary-fothu" routerLink="/newPet">New Pet</a>
-					<a class="btn btn-warning-fothu bg-warning-fothu" routerLink="/dungeon">Head To Mumble's Creek (ALPHA)</a>
-					<a class="btn btn-dark-fothu bg-dark-fothu" routerLink="/challenge">Challenge Another Player</a>
+				<div class="col-12 no-gutters pets-content text-center">
+					<br />
+					<h4>Things To Do:</h4>
+					<hr />
+				</div>
+				<div class="col-12 no-gutters pets-content text-center">
+					<a class="btn btn-primary-fothu bg-primary-fothu text-white" routerLink="/newPet">New Pet</a>
+					<a class="btn btn-warning-fothu bg-warning-fothu text-dark-fothu" routerLink="/dungeon">Head To Mumble's Creek (ALPHA)</a>
+					<a class="btn btn-dark-fothu bg-dark-fothu text-white" routerLink="/challenge">Challenge Another Player</a>
+				</div>
+				<br />
+				<br />
+				<br />
+				<br />
+				<div class="col-12 no-gutters pets-content text-center">
+					<h6>Explore dungeons and fight your friends in gripping turn based combat!</h6>
+				</div>
+				<div class="col-12 no-gutters pets-content text-center">
+					<img class="big-pet-image m-5" src="https://fothuzone-pets.s3.amazonaws.com/25-06-09_03R_A.jpg" alt="cool eagle" />
+					<img class="big-pet-image m-5" src="https://fothuzone-pets.s3.amazonaws.com/single-king-penguin-on-ice-clipart-3812.jpg" alt="cool penguin" />
+					<img class="big-pet-image m-5" src="https://fothuzone-pets.s3.amazonaws.com/swimming-shark.jpg" alt="cool shark" />
 				</div>
 				<!-- <div class="col-12 no-gutters pets-content">more content</div>
 				<div class="col-12 no-gutters pets-content">more content</div>
@@ -15,50 +31,47 @@
 			</div>
 		</div>
 
-		<div [ngStyle]="{ right: 0 }" class="d-none d-lg-block col-lg-3 m-0 p-0 order-2 h-75 son border border-dark rounded">
+		<div style="right: 0" class="d-none d-lg-block col-lg-3 m-0 p-0 order-2 h-75 son border border-dark rounded">
 			<!-- sidebar -->
 			<div class="row d-none d-lg-block m-0 p-0 h-100 align-items-center">
-				<div class="d-none d-lg-block col-lg-12 align-self-center border-bottom border-dark bg-primary-fothu text-white">
-					<h4 class="center">Current Battles</h4>
+				<div class="d-none d-lg-block col-lg-12 align-self-center border-bottom border-dark bg-light-fothu text-white">
+					<br />
+					<h4 class="center text-dark-fothu">Current Battles</h4>
+					<hr />
 					<!-- ngFor current battles -->
 					<div class="row overflow-current-battles">
 						<div class="col-12">
-							<!-- <div class="center">battle one</div>
-							<div class="center">battle two</div>
-							<div class="center">battle two</div>
-							<div class="center">battle two</div>
-							<div class="center">battle two</div>
-							<div class="center">battle two</div>
-							<div class="center">battle two</div>
-							<div class="center">battle two</div>
-							<div class="center">battle two</div>
-							<div class="center">battle two</div>
-							<div class="center">battle two</div> -->
-							<!-- every challenge/battle will be its own column with 1-2 buttons -->
+							<div class="row" *ngFor="let currentBattle of this.currentBattles">
+								<div class="col-12 text-center">
+									<h6 class="text-dark-fothu">Battle vs. {{ currentBattle.attackingUser.id == this.userService.currentUser.id ? currentBattle.defendingUser.username : currentBattle.attackingUser.username }}</h6>
+								</div>
+								<div class="col-12 text-center">
+									<button class="btn btn-secondary-fothu bg-secondary-fothu text-white mx-1" (click)="this.battleService.getPVPBattle(currentBattle.id)">Open</button>
+								</div>
+								<br />
+							</div>
 						</div>
 					</div>
 				</div>
-				<div class="d-none d-lg-block col-lg-12 align-self-center bg-dark-fothu text-white">
-					<h4 class="center">Battle Requests</h4>
+				<div class="d-none d-lg-block col-lg-12 align-self-center border-bottom border-dark bg-light-fothu text-white">
+					<br />
+					<h4 class="center text-dark-fothu">Battle Requests</h4>
+					<hr />
 					<!-- ngFor battle requests -->
 					<div class="row">
 						<div class="col-12 overflow-battle-requests">
-							<!-- <div class="center">request one</div>
-							<div class="center">request two</div>
-							<div class="center">battle two</div>
-							<div class="center">battle two</div>
-							<div class="center">battle two</div>
-							<div class="center">battle two</div>
-							<div class="center">battle two</div>
-							<div class="center">battle two</div>
-							<div class="center">battle two</div>
-							<div class="center">battle two</div>
-							<div class="center">battle two</div>
-							<div class="center">battle two</div>
-							<div class="center">battle two</div>
-							<div class="center">battle two</div>
-							<div class="center">battle two</div>
-							<div class="center">battle two</div> -->
+							<div class="col-12">
+								<div class="row" *ngFor="let challengeRequest of this.challengeRequests">
+									<div class="col-12 text-center">
+										<h6 class="text-dark-fothu">Battle vs. {{ challengeRequest.attackingUser.id == this.userService.currentUser.id ? challengeRequest.defendingUser.username : challengeRequest.attackingUser.username }}</h6>
+									</div>
+									<div class="col-12 text-center">
+										<button class="btn btn-secondary-fothu bg-secondary-fothu text-white mx-1" (click)="this.battleService.acceptChallengeRequest(challengeRequest.id)">Accept</button>
+										<button class="btn btn-secondary-fothu bg-secondary-fothu text-white mx-1" (click)="this.battleService.rejectChallengeRequest(challengeRequest.id)">Reject</button>
+									</div>
+									<br />
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

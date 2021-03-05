@@ -34,12 +34,10 @@ public class AutoBattle implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "attacking_pet_id")
-	@JsonIgnoreProperties("auto_battles")
 	private Pet attackingPet;
 
 	@ManyToOne
 	@JoinColumn(name = "defending_pet_id")
-	@JsonIgnoreProperties("auto_battles")
 	private Pet defendingPet;
 
 	@OneToMany(mappedBy = "battle")
@@ -48,12 +46,10 @@ public class AutoBattle implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "winning_pet_id")
-	@JsonIgnoreProperties("auto_battles")
 	private Pet winningPet;
 
 	@ManyToOne
 	@JoinColumn(name = "losing_pet_id")
-	@JsonIgnoreProperties("auto_battles")
 	private Pet losingPet;
 
 	public AutoBattle() {

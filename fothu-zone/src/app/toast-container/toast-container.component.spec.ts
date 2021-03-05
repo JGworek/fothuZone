@@ -1,25 +1,24 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ToastContainerComponent } from './toast-container.component';
+import { ToastContainerComponent } from "./toast-container.component";
 
-describe('ToastContainerComponent', () => {
-  let component: ToastContainerComponent;
-  let fixture: ComponentFixture<ToastContainerComponent>;
+describe("ToastContainerComponent", () => {
+	let component: ToastContainerComponent;
+	let fixture: ComponentFixture<ToastContainerComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ ToastContainerComponent ]
-    })
-    .compileComponents();
-  });
+	beforeEach(async () => {
+		await TestBed.configureTestingModule({
+			declarations: [ToastContainerComponent],
+		}).compileComponents();
+	});
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ToastContainerComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+	beforeEach(() => {
+		fixture = TestBed.createComponent(ToastContainerComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+	it("should create", () => {
+		expect(component).toBeTruthy();
+	});
 });

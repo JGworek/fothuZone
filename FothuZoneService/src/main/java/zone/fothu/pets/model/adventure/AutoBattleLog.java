@@ -30,7 +30,7 @@ public class AutoBattleLog implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "battle_id")
-	@JsonIgnoreProperties("auto_battle_logs")
+	@JsonIgnoreProperties("battleLogs")
 	private AutoBattle battle;
 
 	@Column(name = "turn_number")

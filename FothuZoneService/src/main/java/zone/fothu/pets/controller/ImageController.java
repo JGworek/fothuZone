@@ -55,7 +55,7 @@ public class ImageController implements Serializable {
 	@PostMapping("set/petId/{petId}/imageId/{imageId}")
 	public ResponseEntity<Pet> addPetImage(@PathVariable int petId, @PathVariable int imageId) throws PetNotFoundException {
 		imageRepository.setPetImage(petId, imageId);
-		Pet pet = petRepository.findById(petId);
+		Pet pet = petRepository.findById(petId).get();
 		if (pet.getOwner() != null) {
 			pet.getOwner().setUserPassword(null);
 		}

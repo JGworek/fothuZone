@@ -13,26 +13,33 @@ public interface ChallengeRequestDTORepository extends JpaRepository<ChallengeRe
 
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value = "INSERT INTO pets.challenge_requests VALUES (DEFAULT, false, false, ?attackerId, ?defenderId, null, DEFAULT)")
-	ChallengeRequestDTO createNewChallengeRequest(int attackerId, int defenderId);
+	@Query(nativeQuery = true, value = "INSERT INTO pets.challenge_requests VALUES (DEFAULT, false, false, ?1, ?2, null, DEFAULT)")
+	void createNewChallengeRequest(int attackerId, int defenderId);
 
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value = "UPDATE pets.challenge_requests SET accepted_status = TRUE WHERE id = ?challengeRequestId")
-	ChallengeRequestDTO acceptChallengeRequest(int challengeRequestId);
+	@Query(nativeQuery = true, value = "UPDATE pets.challenge_requests SET accepted_status = TRUE WHERE id = ?1")
+	void acceptChallengeRequest(int challengeRequestId);
 
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value = "UPDATE pets.challenge_requests SET rejected_status = TRUE WHERE id = ?challengeRequestId")
-	ChallengeRequestDTO rejectChallengeRequest(int challengeRequestId);
+	@Query(nativeQuery = true, value = "UPDATE pets.challenge_requests SET rejected_status = TRUE WHERE id = ?1")
+	void rejectChallengeRequest(int challengeRequestId);
 
+	@Transactional
 	@Query(nativeQuery = true, value = "SELECT * FROM pets.challenge_requests")
 	List<ChallengeRequestDTO> getAllChallengeRequests();
 
+	@Transactional
 	@Query(nativeQuery = true, value = "SELECT * FROM pets.challenge_requests where defender_id = ?1 AND accepted_status = FALSE AND rejected_status = FALSE")
-	List<ChallengeRequestDTO> getAllPendingChallengeRequestsForUser(int userId);
+	List<ChallengeRequestDTO> getAllPendingChallengeRequestDTOsForUser(int userId);
 
-	@Query(nativeQuery = true, value = "SELECT * FROM pets.challenge_requests where battle_id = ?battleId")
+	@Transactional
+	@Query(nativeQuery = true, value = "SELECT * FROM pets.challenge_requests where battle_id = ?1")
 	ChallengeRequestDTO getChallengeRequestWithBattleId(int battleId);
+
+	@Transactional
+	@Query(nativeQuery = true, value = "SELECT MAX(id) FROM pets.challenge_requests")
+	Integer getMostRecentChallengeRequestId();
 
 }

@@ -15,8 +15,6 @@ import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import zone.fothu.pets.model.profile.User;
 
 @Component
@@ -37,17 +35,14 @@ public class ChallengeRequest implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "attacker_id")
-	@JsonIgnoreProperties("challenge_requests")
 	private User attackingUser;
 
 	@ManyToOne
 	@JoinColumn(name = "defender_id")
-	@JsonIgnoreProperties("challenge_requests")
 	private User defendingUser;
 
 	@ManyToOne
 	@JoinColumn(name = "resulting_battle")
-	@JsonIgnoreProperties("challenge_requests")
 	private Battle resultingBattle;
 
 	@Column(name = "created_on")

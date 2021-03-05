@@ -12,19 +12,21 @@ import zone.fothu.pets.model.adventure.AutoBattleLog;
 
 public interface AutoBattleLogRepository extends JpaRepository<AutoBattleLog, Integer> {
 
-	@Query(nativeQuery = true, value = "SELECT * FROM pets.battle_logs WHERE battle_id = ?battleId")
+	@Transactional
+	@Query(nativeQuery = true, value = "SELECT * FROM pets.battle_logs WHERE battle_id = ?1")
 	List<AutoBattleLog> findByBattleId(int battleId) throws BattleNotFoundException;
 
+	@Transactional
 	@Query(nativeQuery = true, value = "SELECT MAX(id) FROM pets.battle_logs")
 	int findLatestBattleLogID();
 
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value = "UPDATE pets.battle_logs SET battle_finished = true WHERE id = ?battleLogId")
+	@Query(nativeQuery = true, value = "UPDATE pets.battle_logs SET battle_finished = true WHERE id = ?1")
 	void updateLastBattleStepInTimeout(int battleLogId);
 
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value = "INSERT INTO pets.battle_logs VALUES (DEFAULT, ?currentBattleId, ?turnNumber, ?turnText, ?turnResult, ?battleFinished)")
+	@Query(nativeQuery = true, value = "INSERT INTO pets.battle_logs VALUES (DEFAULT, ?1, ?2, ?3, ?4, ?5)")
 	void saveNewBattleLog(int currentBattleId, int turnNumber, String turnText, String turnResult, boolean battleFinished);
 }

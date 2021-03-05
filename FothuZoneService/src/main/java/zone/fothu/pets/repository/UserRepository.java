@@ -12,19 +12,15 @@ import zone.fothu.pets.model.profile.UserDTO;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-	@Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE id = ?1")
-	User findById(int id);
-
-	@Override
-	@Query(nativeQuery = true, value = "SELECT * FROM pets.users ORDER BY id ASC")
-	List<User> findAll();
-
+	@Transactional
 	@Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE LOWER(username) = ?1")
 	User findByUsername(String username);
 
+	@Transactional
 	@Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE password = ?1")
 	User findByPassword(String password);
 
+	@Transactional
 	@Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE LOWER(username) = ?1 AND user_password = ?2")
 	User findByUsernameAndPassword(String username, String password);
 
@@ -33,12 +29,15 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query(nativeQuery = true, value = "UPDATE pets.users SET username = ?2, user_password = ?3, favorite_color = ?4 WHERE id = ?1")
 	void updateUser(int id, String username, String userPassword, String favoriteColor);
 
+	@Transactional
 	@Query(nativeQuery = true, value = "SELECT * FROM pets.users where LOWER(username) = ?1 AND secret_password = ?2")
 	UserDTO getRecoveredUser(String username, String encodedSecretPassword);
 
-	@Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE NOT EXISTS (SELECT defender_id FROM pets.challenge_requests WHERE (attacker_id = ?id) AND (accepted_status = false OR rejected_status = FALSE)) AND id NOT IN (?id, 2147483647)")
+	@Transactional
+	@Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE NOT EXISTS (SELECT defender_id FROM pets.challenge_requests WHERE (attacker_id = ?1) AND (accepted_status = false OR rejected_status = FALSE)) AND id NOT IN (?1, 2147483647)")
 	List<User> getAvailableChallengeUsers(int id);
 
+	@Transactional
 	@Query(nativeQuery = true, value = "SELECT MAX(id) FROM pets.users WHERE id NOT IN (SELECT MAX(id) FROM pets.users);")
 	int findLatestUserId();
 

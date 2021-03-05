@@ -10,9 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Component
@@ -29,9 +30,8 @@ public class Pet implements Serializable {
 	@Column(name = "name")
 	private String name;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "image_id")
-	@JsonIgnoreProperties("pets")
 	private Image image;
 
 	@Column(name = "stat_type")

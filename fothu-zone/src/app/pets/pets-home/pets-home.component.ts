@@ -1,8 +1,10 @@
+import { Message } from "@angular/compiler/src/i18n/i18n_ast";
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
 import { RxStompService } from "@stomp/ng2-stompjs";
-import { BattleDTO } from "src/app/models/BattleDTO";
+import { Battle } from "src/app/models/Battle";
 import { ChallengeRequest } from "src/app/models/ChallengeRequest";
+import { ChallengeRequestDTO } from "src/app/models/ChallengeRequestDTO";
+import { BattleService } from "src/app/service/battle.service";
 import { UserService } from "src/app/service/user.service";
 import { environment } from "src/environments/environment";
 
@@ -12,10 +14,11 @@ import { environment } from "src/environments/environment";
 	styleUrls: ["./pets-home.component.css"],
 })
 export class PetsHomeComponent implements OnInit {
-	constructor(public userService: UserService, private RxStompService: RxStompService) {}
+	constructor(public userService: UserService, private RxStompService: RxStompService, public battleService: BattleService) {}
 
-	challengeRequests: Array<ChallengeRequest>;
-	currentBattles: Array<BattleDTO>;
+	challengeRequests: Array<ChallengeRequest> = [];
+	currentBattles: Array<Battle> = [];
+
 	challengeSubscription: any;
 	battleSubscription: any;
 
@@ -25,27 +28,33 @@ export class PetsHomeComponent implements OnInit {
 	}
 
 	async getCurrentBattles() {
-		let currentBattlesJSON = await fetch(`${environment.fothuZoneEC2Link}/battles/all/pvp/userId/${this.userService.currentUser.id}`, { method: "GET" });
+		let currentBattlesJSON = await fetch(`${environment.fothuZoneEC2Link}/battles/all/pvp/current/userId/${this.userService.currentUser.id}`, { method: "GET" });
 		this.currentBattles = await currentBattlesJSON.json();
 	}
 
 	keepChallengeRequestsUpdated() {
 		this.challengeSubscription = this.RxStompService.watch(`/challengeSubscription/${this.userService.currentUser.id}`).subscribe((challengeMessage) => {
-			this.challengeRequests = challengeMessage as any;
+			if (challengeMessage) {
+				let convertedChallengeRequests = JSON.parse(challengeMessage.body);
+				this.challengeRequests = convertedChallengeRequests;
+			}
 		});
 	}
 
 	keepCurrentBattlesUpdated() {
 		this.battleSubscription = this.RxStompService.watch(`/currentBattlesSubscription/${this.userService.currentUser.id}`).subscribe((battleMessage) => {
-			this.challengeRequests = battleMessage as any;
+			if (battleMessage) {
+				let convertedCurrentBattles = JSON.parse(battleMessage.body);
+				this.currentBattles = convertedCurrentBattles;
+			}
 		});
 	}
 
 	ngOnInit(): void {
-		this.getChallengeRequests();
-		this.getCurrentBattles();
 		this.keepChallengeRequestsUpdated();
 		this.keepCurrentBattlesUpdated();
+		this.getChallengeRequests();
+		this.getCurrentBattles();
 	}
 
 	ngOnDestroy(): void {

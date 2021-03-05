@@ -4,4 +4,8 @@ public class BattleNotFoundException extends Exception {
 
 	private static final long serialVersionUID = -2925543102576547058L;
 
+	public BattleNotFoundException(String message) {
+		super(message);
+	}
+
 }

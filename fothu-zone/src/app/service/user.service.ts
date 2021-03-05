@@ -6,13 +6,14 @@ import { User } from "../models/User";
 import { UserDTO } from "../models/UserDTO";
 import { ToastService } from "./toast.service";
 import { StatusCodeService } from "./status-code.service";
+import { LevelUpService } from "./level-up.service";
+import { Pet } from "../models/Pet";
 
 @Injectable({
 	providedIn: "root",
 })
 export class UserService {
-	constructor(private router: Router, private RxStompService: RxStompService, private toastService: ToastService, private statusCodeService: StatusCodeService) {}
-	newUserCreation: boolean = false;
+	constructor(private router: Router, private RxStompService: RxStompService, private toastService: ToastService, private statusCodeService: StatusCodeService, private levelUpService: LevelUpService) {}
 	samePassword: string;
 	userSubscription: any;
 	errorSubscription: any;
@@ -73,14 +74,41 @@ export class UserService {
 
 	keepUserUpdated() {
 		this.userSubscription = this.RxStompService.watch(`/userSubscription/${this.currentUser.id}`, { id: this.currentUser.id as any }).subscribe((userMessage) => {
-			this.currentUser = userMessage as any;
+			if (userMessage.body) {
+				let convertedUserMessage = JSON.parse(userMessage.body);
+				this.currentUser = convertedUserMessage;
+				this.checkIfAnyLevelUps();
+			}
 		});
 	}
 
 	trackErrorMessageResponses() {
 		this.errorSubscription = this.RxStompService.watch(`/errorMessageSubscription/${this.currentUser.id}`, { id: this.currentUser.id as any }).subscribe((errorMessage) => {
-			this.toastService.badRequestToast(errorMessage);
+			if (errorMessage.body) {
+				let convertedErrorMessage = JSON.parse(errorMessage.body);
+				this.toastService.badRequestToast(convertedErrorMessage);
+			}
 		});
+	}
+
+	async checkIfAnyLevelUps() {
+		for (let pet of this.currentUser.pets) {
+			if (pet.availableLevelUps > 0) {
+				let petDTOJSON = await fetch(`${environment.fothuZoneEC2Link}/pets/DTO/id/${pet.id}`);
+				let petDTO = await petDTOJSON.json();
+				this.levelUpService.currentLevelingUpPet = petDTO;
+				break;
+			}
+		}
+	}
+
+	allPetsDead() {
+		for (let pet of this.currentUser.pets) {
+			if (pet.currentHealth > 0) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	//Why?

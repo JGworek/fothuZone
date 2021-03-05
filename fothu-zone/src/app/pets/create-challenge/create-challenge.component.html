@@ -16,7 +16,9 @@
 		</select>
 	</div>
 
-	<button class="btn btn-primary-fothu" [disabled]="!challengeUserId || this.challengerPets.length == 0" (click)="this.createNewChallengeRequest()">Submit</button>
+	<a [ngClass]="{ btn: true, 'btn-light-fothu bg-light-fothu text-white disabled': this.challengerPets.length == 0 || !this.challengeUserId, 'btn-dark-fothu bg-dark-fothu text-white black-glow': this.challengerPets.length && this.challengeUserId }" (click)="this.createNewChallengeRequest()">{{
+		!this.challengeUserId ? "Select A Challenger" : this.challengerPets.length == 0 ? "Challenger Has No Pets" : "Submit Challenge!"
+	}}</a>
 </form>
 <br />
 <h4 *ngIf="this.challengeUserId && this.challengerPets.length == 0">{{ this.challengerUser.username }} has no pets!</h4>

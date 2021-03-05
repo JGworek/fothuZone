@@ -37,7 +37,7 @@ public class UserService implements Serializable {
 		boolean userExists = true;
 		User createdNewUser;
 		try {
-			SupportedColor checkColor = supportedColorRepository.getOne(newUser.getFavoriteColor());
+			SupportedColor checkColor = supportedColorRepository.findById(newUser.getFavoriteColor()).get();
 		} catch (NullPointerException e) {
 			throw new UnsupportedColorException("Submitted color not supported!");
 		}
@@ -51,7 +51,7 @@ public class UserService implements Serializable {
 		}
 
 		if (userExists = false) {
-			createdNewUser = userRepository.findById(userRepository.findLatestUserId());
+			createdNewUser = userRepository.findById(userRepository.findLatestUserId()).get();
 			createdNewUser.setUserPassword(null);
 			createdNewUser.setSecretPassword(null);
 		} else {
@@ -74,7 +74,7 @@ public class UserService implements Serializable {
 		String encodedPassword = passwordEncoder.encode(updatingUser.getUserPassword());
 //        String encodedSecretPassword = passwordEncoder.encode(updatingUser.getSecretPassword());
 		userRepository.updateUser(updatingUser.getId(), updatingUser.getUsername(), encodedPassword, updatingUser.getFavoriteColor());
-		User returnedUser = userRepository.findById(updatingUser.getId());
+		User returnedUser = userRepository.findById(updatingUser.getId()).get();
 		returnedUser.setUserPassword(null);
 		returnedUser.setSecretPassword(null);
 		return returnedUser;
@@ -90,7 +90,7 @@ public class UserService implements Serializable {
 	}
 
 	public List<UserDTO> getAllUserDTOs() {
-		List<UserDTO> userList = userDTORepository.findAllDTOs();
+		List<UserDTO> userList = userDTORepository.findAllUserDTOs();
 		for (UserDTO user : userList) {
 			user.setUserPassword(null);
 			user.setSecretPassword(null);
@@ -99,7 +99,7 @@ public class UserService implements Serializable {
 	}
 
 	public User getUserWithId(int id) throws UserNotFoundException {
-		User userFromId = userRepository.findById(id);
+		User userFromId = userRepository.findById(id).get();
 		userFromId.setUserPassword(null);
 		userFromId.setSecretPassword(null);
 		return userFromId;

@@ -47,8 +47,8 @@ public class AutoBattleService implements Serializable {
 		int numberOfLevelUps = 0;
 		boolean attackerVictory = false;
 		// get pets
-		attackingPet = petRepository.findById(attackerId);
-		defendingPet = petRepository.findById(defenderId);
+		attackingPet = petRepository.findById(attackerId).get();
+		defendingPet = petRepository.findById(defenderId).get();
 		// Create battle in database
 		battleRepository.saveNewBattle(attackerId, defenderId);
 		int currentBattleID = battleRepository.findLatestBattleID();
@@ -180,12 +180,12 @@ public class AutoBattleService implements Serializable {
 
 		AutoBattleDTO battleDTO = new AutoBattleDTO();
 
-		if (battleType == "pve") {
+		if (battleType.equalsIgnoreCase("pve")) {
 			battleDTO.setBattle(battleRepository.findById(currentBattleID));
 			battleDTO.setNumberOfLevelUps(numberOfLevelUps);
 			battleDTO.setUserVictory(attackerVictory);
 		}
-		if (battleType == "pvp") {
+		if (battleType.equalsIgnoreCase("pvp")) {
 			battleDTO.setBattle(battleRepository.findById(currentBattleID));
 			battleDTO.setNumberOfLevelUps(0);
 			battleDTO.setUserVictory(false);

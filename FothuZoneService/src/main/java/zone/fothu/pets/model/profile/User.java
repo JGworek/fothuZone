@@ -38,6 +38,7 @@ public class User implements Serializable {
 	private String secretPassword;
 	@Column(name = "admin_status")
 	private boolean adminStatus;
+
 	@OneToMany(mappedBy = "owner")
 	@JsonIgnoreProperties("owner")
 	@OrderBy("id")

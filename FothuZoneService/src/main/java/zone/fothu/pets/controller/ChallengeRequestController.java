@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import zone.fothu.pets.model.adventure.ChallengeRequestDTO;
-import zone.fothu.pets.repository.ChallengeRequestDTORepository;
+import zone.fothu.pets.model.adventure.ChallengeRequest;
+import zone.fothu.pets.repository.ChallengeRequestRepository;
 import zone.fothu.pets.service.BattleService;
+import zone.fothu.pets.service.RequestService;
 
 @RestController
 @CrossOrigin
@@ -27,40 +28,46 @@ public class ChallengeRequestController implements Serializable {
 	@Autowired
 	BattleService battleService;
 	@Autowired
-	ChallengeRequestDTORepository challengeRequestDTORepository;
+	RequestService requestService;
+	@Autowired
+	ChallengeRequestRepository challengeRequestRepository;
 
 	@PostMapping("/new/challengerId/{attackerId}/opponentId/{defenderId}")
-	ResponseEntity<ChallengeRequestDTO> createNewChallengeRequest(@PathVariable int attackerId, @PathVariable int defenderId) {
+	ResponseEntity<ChallengeRequest> createNewChallengeRequest(@PathVariable int attackerId, @PathVariable int defenderId) {
 		return ResponseEntity.ok(battleService.createNewChallengeRequest(attackerId, defenderId));
 	}
 
 	@PutMapping("/accept/challengeRequestId/{challengeRequestId}")
-	ResponseEntity<ChallengeRequestDTO> acceptChallengeRequest(@PathVariable int challengeRequestId) {
+	ResponseEntity<ChallengeRequest> acceptChallengeRequest(@PathVariable int challengeRequestId) {
 		return ResponseEntity.ok(battleService.acceptChallengeRequest(challengeRequestId));
 	}
 
 	@PutMapping("/reject/challengeRequestId/{challengeRequestId}")
-	ResponseEntity<ChallengeRequestDTO> rejectChallengeRequest(@PathVariable int challengeRequestId) {
+	ResponseEntity<ChallengeRequest> rejectChallengeRequest(@PathVariable int challengeRequestId) {
 		return ResponseEntity.ok(battleService.rejectChallengeRequest(challengeRequestId));
 	}
 
 	@GetMapping("/all")
-	ResponseEntity<List<ChallengeRequestDTO>> getAllChallengeRequests() {
-		return ResponseEntity.ok(challengeRequestDTORepository.getAllChallengeRequests());
+	ResponseEntity<List<ChallengeRequest>> getAllChallengeRequests() {
+		List<ChallengeRequest> challengeRequests = challengeRequestRepository.findAll();
+		for (ChallengeRequest challengeRequest : challengeRequests) {
+			challengeRequest = requestService.cleanOutPasswords(challengeRequest);
+		}
+		return ResponseEntity.ok(challengeRequests);
 	}
 
 	@GetMapping("/all/pending/userId/{userId}")
-	ResponseEntity<List<ChallengeRequestDTO>> getAllPendingChallengeRequestsForUser(@PathVariable int userId) {
-		return ResponseEntity.ok(challengeRequestDTORepository.getAllPendingChallengeRequestsForUser(userId));
+	ResponseEntity<List<ChallengeRequest>> getAllPendingChallengeRequestsForUser(@PathVariable int userId) {
+		return ResponseEntity.ok(requestService.getAllChallengeRequestsForUser(userId));
 	}
 
 	@GetMapping("/id/{id}")
-	ResponseEntity<ChallengeRequestDTO> getChallengeRequestWithId(@PathVariable int id) {
-		return ResponseEntity.ok(challengeRequestDTORepository.getOne(id));
+	ResponseEntity<ChallengeRequest> getChallengeRequestWithId(@PathVariable int id) {
+		return ResponseEntity.ok(requestService.getChallengeRequestById(id));
 	}
 
 	@GetMapping("/battleId/{battleId}")
-	ResponseEntity<ChallengeRequestDTO> getChallengeRequestForBattle(@PathVariable int battleId) {
-		return ResponseEntity.ok(challengeRequestDTORepository.getChallengeRequestWithBattleId(battleId));
+	ResponseEntity<ChallengeRequest> getChallengeRequestForBattle(@PathVariable int battleId) {
+		return ResponseEntity.ok(requestService.cleanOutPasswords(challengeRequestRepository.getChallengeRequestWithBattleId(battleId)));
 	}
 }

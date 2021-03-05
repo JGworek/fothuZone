@@ -33,7 +33,7 @@ public class ChallengeRequestDTO implements Serializable {
 	@Column(name = "defender_id")
 	private int defendingUserId;
 	@Column(name = "resulting_battle")
-	private int resultingBattleId;
+	private Integer resultingBattleId;
 	@Column(name = "created_on")
 	private LocalDateTime createdOn;
 
