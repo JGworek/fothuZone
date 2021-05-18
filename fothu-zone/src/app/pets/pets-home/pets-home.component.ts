@@ -3,7 +3,6 @@ import { Component, OnInit } from "@angular/core";
 import { RxStompService } from "@stomp/ng2-stompjs";
 import { Battle } from "src/app/models/Battle";
 import { ChallengeRequest } from "src/app/models/ChallengeRequest";
-import { ChallengeRequestDTO } from "src/app/models/ChallengeRequestDTO";
 import { BattleService } from "src/app/service/battle.service";
 import { UserService } from "src/app/service/user.service";
 import { environment } from "src/environments/environment";

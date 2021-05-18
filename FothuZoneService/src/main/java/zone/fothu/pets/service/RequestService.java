@@ -9,23 +9,33 @@ import org.springframework.stereotype.Service;
 
 import zone.fothu.pets.model.adventure.Battle;
 import zone.fothu.pets.model.adventure.ChallengeRequest;
-import zone.fothu.pets.repository.BattleLogRepository;
+import zone.fothu.pets.model.adventure.Turn;
 import zone.fothu.pets.repository.BattleRepository;
 import zone.fothu.pets.repository.ChallengeRequestRepository;
+import zone.fothu.pets.repository.TurnRepository;
 
 @Service
 public class RequestService implements Serializable {
 
 	private static final long serialVersionUID = 1183483219260851540L;
 
-	@Autowired
-	ChallengeRequestRepository challengeRequestRepository;
-	@Autowired
-	BattleRepository battleRepository;
-	@Autowired
-	BattleLogRepository battleLogRepository;
+	private final ChallengeRequestRepository challengeRequestRepository;
+	private final BattleRepository battleRepository;
+	private final TurnRepository turnRepository;
+	private ChallengeRequest challengeRequestBean;
+	private Turn turnBean;
 
-	public List<ChallengeRequest> getAllChallengeRequestsForUser(int userId) {
+	@Autowired
+	public RequestService(ChallengeRequestRepository challengeRequestRepository, BattleRepository battleRepository, TurnRepository turnRepository, ChallengeRequest challengeRequestBean, Turn turnBean) {
+		super();
+		this.challengeRequestRepository = challengeRequestRepository;
+		this.battleRepository = battleRepository;
+		this.turnRepository = turnRepository;
+		this.challengeRequestBean = challengeRequestBean;
+		this.turnBean = turnBean;
+	}
+
+	public List<ChallengeRequest> getAllChallengeRequestsForUser(long userId) {
 		boolean anyExpired = false;
 		List<ChallengeRequest> challengeRequests = challengeRequestRepository.getAllPendingChallengeRequestsForUser(userId);
 		for (ChallengeRequest challengeRequest : challengeRequests) {
@@ -42,24 +52,21 @@ public class RequestService implements Serializable {
 		return challengeRequests;
 	}
 
-	public List<Battle> getAllCurrentPVPBattlesForUser(int userId) {
+	public List<Battle> getAllCurrentPVPBattlesForUser(long userId) {
 		boolean anyExpired = false;
 		List<Battle> currentBattles = battleRepository.getAllCurrentPVPBattlesForUser(userId);
 		for (Battle battle : currentBattles) {
 			if (battle.getCreatedOn().plusDays(14).isBefore(LocalDateTime.now())) {
 				anyExpired = true;
 				Battle currentBattle = battleRepository.findById(battle.getId()).get();
-				currentBattle.setBattleFinished(true);
-				currentBattle.setLosingPet(currentBattle.getCurrentTurnPet());
-				if (currentBattle.getCurrentTurnPet().getId() == currentBattle.getAttackingPet().getId()) {
-					currentBattle.setWinningPet(currentBattle.getDefendingPet());
-					battleLogRepository.saveNewBattleLog(currentBattle.getId(), battleLogRepository.findById(battleLogRepository.getLastBattleLogIdForBattle(currentBattle.getId())).get().getTurnNumber() + 1, currentBattle.getDefendingPet().getName() + " wins due to timeout!", currentBattle.getDefendingPet().getName() + " wins since " + currentBattle.getAttackingPet().getName() + ", failed to due anything before the battle timed out 14 days after creation.", true);
-
+				Turn lastTurn = turnRepository.getLastTurnForBattle(battle.getId());
+				if (currentBattle.getNextTurnUser().getId() == currentBattle.getAttackingUser().getId()) {
+					turnRepository.save(lastTurn.setBattleFinished(true));
+					battleRepository.save(currentBattle.setWinningUser(currentBattle.getDefendingUser()).setLosingUser(currentBattle.getAttackingUser()).setBattleFinished(true));
 				} else {
-					currentBattle.setWinningPet(currentBattle.getAttackingPet());
-					battleLogRepository.saveNewBattleLog(currentBattle.getId(), battleLogRepository.findById(battleLogRepository.getLastBattleLogIdForBattle(currentBattle.getId())).get().getTurnNumber() + 1, currentBattle.getAttackingPet().getName() + " wins due to timeout!", currentBattle.getAttackingPet().getName() + " wins since " + currentBattle.getDefendingPet().getName() + ", failed to due anything before the battle timed out 14 days after creation.", true);
+					turnRepository.save(lastTurn.setBattleFinished(true));
+					battleRepository.save(currentBattle.setWinningUser(currentBattle.getAttackingUser()).setLosingUser(currentBattle.getDefendingUser()).setBattleFinished(true));
 				}
-				battleRepository.save(currentBattle);
 			}
 		}
 		if (anyExpired = true) {
@@ -80,7 +87,7 @@ public class RequestService implements Serializable {
 		return challengeRequest;
 	}
 
-	public ChallengeRequest getChallengeRequestById(int id) {
+	public ChallengeRequest getChallengeRequestById(long id) {
 		ChallengeRequest challengeRequest = cleanOutPasswords(challengeRequestRepository.findById(id).get());
 		return challengeRequest;
 	}

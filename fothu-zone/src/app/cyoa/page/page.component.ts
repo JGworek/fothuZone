@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
+import { BattleService } from "src/app/service/battle.service";
 
 @Component({
 	selector: "app-page",
@@ -8,6 +9,8 @@ import { environment } from "src/environments/environment";
 	styleUrls: ["./page.component.css"],
 })
 export class PageComponent implements OnInit {
+	constructor(private battleService: BattleService) {}
+
 	page: any = {
 		id: 0,
 		pageNumber: 0,
@@ -24,8 +27,6 @@ export class PageComponent implements OnInit {
 
 	firstTry: boolean = true;
 	tryCounter = 0;
-
-	constructor(private http: HttpClient) {}
 
 	async getFirstPage(pageNumber) {
 		let response = await fetch(`${environment.fothuZoneEC2Link}/cyoapages/page/${pageNumber}`);

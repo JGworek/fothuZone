@@ -28,6 +28,14 @@ export class BattleComponent implements OnInit {
 		this.battleSubscription.unsubscribe();
 	}
 
+	isArrayEmpty(array: Array<any>) {
+		if (array.length == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	ngOnInit(): void {
 		this.subscribeToBattle(this.battleService.currentBattle.id);
 		console.log(this.battleService.currentBattle);
@@ -40,6 +48,7 @@ export class BattleComponent implements OnInit {
 				this.unsubscribeToBattle();
 			}
 		} else {
+			this.battleService.resetBattleServiceBattle();
 			this.unsubscribeToBattle();
 		}
 	}

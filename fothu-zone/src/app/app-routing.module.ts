@@ -39,7 +39,7 @@ const routes: Routes = [
 	{ path: "available", component: PetbarComponent, outlet: "petbar", canActivate: [UserGuard] },
 	{ path: "available", component: BattleComponent, outlet: "battles", canActivate: [UserGuard] },
 	{ path: "possible", component: LevelUpComponent, outlet: "levelUps", canActivate: [UserGuard] },
-	{ path: "signUp", component: SignUpComponent, canActivate: [!UserGuard] },
+	{ path: "signUp", component: SignUpComponent, canActivate: [UserGuard] },
 	// { path: '**', redirectTo: 'directory', pathMatch: 'full' },
 ];
 

@@ -1,5 +1,5 @@
 import { Battle } from "../models/Battle";
-import { ChallengeRequestDTO } from "../models/ChallengeRequestDTO";
+import { ChallengeRequest } from "../models/ChallengeRequest";
 
 import { Injectable } from "@angular/core";
 import { UserService } from "./user.service";
@@ -15,19 +15,10 @@ export class BattleService {
 	constructor(public userService: UserService, private RXStompService: RxStompService, private statusCodeService: StatusCodeService, private toastService: ToastService) {}
 	public stompClient;
 
-	currentChallengeRequest: ChallengeRequestDTO = {
+	currentChallengeRequest: ChallengeRequest = {
 		id: 0,
 		acceptedStatus: false,
 		rejectedStatus: false,
-		attackingUserId: 0,
-		defendingUserId: 0,
-		resultingBattleId: 0,
-		createdOn: "",
-	};
-
-	currentBattle: Battle = {
-		id: 0,
-		battleType: "",
 		attackingUser: {
 			id: 0,
 			username: "",
@@ -42,132 +33,100 @@ export class BattleService {
 			adminStatus: false,
 			pets: [],
 		},
-		attackingPet: {
+		resultingBattle: {
 			id: 0,
-			name: "",
-			image: { id: 0, imageURL: "" },
-			hunger: 0,
-			type: "",
-			agility: 0,
-			strength: 0,
-			intelligence: 0,
-			petLevel: 0,
-			currentXP: 0,
-			currentHealth: 0,
-			maxHealth: 0,
-			availableLevelUps: 0,
-			owner: {
+			battleType: "",
+			maxNumberOfAttackingPets: 0,
+			maxNumberOfDefendingPets: 0,
+			attackingUser: {
 				id: 0,
 				username: "",
 				favoriteColor: "",
 				adminStatus: false,
+				pets: [],
 			},
+			attackingBattlePets: [],
+			defendingUser: {
+				id: 0,
+				username: "",
+				favoriteColor: "",
+				adminStatus: false,
+				pets: [],
+			},
+			defendingBattlePets: [],
+			nextTurnUser: {
+				id: 0,
+				username: "",
+				favoriteColor: "",
+				adminStatus: false,
+				pets: [],
+			},
+			battleFinished: false,
+			winningUser: {
+				id: 0,
+				username: "",
+				favoriteColor: "",
+				adminStatus: false,
+				pets: [],
+			},
+			losingUser: {
+				id: 0,
+				username: "",
+				favoriteColor: "",
+				adminStatus: false,
+				pets: [],
+			},
+			createdOn: ",",
+			turns: [],
 		},
-		defendingPet: {
+		createdOn: "",
+	};
+
+	currentBattle: Battle = {
+		id: 0,
+		battleType: "",
+		maxNumberOfAttackingPets: 0,
+		maxNumberOfDefendingPets: 0,
+		attackingUser: {
 			id: 0,
-			name: "",
-			image: {
-				id: 0,
-				imageURL: "",
-			},
-			hunger: 0,
-			type: "",
-			agility: 0,
-			strength: 0,
-			intelligence: 0,
-			petLevel: 0,
-			currentXP: 0,
-			currentHealth: 0,
-			maxHealth: 0,
-			availableLevelUps: 0,
-			owner: {
-				id: 0,
-				username: "",
-				favoriteColor: "",
-				adminStatus: false,
-			},
+			username: "",
+			favoriteColor: "",
+			adminStatus: false,
+			pets: [],
 		},
-		winningPet: {
+		attackingBattlePets: [],
+		defendingUser: {
 			id: 0,
-			name: "",
-			image: { id: 0, imageURL: "" },
-			hunger: 0,
-			type: "",
-			agility: 0,
-			strength: 0,
-			intelligence: 0,
-			petLevel: 0,
-			currentXP: 0,
-			currentHealth: 0,
-			maxHealth: 0,
-			availableLevelUps: 0,
-			owner: {
-				id: 0,
-				username: "",
-				favoriteColor: "",
-				adminStatus: false,
-			},
+			username: "",
+			favoriteColor: "",
+			adminStatus: false,
+			pets: [],
 		},
-		losingPet: {
+		defendingBattlePets: [],
+		nextTurnUser: {
 			id: 0,
-			name: "",
-			image: { id: 0, imageURL: "" },
-			hunger: 0,
-			type: "",
-			agility: 0,
-			strength: 0,
-			intelligence: 0,
-			petLevel: 0,
-			currentXP: 0,
-			currentHealth: 0,
-			maxHealth: 0,
-			availableLevelUps: 0,
-			owner: {
-				id: 0,
-				username: "",
-				favoriteColor: "",
-				adminStatus: false,
-			},
-		},
-		attackingPetCurrentHealth: 0,
-		defendingPetCurrentHealth: 0,
-		attackingPetCurrentAttackModifier: 0,
-		defendingPetCurrentAttackModifier: 0,
-		attackingPetCurrentArmorModifier: 0,
-		defendingPetCurrentArmorModifier: 0,
-		attackingPetCurrentAccuracyModifier: 0,
-		defendingPetCurrentAccuracyModifier: 0,
-		attackingPetBaseAttackPower: 0,
-		defendingPetBaseAttackPower: 0,
-		attackingPetBaseArmor: 0,
-		defendingPetBaseArmor: 0,
-		attackingPetBaseSpeed: 0,
-		defendingPetBaseSpeed: 0,
-		currentTurnCount: 0,
-		currentTurnPet: {
-			id: 0,
-			name: "",
-			image: { id: 0, imageURL: "" },
-			hunger: 0,
-			type: "",
-			agility: 0,
-			strength: 0,
-			intelligence: 0,
-			petLevel: 0,
-			currentXP: 0,
-			currentHealth: 0,
-			maxHealth: 0,
-			availableLevelUps: 0,
-			owner: {
-				id: 0,
-				username: "",
-				favoriteColor: "",
-				adminStatus: false,
-			},
+			username: "",
+			favoriteColor: "",
+			adminStatus: false,
+			pets: [],
 		},
 		battleFinished: false,
+		winningUser: {
+			id: 0,
+			username: "",
+			favoriteColor: "",
+			adminStatus: false,
+			pets: [],
+		},
+		losingUser: {
+			id: 0,
+			username: "",
+			favoriteColor: "",
+			adminStatus: false,
+			pets: [],
+		},
 		createdOn: ",",
-		battleLogs: [],
+		turns: [],
 	};
 
 	async getPVEBattle(battleId: number) {
@@ -201,54 +160,88 @@ export class BattleService {
 	}
 
 	setAttackingPVPPet(battleId: number, attackingPetId: number) {
-		this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/pvp/battleId/${battleId}/setAttackingPetId/${attackingPetId}`, body: `${this.userService.currentUser.id}` });
+		if (this.currentBattle.attackingBattlePets.length < 1) {
+			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/setStartingAttackingPet/${attackingPetId}`, body: `${this.userService.currentUser.id}` });
+		} else {
+			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/setAttackingPet/${attackingPetId}`, body: `${this.userService.currentUser.id}` });
+		}
 	}
 
 	setDefendingPVPPet(battleId: number, defendingPetId: number) {
-		this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/pvp/battleId/${battleId}/setDefendingPetId/${defendingPetId}`, body: `${this.userService.currentUser.id}` });
+		if (this.currentBattle.defendingBattlePets.length < 1) {
+			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/setStartingDefendingPet/${defendingPetId}`, body: `${this.userService.currentUser.id}` });
+		} else {
+			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/setDefendingPet/${defendingPetId}`, body: `${this.userService.currentUser.id}` });
+		}
 	}
 
 	async createPVEBattle(userId: number, defendingPetId: number) {
-		let newPVEBattleJSON = await fetch(`${environment.fothuZoneEC2Link}/battles/pve/new/userId/${userId}/defendingPetId/${defendingPetId}`, { method: "POST" });
+		let newPVEBattleJSON = await fetch(`${environment.fothuZoneEC2Link}/battles/new/userId/${userId}/defendingPetId/${defendingPetId}/pve`, { method: "POST" });
 		this.currentBattle = await newPVEBattleJSON.json();
 	}
 
-	attack(battleId: number, actingPetId: number) {
-		if (this.currentBattle.attackingPet.id == actingPetId) {
-			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/attackingPet/petId/${actingPetId}/attack`, body: `${this.userService.currentUser.id}` });
+	attack(battleId: number) {
+		if (this.currentBattle.attackingUser.id == this.userService.currentUser.id) {
+			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/attackingUser/userId/${this.userService.currentUser.id}/attack` });
 		} else {
-			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/defendingPet/petId/${actingPetId}/attack`, body: `${this.userService.currentUser.id}` });
+			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/defendingUser/userId/${this.userService.currentUser.id}/attack` });
 		}
 	}
 
-	defend(battleId: number, actingPetId: number) {
-		if (this.currentBattle.attackingPet.id == actingPetId) {
-			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/attackingPet/petId/${actingPetId}/defend`, body: `${this.userService.currentUser.id}` });
+	defend(battleId: number) {
+		if (this.currentBattle.attackingUser.id == this.userService.currentUser.id) {
+			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/attackingUser/userId/${this.userService.currentUser.id}/defend` });
 		} else {
-			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/defendingPet/petId/${actingPetId}/defend`, body: `${this.userService.currentUser.id}` });
+			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/defendingUser/userId/${this.userService.currentUser.id}/defend` });
 		}
 	}
 
-	aim(battleId: number, actingPetId: number) {
-		if (this.currentBattle.attackingPet.id == actingPetId) {
-			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/attackingPet/petId/${actingPetId}/aim`, body: `${this.userService.currentUser.id}` });
+	aim(battleId: number) {
+		if (this.currentBattle.attackingUser.id == this.userService.currentUser.id) {
+			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/attackingUser/userId/${this.userService.currentUser.id}/aim` });
 		} else {
-			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/defendingPet/petId/${actingPetId}/aim`, body: `${this.userService.currentUser.id}` });
+			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/defendingUser/userId/${this.userService.currentUser.id}/aim` });
 		}
 	}
 
-	sharpen(battleId: number, actingPetId: number) {
-		if (this.currentBattle.attackingPet.id == actingPetId) {
-			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/attackingPet/petId/${actingPetId}/sharpen`, body: `${this.userService.currentUser.id}` });
+	sharpen(battleId: number) {
+		if (this.currentBattle.attackingUser.id == this.userService.currentUser.id) {
+			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/attackingUser/userId/${this.userService.currentUser.id}/sharpen` });
 		} else {
-			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/defendingPet/petId/${actingPetId}/sharpen`, body: `${this.userService.currentUser.id}` });
+			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/defendingUser/userId/${this.userService.currentUser.id}/sharpen` });
 		}
 	}
 
-	closePVPBattle() {
+	evade(battleId: number) {
+		if (this.currentBattle.attackingUser.id == this.userService.currentUser.id) {
+			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/attackingUser/userId/${this.userService.currentUser.id}/evade` });
+		} else {
+			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/defendingUser/userId/${this.userService.currentUser.id}/evade` });
+		}
+	}
+
+	swap(battleId: number, petId: number) {
+		if (this.currentBattle.attackingUser.id == this.userService.currentUser.id) {
+			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/swapAttackingPet/${petId}` });
+		} else {
+			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/swapDefendingPet/${petId}` });
+		}
+	}
+
+	replaceDeadPet(battleId: number, deadPetId: number, newPetId: number) {
+		if (this.currentBattle.attackingUser.id == this.userService.currentUser.id) {
+			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/replaceDeadAttackingPet/${deadPetId}/newAttackingPet/${newPetId}` });
+		} else {
+			this.RXStompService.publish({ destination: `fothuZoneSendPoint/battles/battleId/${battleId}/replaceDeadDefendingPet/${deadPetId}/newAttackingPet/${newPetId}` });
+		}
+	}
+
+	resetBattleServiceBattle() {
 		this.currentBattle = {
 			id: 0,
 			battleType: "",
+			maxNumberOfAttackingPets: 0,
+			maxNumberOfDefendingPets: 0,
 			attackingUser: {
 				id: 0,
 				username: "",
@@ -256,6 +249,7 @@ export class BattleService {
 				adminStatus: false,
 				pets: [],
 			},
+			attackingBattlePets: [],
 			defendingUser: {
 				id: 0,
 				username: "",
@@ -263,132 +257,31 @@ export class BattleService {
 				adminStatus: false,
 				pets: [],
 			},
-			attackingPet: {
+			defendingBattlePets: [],
+			nextTurnUser: {
 				id: 0,
-				name: "",
-				image: { id: 0, imageURL: "" },
-				hunger: 0,
-				type: "",
-				agility: 0,
-				strength: 0,
-				intelligence: 0,
-				petLevel: 0,
-				currentXP: 0,
-				currentHealth: 0,
-				maxHealth: 0,
-				availableLevelUps: 0,
-				owner: {
-					id: 0,
-					username: "",
-					favoriteColor: "",
-					adminStatus: false,
-				},
-			},
-			defendingPet: {
-				id: 0,
-				name: "",
-				image: {
-					id: 0,
-					imageURL: "",
-				},
-				hunger: 0,
-				type: "",
-				agility: 0,
-				strength: 0,
-				intelligence: 0,
-				petLevel: 0,
-				currentXP: 0,
-				currentHealth: 0,
-				maxHealth: 0,
-				availableLevelUps: 0,
-				owner: {
-					id: 0,
-					username: "",
-					favoriteColor: "",
-					adminStatus: false,
-				},
-			},
-			winningPet: {
-				id: 0,
-				name: "",
-				image: { id: 0, imageURL: "" },
-				hunger: 0,
-				type: "",
-				agility: 0,
-				strength: 0,
-				intelligence: 0,
-				petLevel: 0,
-				currentXP: 0,
-				currentHealth: 0,
-				maxHealth: 0,
-				availableLevelUps: 0,
-				owner: {
-					id: 0,
-					username: "",
-					favoriteColor: "",
-					adminStatus: false,
-				},
-			},
-			losingPet: {
-				id: 0,
-				name: "",
-				image: { id: 0, imageURL: "" },
-				hunger: 0,
-				type: "",
-				agility: 0,
-				strength: 0,
-				intelligence: 0,
-				petLevel: 0,
-				currentXP: 0,
-				currentHealth: 0,
-				maxHealth: 0,
-				availableLevelUps: 0,
-				owner: {
-					id: 0,
-					username: "",
-					favoriteColor: "",
-					adminStatus: false,
-				},
-			},
-			attackingPetCurrentHealth: 0,
-			defendingPetCurrentHealth: 0,
-			attackingPetCurrentAttackModifier: 0,
-			defendingPetCurrentAttackModifier: 0,
-			attackingPetCurrentArmorModifier: 0,
-			defendingPetCurrentArmorModifier: 0,
-			attackingPetCurrentAccuracyModifier: 0,
-			defendingPetCurrentAccuracyModifier: 0,
-			attackingPetBaseAttackPower: 0,
-			defendingPetBaseAttackPower: 0,
-			attackingPetBaseArmor: 0,
-			defendingPetBaseArmor: 0,
-			attackingPetBaseSpeed: 0,
-			defendingPetBaseSpeed: 0,
-			currentTurnCount: 0,
-			currentTurnPet: {
-				id: 0,
-				name: "",
-				image: { id: 0, imageURL: "" },
-				hunger: 0,
-				type: "",
-				agility: 0,
-				strength: 0,
-				intelligence: 0,
-				petLevel: 0,
-				currentXP: 0,
-				currentHealth: 0,
-				maxHealth: 0,
-				availableLevelUps: 0,
-				owner: {
-					id: 0,
-					username: "",
-					favoriteColor: "",
-					adminStatus: false,
-				},
+				username: "",
+				favoriteColor: "",
+				adminStatus: false,
+				pets: [],
 			},
 			battleFinished: false,
+			winningUser: {
+				id: 0,
+				username: "",
+				favoriteColor: "",
+				adminStatus: false,
+				pets: [],
+			},
+			losingUser: {
+				id: 0,
+				username: "",
+				favoriteColor: "",
+				adminStatus: false,
+				pets: [],
+			},
 			createdOn: ",",
-			battleLogs: [],
+			turns: [],
 		};
 	}
 

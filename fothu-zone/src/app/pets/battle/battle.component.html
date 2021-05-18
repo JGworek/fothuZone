@@ -5,36 +5,35 @@
 			<br />
 			<br />
 			<div class="container-fluid">
-				<!-- make text numbers hidden if the pet's user id does not match yours -->
-				<!-- make buttons hidden if the pet's user id does not match yours -->
 				<div class="row">
 					<div
 						[ngClass]="{ 'col-12 col-md-4 battle-pets bg-dark-fothu rounded': true, 'order-last': this.userService.currentUser.id == this.battleService.currentBattle.defendingUser.id }"
 						[ngStyle]="{
 							'box-shadow':
-								(this.battleService.currentBattle.attackingUser.id == this.battleService.currentBattle.currentTurnPet.owner.id && !this.battleService.currentBattle.battleFinished) || (this.battleService.currentBattle.winningPet.owner.id == this.battleService.currentBattle.attackingUser.id && this.battleService.currentBattle.battleFinished)
+								(this.battleService.currentBattle.attackingUser.id == this.battleService.currentBattle.nextTurnUser.id && !this.battleService.currentBattle.battleFinished) || (this.battleService.currentBattle.winningUser.id == this.battleService.currentBattle.attackingUser.id && this.battleService.currentBattle.battleFinished)
 									? '0px 0px 70px ' + this.battleService.currentBattle.attackingUser.favoriteColor
 									: ''
 						}"
 					>
-						<div *ngIf="!this.battleService.currentBattle.attackingPet.id">
-							<div class="petcenter" [ngStyle]="{ visibility: this.battleService.currentBattle.attackingUser.id == this.userService.currentUser.id && !this.battleService.currentBattle.attackingPet.id ? 'hidden' : 'visible' }">
+						<div *ngIf="isArrayEmpty(this.battleService.currentBattle.attackingBattlePets) || this.battleService.currentBattle.attackingBattlePets.length != this.battleService.currentBattle.maxNumberOfAttackingPets">
+							<div class="petcenter" [ngStyle]="{ visibility: this.battleService.currentBattle.attackingUser.id == this.userService.currentUser.id ? 'hidden' : 'visible' }">
 								<br />
 								<br />
 								<br />
-								<h4 class="text-white">{{ this.battleService.currentBattle.attackingUser.username }} is still selecting a pet.</h4>
+								<h4 class="text-white">{{ this.battleService.currentBattle.attackingUser.username }} is still selecting {{ this.battleService.currentBattle.maxNumberOfAttackingPets > 1 ? "their pets" : "a pet" }}</h4>
 							</div>
-							<div class="petcenter" [ngStyle]="{ visibility: this.battleService.currentBattle.attackingUser.id == this.userService.currentUser.id && !this.battleService.currentBattle.attackingPet.id ? 'visible' : 'hidden' }">
+							<div class="petcenter" [ngStyle]="{ visibility: this.battleService.currentBattle.attackingUser.id != this.userService.currentUser.id ? 'hidden' : 'visible' }">
 								<br />
 								<div class="row">
 									<div class="col-12">
-										<h4 class="text-white">Select your figher:</h4>
+										<h4 class="text-white">{{ this.battleService.currentBattle.attackingBattlePets.length < 1 && this.battleService.currentBattle.maxNumberOfAttackingPets > 1 ? "Select your first fighter:" : this.battleService.currentBattle.maxNumberOfAttackingPets > 1 ? "Select your remaining fighters:" : "Select your fighter:" }}</h4>
 										<br />
 										<br />
 										<br />
 									</div>
 									<div class="col-4" *ngFor="let pet of userService.currentUser.pets">
 										<button
+											*ngIf="pet.id != this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet"
 											[ngClass]="{ 'btn text-white mx-1': true, ' btn-success-fothu bg-success-fothu': (this.battleService.currentBattle.battleType == 'pvp' || pet.currentHealth) > 0, 'btn-light-fothu bg-light-fothu disabled': this.battleService.currentBattle.battleType == 'pve' && pet.currentHealth == 0 }"
 											(click)="this.battleService.setAttackingPVPPet(this.battleService.currentBattle.id, pet.id)"
 										>
@@ -47,85 +46,114 @@
 								</div>
 							</div>
 						</div>
-						<div *ngIf="this.battleService.currentBattle.attackingPet.id">
+						<div *ngIf="!isArrayEmpty(this.battleService.currentBattle.attackingBattlePets) && this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet.id && this.battleService.currentBattle.maxNumberOfAttackingPets == this.battleService.currentBattle.attackingBattlePets.length">
 							<br />
-							<h4 class="text-white">{{ this.battleService.currentBattle.attackingPet.name }}</h4>
+							<h4 class="text-white">{{ this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet.name }}</h4>
 							<br />
 							<div class="d-none d-xl-block">
 								<div [ngClass]="['big-pet-background img-responsive center-block mx-auto petcenter', this.battleService.currentBattle.attackingUser.favoriteColor]">
-									<img class="big-pet-image" [src]="this.battleService.currentBattle.attackingPet.image.imageURL" [alt]="this.battleService.currentBattle.attackingPet.name" />
+									<img class="big-pet-image" [src]="this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet.image.imageURL" [alt]="this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet.name" />
 								</div>
 							</div>
 							<div class="d-block d-xl-none">
 								<div [ngClass]="['medium-pet-background img-responsive center-block mx-auto petcenter', this.battleService.currentBattle.attackingUser.favoriteColor]">
-									<img class="medium-pet-image" [src]="this.battleService.currentBattle.attackingPet.image.imageURL" [alt]="this.battleService.currentBattle.attackingPet.name" />
+									<img class="medium-pet-image" [src]="this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet.image.imageURL" [alt]="this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet.name" />
 								</div>
 							</div>
 							<div class="d-none d-xl-block">
 								<div class="progress border border-dark wrapper big-pet-battle-health-bar mx-auto">
 									<div
-										[class]="userService.getHealthBarColor(((this.battleService.currentBattle.attackingPetCurrentHealth / this.battleService.currentBattle.attackingPet.maxHealth) * 100).toFixed(0))"
-										[ngStyle]="{ width: ((this.battleService.currentBattle.attackingPetCurrentHealth / this.battleService.currentBattle.attackingPet.maxHealth) * 100).toFixed(0) + '%', 'font-size': 'small', color: 'black', height: '50px' }"
+										[class]="userService.getHealthBarColor(((this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPetCurrentHealth / this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet.maxHealth) * 100).toFixed(0))"
+										[ngStyle]="{ width: ((this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPetCurrentHealth / this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet.maxHealth) * 100).toFixed(0) + '%', 'font-size': 'small', color: 'black', height: '50px' }"
 									></div>
-									<h4 class="big-data" [ngStyle]="{ visibility: this.battleService.currentBattle.attackingUser.id == this.userService.currentUser.id ? 'visible' : 'hidden' }">{{ this.battleService.currentBattle.attackingPetCurrentHealth }}/{{ this.battleService.currentBattle.attackingPet.maxHealth }} HP</h4>
+									<h4 class="big-data" [ngStyle]="{ visibility: this.battleService.currentBattle.attackingUser.id == this.userService.currentUser.id ? 'visible' : 'hidden' }">
+										{{ this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPetCurrentHealth }}/{{ this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet.maxHealth }} HP
+									</h4>
 								</div>
 							</div>
 							<div class="d-block d-xl-none">
 								<div class="progress border border-dark wrapper medium-pet-battle-health-bar mx-auto">
 									<div
-										[class]="userService.getHealthBarColor(((this.battleService.currentBattle.attackingPetCurrentHealth / this.battleService.currentBattle.attackingPet.maxHealth) * 100).toFixed(0))"
-										[ngStyle]="{ width: ((this.battleService.currentBattle.attackingPetCurrentHealth / this.battleService.currentBattle.attackingPet.maxHealth) * 100).toFixed(0) + '%', 'font-size': 'small', color: 'black', height: '50px' }"
+										[class]="userService.getHealthBarColor(((this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPetCurrentHealth / this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet.maxHealth) * 100).toFixed(0))"
+										[ngStyle]="{ width: ((this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPetCurrentHealth / this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet.maxHealth) * 100).toFixed(0) + '%', 'font-size': 'small', color: 'black', height: '50px' }"
 									></div>
-									<h4 class="big-data" [ngStyle]="{ visibility: this.battleService.currentBattle.attackingUser.id == this.userService.currentUser.id ? 'visible' : 'hidden' }">{{ this.battleService.currentBattle.attackingPetCurrentHealth }}/{{ this.battleService.currentBattle.attackingPet.maxHealth }} HP</h4>
+									<h4 class="big-data" [ngStyle]="{ visibility: this.battleService.currentBattle.attackingUser.id == this.userService.currentUser.id ? 'visible' : 'hidden' }">
+										{{ this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPetCurrentHealth }}/{{ this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet.maxHealth }} HP
+									</h4>
 								</div>
 							</div>
 							<br />
-							<div class="action-buttons" [ngStyle]="{ visibility: this.battleService.currentBattle.attackingUser.id == this.userService.currentUser.id && this.battleService.currentBattle.currentTurnPet.id == this.battleService.currentBattle.attackingPet.id ? 'visible' : 'hidden' }">
-								<div class="btn-group-vertical btn-group-lg m-1">
-									<button class="btn btn-secondary-fothu bg-secondary-fothu battle-button text-white m-1" (click)="this.battleService.attack(this.battleService.currentBattle.id, this.battleService.currentBattle.attackingPet.id)">Attack</button>
-									<button class="btn btn-primary battle-button m-1" (click)="this.battleService.aim(this.battleService.currentBattle.id, this.battleService.currentBattle.attackingPet.id)">Aim</button>
+							<div class="action-buttons row justify-content-md-center" [ngStyle]="{ visibility: this.battleService.currentBattle.attackingUser.id == this.userService.currentUser.id && this.battleService.currentBattle.nextTurnUser.id == this.battleService.currentBattle.attackingUser.id && !this.battleService.currentBattle.battleFinished ? 'visible' : 'hidden' }">
+								<div class="btn-group-vertical btn-group-lg m-1 col-5">
+									<button class="btn btn-danger battle-button text-white m-1" (click)="this.battleService.defend(this.battleService.currentBattle.id)">Defend</button>
+									<button class="btn btn-success battle-button text-white m-1" (click)="this.battleService.evade(this.battleService.currentBattle.id)">Evade</button>
 								</div>
-								<div class="btn-group-vertical btn-group-lg m-1">
-									<button class="btn btn-danger battle-button text-white m-1" (click)="this.battleService.defend(this.battleService.currentBattle.id, this.battleService.currentBattle.attackingPet.id)">Defend</button>
-									<button class="btn btn-success battle-button m-1" (click)="this.battleService.sharpen(this.battleService.currentBattle.id, this.battleService.currentBattle.attackingPet.id)">Sharpen</button>
+								<div class="btn-group-vertical btn-group-lg m-1 col-5">
+									<button class="btn btn-primary battle-button m-1" (click)="this.battleService.aim(this.battleService.currentBattle.id)">Aim</button>
+									<button class="btn btn-light battle-button m-1" (click)="this.battleService.sharpen(this.battleService.currentBattle.id)">Sharpen</button>
+								</div>
+								<div class="btn-group-vertical btn-group-lg m-1 col-11">
+									<button class="btn btn-success-fothu bg-success-fothu battle-button text-white m-1" (click)="this.battleService.attack(this.battleService.currentBattle.id)">Attack</button>
 								</div>
 							</div>
 							<br />
 							<div class="row" [ngStyle]="{ visibility: this.battleService.currentBattle.attackingUser.id == this.userService.currentUser.id ? 'visible' : 'hidden' }">
-								<div class="col-4 text-white">Armor</div>
-								<div class="col-4 text-white">Accuracy</div>
-								<div class="col-4 text-white">Attack</div>
+								<div class="col-3 text-white">Armor</div>
+								<div class="col-3 text-white">Accuracy</div>
+								<div class="col-3 text-white">Evasion</div>
+								<div class="col-3 text-white">Attack</div>
 							</div>
 							<div class="row" [ngStyle]="{ visibility: this.battleService.currentBattle.attackingUser.id == this.userService.currentUser.id ? 'visible' : 'hidden' }">
-								<div class="col-4 text-white">{{ this.battleService.currentBattle.attackingPetCurrentArmorModifier }}x</div>
-								<div class="col-4 text-white">{{ this.battleService.currentBattle.attackingPetCurrentAccuracyModifier }}x</div>
-								<div class="col-4 text-white">{{ this.battleService.currentBattle.attackingPetCurrentAttackModifier }}x</div>
+								<div class="col-3 text-white">{{ this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPetArmorModifier }}x</div>
+								<div class="col-3 text-white">{{ this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPetAccuracyModifier }}x</div>
+								<div class="col-3 text-white">{{ this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPetEvasionModifier }}x</div>
+								<div class="col-3 text-white">{{ this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPetAttackModifier }}x</div>
 							</div>
 							<br />
+							<div class="row" [ngStyle]="{ visibility: this.battleService.currentBattle.attackingUser.id == this.userService.currentUser.id && this.battleService.currentBattle.maxNumberOfAttackingPets > 1 ? 'visible' : 'hidden' }" *ngFor="let battlePet of this.battleService.currentBattle.attackingBattlePets">
+								<button
+									*ngIf="this.battlePet.pet.id != this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet.id"
+									[ngClass]="{ 'btn text-white mx-1': true, ' btn-success-fothu bg-success-fothu': battlePet.pet.currentHealth > 0, 'btn-light-fothu bg-light-fothu disabled': battlePet.pet.currentHealth == 0 }"
+									(click)="this.battleService.setAttackingPVPPet(this.battleService.currentBattle.id, battlePet.pet.id)"
+								>
+									{{ battlePet.pet.name }}
+								</button>
+							</div>
 						</div>
 					</div>
 					<div class="col-12 col-md-4 battle-pets">
 						<h4>&nbsp;</h4>
-						<div *ngIf="!this.battleService.currentBattle.attackingPet.id || !this.battleService.currentBattle.defendingPet.id">
+						<div
+							*ngIf="
+								(isArrayEmpty(this.battleService.currentBattle.attackingBattlePets) && isArrayEmpty(this.battleService.currentBattle.defendingBattlePets)) ||
+								this.battleService.currentBattle.maxNumberOfAttackingPets > this.battleService.currentBattle.attackingBattlePets.length ||
+								this.battleService.currentBattle.maxNumberOfDefendingPets > this.battleService.currentBattle.defendingBattlePets.length
+							"
+						>
 							<hr />
 							<br />
-							<h4>Waiting for 1 or more user to select a pet for battle.</h4>
+							<h4>Waiting for 1 or more user to finish selecting pets for battle.</h4>
 							<hr />
 						</div>
-						<div *ngIf="this.battleService.currentBattle.attackingPet.id && this.battleService.currentBattle.defendingPet.id && !this.battleService.currentBattle.battleFinished">
-							<h4 *ngIf="this.battleService.currentBattle.battleLogs.length == 0">Waiting for {{ this.battleService.currentBattle.currentTurnPet.name }} to make the first move!</h4>
+						<div
+							*ngIf="
+								(!isArrayEmpty(this.battleService.currentBattle.attackingBattlePets) && this.battleService.currentBattle.maxNumberOfAttackingPets == this.battleService.currentBattle.attackingBattlePets.length && !this.battleService.currentBattle.battleFinished) ||
+								(!isArrayEmpty(this.battleService.currentBattle.defendingBattlePets) && this.battleService.currentBattle.maxNumberOfDefendingPets == this.battleService.currentBattle.defendingBattlePets.length && !this.battleService.currentBattle.battleFinished)
+							"
+						>
+							<h4 *ngIf="this.battleService.currentBattle.turns.length == 0">Waiting for {{ this.battleService.currentBattle.nextTurnUser.username }} to make the first move!</h4>
 							<hr />
-							<div *ngFor="let battleLog of this.battleService.currentBattle.battleLogs; let i = index">
-								<br *ngIf="i > this.battleService.currentBattle.battleLogs.length - 3" />
-								<h4 *ngIf="i > this.battleService.currentBattle.battleLogs.length - 3">{{ battleLog.turnFlavorText }}</h4>
-								<br *ngIf="i > this.battleService.currentBattle.battleLogs.length - 3" />
-								<hr *ngIf="i > this.battleService.currentBattle.battleLogs.length - 3" />
+							<div *ngFor="let battleLog of this.battleService.currentBattle.turns; let i = index">
+								<br *ngIf="i > this.battleService.currentBattle.turns.length - 2" />
+								<h4 *ngIf="i > this.battleService.currentBattle.turns.length - 2 && this.battleService.currentBattle.turns[i].turnFlavorText">{{ battleLog.turnFlavorText }}</h4>
+								<br *ngIf="i > this.battleService.currentBattle.turns.length - 2" />
+								<hr *ngIf="i > this.battleService.currentBattle.turns.length - 2" />
 							</div>
 						</div>
 						<div *ngIf="this.battleService.currentBattle.battleFinished">
 							<hr />
 							<br />
-							<h4>{{ this.battleService.currentBattle.winningPet.name }} Wins!</h4>
+							<h4>{{ this.battleService.currentBattle.winningUser.username }} Wins!</h4>
 							<br />
 							<hr />
 						</div>
@@ -135,23 +163,31 @@
 						[ngClass]="{ 'col-12 col-md-4 battle-pets bg-dark-fothu rounded': true, 'order-first': this.userService.currentUser.id == this.battleService.currentBattle.defendingUser.id }"
 						[ngStyle]="{
 							'box-shadow':
-								(this.battleService.currentBattle.defendingUser.id == this.battleService.currentBattle.currentTurnPet.owner.id && !this.battleService.currentBattle.battleFinished) || (this.battleService.currentBattle.winningPet.owner.id == this.battleService.currentBattle.defendingUser.id && this.battleService.currentBattle.battleFinished)
+								(this.battleService.currentBattle.defendingUser.id == this.battleService.currentBattle.nextTurnUser.id && !this.battleService.currentBattle.battleFinished) || (this.battleService.currentBattle.winningUser.id == this.battleService.currentBattle.defendingUser.id && this.battleService.currentBattle.battleFinished)
 									? '0px 0px 70px ' + this.battleService.currentBattle.defendingUser.favoriteColor
 									: ''
 						}"
 					>
-						<div *ngIf="!this.battleService.currentBattle.defendingPet.id">
-							<div class="petcenter" [ngStyle]="{ visibility: this.battleService.currentBattle.defendingUser.id == this.userService.currentUser.id && !this.battleService.currentBattle.defendingPet.id ? 'hidden' : 'visible' }">
+						<div *ngIf="isArrayEmpty(this.battleService.currentBattle.defendingBattlePets) || this.battleService.currentBattle.defendingBattlePets.length != this.battleService.currentBattle.maxNumberOfDefendingPets">
+							<div class="petcenter" *ngIf="this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet">
 								<br />
 								<br />
 								<br />
-								<h4 class="text-white">{{ this.battleService.currentBattle.defendingUser.username }} is still selecting a pet.</h4>
+								<h4 class="text-white">{{ this.battleService.currentBattle.defendingUser.username }} is still selecting {{ this.battleService.currentBattle.maxNumberOfDefendingPets > 1 ? "their pets" : "a pet" }}</h4>
 							</div>
-							<div class="petcenter" [ngStyle]="{ visibility: this.battleService.currentBattle.defendingUser.id == this.userService.currentUser.id && !this.battleService.currentBattle.defendingPet.id ? 'visible' : 'hidden' }">
+							<div class="petcenter" *ngIf="!this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet">
+								<br />
+								<br />
+								<br />
+								<h4 class="text-white">Waiting for {{ this.battleService.currentBattle.attackingUser.username }} to select their first pet.</h4>
+							</div>
+							<div class="petcenter" [ngStyle]="{ visibility: this.battleService.currentBattle.defendingUser.id == this.userService.currentUser.id && this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet ? 'visible' : 'hidden' }">
 								<br />
 								<div class="row">
 									<div class="col-12">
-										<h4 class="text-white">Select your figher:</h4>
+										<h4 class="text-white">
+											{{ this.battleService.currentBattle.defendingBattlePets.length < 1 && this.battleService.currentBattle.maxNumberOfDefendingPets > 1 ? "Select your first fighter:" : this.battleService.currentBattle.maxNumberOfDefendingPets > 1 ? "Select your remaining fighters:" : "Select your fighter:" }}
+										</h4>
 										<br />
 										<br />
 										<br />
@@ -170,61 +206,79 @@
 								</div>
 							</div>
 						</div>
-						<div *ngIf="this.battleService.currentBattle.defendingPet.id">
+						<div *ngIf="!isArrayEmpty(this.battleService.currentBattle.defendingBattlePets) && this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].defendingPet.id && this.battleService.currentBattle.maxNumberOfDefendingPets == this.battleService.currentBattle.defendingBattlePets.length">
 							<br />
-							<h4 class="text-white">{{ this.battleService.currentBattle.defendingPet.name }}</h4>
+							<h4 class="text-white">{{ this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].defendingPet.name }}</h4>
 							<br />
 							<div class="d-none d-xl-block">
 								<div [ngClass]="['big-pet-background img-responsive center-block mx-auto petcenter', this.battleService.currentBattle.defendingUser.favoriteColor]">
-									<img class="big-pet-image" [src]="this.battleService.currentBattle.defendingPet.image.imageURL" [alt]="this.battleService.currentBattle.defendingPet.name" />
+									<img class="big-pet-image" [src]="this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].defendingPet.image.imageURL" [alt]="this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].defendingPet.name" />
 								</div>
 							</div>
 							<div class="d-block d-xl-none">
 								<div [ngClass]="['medium-pet-background img-responsive center-block mx-auto petcenter', this.battleService.currentBattle.defendingUser.favoriteColor]">
-									<img class="medium-pet-image" [src]="this.battleService.currentBattle.defendingPet.image.imageURL" [alt]="this.battleService.currentBattle.defendingPet.name" />
+									<img class="medium-pet-image" [src]="this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].defendingPet.image.imageURL" [alt]="this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].defendingPet.name" />
 								</div>
 							</div>
 							<div class="d-none d-xl-block">
 								<div class="progress border border-dark wrapper big-pet-battle-health-bar mx-auto">
 									<div
-										[class]="userService.getHealthBarColor(((this.battleService.currentBattle.defendingPetCurrentHealth / this.battleService.currentBattle.defendingPet.maxHealth) * 100).toFixed(0))"
-										[ngStyle]="{ width: ((this.battleService.currentBattle.defendingPetCurrentHealth / this.battleService.currentBattle.defendingPet.maxHealth) * 100).toFixed(0) + '%', 'font-size': 'small', color: 'black', height: '50px' }"
+										[class]="userService.getHealthBarColor(((this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].defendingPetCurrentHealth / this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].defendingPet.maxHealth) * 100).toFixed(0))"
+										[ngStyle]="{ width: ((this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].defendingPetCurrentHealth / this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].defendingPet.maxHealth) * 100).toFixed(0) + '%', 'font-size': 'small', color: 'black', height: '50px' }"
 									></div>
-									<h4 class="big-data" [ngStyle]="{ visibility: this.battleService.currentBattle.defendingUser.id == this.userService.currentUser.id ? 'visible' : 'hidden' }">{{ this.battleService.currentBattle.defendingPetCurrentHealth }}/{{ this.battleService.currentBattle.defendingPet.maxHealth }} HP</h4>
+									<h4 class="big-data" [ngStyle]="{ visibility: this.battleService.currentBattle.defendingUser.id == this.userService.currentUser.id ? 'visible' : 'hidden' }">
+										{{ this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].defendingPetCurrentHealth }}/{{ this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].defendingPet.maxHealth }} HP
+									</h4>
 								</div>
 							</div>
 							<div class="d-block d-xl-none">
 								<div class="progress border border-dark wrapper medium-pet-battle-health-bar mx-auto">
 									<div
-										[class]="userService.getHealthBarColor(((this.battleService.currentBattle.defendingPetCurrentHealth / this.battleService.currentBattle.defendingPet.maxHealth) * 100).toFixed(0))"
-										[ngStyle]="{ width: ((this.battleService.currentBattle.defendingPetCurrentHealth / this.battleService.currentBattle.defendingPet.maxHealth) * 100).toFixed(0) + '%', 'font-size': 'small', color: 'black', height: '50px' }"
+										[class]="userService.getHealthBarColor(((this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].defendingPetCurrentHealth / this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].defendingPet.maxHealth) * 100).toFixed(0))"
+										[ngStyle]="{ width: ((this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].defendingPetCurrentHealth / this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].defendingPet.maxHealth) * 100).toFixed(0) + '%', 'font-size': 'small', color: 'black', height: '50px' }"
 									></div>
-									<h4 class="big-data" [ngStyle]="{ visibility: this.battleService.currentBattle.defendingUser.id == this.userService.currentUser.id ? 'visible' : 'hidden' }">{{ this.battleService.currentBattle.defendingPetCurrentHealth }}/{{ this.battleService.currentBattle.defendingPet.maxHealth }} HP</h4>
+									<h4 class="big-data" [ngStyle]="{ visibility: this.battleService.currentBattle.defendingUser.id == this.userService.currentUser.id ? 'visible' : 'hidden' }">
+										{{ this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPetCurrentHealth }}/{{ this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet.maxHealth }} HP
+									</h4>
 								</div>
 							</div>
 							<br />
-							<div class="action-buttons" [ngStyle]="{ visibility: this.battleService.currentBattle.defendingUser.id == this.userService.currentUser.id && this.battleService.currentBattle.currentTurnPet.id == this.battleService.currentBattle.defendingPet.id ? 'visible' : 'hidden' }">
-								<div class="btn-group-vertical btn-group-lg m-1">
-									<button class="btn btn-secondary-fothu bg-secondary-fothu battle-button text-white m-1" (click)="this.battleService.attack(this.battleService.currentBattle.id, this.battleService.currentBattle.defendingPet.id)">Attack</button>
-									<button class="btn btn-primary battle-button m-1" (click)="this.battleService.aim(this.battleService.currentBattle.id, this.battleService.currentBattle.defendingPet.id)">Aim</button>
+							<div class="action-buttons row justify-content-md-center" [ngStyle]="{ visibility: this.battleService.currentBattle.defendingUser.id == this.userService.currentUser.id && this.battleService.currentBattle.nextTurnUser.id == this.battleService.currentBattle.defendingUser.id && !this.battleService.currentBattle.battleFinished ? 'visible' : 'hidden' }">
+								<div class="btn-group-vertical btn-group-lg m-1 col-5">
+									<button class="btn btn-danger battle-button text-white m-1" (click)="this.battleService.defend(this.battleService.currentBattle.id)">Defend</button>
+									<button class="btn btn-success battle-button text-white m-1" (click)="this.battleService.evade(this.battleService.currentBattle.id)">Evade</button>
 								</div>
-								<div class="btn-group-vertical btn-group-lg m-1">
-									<button class="btn btn-danger battle-button text-white m-1" (click)="this.battleService.defend(this.battleService.currentBattle.id, this.battleService.currentBattle.defendingPet.id)">Defend</button>
-									<button class="btn btn-success battle-button m-1" (click)="this.battleService.sharpen(this.battleService.currentBattle.id, this.battleService.currentBattle.defendingPet.id)">Sharpen</button>
+								<div class="btn-group-vertical btn-group-lg m-1 col-5">
+									<button class="btn btn-primary battle-button m-1" (click)="this.battleService.aim(this.battleService.currentBattle.id)">Aim</button>
+									<button class="btn btn-white bg-white battle-button m-1" (click)="this.battleService.sharpen(this.battleService.currentBattle.id)">Sharpen</button>
+								</div>
+								<div class="btn-group-vertical btn-group-lg m-1 col-11">
+									<button class="btn btn-success-fothu bg-success-fothu battle-button text-white m-1" (click)="this.battleService.attack(this.battleService.currentBattle.id)">Attack</button>
 								</div>
 							</div>
 							<br />
 							<div class="row" [ngStyle]="{ visibility: this.battleService.currentBattle.defendingUser.id == this.userService.currentUser.id ? 'visible' : 'hidden' }">
-								<div class="col-4 text-white">Armor</div>
-								<div class="col-4 text-white">Accuracy</div>
-								<div class="col-4 text-white">Attack</div>
+								<div class="col-3 text-white">Armor</div>
+								<div class="col-3 text-white">Accuracy</div>
+								<div class="col-3 text-white">Evasion</div>
+								<div class="col-3 text-white">Attack</div>
 							</div>
 							<div class="row" [ngStyle]="{ visibility: this.battleService.currentBattle.defendingUser.id == this.userService.currentUser.id ? 'visible' : 'hidden' }">
-								<div class="col-4 text-white">{{ this.battleService.currentBattle.defendingPetCurrentArmorModifier }}x</div>
-								<div class="col-4 text-white">{{ this.battleService.currentBattle.defendingPetCurrentAccuracyModifier }}x</div>
-								<div class="col-4 text-white">{{ this.battleService.currentBattle.defendingPetCurrentAttackModifier }}x</div>
+								<div class="col-3 text-white">{{ this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].defendingPetArmorModifier }}x</div>
+								<div class="col-3 text-white">{{ this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].defendingPetAccuracyModifier }}x</div>
+								<div class="col-3 text-white">{{ this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].defendingPetEvasionModifier }}x</div>
+								<div class="col-3 text-white">{{ this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].defendingPetAttackModifier }}x</div>
 							</div>
 							<br />
+							<div class="row" [ngStyle]="{ visibility: this.battleService.currentBattle.defendingUser.id == this.userService.currentUser.id && this.battleService.currentBattle.maxNumberOfDefendingPets > 1 ? 'visible' : 'hidden' }" *ngFor="let battlePet of this.battleService.currentBattle.defendingBattlePets">
+								<button
+									*ngIf="this.battlePet.pet.id != this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].defendingPet.id"
+									[ngClass]="{ 'btn text-white mx-1': true, ' btn-success-fothu bg-success-fothu': battlePet.pet.currentHealth > 0, 'btn-light-fothu bg-light-fothu disabled': battlePet.pet.currentHealth == 0 }"
+									(click)="this.battleService.setAttackingPVPPet(this.battleService.currentBattle.id, battlePet.pet.id)"
+								>
+									{{ battlePet.pet.name }}
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -237,10 +291,10 @@
 			<br />
 			<br />
 			<br />
-			<button *ngIf="this.battleService.currentBattle.battleType.toLowerCase() == 'pvp'" class="btn btn-success-fothu bg-success-fothu text-white" (click)="this.battleService.closePVPBattle()">Close Battle</button>
-			<button *ngIf="this.battleService.currentBattle.battleType.toLowerCase() == 'pve' && this.battleService.currentBattle.battleFinished && this.battleService.currentBattle.attackingPet.currentHealth > 0">Victory!</button>
-			<button *ngIf="this.battleService.currentBattle.battleType.toLowerCase() == 'pve' && this.battleService.currentBattle.battleFinished && this.battleService.currentBattle.attackingPet.currentHealth == 0" (click)="this.battleService.createPVEBattle(this.userService.currentUser.id, this.battleService.currentBattle.defendingPet.id)">Select Another Fighter</button>
-			<button *ngIf="this.battleService.currentBattle.battleType.toLowerCase() == 'pve' && this.battleService.currentBattle.battleFinished && this.userService.allPetsDead()">No More Pets. Run!</button>
+			<button *ngIf="this.battleService.currentBattle.battleType.toLowerCase() == 'pvp'" class="btn btn-success-fothu bg-success-fothu text-white" (click)="this.battleService.resetBattleServiceBattle()">Close Battle</button>
+			<button *ngIf="this.battleService.currentBattle.battleType.toLowerCase() == 'pve' && this.battleService.currentBattle.battleFinished && this.battleService.currentBattle.winningUser.id == this.battleService.currentBattle.attackingUser.id">Victory!</button>
+			<!-- HEY I NEED A METHOD HERE AT SOME POINT TO LEAVE ONCE YOU'RE DEAD -->
+			<button *ngIf="this.battleService.currentBattle.battleType.toLowerCase() == 'pve' && this.battleService.currentBattle.battleFinished && this.battleService.currentBattle.winningUser.id == this.battleService.currentBattle.defendingUser.id">No More Pets. Run!</button>
 		</div>
 	</div>
 </div>

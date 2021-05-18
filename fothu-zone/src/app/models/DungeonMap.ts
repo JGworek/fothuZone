@@ -1,4 +1,5 @@
 import { Pet } from "./Pet";
+
 export class DungeonMap {
 	id: number;
 	name: string;

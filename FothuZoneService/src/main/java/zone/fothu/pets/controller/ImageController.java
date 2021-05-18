@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,12 +29,17 @@ public class ImageController implements Serializable {
 
 	private static final long serialVersionUID = -6651376789756065729L;
 
+	private final ImageRepository imageRepository;
+	private final PetRepository petRepository;
+	private final ImageService imageService;
+
 	@Autowired
-	ImageRepository imageRepository;
-	@Autowired
-	PetRepository petRepository;
-	@Autowired
-	ImageService imageService;
+	public ImageController(ImageRepository imageRepository, PetRepository petRepository, @Lazy ImageService imageService) {
+		super();
+		this.imageRepository = imageRepository;
+		this.petRepository = petRepository;
+		this.imageService = imageService;
+	}
 
 	@GetMapping("/all")
 	public ResponseEntity<List<Image>> getAllImages() {
@@ -41,7 +47,7 @@ public class ImageController implements Serializable {
 	}
 
 	@GetMapping("/id/{id}")
-	public ResponseEntity<Image> getImageWithId(@PathVariable int id) {
+	public ResponseEntity<Image> getImageWithId(@PathVariable long id) {
 		Image image = imageRepository.findImageById(id);
 		return ResponseEntity.ok(image);
 	}
@@ -53,7 +59,7 @@ public class ImageController implements Serializable {
 	}
 
 	@PostMapping("set/petId/{petId}/imageId/{imageId}")
-	public ResponseEntity<Pet> addPetImage(@PathVariable int petId, @PathVariable int imageId) throws PetNotFoundException {
+	public ResponseEntity<Pet> addPetImage(@PathVariable long petId, @PathVariable long imageId) throws PetNotFoundException {
 		imageRepository.setPetImage(petId, imageId);
 		Pet pet = petRepository.findById(petId).get();
 		if (pet.getOwner() != null) {
@@ -67,5 +73,4 @@ public class ImageController implements Serializable {
 	public ResponseEntity<List<Image>> getSomeRandomPetImages(@RequestParam int numberOfImages) {
 		return ResponseEntity.ok(imageService.getRandomImagesOfCertainNumber(numberOfImages));
 	}
-
 }

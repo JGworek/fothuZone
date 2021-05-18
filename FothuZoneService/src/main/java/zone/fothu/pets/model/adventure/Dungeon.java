@@ -1,4 +1,4 @@
-package zone.fothu.pets.model.profile;
+package zone.fothu.pets.model.adventure;
 
 import java.io.Serializable;
 import java.util.List;
@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
@@ -20,35 +22,30 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import zone.fothu.pets.model.profile.Pet;
 
 @Component
 @Scope("prototype")
 @Entity
-@Table(name = "users", schema = "pets")
+@Table(name = "dungeons", schema = "pets")
 @Accessors(fluent = false, chain = true)
 @Data
 @NoArgsConstructor
-public class User implements Serializable {
+public class Dungeon implements Serializable {
 
-	private static final long serialVersionUID = -4631968289745068642L;
+	private static final long serialVersionUID = 6885313722453626583L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@Column(name = "username")
-	private String username;
-	@Column(name = "favorite_color")
-	private String favoriteColor;
-	@Column(name = "user_password")
-	private String userPassword;
-	@Column(name = "secret_password")
-	private String secretPassword;
-	@Column(name = "admin_status")
-	private boolean adminStatus;
-
-	@OneToMany(mappedBy = "owner")
-	@JsonIgnoreProperties("owner")
-	@OrderBy("id")
-	private List<Pet> pets;
+	@Column(name = "dungeon_name")
+	private String dungeonName;
+	@OneToMany(mappedBy = "dungeon")
+	@JsonIgnoreProperties("dungeon")
+	@OrderBy("floor_number")
+	List<Floor> floors;
+	@ManyToOne
+	@JoinColumn(name = "boss_pet_id")
+	private Pet bossPet;
 }

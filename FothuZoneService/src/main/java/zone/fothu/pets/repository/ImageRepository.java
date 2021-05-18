@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import zone.fothu.pets.model.profile.Image;
 
-public interface ImageRepository extends JpaRepository<Image, Integer> {
+public interface ImageRepository extends JpaRepository<Image, Long> {
 
 	@Modifying
 	@Transactional
@@ -18,11 +18,11 @@ public interface ImageRepository extends JpaRepository<Image, Integer> {
 
 	@Transactional
 	@Query(nativeQuery = true, value = "SELECT MAX(id) FROM pets.images")
-	int findLatestImageId();
+	Long findLatestImageId();
 
 	@Transactional
 	@Query(nativeQuery = true, value = "SELECT * FROM pets.images WHERE id = ?1")
-	Image findImageById(int imageId);
+	Image findImageById(long imageId);
 
 	@Transactional
 	@Query(nativeQuery = true, value = "SELECT * FROM pets.images WHERE image_url = ?1")
@@ -39,6 +39,6 @@ public interface ImageRepository extends JpaRepository<Image, Integer> {
 	@Modifying
 	@Transactional
 	@Query(nativeQuery = true, value = "UPDATE pets.pets SET image_id = ?1 WHERE id = ?2")
-	void setPetImage(int petId, int imageId);
+	void setPetImage(long petId, long imageId);
 
 }

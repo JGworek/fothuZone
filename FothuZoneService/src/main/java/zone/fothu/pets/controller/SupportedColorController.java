@@ -17,12 +17,16 @@ import zone.fothu.pets.repository.SupportedColorRepository;
 @RequestMapping(path = "/supportedColors")
 public class SupportedColorController {
 
+	private final SupportedColorRepository supportedColorRespository;
+
 	@Autowired
-	SupportedColorRepository supportedColorRespository;
+	public SupportedColorController(SupportedColorRepository supportedColorRespository) {
+		super();
+		this.supportedColorRespository = supportedColorRespository;
+	}
 
 	@GetMapping("/all")
 	public ResponseEntity<List<SupportedColor>> getAllSupportedColors() {
 		return ResponseEntity.ok(supportedColorRespository.getAll());
 	}
-
 }

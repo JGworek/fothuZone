@@ -1,33 +1,21 @@
-import { BattleLog } from "./BattleLog";
-import { Pet } from "./Pet";
+import { AttackingBattlePet } from "./AttackingBattlePet";
+import { DefendingBattlePet } from "./DefendingBattlePet";
 import { User } from "./User";
+import { Turn } from "./Turn";
 
 export class Battle {
 	id: number;
 	battleType: string;
+	maxNumberOfAttackingPets: number;
+	maxNumberOfDefendingPets: number;
 	attackingUser: User;
+	attackingBattlePets: Array<AttackingBattlePet>;
 	defendingUser: User;
-	attackingPet: Pet;
-	defendingPet: Pet;
-	winningPet: Pet;
-	losingPet: Pet;
-	attackingPetCurrentHealth: number;
-	defendingPetCurrentHealth: number;
-	attackingPetCurrentAttackModifier: number;
-	defendingPetCurrentAttackModifier: number;
-	attackingPetCurrentArmorModifier: number;
-	defendingPetCurrentArmorModifier: number;
-	attackingPetCurrentAccuracyModifier: number;
-	defendingPetCurrentAccuracyModifier: number;
-	attackingPetBaseAttackPower: number;
-	defendingPetBaseAttackPower: number;
-	attackingPetBaseArmor: number;
-	defendingPetBaseArmor: number;
-	attackingPetBaseSpeed: number;
-	defendingPetBaseSpeed: number;
-	currentTurnCount: number;
-	currentTurnPet: Pet;
+	defendingBattlePets: Array<DefendingBattlePet>;
+	nextTurnUser: User;
 	battleFinished: boolean;
+	winningUser: User;
+	losingUser: User;
 	createdOn: string;
-	battleLogs: Array<BattleLog>;
+	turns: Array<Turn>;
 }

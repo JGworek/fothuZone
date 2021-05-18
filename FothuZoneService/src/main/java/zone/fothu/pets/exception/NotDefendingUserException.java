@@ -1,10 +1,10 @@
 package zone.fothu.pets.exception;
 
-public class NotDefendingPetException extends RuntimeException {
+public class NotDefendingUserException extends RuntimeException {
 
 	private static final long serialVersionUID = 8193377647796470850L;
 
-	public NotDefendingPetException(String message) {
+	public NotDefendingUserException(String message) {
 		super(message);
 	}
 

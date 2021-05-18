@@ -1,7 +1,6 @@
 package zone.fothu.pets.model.profile;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,11 +9,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
 @Component
+@Scope("prototype")
 @Entity
 @Table(name = "users", schema = "pets")
+@Accessors(fluent = false, chain = true)
+@Data
+@NoArgsConstructor
 public class UserDTO implements Serializable {
 
 	private static final long serialVersionUID = 6951903949395867726L;
@@ -22,7 +30,7 @@ public class UserDTO implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private int id;
+	private long id;
 	@Column(name = "username")
 	private String username;
 	@Column(name = "favorite_color")
@@ -33,88 +41,4 @@ public class UserDTO implements Serializable {
 	private String secretPassword;
 	@Column(name = "admin_status")
 	private boolean adminStatus;
-
-	public UserDTO() {
-		super();
-	}
-
-	public UserDTO(int id, String username, String favoriteColor, String userPassword, String secretPassword, boolean adminStatus) {
-		super();
-		this.id = id;
-		this.username = username;
-		this.favoriteColor = favoriteColor;
-		this.userPassword = userPassword;
-		this.secretPassword = secretPassword;
-		this.adminStatus = adminStatus;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getFavoriteColor() {
-		return favoriteColor;
-	}
-
-	public void setFavoriteColor(String favoriteColor) {
-		this.favoriteColor = favoriteColor;
-	}
-
-	public String getUserPassword() {
-		return userPassword;
-	}
-
-	public void setUserPassword(String userPassword) {
-		this.userPassword = userPassword;
-	}
-
-	public String getSecretPassword() {
-		return secretPassword;
-	}
-
-	public void setSecretPassword(String secretPassword) {
-		this.secretPassword = secretPassword;
-	}
-
-	public boolean isAdminStatus() {
-		return adminStatus;
-	}
-
-	public void setAdminStatus(boolean adminStatus) {
-		this.adminStatus = adminStatus;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(adminStatus, favoriteColor, id, secretPassword, userPassword, username);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!(obj instanceof UserDTO)) {
-			return false;
-		}
-		UserDTO other = (UserDTO) obj;
-		return adminStatus == other.adminStatus && Objects.equals(favoriteColor, other.favoriteColor) && id == other.id && Objects.equals(secretPassword, other.secretPassword) && Objects.equals(userPassword, other.userPassword) && Objects.equals(username, other.username);
-	}
-
-	@Override
-	public String toString() {
-		return "UserDTO [id=" + id + ", username=" + username + ", favoriteColor=" + favoriteColor + ", userPassword=" + userPassword + ", secretPassword=" + secretPassword + ", adminStatus=" + adminStatus + "]";
-	}
 }

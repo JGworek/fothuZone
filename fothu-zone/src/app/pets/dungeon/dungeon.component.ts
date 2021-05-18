@@ -81,10 +81,9 @@ export class DungeonComponent implements OnInit {
 	setCurrentRoom(roomId: number) {
 		this.truthArray[this.currentRoom] = false;
 		this.currentRoom = roomId;
-
 		this.notExploredArray[roomId] = false;
 		this.truthArray[roomId] = true;
-		this.mapLog.push(`Moved to room ${this.currentRoom}`);
+		this.mapLog.push(`Moved to room ${this.currentRoom + 1}`);
 	}
 
 	checkLevelUps() {
@@ -96,5 +95,14 @@ export class DungeonComponent implements OnInit {
 		this.truthArray.fill(false);
 		this.setCurrentRoom(this.currentMap.startingRoom);
 		this.mapLog.push(`Welcome to ${this.currentMap.name}`);
+	}
+
+	ngOnDestroy(): void {
+		if (this.battleService.currentBattle.battleType.toLowerCase() == "pve") {
+			if (confirm("Quit this battle and let the monster kill all of your pets?")) {
+				this.battleService.prematureEndPveBattle(this.userService.currentUser.id);
+				this.battleService.resetBattleServiceBattle();
+			}
+		}
 	}
 }

@@ -9,19 +9,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import zone.fothu.pets.exception.PetNotUpdatedException;
-import zone.fothu.pets.model.profile.PetDTO;
-import zone.fothu.pets.repository.PetDTORepository;
+import zone.fothu.pets.model.profile.Pet;
+import zone.fothu.pets.model.profile.User;
 import zone.fothu.pets.repository.PetRepository;
+import zone.fothu.pets.repository.UserRepository;
 
 @Service
 public class PetService implements Serializable {
 
-	@Autowired
-	PetRepository petRepository;
-	@Autowired
-	PetDTORepository petDTORepository;
-
 	private static final long serialVersionUID = -1793499282842108356L;
+
+	private final PetRepository petRepository;
+	private final UserRepository userRepository;
+	private Pet petBean;
+	private User userBean;
+
+	@Autowired
+	public PetService(PetRepository petRepository, UserRepository userRepository, Pet petBean, User userBean) {
+		super();
+		this.petRepository = petRepository;
+		this.userRepository = userRepository;
+		this.petBean = petBean;
+		this.userBean = userBean;
+	}
 
 	private final int MAX_STAT_VALUE = 10;
 	private final int MIN_HEALTH_VALUE = 10;
@@ -31,7 +41,7 @@ public class PetService implements Serializable {
 	// Str = Str/Agi/Int
 	// Agi = Agi/Int/Str
 	// Int = Int/Str/Agi
-	public PetDTO createPet(PetDTO newPet) {
+	public Pet createPet(Pet newPet) {
 		Set<Integer> randomStatValues = new HashSet<Integer>();
 		while (randomStatValues.size() < 3) {
 			randomStatValues.add((int) (Math.random() * MAX_STAT_VALUE));
@@ -52,11 +62,11 @@ public class PetService implements Serializable {
 		int healthStat = (int) (Math.random() * (MAX_HEALTH_VALUE - MIN_HEALTH_VALUE)) + MIN_HEALTH_VALUE;
 		newPet.setMaxHealth(healthStat);
 		newPet.setCurrentHealth(healthStat);
-		return petDTORepository.save(newPet);
+		return petRepository.save(newPet);
 	}
 
-	public PetDTO levelUpPet(int petId, String highStat, String mediumStat, String lowStat) throws PetNotUpdatedException {
-		PetDTO levelingUpPet = petDTORepository.findById(petId).get();
+	public Pet levelUpPet(long petId, String highStat, String mediumStat, String lowStat) throws PetNotUpdatedException {
+		Pet levelingUpPet = petRepository.findById(petId).get();
 		if (highStat.equalsIgnoreCase(mediumStat) | highStat.equalsIgnoreCase(lowStat) | mediumStat.equalsIgnoreCase(lowStat)) {
 			throw new PetNotUpdatedException("You cannot update a single stat more than once!");
 		}
@@ -88,7 +98,7 @@ public class PetService implements Serializable {
 		int healthIncrease = (int) (Math.random() * (MAX_HEALTH_VALUE - MIN_HEALTH_VALUE)) + MIN_HEALTH_VALUE;
 		levelingUpPet.setMaxHealth(levelingUpPet.getMaxHealth() + healthIncrease);
 		levelingUpPet.setCurrentHealth(levelingUpPet.getCurrentHealth() + healthIncrease);
-		return petDTORepository.save(levelingUpPet);
+		return petRepository.save(levelingUpPet);
 	}
 
 	public int getLargestLevelingStat(Set<Integer> randomStatValues) {

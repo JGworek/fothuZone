@@ -14,8 +14,13 @@ public class ImageService implements Serializable {
 
 	private static final long serialVersionUID = 8877383693450666109L;
 
+	private final ImageRepository imageRepository;
+
 	@Autowired
-	ImageRepository imageRepository;
+	public ImageService(ImageRepository imageRepository) {
+		super();
+		this.imageRepository = imageRepository;
+	}
 
 	public Image saveNewImage(Image newImage) {
 		if (imageRepository.findImageByURL(newImage.getImageURL()) == null) {

@@ -22,15 +22,17 @@ export class CreateChallengeComponent implements OnInit {
 	filterArray: Array<UserDTO> = [];
 	challengerPets: Array<Pet> = [];
 	challengerUser: User;
+	numberOfPets: number = 0;
+	maxNumberOfPets: number = 0;
 
 	async getAllUsersBesideLoggedInUser() {
-		let userListJSON = await fetch(`${environment.fothuZoneEC2Link}/users/availableChallengeUserDTOs/userId/${this.userService.currentUser.id}`);
+		let userListJSON = await fetch(`${environment.fothuZoneEC2Link}/users/availableChallengeUsers/userId/${this.userService.currentUser.id}`);
 		this.userList = await userListJSON.json();
 		this.filterArray = this.userList;
 	}
 
 	async createNewChallengeRequest() {
-		let challengeRequestJSON = await fetch(`${environment.fothuZoneEC2Link}/challengeRequests/new/challengerId/${this.userService.currentUser.id}/opponentId/${this.challengeUserId}`, { method: "POST" });
+		let challengeRequestJSON = await fetch(`${environment.fothuZoneEC2Link}/challengeRequests/new/challengerId/${this.userService.currentUser.id}/opponentId/${this.challengeUserId}/numberOfPets/${this.numberOfPets}`, { method: "POST" });
 		if (this.statusCodeService.checkSuccessStatus(challengeRequestJSON)) {
 			this.toastService.successfulRequestToast("Challenge Successfully Created!");
 			this.router.navigate(["/FothuPets"]);
@@ -51,6 +53,15 @@ export class CreateChallengeComponent implements OnInit {
 		let challenger = await challengerJSON.json();
 		this.challengerUser = challenger;
 		this.challengerPets = challenger.pets;
+		if (this.challengerPets.length >= this.userService.currentUser.pets.length) {
+			this.maxNumberOfPets = this.userService.currentUser.pets.length;
+		} else {
+			this.maxNumberOfPets = this.challengerPets.length;
+		}
+	}
+
+	counter(i: number) {
+		return new Array(i);
 	}
 
 	ngOnInit(): void {

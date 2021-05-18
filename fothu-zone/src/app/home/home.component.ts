@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { BattleService } from "../service/battle.service";
 import { ToastService } from "../service/toast.service";
 import { UserService } from "../service/user.service";
 
@@ -8,7 +9,7 @@ import { UserService } from "../service/user.service";
 	styleUrls: ["./home.component.css"],
 })
 export class HomeComponent implements OnInit {
-	constructor(public userService: UserService, public toastService: ToastService) {}
+	constructor(public userService: UserService, public toastService: ToastService, private battleService: BattleService) {}
 
 	ngOnInit() {}
 }

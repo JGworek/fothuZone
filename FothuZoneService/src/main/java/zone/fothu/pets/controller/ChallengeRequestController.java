@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,25 +26,30 @@ public class ChallengeRequestController implements Serializable {
 
 	private static final long serialVersionUID = -1231910342596482588L;
 
-	@Autowired
-	BattleService battleService;
-	@Autowired
-	RequestService requestService;
-	@Autowired
-	ChallengeRequestRepository challengeRequestRepository;
+	private final BattleService battleService;
+	private final RequestService requestService;
+	private final ChallengeRequestRepository challengeRequestRepository;
 
-	@PostMapping("/new/challengerId/{attackerId}/opponentId/{defenderId}")
-	ResponseEntity<ChallengeRequest> createNewChallengeRequest(@PathVariable int attackerId, @PathVariable int defenderId) {
-		return ResponseEntity.ok(battleService.createNewChallengeRequest(attackerId, defenderId));
+	@Autowired
+	public ChallengeRequestController(@Lazy BattleService battleService, @Lazy RequestService requestService, ChallengeRequestRepository challengeRequestRepository) {
+		super();
+		this.battleService = battleService;
+		this.requestService = requestService;
+		this.challengeRequestRepository = challengeRequestRepository;
+	}
+
+	@PostMapping("/new/challengerId/{attackerId}/opponentId/{defenderId}/numberOfPets/{numberOfPets}")
+	ResponseEntity<ChallengeRequest> createNewChallengeRequest(@PathVariable long attackerId, @PathVariable long defenderId, @PathVariable int numberOfPets) {
+		return ResponseEntity.ok(battleService.createNewChallengeRequest(attackerId, defenderId, numberOfPets));
 	}
 
 	@PutMapping("/accept/challengeRequestId/{challengeRequestId}")
-	ResponseEntity<ChallengeRequest> acceptChallengeRequest(@PathVariable int challengeRequestId) {
+	ResponseEntity<ChallengeRequest> acceptChallengeRequest(@PathVariable long challengeRequestId) {
 		return ResponseEntity.ok(battleService.acceptChallengeRequest(challengeRequestId));
 	}
 
 	@PutMapping("/reject/challengeRequestId/{challengeRequestId}")
-	ResponseEntity<ChallengeRequest> rejectChallengeRequest(@PathVariable int challengeRequestId) {
+	ResponseEntity<ChallengeRequest> rejectChallengeRequest(@PathVariable long challengeRequestId) {
 		return ResponseEntity.ok(battleService.rejectChallengeRequest(challengeRequestId));
 	}
 
@@ -57,17 +63,17 @@ public class ChallengeRequestController implements Serializable {
 	}
 
 	@GetMapping("/all/pending/userId/{userId}")
-	ResponseEntity<List<ChallengeRequest>> getAllPendingChallengeRequestsForUser(@PathVariable int userId) {
+	ResponseEntity<List<ChallengeRequest>> getAllPendingChallengeRequestsForUser(@PathVariable long userId) {
 		return ResponseEntity.ok(requestService.getAllChallengeRequestsForUser(userId));
 	}
 
 	@GetMapping("/id/{id}")
-	ResponseEntity<ChallengeRequest> getChallengeRequestWithId(@PathVariable int id) {
+	ResponseEntity<ChallengeRequest> getChallengeRequestWithId(@PathVariable long id) {
 		return ResponseEntity.ok(requestService.getChallengeRequestById(id));
 	}
 
 	@GetMapping("/battleId/{battleId}")
-	ResponseEntity<ChallengeRequest> getChallengeRequestForBattle(@PathVariable int battleId) {
+	ResponseEntity<ChallengeRequest> getChallengeRequestForBattle(@PathVariable long battleId) {
 		return ResponseEntity.ok(requestService.cleanOutPasswords(challengeRequestRepository.getChallengeRequestWithBattleId(battleId)));
 	}
 }

@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import zone.fothu.pets.model.profile.Pet;
 
-public interface PetRepository extends JpaRepository<Pet, Integer> {
+public interface PetRepository extends JpaRepository<Pet, Long> {
 
 	@Transactional
 	@Query(nativeQuery = true, value = "SELECT * FROM pets.pets WHERE name = ?1")
@@ -17,7 +17,7 @@ public interface PetRepository extends JpaRepository<Pet, Integer> {
 
 	@Transactional
 	@Query(nativeQuery = true, value = "SELECT * FROM pets.pets WHERE user_id = ?1 ORDER BY id ASC")
-	List<Pet> findAllUsersPetsById(int userid);
+	List<Pet> findAllUsersPetsById(long userid);
 
 	@Transactional
 	@Query(nativeQuery = true, value = "SELECT * FROM pets.pets WHERE user_id = (SELECT id FROM pets.users WHERE username = ?1) ORDER BY id ASC")
@@ -25,17 +25,12 @@ public interface PetRepository extends JpaRepository<Pet, Integer> {
 
 	@Transactional
 	@Query(nativeQuery = true, value = "SELECT * FROM pets.pets WHERE user_id = ?1 ORDER BY id ASC")
-	List<Pet> findAllPetsByUserId(int userId);
-
-	@Modifying
-	@Transactional
-	@Query(nativeQuery = true, value = "UPDATE pets.pets SET name = ?2, hunger = ?3, current_health = ?4, max_health = ?5, strength = ?6, agility = ?7, intelligence = ?8, pet_level = ?9, current_xp = ?10 WHERE id = ?1")
-	void updatePet(int id, String name, int hunger, int currentHealth, int maxHealth, int strength, int agility, int intelligence, int petLevel, int currentXP);
+	List<Pet> findAllPetsByUserId(long userId);
 
 	@Modifying
 	@Transactional
 	@Query(nativeQuery = true, value = "UPDATE pets.pets SET strength = ?2, agility = ?3, intelligence = ?4 WHERE id = ?1")
-	void setPetStats(int id, int strength, int agility, int intelligence);
+	void setPetStats(long id, int strength, int agility, int intelligence);
 
 //    @Modifying
 //    @Transactional
@@ -51,7 +46,7 @@ public interface PetRepository extends JpaRepository<Pet, Integer> {
 	@Modifying
 	@Transactional
 	@Query(nativeQuery = true, value = "UPDATE pets.pets SET current_health = ?1 WHERE id = ?2")
-	void setPetHealth(int currentHealth, int id);
+	void setPetHealth(int currentHealth, long attackerId);
 
 	@Modifying
 	@Transactional
@@ -61,15 +56,15 @@ public interface PetRepository extends JpaRepository<Pet, Integer> {
 	@Modifying
 	@Transactional
 	@Query(nativeQuery = true, value = "UPDATE pets.pets SET current_health = max_health WHERE id = ?1")
-	void restoreOnePetsHealth(int petId);
+	void restoreOnePetsHealth(long attackerId);
 
 	@Modifying
 	@Transactional
 	@Query(nativeQuery = true, value = "UPDATE pets.pets SET current_health = max_health WHERE user_id = ?1")
-	void restoreAllUsersPetsHealth(int userId);
+	void restoreAllUsersPetsHealth(long userId);
 
 	@Modifying
 	@Transactional
 	@Query(nativeQuery = true, value = "UPDATE pets.pets SET current_xp = ?2, pet_level = ?3 WHERE id = ?1")
-	void updatePetXPAndLevel(int petId, int currentXP, int petLevel);
+	void updatePetXPAndLevel(long petId, int currentXP, long petLevel);
 }

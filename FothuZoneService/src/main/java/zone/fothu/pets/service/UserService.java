@@ -16,7 +16,6 @@ import zone.fothu.pets.model.profile.SupportedColor;
 import zone.fothu.pets.model.profile.User;
 import zone.fothu.pets.model.profile.UserDTO;
 import zone.fothu.pets.repository.SupportedColorRepository;
-import zone.fothu.pets.repository.UserDTORepository;
 import zone.fothu.pets.repository.UserRepository;
 
 @Service
@@ -24,16 +23,21 @@ public class UserService implements Serializable {
 
 	private static final long serialVersionUID = 1313809918036560606L;
 
-	@Autowired
-	UserRepository userRepository;
-	@Autowired
-	UserDTORepository userDTORepository;
-	@Autowired
-	SupportedColorRepository supportedColorRepository;
-	@Autowired
-	BCryptPasswordEncoder passwordEncoder;
+	private final UserRepository userRepository;
+	private final SupportedColorRepository supportedColorRepository;
+	private final BCryptPasswordEncoder passwordEncoder;
+	private User userBean;
 
-	public User saveNewUser(UserDTO newUser) {
+	@Autowired
+	public UserService(UserRepository userRepository, SupportedColorRepository supportedColorRepository, BCryptPasswordEncoder passwordEncoder, User userBean) {
+		super();
+		this.userRepository = userRepository;
+		this.supportedColorRepository = supportedColorRepository;
+		this.passwordEncoder = passwordEncoder;
+		this.userBean = userBean;
+	}
+
+	public User saveNewUser(User newUser) {
 		boolean userExists = true;
 		User createdNewUser;
 		try {
@@ -47,7 +51,7 @@ public class UserService implements Serializable {
 			userExists = false;
 			newUser.setUserPassword(passwordEncoder.encode(newUser.getUserPassword()));
 			newUser.setSecretPassword(passwordEncoder.encode(newUser.getSecretPassword()));
-			userDTORepository.save(newUser);
+			userRepository.save(newUser);
 		}
 
 		if (userExists = false) {
@@ -89,16 +93,16 @@ public class UserService implements Serializable {
 		return userList;
 	}
 
-	public List<UserDTO> getAllUserDTOs() {
-		List<UserDTO> userList = userDTORepository.findAllUserDTOs();
-		for (UserDTO user : userList) {
+	public List<User> getAllUserDTOs() {
+		List<User> userList = userRepository.findAll();
+		for (User user : userList) {
 			user.setUserPassword(null);
 			user.setSecretPassword(null);
 		}
 		return userList;
 	}
 
-	public User getUserWithId(int id) throws UserNotFoundException {
+	public User getUserWithId(long id) throws UserNotFoundException {
 		User userFromId = userRepository.findById(id).get();
 		userFromId.setUserPassword(null);
 		userFromId.setSecretPassword(null);
@@ -125,7 +129,7 @@ public class UserService implements Serializable {
 		return recoveredUser;
 	}
 
-	public List<User> getAvailableChallengeUsers(int id) {
+	public List<User> getAvailableChallengeUsers(long id) {
 		List<User> availableChallengeUsers = userRepository.getAvailableChallengeUsers(id);
 		for (User user : availableChallengeUsers) {
 			user.setUserPassword(null);
@@ -134,13 +138,8 @@ public class UserService implements Serializable {
 		return availableChallengeUsers;
 	}
 
-	public List<UserDTO> getAvailableChallengeUserDTOs(int id) {
-		List<UserDTO> availableChallengeUsers = userDTORepository.getAvailableChallengeUserDTOs(id);
-		for (UserDTO user : availableChallengeUsers) {
-			user.setUserPassword(null);
-			user.setSecretPassword(null);
-		}
-		return availableChallengeUsers;
+	public User getAThing() {
+		return userBean;
 	}
 
 }

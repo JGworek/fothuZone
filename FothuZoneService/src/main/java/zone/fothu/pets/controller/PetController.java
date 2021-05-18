@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import zone.fothu.pets.model.profile.Pet;
-import zone.fothu.pets.model.profile.PetDTO;
 import zone.fothu.pets.repository.ImageRepository;
-import zone.fothu.pets.repository.PetDTORepository;
 import zone.fothu.pets.repository.PetRepository;
 import zone.fothu.pets.repository.UserRepository;
 import zone.fothu.pets.service.PetService;
@@ -30,18 +29,21 @@ public class PetController implements Serializable {
 
 	private static final long serialVersionUID = 458928494736944980L;
 
+	private final PetRepository petRepository;
+	private final UserRepository userRepository;
+	private final ImageRepository imageRepository;
+	private final WebSocketBrokerController webSocketBrokerController;
+	private final PetService petService;
+
 	@Autowired
-	PetRepository petRepository;
-	@Autowired
-	UserRepository userRepository;
-	@Autowired
-	ImageRepository imageRepository;
-	@Autowired
-	PetDTORepository petDTORepository;
-	@Autowired
-	WebSocketBrokerController webSocketBrokerController;
-	@Autowired
-	PetService petService;
+	public PetController(PetRepository petRepository, UserRepository userRepository, ImageRepository imageRepository, WebSocketBrokerController webSocketBrokerController, @Lazy PetService petService) {
+		super();
+		this.petRepository = petRepository;
+		this.userRepository = userRepository;
+		this.imageRepository = imageRepository;
+		this.webSocketBrokerController = webSocketBrokerController;
+		this.petService = petService;
+	}
 
 	@GetMapping("/all")
 	public ResponseEntity<List<Pet>> getAllPets() {
@@ -55,17 +57,11 @@ public class PetController implements Serializable {
 	}
 
 	@GetMapping("/id/{id}")
-	public ResponseEntity<Pet> getPetById(@PathVariable int id) {
+	public ResponseEntity<Pet> getPetById(@PathVariable long id) {
 		Pet pet = petRepository.findById(id).get();
 		if (pet.getOwner() != null) {
 			pet.getOwner().setUserPassword(null);
 		}
-		return ResponseEntity.ok(pet);
-	}
-
-	@GetMapping("/DTO/id/{id}")
-	public ResponseEntity<PetDTO> getPetDTOById(@PathVariable int id) {
-		PetDTO pet = petDTORepository.findById(id).get();
 		return ResponseEntity.ok(pet);
 	}
 
@@ -79,7 +75,7 @@ public class PetController implements Serializable {
 	}
 
 	@GetMapping("/userid/{id}")
-	public ResponseEntity<List<Pet>> getPetByUserId(@PathVariable int id) {
+	public ResponseEntity<List<Pet>> getPetByUserId(@PathVariable long id) {
 		List<Pet> pets = petRepository.findAllUsersPetsById(id);
 		for (Pet pet : pets) {
 			if (pet.getOwner() != null) {
@@ -110,33 +106,6 @@ public class PetController implements Serializable {
 		return ResponseEntity.ok(pet);
 	}
 
-	@PutMapping("/update")
-	public ResponseEntity<Pet> updatePet(@RequestBody Pet updatedPet) {
-		petRepository.updatePet(updatedPet.getId(), updatedPet.getName(), updatedPet.getHunger(), updatedPet.getCurrentHealth(), updatedPet.getMaxHealth(), updatedPet.getStrength(), updatedPet.getAgility(), updatedPet.getIntelligence(), updatedPet.getPetLevel(), updatedPet.getCurrentXP());
-
-		Pet pet = petRepository.findById(updatedPet.getId()).get();
-		if (pet.getOwner() != null) {
-			pet.getOwner().setUserPassword(null);
-
-		}
-		return ResponseEntity.ok(pet);
-	}
-
-//    @PutMapping("/giveto/{id}")
-//    public ResponseEntity<Pet> givePet(@RequestBody Pet tradedPet, @PathVariable int id)
-//        throws PetNotFoundException, PSQLException, PetNotUpdatedException {
-//        boolean success = false;
-//        petRepository.givePet(tradedPet.getId(), tradedPet.getName(), tradedPet.getType(),
-//            tradedPet.getHunger(), tradedPet.getCurrentHealth(), tradedPet.getMaxHealth(), tradedPet.getStrength(),
-//            tradedPet.getAgility(), tradedPet.getIntelligence(), tradedPet.getPetLevel(), tradedPet.getCurrentXP(), id);
-//        Pet pet = petRepository.findById(tradedPet.getId());
-//        if (pet.getOwner() != null) {
-//            pet.getOwner().setUserPassword(null);
-//
-//        }
-//        return ResponseEntity.ok(pet);
-//    }
-
 	@PutMapping("/restoreHealth/all")
 	public ResponseEntity<List<Pet>> restoreAllPetsHealth() {
 		petRepository.restoreAllPetsHealth();
@@ -150,7 +119,7 @@ public class PetController implements Serializable {
 	}
 
 	@PutMapping("/restoreHealth/pet/{id}")
-	public ResponseEntity<Pet> restoreOnePetsHealth(@PathVariable int id) {
+	public ResponseEntity<Pet> restoreOnePetsHealth(@PathVariable long id) {
 		petRepository.restoreOnePetsHealth(id);
 		Pet pet = petRepository.findById(id).get();
 		if (pet.getOwner() != null) {
@@ -160,7 +129,7 @@ public class PetController implements Serializable {
 	}
 
 	@PutMapping("/restoreHealth/user/id/{id}")
-	public ResponseEntity<List<Pet>> restoreAllUsersPetsHealth(@PathVariable int id) {
+	public ResponseEntity<List<Pet>> restoreAllUsersPetsHealth(@PathVariable long id) {
 		petRepository.restoreAllUsersPetsHealth(id);
 		List<Pet> pets = petRepository.findAllPetsByUserId(id);
 		for (Pet pet : pets) {
@@ -196,7 +165,7 @@ public class PetController implements Serializable {
 	// HOPEFULLY THIS WORKS
 	@CrossOrigin(origins = "http://fothu.zone")
 	@PutMapping("/id/{petId}/strength/{strength}/agility/{agility}/intelligence/{intelligence}")
-	public ResponseEntity<Pet> updatePetWithNewStats(@PathVariable int id, @PathVariable int strength, @PathVariable int agility, @PathVariable int intelligence) {
+	public ResponseEntity<Pet> updatePetWithNewStats(@PathVariable long id, @PathVariable int strength, @PathVariable int agility, @PathVariable int intelligence) {
 		petRepository.setPetStats(id, strength, agility, intelligence);
 		Pet pet = petRepository.findById(id).get();
 		if (pet.getOwner() != null) {
@@ -207,10 +176,10 @@ public class PetController implements Serializable {
 
 	// pets/levelUp/petId/{petId}?highStat={highStat}&mediumStat={mediumStat}&lowStat={lowStat}
 	@PutMapping("/levelUp/petId/{petId}")
-	public ResponseEntity<PetDTO> levelUpPet(@PathVariable int petId, @RequestParam String highStat, @RequestParam String mediumStat, @RequestParam String lowStat) {
+	public ResponseEntity<Pet> levelUpPet(@PathVariable long petId, @RequestParam String highStat, @RequestParam String mediumStat, @RequestParam String lowStat) {
 		try {
-			PetDTO leveledUpPet = petService.levelUpPet(petId, highStat, mediumStat, lowStat);
-			webSocketBrokerController.updateUserSubscription(leveledUpPet.getOwnerId());
+			Pet leveledUpPet = petService.levelUpPet(petId, highStat, mediumStat, lowStat);
+			webSocketBrokerController.updateUserSubscription(leveledUpPet.getOwner().getId());
 			return ResponseEntity.ok(leveledUpPet);
 		} catch (Exception e) {
 			Pet failedToLevelUpPet = petRepository.findById(petId).get();

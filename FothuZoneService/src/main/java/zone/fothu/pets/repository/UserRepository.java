@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import zone.fothu.pets.model.profile.User;
 import zone.fothu.pets.model.profile.UserDTO;
 
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
 	@Transactional
 	@Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE LOWER(username) = ?1")
@@ -27,18 +27,18 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Modifying
 	@Transactional
 	@Query(nativeQuery = true, value = "UPDATE pets.users SET username = ?2, user_password = ?3, favorite_color = ?4 WHERE id = ?1")
-	void updateUser(int id, String username, String userPassword, String favoriteColor);
+	void updateUser(long id, String username, String userPassword, String favoriteColor);
 
 	@Transactional
 	@Query(nativeQuery = true, value = "SELECT * FROM pets.users where LOWER(username) = ?1 AND secret_password = ?2")
 	UserDTO getRecoveredUser(String username, String encodedSecretPassword);
 
 	@Transactional
-	@Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE NOT EXISTS (SELECT defender_id FROM pets.challenge_requests WHERE (attacker_id = ?1) AND (accepted_status = false OR rejected_status = FALSE)) AND id NOT IN (?1, 2147483647)")
-	List<User> getAvailableChallengeUsers(int id);
+	@Query(nativeQuery = true, value = "SELECT * FROM pets.users WHERE NOT EXISTS (SELECT defending_user_id FROM pets.challenge_requests WHERE (attacking_user_id = ?1) AND (accepted_status = FALSE AND rejected_status = FALSE)) AND id NOT IN (?1, 9007199254740991)")
+	List<User> getAvailableChallengeUsers(long id);
 
 	@Transactional
 	@Query(nativeQuery = true, value = "SELECT MAX(id) FROM pets.users WHERE id NOT IN (SELECT MAX(id) FROM pets.users);")
-	int findLatestUserId();
+	Long findLatestUserId();
 
 }

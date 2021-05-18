@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,10 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import zone.fothu.pets.exception.UnsupportedColorException;
 import zone.fothu.pets.exception.UserNotFoundException;
 import zone.fothu.pets.exception.UserNotUpdatedException;
-import zone.fothu.pets.exception.UsernameAlreadyExistsException;
 import zone.fothu.pets.model.profile.User;
 import zone.fothu.pets.model.profile.UserDTO;
 import zone.fothu.pets.repository.UserRepository;
@@ -33,25 +32,33 @@ public class UserController implements Serializable {
 
 	private static final long serialVersionUID = -6621821132473638274L;
 
-	@Autowired
-	UserRepository userRepository;
+	private final UserRepository userRepository;
+	private final UserService userService;
 
 	@Autowired
-	UserService userService;
+	public UserController(UserRepository userRepository, @Lazy UserService userService) {
+		super();
+		this.userRepository = userRepository;
+		this.userService = userService;
+	}
+
+	@GetMapping("/ac")
+	public ResponseEntity<User> getAUser() {
+		return ResponseEntity.ok(userService.getAThing());
+	}
 
 	@GetMapping("/all")
 	public ResponseEntity<List<User>> getAllUsers() {
 		return ResponseEntity.ok(userService.getAllUsers());
 	}
 
-	@GetMapping("/all/DTO")
-	public ResponseEntity<List<UserDTO>> getAllUserDTOs() {
-		return ResponseEntity.ok(userService.getAllUserDTOs());
-
-	}
+//	@GetMapping("/all/DTO")
+//	public ResponseEntity<List<UserDTO>> getAllUserDTOs() {
+//		return ResponseEntity.ok(userService.getAllUserDTOs());
+//	}
 
 	@GetMapping("/id/{id}")
-	public ResponseEntity<User> getUserById(@PathVariable int id) {
+	public ResponseEntity<User> getUserById(@PathVariable long id) {
 		try {
 			return ResponseEntity.ok(userService.getUserWithId(id));
 		} catch (UserNotFoundException e) {
@@ -77,18 +84,18 @@ public class UserController implements Serializable {
 		}
 	}
 
-	@PostMapping("/new")
-	public ResponseEntity<User> createUser(@RequestBody UserDTO newUser) {
-		User createdNewUser;
-		try {
-			createdNewUser = userService.saveNewUser(newUser);
-		} catch (UsernameAlreadyExistsException e) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).build();
-		} catch (UnsupportedColorException e) {
-			return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).build();
-		}
-		return ResponseEntity.ok(createdNewUser);
-	}
+//	@PostMapping("/new")
+//	public ResponseEntity<User> createUser(@RequestBody UserDTO newUser) {
+//		User createdNewUser;
+//		try {
+//			createdNewUser = userService.saveNewUser(newUser);
+//		} catch (UsernameAlreadyExistsException e) {
+//			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+//		} catch (UnsupportedColorException e) {
+//			return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).build();
+//		}
+//		return ResponseEntity.ok(createdNewUser);
+//	}
 
 	@PostMapping("/login")
 	public User loginUser(@RequestBody User loggingInUser) {
@@ -116,12 +123,7 @@ public class UserController implements Serializable {
 	}
 
 	@GetMapping("/availableChallengeUsers/userId/{id}")
-	public ResponseEntity<List<User>> getAllAvailableChallengeUsers(@PathVariable int id) {
+	public ResponseEntity<List<User>> getAllAvailableChallengeUsers(@PathVariable long id) {
 		return ResponseEntity.ok(userService.getAvailableChallengeUsers(id));
-	}
-
-	@GetMapping("/availableChallengeUserDTOs/userId/{id}")
-	public ResponseEntity<List<UserDTO>> getAllAvailableChallengeUserDTOs(@PathVariable int id) {
-		return ResponseEntity.ok(userService.getAvailableChallengeUserDTOs(id));
 	}
 }

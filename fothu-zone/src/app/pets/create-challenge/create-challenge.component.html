@@ -15,13 +15,22 @@
 			<option *ngIf="this.filterArray.length == 0" class="text-danger" disabled>No matching users</option>
 		</select>
 	</div>
-
-	<a [ngClass]="{ btn: true, 'btn-light-fothu bg-light-fothu text-white disabled': this.challengerPets.length == 0 || !this.challengeUserId, 'btn-dark-fothu bg-dark-fothu text-white black-glow': this.challengerPets.length && this.challengeUserId }" (click)="this.createNewChallengeRequest()">{{
+	<div *ngIf="this.challengeUserId && this.challengerPets.length != 0" class="form-group">
+		<div><label>How Many Pets In This Battle?</label></div>
+		<select id="numberOfPetsSelect" class="form-control" [(ngModel)]="this.numberOfPets" name="petNumber">
+			<option value="0" selected disabled hidden></option>
+			<option *ngFor="let in of counter(this.maxNumberOfPets); let i = index" [value]="i + 1">
+				<div>{{ i + 1 }}</div>
+			</option>
+		</select>
+	</div>
+	<br />
+	<a [ngClass]="{ btn: true, 'btn-light-fothu bg-light-fothu text-white disabled': this.challengerPets.length == 0 || !this.challengeUserId, 'btn-dark-fothu bg-dark-fothu text-white black-glow': this.challengerPets.length && this.challengeUserId && this.numberOfPets }" (click)="this.createNewChallengeRequest()">{{
 		!this.challengeUserId ? "Select A Challenger" : this.challengerPets.length == 0 ? "Challenger Has No Pets" : "Submit Challenge!"
 	}}</a>
 </form>
 <br />
-<h4 *ngIf="this.challengeUserId && this.challengerPets.length == 0">{{ this.challengerUser.username }} has no pets!</h4>
+<!-- <h4 *ngIf="this.challengeUserId && this.challengerPets.length == 0">{{ this.challengerUser.username }} has no pets!</h4> -->
 <div *ngIf="this.challengeUserId">
 	<h4 *ngIf="this.challengerPets.length" class="text-left">{{ this.challengerUser.username }}'s Pets:</h4>
 	<div class="container-fluid">
@@ -30,10 +39,6 @@
 				<div [ngClass]="['black', 'petcenter', 'medium-pet-background']">
 					<img *ngIf="pet.image" class="medium-pet-image" [src]="pet.image.imageURL" [alt]="pet.name" />
 				</div>
-				<!-- <div class="progress border border-dark wrapper medium-pet-health-bar">
-					<div [class]="userService.getHealthBarColor(((pet.currentHealth / pet.maxHealth) * 100).toFixed(0))" [ngStyle]="{ width: ((pet.currentHealth / pet.maxHealth) * 100).toFixed(0) + '%', 'font-size': 'large', color: 'black', height: '25px' }"></div>
-					<div class="data">{{ pet.currentHealth }}/{{ pet.maxHealth }} HP</div>
-				</div> -->
 				<h6 class="text-center medium-pet-image">Lvl {{ pet.petLevel }} {{ pet.name }}</h6>
 				<br />
 			</div>
