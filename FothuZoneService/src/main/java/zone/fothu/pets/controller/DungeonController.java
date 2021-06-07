@@ -55,11 +55,7 @@ public class DungeonController implements Serializable {
 	}
 
 	@PostMapping("/new")
-	public ResponseEntity<Dungeon> createNewMaps(@RequestBody List<Dungeon> newMaps) {
-		for (Dungeon map : newMaps) {
-			dungeonRepository.save(map);
-		}
-		Dungeon map = dungeonRepository.findMapByName(newMaps.get(0).getDungeonName());
-		return ResponseEntity.ok(map);
+	public ResponseEntity<Dungeon> createNewMaps(@RequestBody Dungeon newDungeon) {
+		return ResponseEntity.ok(dungeonService.createNewDungeon(newDungeon));
 	}
 }

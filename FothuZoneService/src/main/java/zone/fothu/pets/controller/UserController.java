@@ -98,13 +98,11 @@ public class UserController implements Serializable {
 //	}
 
 	@PostMapping("/login")
-	public User loginUser(@RequestBody User loggingInUser) {
+	public ResponseEntity<User> loginUser(@RequestBody User loggingInUser) throws UserNotFoundException {
 		try {
-			return userService.logInNewUser(loggingInUser);
-		} catch (IllegalArgumentException e) {
-			throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "Username or Password is incorrect", e);
+			return ResponseEntity.ok(userService.logInNewUser(loggingInUser));
 		} catch (UserNotFoundException e) {
-			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Username or Password is incorrect", e);
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Username or Password is incorrect");
 		}
 	}
 

@@ -77,12 +77,10 @@ public class RequestService implements Serializable {
 
 	public ChallengeRequest cleanOutPasswords(ChallengeRequest challengeRequest) {
 		if (challengeRequest.getAttackingUser() != null) {
-			challengeRequest.getAttackingUser().setUserPassword(null);
-			challengeRequest.getAttackingUser().setSecretPassword(null);
+			challengeRequest.getAttackingUser().setUserPassword(null).setEmailAddress(null);
 		}
 		if (challengeRequest.getDefendingUser() != null) {
-			challengeRequest.getDefendingUser().setUserPassword(null);
-			challengeRequest.getDefendingUser().setSecretPassword(null);
+			challengeRequest.getDefendingUser().setUserPassword(null).setEmailAddress(null);
 		}
 		return challengeRequest;
 	}

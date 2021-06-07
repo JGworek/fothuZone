@@ -63,6 +63,7 @@ export class UserService {
 			this.trackErrorMessageResponses();
 			this.router.navigate(["home"]);
 		} else {
+			console.log(await userJSON.json());
 			this.toastService.badRequestToast("Incorrect Username or Password");
 		}
 	}

@@ -1100,35 +1100,35 @@ public class BattleService implements Serializable {
 		if (battle.getTurns() != null) {
 			for (Turn turn : battle.getTurns()) {
 				if (turn.getAttackingPet() != null) {
-					turn.getAttackingPet().getOwner().setUserPassword(null).setSecretPassword(null);
+					turn.getAttackingPet().getOwner().setUserPassword(null).setEmailAddress(null);
 				}
 				if (turn.getDefendingPet() != null) {
-					turn.getDefendingPet().getOwner().setUserPassword(null).setSecretPassword(null);
+					turn.getDefendingPet().getOwner().setUserPassword(null).setEmailAddress(null);
 				}
 			}
 		}
 		if (battle.getAttackingBattlePets() != null) {
 			if (battle.getAttackingBattlePets().size() != 0) {
 				for (AttackingBattlePet battlePet : battle.getAttackingBattlePets()) {
-					battlePet.getPet().getOwner().setUserPassword(null).setSecretPassword(null);
+					battlePet.getPet().getOwner().setUserPassword(null).setEmailAddress(null);
 				}
 			}
 		}
 		if (battle.getDefendingBattlePets() != null) {
 			if (battle.getDefendingBattlePets().size() != 0) {
 				for (DefendingBattlePet battlePet : battle.getDefendingBattlePets()) {
-					battlePet.getPet().getOwner().setUserPassword(null).setSecretPassword(null);
+					battlePet.getPet().getOwner().setUserPassword(null).setEmailAddress(null);
 				}
 			}
 		}
 		if (battle.getAttackingUser() != null) {
-			battle.getAttackingUser().setUserPassword(null).setSecretPassword(null);
+			battle.getAttackingUser().setUserPassword(null).setEmailAddress(null);
 		}
 		if (battle.getDefendingUser() != null) {
-			battle.getDefendingUser().setUserPassword(null).setSecretPassword(null);
+			battle.getDefendingUser().setUserPassword(null).setEmailAddress(null);
 		}
 		if (battle.getWinningUser() != null) {
-			battle.getWinningUser().setUserPassword(null).setSecretPassword(null);
+			battle.getWinningUser().setUserPassword(null).setEmailAddress(null);
 		}
 		return battle;
 	}
@@ -1153,10 +1153,10 @@ public class BattleService implements Serializable {
 			challengeRequest.setResultingBattle(getBattleById(challengeRequest.getResultingBattle().getId()));
 		}
 		if (challengeRequest.getAttackingUser() != null) {
-			challengeRequest.getAttackingUser().setUserPassword(null).setSecretPassword(null);
+			challengeRequest.getAttackingUser().setUserPassword(null).setEmailAddress(null);
 		}
 		if (challengeRequest.getDefendingUser() != null) {
-			challengeRequest.getDefendingUser().setUserPassword(null).setSecretPassword(null);
+			challengeRequest.getDefendingUser().setUserPassword(null).setEmailAddress(null);
 		}
 		return challengeRequest;
 	}

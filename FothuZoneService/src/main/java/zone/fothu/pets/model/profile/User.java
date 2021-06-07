@@ -42,10 +42,12 @@ public class User implements Serializable {
 	private String favoriteColor;
 	@Column(name = "user_password")
 	private String userPassword;
-	@Column(name = "secret_password")
-	private String secretPassword;
+	@Column(name = "email_address")
+	private String emailAddress;
 	@Column(name = "admin_status")
 	private boolean adminStatus;
+	@Column(name = "verified_status")
+	private boolean verifiedStatus;
 
 	@OneToMany(mappedBy = "owner")
 	@JsonIgnoreProperties("owner")

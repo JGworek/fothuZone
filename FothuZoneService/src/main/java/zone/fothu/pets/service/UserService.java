@@ -12,7 +12,6 @@ import zone.fothu.pets.exception.UnsupportedColorException;
 import zone.fothu.pets.exception.UserNotFoundException;
 import zone.fothu.pets.exception.UserNotUpdatedException;
 import zone.fothu.pets.exception.UsernameAlreadyExistsException;
-import zone.fothu.pets.model.profile.SupportedColor;
 import zone.fothu.pets.model.profile.User;
 import zone.fothu.pets.model.profile.UserDTO;
 import zone.fothu.pets.repository.SupportedColorRepository;
@@ -41,23 +40,21 @@ public class UserService implements Serializable {
 		boolean userExists = true;
 		User createdNewUser;
 		try {
-			SupportedColor checkColor = supportedColorRepository.findById(newUser.getFavoriteColor()).get();
+			supportedColorRepository.findById(newUser.getFavoriteColor()).get();
 		} catch (NullPointerException e) {
 			throw new UnsupportedColorException("Submitted color not supported!");
 		}
 		try {
-			User checkUser = userRepository.findByUsername(newUser.getUserPassword());
+			userRepository.findByUsername(newUser.getUserPassword());
 		} catch (NullPointerException e) {
 			userExists = false;
 			newUser.setUserPassword(passwordEncoder.encode(newUser.getUserPassword()));
-			newUser.setSecretPassword(passwordEncoder.encode(newUser.getSecretPassword()));
 			userRepository.save(newUser);
 		}
 
 		if (userExists = false) {
 			createdNewUser = userRepository.findById(userRepository.findLatestUserId()).get();
-			createdNewUser.setUserPassword(null);
-			createdNewUser.setSecretPassword(null);
+			createdNewUser.setUserPassword(null).setEmailAddress(null);
 		} else {
 			throw new UsernameAlreadyExistsException("Username already taken!");
 		}
@@ -65,12 +62,15 @@ public class UserService implements Serializable {
 	}
 
 	public User logInNewUser(User loggingInUser) throws UserNotFoundException {
-		if (passwordEncoder.matches(loggingInUser.getUserPassword(), userRepository.findByUsername(loggingInUser.getUsername().toLowerCase()).getUserPassword())) {
-			User userFromDatabase = userRepository.findByUsername(loggingInUser.getUsername().toLowerCase());
-			userFromDatabase.setUserPassword(null);
-			return userFromDatabase;
-		} else {
-			throw new UserNotFoundException();
+		try {
+			if (passwordEncoder.matches(loggingInUser.getUserPassword(), userRepository.findByUsername(loggingInUser.getUsername().toLowerCase()).getUserPassword())) {
+				User userFromDatabase = userRepository.findByUsername(loggingInUser.getUsername().toLowerCase());
+				return userFromDatabase.setUserPassword(null).setEmailAddress(null);
+			} else {
+				return null;
+			}
+		} catch (NullPointerException e) {
+			throw new UserNotFoundException("Username or Password is incorrect");
 		}
 	}
 
@@ -79,16 +79,14 @@ public class UserService implements Serializable {
 //        String encodedSecretPassword = passwordEncoder.encode(updatingUser.getSecretPassword());
 		userRepository.updateUser(updatingUser.getId(), updatingUser.getUsername(), encodedPassword, updatingUser.getFavoriteColor());
 		User returnedUser = userRepository.findById(updatingUser.getId()).get();
-		returnedUser.setUserPassword(null);
-		returnedUser.setSecretPassword(null);
+		returnedUser.setUserPassword(null).setEmailAddress(null);
 		return returnedUser;
 	}
 
 	public List<User> getAllUsers() {
 		List<User> userList = userRepository.findAll();
 		for (User user : userList) {
-			user.setUserPassword(null);
-			user.setSecretPassword(null);
+			user.setUserPassword(null).setEmailAddress(null);
 		}
 		return userList;
 	}
@@ -96,31 +94,27 @@ public class UserService implements Serializable {
 	public List<User> getAllUserDTOs() {
 		List<User> userList = userRepository.findAll();
 		for (User user : userList) {
-			user.setUserPassword(null);
-			user.setSecretPassword(null);
+			user.setUserPassword(null).setEmailAddress(null);
 		}
 		return userList;
 	}
 
 	public User getUserWithId(long id) throws UserNotFoundException {
 		User userFromId = userRepository.findById(id).get();
-		userFromId.setUserPassword(null);
-		userFromId.setSecretPassword(null);
+		userFromId.setUserPassword(null).setEmailAddress(null);
 		return userFromId;
 	}
 
 	public User getUserWithUsername(String username) throws UserNotFoundException {
 		User userFromUsername = userRepository.findByUsername(username.toLowerCase());
-		userFromUsername.setUserPassword(null);
-		userFromUsername.setSecretPassword(null);
+		userFromUsername.setUserPassword(null).setEmailAddress(null);
 		return userFromUsername;
 	}
 
 	public User getUserWithUsernameAndPassword(String username, String password) throws UserNotFoundException {
 		String encodedPassword = passwordEncoder.encode(password);
 		User userFromUsernameAndPassword = userRepository.findByUsernameAndPassword(username.toLowerCase(), encodedPassword);
-		userFromUsernameAndPassword.setUserPassword(null);
-		userFromUsernameAndPassword.setSecretPassword(null);
+		userFromUsernameAndPassword.setUserPassword(null).setEmailAddress(null);
 		return userFromUsernameAndPassword;
 	}
 
@@ -132,8 +126,7 @@ public class UserService implements Serializable {
 	public List<User> getAvailableChallengeUsers(long id) {
 		List<User> availableChallengeUsers = userRepository.getAvailableChallengeUsers(id);
 		for (User user : availableChallengeUsers) {
-			user.setUserPassword(null);
-			user.setSecretPassword(null);
+			user.setUserPassword(null).setEmailAddress(null);
 		}
 		return availableChallengeUsers;
 	}
