@@ -7,13 +7,17 @@ import { RxStompService } from "@stomp/ng2-stompjs";
 import { environment } from "src/environments/environment";
 import { StatusCodeService } from "./status-code.service";
 import { ToastService } from "./toast.service";
+import { ModalService } from "./modal.service";
+
 
 @Injectable({
 	providedIn: "root",
 })
 export class BattleService {
-	constructor(public userService: UserService, private RXStompService: RxStompService, private statusCodeService: StatusCodeService, private toastService: ToastService) {}
+	constructor(private userService: UserService, private RXStompService: RxStompService, private statusCodeService: StatusCodeService, private toastService: ToastService, private modalService: ModalService) {}
 	public stompClient;
+
+	battleOn:boolean = false;
 
 	currentChallengeRequest: ChallengeRequest = {
 		id: 0,
@@ -77,7 +81,74 @@ export class BattleService {
 				pets: [],
 			},
 			createdOn: ",",
-			turns: [],
+			turns: [{
+				id: 0,
+				turnNumber: 0,
+				attackingPet: {
+					id: 0,
+					name: "",
+					image: {
+						id: 0,
+						imageURL: "",
+					},
+					type: "",
+					hunger: 0,
+					currentHealth: 0,
+					maxHealth: 0,
+					strength: 0,
+					agility: 0,
+					intelligence: 0,
+					petLevel: 0,
+					currentXP: 0,
+					availableLevelUps: 0,
+					owner: {
+						id: 0,
+						username: "",
+						favoriteColor: "",
+						adminStatus: false,
+					},
+				},
+				defendingPet: {
+					id: 0,
+					name: "",
+					image: {
+						id: 0,
+						imageURL: "",
+					},
+					type: "",
+					hunger: 0,
+					currentHealth: 0,
+					maxHealth: 0,
+					strength: 0,
+					agility: 0,
+					intelligence: 0,
+					petLevel: 0,
+					currentXP: 0,
+					availableLevelUps: 0,
+					owner: {
+						id: 0,
+						username: "",
+						favoriteColor: "",
+						adminStatus: false,
+					},
+				},
+				attackingPetCurrentHealth: 0,
+				defendingPetCurrentHealth: 0,
+				attackingPetAttackModifier: 0,
+				defendingPetAttackModifier: 0,
+				attackingPetArmorModifier: 0,
+				defendingPetArmorModifier: 0,
+				attackingPetAccuracyModifier: 0,
+				defendingPetAccuracyModifier: 0,
+				attackingPetEvasionModifier: 0,
+				defendingPetEvasionModifier: 0,
+				turnFlavorText: "",
+				attackerReplacedDeadPet: false,
+				defenderReplacedDeadPet: false,
+				battleFinished: false,
+				createdOn: "",
+			}
+			],
 		},
 		createdOn: "",
 	};
@@ -126,7 +197,74 @@ export class BattleService {
 			pets: [],
 		},
 		createdOn: ",",
-		turns: [],
+		turns: [{
+			id: 0,
+			turnNumber: 0,
+			attackingPet: {
+				id: 0,
+				name: "",
+				image: {
+					id: 0,
+					imageURL: "",
+				},
+				type: "",
+				hunger: 0,
+				currentHealth: 0,
+				maxHealth: 0,
+				strength: 0,
+				agility: 0,
+				intelligence: 0,
+				petLevel: 0,
+				currentXP: 0,
+				availableLevelUps: 0,
+				owner: {
+					id: 0,
+					username: "",
+					favoriteColor: "",
+					adminStatus: false,
+				},
+			},
+			defendingPet: {
+				id: 0,
+				name: "",
+				image: {
+					id: 0,
+					imageURL: "",
+				},
+				type: "",
+				hunger: 0,
+				currentHealth: 0,
+				maxHealth: 0,
+				strength: 0,
+				agility: 0,
+				intelligence: 0,
+				petLevel: 0,
+				currentXP: 0,
+				availableLevelUps: 0,
+				owner: {
+					id: 0,
+					username: "",
+					favoriteColor: "",
+					adminStatus: false,
+				},
+			},
+			attackingPetCurrentHealth: 0,
+			defendingPetCurrentHealth: 0,
+			attackingPetAttackModifier: 0,
+			defendingPetAttackModifier: 0,
+			attackingPetArmorModifier: 0,
+			defendingPetArmorModifier: 0,
+			attackingPetAccuracyModifier: 0,
+			defendingPetAccuracyModifier: 0,
+			attackingPetEvasionModifier: 0,
+			defendingPetEvasionModifier: 0,
+			turnFlavorText: "",
+			attackerReplacedDeadPet: false,
+			defenderReplacedDeadPet: false,
+			battleFinished: false,
+			createdOn: "",
+		}
+		],
 	};
 
 	async getPVEBattle(battleId: number) {
@@ -281,7 +419,74 @@ export class BattleService {
 				pets: [],
 			},
 			createdOn: ",",
-			turns: [],
+			turns: [{
+				id: 0,
+				turnNumber: 0,
+				attackingPet: {
+					id: 0,
+					name: "",
+					image: {
+						id: 0,
+						imageURL: "",
+					},
+					type: "",
+					hunger: 0,
+					currentHealth: 0,
+					maxHealth: 0,
+					strength: 0,
+					agility: 0,
+					intelligence: 0,
+					petLevel: 0,
+					currentXP: 0,
+					availableLevelUps: 0,
+					owner: {
+						id: 0,
+						username: "",
+						favoriteColor: "",
+						adminStatus: false,
+					},
+				},
+				defendingPet: {
+					id: 0,
+					name: "",
+					image: {
+						id: 0,
+						imageURL: "",
+					},
+					type: "",
+					hunger: 0,
+					currentHealth: 0,
+					maxHealth: 0,
+					strength: 0,
+					agility: 0,
+					intelligence: 0,
+					petLevel: 0,
+					currentXP: 0,
+					availableLevelUps: 0,
+					owner: {
+						id: 0,
+						username: "",
+						favoriteColor: "",
+						adminStatus: false,
+					},
+				},
+				attackingPetCurrentHealth: 0,
+				defendingPetCurrentHealth: 0,
+				attackingPetAttackModifier: 0,
+				defendingPetAttackModifier: 0,
+				attackingPetArmorModifier: 0,
+				defendingPetArmorModifier: 0,
+				attackingPetAccuracyModifier: 0,
+				defendingPetAccuracyModifier: 0,
+				attackingPetEvasionModifier: 0,
+				defendingPetEvasionModifier: 0,
+				turnFlavorText: "",
+				attackerReplacedDeadPet: false,
+				defenderReplacedDeadPet: false,
+				battleFinished: false,
+				createdOn: "",
+			}
+			],
 		};
 	}
 

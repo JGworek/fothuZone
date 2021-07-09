@@ -1,18 +1,24 @@
-import { Component, OnInit } from "@angular/core";
-import { RxStompService } from "@stomp/ng2-stompjs";
-import { BattleService } from "src/app/service/battle.service";
-import { UserService } from "src/app/service/user.service";
-import { environment } from "src/environments/environment";
+import { NgClass, NgStyle } from '@angular/common';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { BattleService } from 'src/app/service/battle.service';
+import { UserService } from 'src/app/service/user.service';
+import { ModalService } from 'src/app/service/modal.service';
+import { Battle } from 'src/app/models/Battle';
+import { RxStompService } from '@stomp/ng2-stompjs';
+
 
 @Component({
-	selector: "app-battle",
-	templateUrl: "./battle.component.html",
-	styleUrls: ["./battle.component.css"],
+  selector: 'app-modal-battle',
+  templateUrl: './modal-battle.component.html',
+  styleUrls: ['./modal-battle.component.css'],
+  providers :[NgbActiveModal],
 })
-export class BattleComponent implements OnInit {
-	constructor(public battleService: BattleService, public userService: UserService, private RxStompService: RxStompService) {}
-
+export class ModalBattleComponent implements OnInit {
+	constructor(public modalService: ModalService, public NgbActiveModal: NgbActiveModal, public userService: UserService, public battleService: BattleService, private RxStompService: RxStompService) {}
 	battleSubscription;
+
+	@ViewChild('battleModal', { static: true }) battleModal: TemplateRef<any>;
 
 	subscribeToBattle(battleId: number) {
 		this.battleSubscription = this.RxStompService.watch(`/battleSubscription/battleId/${this.battleService.currentBattle.id}`, { id: this.userService.currentUser.id as any }).subscribe((battleMessage) => {
@@ -37,8 +43,14 @@ export class BattleComponent implements OnInit {
 		}
 	}
 
+	closeBattle() {
+		this.modalService.dismissAll();
+		this.battleService.resetBattleServiceBattle();
+	}
+
 	ngOnInit(): void {
 		this.subscribeToBattle(this.battleService.currentBattle.id);
+		this.modalService.openOverlay(this.battleModal);
 		console.log(this.battleService.currentBattle);
 	}
 
@@ -56,4 +68,5 @@ export class BattleComponent implements OnInit {
 		// let currentBattlesJSON = await fetch(`${environment.fothuZoneEC2Link}/battles/all/pvp/current/userId/${this.userService.currentUser.id}`, { method: "GET" });
 		// this.currentBattles = await currentBattlesJSON.json();
 	}
+
 }

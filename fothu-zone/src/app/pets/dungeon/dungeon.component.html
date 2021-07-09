@@ -3,7 +3,7 @@
 		<div class="col-xl-8 col-md-12 no-gutters m-0 p-0 align-self-start">
 			<div class="row d-flex justify-content-center no-gutters">
 				<div class="col-12 d-flex justify-content-center no-gutters">
-					<h3 class="text-center">{{ currentMap.name }}</h3>
+					<h3 class="text-center">{{ this.dungeonService.currentDungeon.name }}</h3>
 				</div>
 				<div class="col-12 d-flex justify-content-center no-gutters">
 					<table class="mapTable">
@@ -13,19 +13,19 @@
 									*ngFor="let val2 of [].constructor(10); let j = index"
 									[id]="i * 10 + j"
 									[ngClass]="{
-										barren: !currentMap.nonBarrenCells.includes(i * 10 + j),
+										barren: !this.dungeonService.currentDungeon.nonBarrenCells.includes(i * 10 + j),
 										activeRoom: truthArray[i * 10 + j],
 										notExplored: notExploredArray[i * 10 + j],
-										start: i * 10 + j === currentMap.startingRoom ? truthArray[i * 10 + j] : false,
-										boss: i * 10 + j === currentMap.bossRoom ? truthArray[i * 10 + j] : false,
-										ladder: i * 10 + j === currentMap.ladderRoom ? truthArray[i * 10 + j] : false,
-										nearby: currentMap.nonBarrenCells.includes(i * 10 + j) && checkIfNearby(i * 10 + j) ? true : false,
+										start: i * 10 + j === this.dungeonService.currentDungeon.startingRoom ? truthArray[i * 10 + j] : false,
+										boss: i * 10 + j === this.dungeonService.currentDungeon.bossRoom ? truthArray[i * 10 + j] : false,
+										ladder: i * 10 + j === this.dungeonService.currentDungeon.ladderRoom ? truthArray[i * 10 + j] : false,
+										nearby: this.dungeonService.currentDungeon.nonBarrenCells.includes(i * 10 + j) && checkIfNearby(i * 10 + j) ? true : false,
 										wrapper: true,
 										mapTd: true
 									}"
 								>
 									<a
-										*ngIf="currentMap.nonBarrenCells.includes(i * 10 + j) && checkIfNearby(i * 10 + j)"
+										*ngIf="this.dungeonService.currentDungeon.nonBarrenCells.includes(i * 10 + j) && checkIfNearby(i * 10 + j)"
 										[ngClass]="{
 											'btn btn-dark-fothu bg-dark-fothu text-white font-weight-bold': true
 										}"

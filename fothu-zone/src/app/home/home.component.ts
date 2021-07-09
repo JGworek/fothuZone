@@ -9,7 +9,7 @@ import { UserService } from "../service/user.service";
 	styleUrls: ["./home.component.css"],
 })
 export class HomeComponent implements OnInit {
-	constructor(public userService: UserService, public toastService: ToastService, private battleService: BattleService) {}
+	constructor(public userService: UserService, public toastService: ToastService, public battleService: BattleService) {}
 
 	ngOnInit() {}
 }

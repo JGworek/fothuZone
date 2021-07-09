@@ -11,10 +11,12 @@ import { CreateChallengeComponent } from "./create-challenge/create-challenge.co
 import { FormsModule } from "@angular/forms";
 import { FilterPipeModule } from "ngx-filter-pipe";
 import { DungeonCreatorComponent } from "./dungeon-creator/dungeon-creator.component";
+import { ModalBattleComponent } from './modal-battle/modal-battle.component';
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
-	declarations: [NewPetComponent, PetsHomeComponent, BattleComponent, PetbarComponent, DungeonComponent, LevelUpComponent, CreateChallengeComponent, DungeonCreatorComponent],
-	imports: [CommonModule, AppRoutingModule, FormsModule, FilterPipeModule],
-	exports: [],
+	declarations: [NewPetComponent, PetsHomeComponent, BattleComponent, PetbarComponent, DungeonComponent, LevelUpComponent, CreateChallengeComponent, DungeonCreatorComponent, ModalBattleComponent],
+	imports: [CommonModule, AppRoutingModule, FormsModule, FilterPipeModule, NgbModule],
+	exports: [BattleComponent, ModalBattleComponent],
 })
 export class PetsModule {}

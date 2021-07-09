@@ -2,7 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { BattleService } from "src/app/service/battle.service";
 import { LevelUpService } from "src/app/service/level-up.service";
 import { UserService } from "src/app/service/user.service";
-import { DungeonMap } from "../../models/DungeonMap";
+import { DungeonService } from "src/app/service/dungeon.service";
+import { Dungeon } from "../../models/Dungeon";
 
 @Component({
 	selector: "app-dungeon",
@@ -10,9 +11,9 @@ import { DungeonMap } from "../../models/DungeonMap";
 	styleUrls: ["./dungeon.component.css"],
 })
 export class DungeonComponent implements OnInit {
-	constructor(public userService: UserService, public battleService: BattleService, public levelUpService: LevelUpService) {}
+	constructor(public userService: UserService, public battleService: BattleService, public levelUpService: LevelUpService, public dungeonService:DungeonService) {}
 
-	currentMap: DungeonMap = {
+	currentMap: Dungeon = {
 		id: 1,
 		name: "Mumble's Creek",
 		startingRoom: 30,
@@ -86,6 +87,8 @@ export class DungeonComponent implements OnInit {
 		this.mapLog.push(`Moved to room ${this.currentRoom + 1}`);
 	}
 
+
+	//DO THIS IN A SERVICE AND DO IT IN THE MAIN MENU AND ALSO AFTER BATTLES ARE COMPLETE
 	checkLevelUps() {
 		console.log(this.levelUpService.currentLevelingUpPet.availableLevelUps);
 	}

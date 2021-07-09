@@ -1,6 +1,6 @@
 import { Pet } from "./Pet";
 
-export class DungeonMap {
+export class Dungeon {
 	id: number;
 	name: string;
 	startingRoom: number;

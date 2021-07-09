@@ -8,7 +8,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { HomeComponent } from "./home/home.component";
 import { PlaygroundPageComponent } from "./playground-page/playground-page.component";
 import { FormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ProfileComponent } from "./profile/profile.component";
 import { LoginComponent } from "./login/login.component";
 import { CommonModule } from "@angular/common";
@@ -26,7 +26,7 @@ import { ToastContainerComponent } from "./toast-container/toast-container.compo
 
 @NgModule({
 	declarations: [AppComponent, NavbarComponent, HomeComponent, PlaygroundPageComponent, ProfileComponent, LoginComponent, SignUpComponent, ToastContainerComponent],
-	imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, NgbModule, CommonModule, PetsModule, RosaryModule, RouterModule, CYOAModule],
+	imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, NgbModule, CommonModule, PetsModule, RosaryModule, RouterModule, CYOAModule, NgbModule],
 	providers: [
 		UserService,
 		BattleService,
