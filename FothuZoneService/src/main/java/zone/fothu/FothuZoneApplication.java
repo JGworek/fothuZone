@@ -2,7 +2,7 @@ package zone.fothu;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -14,6 +14,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
+@EnableCaching
 @EnableSwagger2
 @Component
 public class FothuZoneApplication {
@@ -25,11 +26,6 @@ public class FothuZoneApplication {
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
-	}
-
-	@Bean
-	public AnnotationConfigApplicationContext annotationConfigApplicationContext() {
-		return new AnnotationConfigApplicationContext();
 	}
 
 	// server:port/swagger-ui.html

@@ -2,7 +2,7 @@ import { InjectableRxStompConfig } from "@stomp/ng2-stompjs";
 import { environment } from "src/environments/environment";
 
 export const rxStompConfig: InjectableRxStompConfig = {
-	// Which server?
+	// ws://localhost:6969/ws
 	brokerURL: `${environment.fothuZoneWSLink}/ws`,
 
 	// Headers

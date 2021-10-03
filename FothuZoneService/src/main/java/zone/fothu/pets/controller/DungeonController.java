@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -35,18 +36,21 @@ public class DungeonController implements Serializable {
 		this.dungeonService = dungeonService;
 	}
 
+	@Cacheable("allDungeons")
 	@GetMapping("/all")
 	public ResponseEntity<List<Dungeon>> getAllMaps() {
 		List<Dungeon> maps = dungeonRepository.findAll();
 		return ResponseEntity.ok(maps);
 	}
 
+	@Cacheable(value = "dungeon", key = "#id")
 	@GetMapping("/id/{id}")
 	public ResponseEntity<Dungeon> getMapById(@PathVariable long id) {
 		Dungeon map = dungeonRepository.findMapById(id);
 		return ResponseEntity.ok(map);
 	}
 
+	@Cacheable(value = "dungeon", key = "#name")
 	@GetMapping("/name/{name}")
 	public ResponseEntity<Dungeon> getMapByName(@PathVariable String name) {
 		String mapName = name.replace("%20", " ");

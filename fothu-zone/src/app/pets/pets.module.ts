@@ -3,7 +3,6 @@ import { NewPetComponent } from "./new-pet/new-pet.component";
 import { PetsHomeComponent } from "./pets-home/pets-home.component";
 import { AppRoutingModule } from "../app-routing.module";
 import { CommonModule } from "@angular/common";
-import { BattleComponent } from "./battle/battle.component";
 import { PetbarComponent } from "./petbar/petbar.component";
 import { DungeonComponent } from "./dungeon/dungeon.component";
 import { LevelUpComponent } from "./level-up/level-up.component";
@@ -15,8 +14,8 @@ import { ModalBattleComponent } from './modal-battle/modal-battle.component';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
-	declarations: [NewPetComponent, PetsHomeComponent, BattleComponent, PetbarComponent, DungeonComponent, LevelUpComponent, CreateChallengeComponent, DungeonCreatorComponent, ModalBattleComponent],
+	declarations: [NewPetComponent, PetsHomeComponent, PetbarComponent, DungeonComponent, LevelUpComponent, CreateChallengeComponent, DungeonCreatorComponent, ModalBattleComponent],
 	imports: [CommonModule, AppRoutingModule, FormsModule, FilterPipeModule, NgbModule],
-	exports: [BattleComponent, ModalBattleComponent],
+	exports: [ModalBattleComponent],
 })
 export class PetsModule {}

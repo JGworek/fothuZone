@@ -159,6 +159,7 @@ public class BattleService implements Serializable {
 			Pet firstPet = getFirstTurnPet(battle.getAttackingBattlePets().get(0).getPet(), battle.getDefendingBattlePets().get(0).getPet(), battle);
 			battle = battleRepository.save(battle.setNextTurnUser(firstPet.getOwner()));
 		}
+		System.out.println("a");
 		return getBattleById(battleId);
 	}
 
@@ -199,6 +200,7 @@ public class BattleService implements Serializable {
 			Pet firstPet = getFirstTurnPet(battle.getAttackingBattlePets().get(0).getPet(), battle.getDefendingBattlePets().get(0).getPet(), battle);
 			battle = battleRepository.save(battle.setNextTurnUser(firstPet.getOwner()));
 		}
+		System.out.println("b");
 		return getBattleById(battleId);
 	}
 
@@ -209,7 +211,7 @@ public class BattleService implements Serializable {
 		if (isPetAlreadySelected(attackingPet, currentBattle)) {
 			throw new PetAlreadySelectedException("That attacking pet has already been selected!");
 		}
-		if (currentBattle.getAttackingUser().getId() != attackingPet.getId()) {
+		if (currentBattle.getAttackingUser().getId() != attackingPet.getOwner().getId()) {
 			throw new WrongBattlePetException("That attacking user cannot set that pet for battle!");
 		}
 		if (currentBattle.getBattleType().equalsIgnoreCase("pve")) {
@@ -636,8 +638,9 @@ public class BattleService implements Serializable {
 						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
 			}
 			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getDefendingUser()).setBattleFinished(battleFinished));
-			System.out.println(flavorText);
-			System.out.println(technicalText);
+			// System.out.println(flavorText);
+
+			// System.out.println(technicalText);
 			return getBattleById(battleId);
 		} else {
 			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
@@ -651,8 +654,8 @@ public class BattleService implements Serializable {
 						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
 			}
 			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getDefendingUser()).setBattleFinished(battleFinished));
-			System.out.println(flavorText);
-			System.out.println(technicalText);
+			// System.out.println(flavorText);
+			// System.out.println(technicalText);
 			return getBattleById(battleId);
 		}
 	}
@@ -694,8 +697,8 @@ public class BattleService implements Serializable {
 						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
 			}
 			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getAttackingUser()).setBattleFinished(battleFinished));
-			System.out.println(flavorText);
-			System.out.println(technicalText);
+			// System.out.println(flavorText);
+			// System.out.println(technicalText);
 			return getBattleById(battleId);
 		} else {
 			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
@@ -709,8 +712,8 @@ public class BattleService implements Serializable {
 						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
 			}
 			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getAttackingUser()).setBattleFinished(battleFinished));
-			System.out.println(flavorText);
-			System.out.println(technicalText);
+			// System.out.println(flavorText);
+			// System.out.println(technicalText);
 			return getBattleById(battleId);
 		}
 	}
@@ -738,8 +741,8 @@ public class BattleService implements Serializable {
 						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
 			}
 			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getDefendingUser()).setBattleFinished(battleFinished));
-			System.out.println(flavorText);
-			System.out.println(technicalText);
+			// System.out.println(flavorText);
+			// System.out.println(technicalText);
 			return getBattleById(battleId);
 		} else {
 			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
@@ -753,8 +756,8 @@ public class BattleService implements Serializable {
 						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
 			}
 			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getDefendingUser()).setBattleFinished(battleFinished));
-			System.out.println(flavorText);
-			System.out.println(technicalText);
+			// System.out.println(flavorText);
+			// System.out.println(technicalText);
 			return getBattleById(battleId);
 		}
 	}
@@ -782,8 +785,8 @@ public class BattleService implements Serializable {
 						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
 			}
 			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getAttackingUser()).setBattleFinished(battleFinished));
-			System.out.println(flavorText);
-			System.out.println(technicalText);
+			// System.out.println(flavorText);
+			// System.out.println(technicalText);
 			return getBattleById(battleId);
 		} else {
 			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
@@ -797,8 +800,8 @@ public class BattleService implements Serializable {
 						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
 			}
 			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getAttackingUser()).setBattleFinished(battleFinished));
-			System.out.println(flavorText);
-			System.out.println(technicalText);
+			// System.out.println(flavorText);
+			// System.out.println(technicalText);
 			return getBattleById(battleId);
 		}
 	}
@@ -827,8 +830,8 @@ public class BattleService implements Serializable {
 
 			}
 			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getDefendingUser()).setBattleFinished(battleFinished));
-			System.out.println(flavorText);
-			System.out.println(technicalText);
+			// System.out.println(flavorText);
+			// System.out.println(technicalText);
 			return getBattleById(battleId);
 		} else {
 			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
@@ -842,8 +845,8 @@ public class BattleService implements Serializable {
 						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
 			}
 			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getDefendingUser()).setBattleFinished(battleFinished));
-			System.out.println(flavorText);
-			System.out.println(technicalText);
+			// System.out.println(flavorText);
+			// System.out.println(technicalText);
 			return getBattleById(battleId);
 		}
 	}
@@ -871,8 +874,8 @@ public class BattleService implements Serializable {
 						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
 			}
 			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getAttackingUser()).setBattleFinished(battleFinished));
-			System.out.println(flavorText);
-			System.out.println(technicalText);
+			// System.out.println(flavorText);
+			// System.out.println(technicalText);
 			return getBattleById(battleId);
 		} else {
 			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
@@ -886,8 +889,8 @@ public class BattleService implements Serializable {
 						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
 			}
 			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getAttackingUser()).setBattleFinished(battleFinished));
-			System.out.println(flavorText);
-			System.out.println(technicalText);
+			// System.out.println(flavorText);
+			// System.out.println(technicalText);
 			return getBattleById(battleId);
 		}
 	}
@@ -915,8 +918,8 @@ public class BattleService implements Serializable {
 						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
 			}
 			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getDefendingUser()).setBattleFinished(battleFinished));
-			System.out.println(flavorText);
-			System.out.println(technicalText);
+			// System.out.println(flavorText);
+			// System.out.println(technicalText);
 			return getBattleById(battleId);
 		} else {
 			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
@@ -930,8 +933,8 @@ public class BattleService implements Serializable {
 						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
 			}
 			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getDefendingUser()).setBattleFinished(battleFinished));
-			System.out.println(flavorText);
-			System.out.println(technicalText);
+			// System.out.println(flavorText);
+			// System.out.println(technicalText);
 			return getBattleById(battleId);
 		}
 	}
@@ -959,8 +962,8 @@ public class BattleService implements Serializable {
 						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
 			}
 			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getAttackingUser()).setBattleFinished(battleFinished));
-			System.out.println(flavorText);
-			System.out.println(technicalText);
+			// System.out.println(flavorText);
+			// System.out.println(technicalText);
 			return getBattleById(battleId);
 		} else {
 			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
@@ -974,8 +977,8 @@ public class BattleService implements Serializable {
 						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
 			}
 			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getAttackingUser()).setBattleFinished(battleFinished));
-			System.out.println(flavorText);
-			System.out.println(technicalText);
+			// System.out.println(flavorText);
+			// System.out.println(technicalText);
 			return getBattleById(battleId);
 		}
 	}
@@ -1003,8 +1006,8 @@ public class BattleService implements Serializable {
 						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
 			}
 			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getDefendingUser()).setBattleFinished(battleFinished));
-			System.out.println(flavorText);
-			System.out.println(technicalText);
+			// System.out.println(flavorText);
+			// System.out.println(technicalText);
 			return getBattleById(battleId);
 		} else {
 			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
@@ -1018,8 +1021,8 @@ public class BattleService implements Serializable {
 						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
 			}
 			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getDefendingUser()).setBattleFinished(battleFinished));
-			System.out.println(flavorText);
-			System.out.println(technicalText);
+			// System.out.println(flavorText);
+			// System.out.println(technicalText);
 			return getBattleById(battleId);
 		}
 	}
@@ -1047,8 +1050,8 @@ public class BattleService implements Serializable {
 						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier() + MODIFIER_INCREMENT).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
 			}
 			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getAttackingUser()).setBattleFinished(battleFinished));
-			System.out.println(flavorText);
-			System.out.println(technicalText);
+			// System.out.println(flavorText);
+			// System.out.println(technicalText);
 			return getBattleById(battleId);
 		} else {
 			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
@@ -1062,8 +1065,8 @@ public class BattleService implements Serializable {
 						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
 			}
 			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getAttackingUser()).setBattleFinished(battleFinished));
-			System.out.println(flavorText);
-			System.out.println(technicalText);
+			// System.out.println(flavorText);
+			// System.out.println(technicalText);
 			return getBattleById(battleId);
 		}
 	}
@@ -1143,6 +1146,24 @@ public class BattleService implements Serializable {
 		}
 		if (battle.getNextTurnUser() == null) {
 			battle.setNextTurnUser(BeanUtil.getBean(User.class).setId(0));
+		}
+		if (battle.getAttackingBattlePets() == null) {
+			List<AttackingBattlePet> attackingBattlePets = new ArrayList<AttackingBattlePet>();
+			attackingBattlePets.add(0, BeanUtil.getBean(AttackingBattlePet.class).setId(0).setPet(BeanUtil.getBean(Pet.class).setId(0).setOwner(BeanUtil.getBean(User.class).setId(0))));
+			battle.setAttackingBattlePets(attackingBattlePets);
+		}
+		if (battle.getDefendingBattlePets() == null) {
+			List<DefendingBattlePet> defendingBattlePets = new ArrayList<DefendingBattlePet>();
+			defendingBattlePets.add(0, BeanUtil.getBean(DefendingBattlePet.class).setId(0).setPet(BeanUtil.getBean(Pet.class).setId(0).setOwner(BeanUtil.getBean(User.class).setId(0))));
+			battle.setDefendingBattlePets(defendingBattlePets);
+		}
+		for (Turn turn : battle.getTurns()) {
+			if (turn.getAttackingPet() == null) {
+				turn.setAttackingPet(BeanUtil.getBean(Pet.class).setId(0).setOwner(BeanUtil.getBean(User.class).setId(0)));
+			}
+			if (turn.getDefendingPet() == null) {
+				turn.setDefendingPet(BeanUtil.getBean(Pet.class).setId(0).setOwner(BeanUtil.getBean(User.class).setId(0)));
+			}
 		}
 		return cleanOutTechnicalText(battle);
 	}

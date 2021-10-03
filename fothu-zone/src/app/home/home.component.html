@@ -10,7 +10,7 @@
 		<div class="col-12 col-sm-6">
 			<h5>Logged In Required</h5>
 			<br />
-			<button [ngClass]="{ 'list-group-item nav-link btn-lg w-100 text-white': true, 'disabled bg-info-fothu': !this.userService.currentUser.id, 'bg-primary-fothu': this.userService.currentUser.id }" [routerLink]="['', { outlets: { primary: 'FothuPets', petbar: 'available', battles: 'available', levelUps: 'possible' } }]">Fothu Pets</button>
+			<button [ngClass]="{ 'list-group-item nav-link btn-lg w-100 text-white': true, 'disabled bg-info-fothu': !this.userService.currentUser.id, 'bg-primary-fothu': this.userService.currentUser.id }" [routerLink]="['', { outlets: { primary: 'FothuPets', petbar: 'available', levelUps: 'possible' } }]">Fothu Pets</button>
 			<br />
 			<div *ngIf="!this.userService.currentUser.id">
 				<button class="list-group-item nav-link btn-lg w-100 bg-warning-fothu text-dark-fothu" *ngIf="!this.userService.currentUser.id" routerLink="/login">Login/Sign Up</button>

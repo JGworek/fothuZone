@@ -18,6 +18,7 @@ export class BattleService {
 	public stompClient;
 
 	battleOn:boolean = false;
+	modalFirstOpened:boolean = false;
 
 	currentChallengeRequest: ChallengeRequest = {
 		id: 0,
@@ -28,6 +29,7 @@ export class BattleService {
 			username: "",
 			favoriteColor: "",
 			adminStatus: false,
+			verifiedStatus: false,
 			pets: [],
 		},
 		defendingUser: {
@@ -35,6 +37,7 @@ export class BattleService {
 			username: "",
 			favoriteColor: "",
 			adminStatus: false,
+			verifiedStatus: false,
 			pets: [],
 		},
 		resultingBattle: {
@@ -47,6 +50,7 @@ export class BattleService {
 				username: "",
 				favoriteColor: "",
 				adminStatus: false,
+				verifiedStatus: false,
 				pets: [],
 			},
 			attackingBattlePets: [],
@@ -55,6 +59,7 @@ export class BattleService {
 				username: "",
 				favoriteColor: "",
 				adminStatus: false,
+				verifiedStatus: false,
 				pets: [],
 			},
 			defendingBattlePets: [],
@@ -63,6 +68,7 @@ export class BattleService {
 				username: "",
 				favoriteColor: "",
 				adminStatus: false,
+				verifiedStatus: false,
 				pets: [],
 			},
 			battleFinished: false,
@@ -71,6 +77,7 @@ export class BattleService {
 				username: "",
 				favoriteColor: "",
 				adminStatus: false,
+				verifiedStatus: false,
 				pets: [],
 			},
 			losingUser: {
@@ -78,6 +85,7 @@ export class BattleService {
 				username: "",
 				favoriteColor: "",
 				adminStatus: false,
+				verifiedStatus: false,
 				pets: [],
 			},
 			createdOn: ",",
@@ -163,22 +171,85 @@ export class BattleService {
 			username: "",
 			favoriteColor: "",
 			adminStatus: false,
+			verifiedStatus: false,
 			pets: [],
 		},
-		attackingBattlePets: [],
+		attackingBattlePets: [
+			{
+				id: 0,
+				pet: {
+					id: 0,
+				name: "",
+				image: {
+					id: 0,
+					imageURL: "",
+				},
+				type: "",
+				hunger: 0,
+				currentHealth: 0,
+				maxHealth: 0,
+				strength: 0,
+				agility: 0,
+				intelligence: 0,
+				petLevel: 0,
+				currentXP: 0,
+				availableLevelUps: 0,
+				owner: {
+					id: 0,
+					username: "",
+					favoriteColor: "",
+					adminStatus: false,
+				},
+			},
+				currentHealth: 0,
+				aliveStatus: false,
+			},
+		],
 		defendingUser: {
 			id: 0,
 			username: "",
 			favoriteColor: "",
 			adminStatus: false,
+			verifiedStatus: false,
 			pets: [],
 		},
-		defendingBattlePets: [],
+		defendingBattlePets: [
+			{
+				id: 0,
+				pet: {
+					id: 0,
+				name: "",
+				image: {
+					id: 0,
+					imageURL: "",
+				},
+				type: "",
+				hunger: 0,
+				currentHealth: 0,
+				maxHealth: 0,
+				strength: 0,
+				agility: 0,
+				intelligence: 0,
+				petLevel: 0,
+				currentXP: 0,
+				availableLevelUps: 0,
+				owner: {
+					id: 0,
+					username: "",
+					favoriteColor: "",
+					adminStatus: false,
+				},
+			},
+				currentHealth: 0,
+				aliveStatus: false,
+			},
+		],
 		nextTurnUser: {
 			id: 0,
 			username: "",
 			favoriteColor: "",
 			adminStatus: false,
+			verifiedStatus: false,
 			pets: [],
 		},
 		battleFinished: false,
@@ -187,6 +258,7 @@ export class BattleService {
 			username: "",
 			favoriteColor: "",
 			adminStatus: false,
+			verifiedStatus: false,
 			pets: [],
 		},
 		losingUser: {
@@ -194,6 +266,7 @@ export class BattleService {
 			username: "",
 			favoriteColor: "",
 			adminStatus: false,
+			verifiedStatus: false,
 			pets: [],
 		},
 		createdOn: ",",
@@ -275,6 +348,7 @@ export class BattleService {
 	async getPVPBattle(battleId: number) {
 		let currentBattleJSON = await fetch(`${environment.fothuZoneEC2Link}/battles/id/${battleId}`);
 		this.currentBattle = await currentBattleJSON.json();
+		console.log(this.currentBattle);
 	}
 
 	async acceptChallengeRequest(challengeRequestId: number) {
@@ -298,15 +372,16 @@ export class BattleService {
 	}
 
 	setAttackingPVPPet(battleId: number, attackingPetId: number) {
-		if (this.currentBattle.attackingBattlePets.length < 1) {
+		if (this.isBattlePetsArrayEmpty(this.currentBattle.attackingBattlePets)) {
 			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/setStartingAttackingPet/${attackingPetId}`, body: `${this.userService.currentUser.id}` });
+			console.log("1")
 		} else {
 			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/setAttackingPet/${attackingPetId}`, body: `${this.userService.currentUser.id}` });
 		}
 	}
 
 	setDefendingPVPPet(battleId: number, defendingPetId: number) {
-		if (this.currentBattle.defendingBattlePets.length < 1) {
+		if (this.isBattlePetsArrayEmpty(this.currentBattle.defendingBattlePets)) {
 			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/setStartingDefendingPet/${defendingPetId}`, body: `${this.userService.currentUser.id}` });
 		} else {
 			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/setDefendingPet/${defendingPetId}`, body: `${this.userService.currentUser.id}` });
@@ -385,22 +460,85 @@ export class BattleService {
 				username: "",
 				favoriteColor: "",
 				adminStatus: false,
+				verifiedStatus: false,
 				pets: [],
 			},
-			attackingBattlePets: [],
+			attackingBattlePets: [
+				{
+					id: 0,
+					pet: {
+						id: 0,
+					name: "",
+					image: {
+						id: 0,
+						imageURL: "",
+					},
+					type: "",
+					hunger: 0,
+					currentHealth: 0,
+					maxHealth: 0,
+					strength: 0,
+					agility: 0,
+					intelligence: 0,
+					petLevel: 0,
+					currentXP: 0,
+					availableLevelUps: 0,
+					owner: {
+						id: 0,
+						username: "",
+						favoriteColor: "",
+						adminStatus: false,
+					},
+				},
+					currentHealth: 0,
+					aliveStatus: false,
+				},
+			],
 			defendingUser: {
 				id: 0,
 				username: "",
 				favoriteColor: "",
 				adminStatus: false,
+				verifiedStatus: false,
 				pets: [],
 			},
-			defendingBattlePets: [],
+			defendingBattlePets: [
+				{
+					id: 0,
+					pet: {
+						id: 0,
+					name: "",
+					image: {
+						id: 0,
+						imageURL: "",
+					},
+					type: "",
+					hunger: 0,
+					currentHealth: 0,
+					maxHealth: 0,
+					strength: 0,
+					agility: 0,
+					intelligence: 0,
+					petLevel: 0,
+					currentXP: 0,
+					availableLevelUps: 0,
+					owner: {
+						id: 0,
+						username: "",
+						favoriteColor: "",
+						adminStatus: false,
+					},
+				},
+					currentHealth: 0,
+					aliveStatus: false,
+				},
+			],
 			nextTurnUser: {
 				id: 0,
 				username: "",
 				favoriteColor: "",
 				adminStatus: false,
+				verifiedStatus: false,
 				pets: [],
 			},
 			battleFinished: false,
@@ -409,6 +547,7 @@ export class BattleService {
 				username: "",
 				favoriteColor: "",
 				adminStatus: false,
+				verifiedStatus: false,
 				pets: [],
 			},
 			losingUser: {
@@ -416,6 +555,7 @@ export class BattleService {
 				username: "",
 				favoriteColor: "",
 				adminStatus: false,
+				verifiedStatus: false,
 				pets: [],
 			},
 			createdOn: ",",
@@ -493,5 +633,28 @@ export class BattleService {
 	async prematureEndPveBattle(userId: number) {
 		let battleJSON = await fetch(`${environment.fothuZoneEC2Link}/battles/pve/prematureEnd/battleId/${this.currentBattle.id}`, { method: "PUT" });
 		let battle = await battleJSON.json();
+	}
+
+	challengeRequests: Array<ChallengeRequest> = [];
+	currentBattles: Array<Battle> = [];
+
+	async getChallengeRequests() {
+		let challengeRequestJSON = await fetch(`${environment.fothuZoneEC2Link}/challengeRequests/all/pending/userId/${this.userService.currentUser.id}`, { method: "GET" });
+		this.challengeRequests = await challengeRequestJSON.json();
+	}
+
+	async getCurrentBattles() {
+		let currentBattlesJSON = await fetch(`${environment.fothuZoneEC2Link}/battles/all/pvp/current/userId/${this.userService.currentUser.id}`, { method: "GET" });
+		this.currentBattles = await currentBattlesJSON.json();
+	}
+
+	isBattlePetsArrayEmpty(array: Array<any>) {
+		if (array.length == 0) {
+			return true;
+		} else if(array[0].id == 0){
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

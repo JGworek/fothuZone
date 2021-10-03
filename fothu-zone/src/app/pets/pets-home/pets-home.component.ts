@@ -15,27 +15,16 @@ import { environment } from "src/environments/environment";
 export class PetsHomeComponent implements OnInit {
 	constructor(public userService: UserService, private RxStompService: RxStompService, public battleService: BattleService) {}
 
-	challengeRequests: Array<ChallengeRequest> = [];
-	currentBattles: Array<Battle> = [];
-
 	challengeSubscription: any;
 	battleSubscription: any;
 
-	async getChallengeRequests() {
-		let challengeRequestJSON = await fetch(`${environment.fothuZoneEC2Link}/challengeRequests/all/pending/userId/${this.userService.currentUser.id}`, { method: "GET" });
-		this.challengeRequests = await challengeRequestJSON.json();
-	}
 
-	async getCurrentBattles() {
-		let currentBattlesJSON = await fetch(`${environment.fothuZoneEC2Link}/battles/all/pvp/current/userId/${this.userService.currentUser.id}`, { method: "GET" });
-		this.currentBattles = await currentBattlesJSON.json();
-	}
 
 	keepChallengeRequestsUpdated() {
 		this.challengeSubscription = this.RxStompService.watch(`/challengeSubscription/${this.userService.currentUser.id}`).subscribe((challengeMessage) => {
 			if (challengeMessage) {
 				let convertedChallengeRequests = JSON.parse(challengeMessage.body);
-				this.challengeRequests = convertedChallengeRequests;
+				this.battleService.challengeRequests = convertedChallengeRequests;
 			}
 		});
 	}
@@ -44,7 +33,7 @@ export class PetsHomeComponent implements OnInit {
 		this.battleSubscription = this.RxStompService.watch(`/currentBattlesSubscription/${this.userService.currentUser.id}`).subscribe((battleMessage) => {
 			if (battleMessage) {
 				let convertedCurrentBattles = JSON.parse(battleMessage.body);
-				this.currentBattles = convertedCurrentBattles;
+				this.battleService.currentBattles = convertedCurrentBattles;
 			}
 		});
 	}
@@ -52,8 +41,8 @@ export class PetsHomeComponent implements OnInit {
 	ngOnInit(): void {
 		this.keepChallengeRequestsUpdated();
 		this.keepCurrentBattlesUpdated();
-		this.getChallengeRequests();
-		this.getCurrentBattles();
+		this.battleService.getChallengeRequests();
+		this.battleService.getCurrentBattles();
 	}
 
 	ngOnDestroy(): void {

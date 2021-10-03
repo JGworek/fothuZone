@@ -3,6 +3,7 @@ package zone.fothu.pets.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,7 @@ public class SupportedColorController {
 		this.supportedColorRespository = supportedColorRespository;
 	}
 
+	@Cacheable("allColors")
 	@GetMapping("/all")
 	public ResponseEntity<List<SupportedColor>> getAllSupportedColors() {
 		return ResponseEntity.ok(supportedColorRespository.getAll());

@@ -4,5 +4,4 @@ export class UserDTO {
 	favoriteColor: string;
 	userPassword: string;
 	secretPassword: string;
-	adminStatus: boolean;
 }

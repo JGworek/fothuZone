@@ -32,8 +32,8 @@ public class UserController implements Serializable {
 
 	private static final long serialVersionUID = -6621821132473638274L;
 
-	private final UserRepository userRepository;
 	private final UserService userService;
+	private UserRepository userRepository;
 
 	@Autowired
 	public UserController(UserRepository userRepository, @Lazy UserService userService) {
@@ -42,20 +42,15 @@ public class UserController implements Serializable {
 		this.userService = userService;
 	}
 
-	@GetMapping("/ac")
-	public ResponseEntity<User> getAUser() {
-		return ResponseEntity.ok(userService.getAThing());
-	}
+//	@GetMapping("/ac")
+//	public ResponseEntity<User> getAUser() {
+//		return ResponseEntity.ok(userService.getAThing());
+//	}
 
 	@GetMapping("/all")
 	public ResponseEntity<List<User>> getAllUsers() {
 		return ResponseEntity.ok(userService.getAllUsers());
 	}
-
-//	@GetMapping("/all/DTO")
-//	public ResponseEntity<List<UserDTO>> getAllUserDTOs() {
-//		return ResponseEntity.ok(userService.getAllUserDTOs());
-//	}
 
 	@GetMapping("/id/{id}")
 	public ResponseEntity<User> getUserById(@PathVariable long id) {

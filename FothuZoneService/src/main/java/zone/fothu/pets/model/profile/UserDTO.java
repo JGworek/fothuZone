@@ -39,6 +39,4 @@ public class UserDTO implements Serializable {
 	private String userPassword;
 	@Column(name = "secret_password")
 	private String secretPassword;
-	@Column(name = "admin_status")
-	private boolean adminStatus;
 }

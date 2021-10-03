@@ -64,10 +64,9 @@ public class UserService implements Serializable {
 	public User logInNewUser(User loggingInUser) throws UserNotFoundException {
 		try {
 			if (passwordEncoder.matches(loggingInUser.getUserPassword(), userRepository.findByUsername(loggingInUser.getUsername().toLowerCase()).getUserPassword())) {
-				User userFromDatabase = userRepository.findByUsername(loggingInUser.getUsername().toLowerCase());
-				return userFromDatabase.setUserPassword(null).setEmailAddress(null);
+				return userRepository.findByUsername(loggingInUser.getUsername().toLowerCase()).setUserPassword(null).setEmailAddress(null);
 			} else {
-				return null;
+				throw new UserNotFoundException("Username or Password is incorrect");
 			}
 		} catch (NullPointerException e) {
 			throw new UserNotFoundException("Username or Password is incorrect");

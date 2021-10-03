@@ -8,7 +8,6 @@ import { LoginComponent } from "./login/login.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { PetsHomeComponent } from "./pets/pets-home/pets-home.component";
 import { NewPetComponent } from "./pets/new-pet/new-pet.component";
-import { BattleComponent } from "./pets/battle/battle.component";
 import { PetbarComponent } from "./pets/petbar/petbar.component";
 import { DungeonComponent } from "./pets/dungeon/dungeon.component";
 import { UserGuard } from "./guard/user.guard";
@@ -37,7 +36,6 @@ const routes: Routes = [
 	{ path: "challenge", component: CreateChallengeComponent, canActivate: [UserGuard] },
 	{ path: "dungeon", component: DungeonComponent, canActivate: [UserGuard], canDeactivate: [PreventExitGuard] },
 	{ path: "available", component: PetbarComponent, outlet: "petbar", canActivate: [UserGuard] },
-	{ path: "available", component: BattleComponent, outlet: "battles", canActivate: [UserGuard] },
 	{ path: "possible", component: LevelUpComponent, outlet: "levelUps", canActivate: [UserGuard] },
 	{ path: "signUp", component: SignUpComponent, canActivate: [UserGuard] },
 	// { path: '**', redirectTo: 'directory', pathMatch: 'full' },

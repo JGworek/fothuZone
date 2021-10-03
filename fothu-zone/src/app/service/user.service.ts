@@ -24,7 +24,6 @@ export class UserService {
 		favoriteColor: "",
 		userPassword: "",
 		secretPassword: "",
-		adminStatus: false,
 	};
 
 	currentUser: User = {
@@ -32,6 +31,7 @@ export class UserService {
 		username: "",
 		favoriteColor: "",
 		adminStatus: false,
+		verifiedStatus: false,
 		pets: [],
 	};
 
@@ -40,8 +40,7 @@ export class UserService {
 		username: "",
 		favoriteColor: "",
 		userPassword: "",
-		secretPassword: "",
-		adminStatus: false,
+		secretPassword: ""
 	};
 
 	getHealthBarColor(percentNumber) {
@@ -56,8 +55,10 @@ export class UserService {
 
 	async logIn() {
 		let userJSON = await fetch(`${environment.fothuZoneEC2Link}/users/login`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(this.loggingInUser) });
+		console.log(userJSON);
 		if (this.statusCodeService.checkSuccessStatus(userJSON)) {
 			let returnedUser = await userJSON.json();
+			console.log(returnedUser)
 			this.currentUser = returnedUser;
 			this.keepUserUpdated();
 			this.trackErrorMessageResponses();
@@ -74,7 +75,7 @@ export class UserService {
 	}
 
 	keepUserUpdated() {
-		this.userSubscription = this.RxStompService.watch(`/userSubscription/${this.currentUser.id}`, { id: this.currentUser.id as any }).subscribe((userMessage) => {
+		this.userSubscription = this.RxStompService.watch(`/userSubscription/${this.currentUser.id}`, { id: this.currentUser.id.toString() }).subscribe((userMessage) => {
 			if (userMessage.body) {
 				let convertedUserMessage = JSON.parse(userMessage.body);
 				this.currentUser = convertedUserMessage;
@@ -84,7 +85,7 @@ export class UserService {
 	}
 
 	trackErrorMessageResponses() {
-		this.errorSubscription = this.RxStompService.watch(`/errorMessageSubscription/${this.currentUser.id}`, { id: this.currentUser.id as any }).subscribe((errorMessage) => {
+		this.errorSubscription = this.RxStompService.watch(`/errorMessageSubscription/${this.currentUser.id}`, { id: this.currentUser.id.toString() }).subscribe((errorMessage) => {
 			if (errorMessage.body) {
 				let convertedErrorMessage = JSON.parse(errorMessage.body);
 				this.toastService.badRequestToast(convertedErrorMessage);
@@ -110,12 +111,5 @@ export class UserService {
 			}
 		}
 		return true;
-	}
-
-	//Why?
-	async updateUser() {
-		let returnedPromise = await fetch(`${environment.fothuZoneEC2Link}/users/username/${this.currentUser.username}`);
-		let returnedUser = await returnedPromise.json();
-		this.currentUser = returnedUser;
 	}
 }

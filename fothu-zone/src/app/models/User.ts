@@ -5,6 +5,7 @@ export class User {
 	username: string;
 	favoriteColor: string;
 	adminStatus: boolean;
+	verifiedStatus: boolean;
 	pets: Array<{
 		id: number;
 		name: string;

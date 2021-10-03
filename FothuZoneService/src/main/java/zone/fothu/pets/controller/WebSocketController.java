@@ -81,12 +81,12 @@ public class WebSocketController {
 
 	@MessageMapping("/battles/battleId/{battleId}/setStartingAttackingPet/{attackingPetId}")
 	public void setStartingAttackingPet(@DestinationVariable long battleId, @DestinationVariable long attackingPetId, @Payload String userId) throws WrongBattlePetException {
-		System.out.println("1");
 		template.convertAndSend("/battleSubscription/battleId/" + battleId, battleService.setStartingAttackingBattlePet(battleId, attackingPetId));
 	}
 
 	@MessageMapping("/battles/battleId/{battleId}/setStartingDefendingPet/{defendingPetId}")
 	public void setStartingDefendingPet(@DestinationVariable long battleId, @DestinationVariable long defendingPetId, @Payload String userId) throws WrongBattlePetException {
+		System.out.println("2");
 		template.convertAndSend("/battleSubscription/battleId/" + battleId, battleService.setStartingDefendingBattlePet(battleId, defendingPetId));
 	}
 

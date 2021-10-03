@@ -16,18 +16,18 @@
 										: ''
 							}"
 						>
-							<div *ngIf="isArrayEmpty(this.battleService.currentBattle.attackingBattlePets) || this.battleService.currentBattle.attackingBattlePets.length != this.battleService.currentBattle.maxNumberOfAttackingPets">
-								<div class="petcenter" [ngStyle]="{ visibility: this.battleService.currentBattle.attackingUser.id == this.userService.currentUser.id ? 'hidden' : 'visible' }">
+							<div *ngIf="this.battleService.isBattlePetsArrayEmpty(this.battleService.currentBattle.attackingBattlePets) || this.getBattlePetsArraySize(this.battleService.currentBattle.attackingBattlePets) != this.battleService.currentBattle.maxNumberOfAttackingPets">
+<div class="petcenter" [ngStyle]="{ visibility: this.battleService.currentBattle.attackingUser.id == this.userService.currentUser.id ? 'hidden' : 'visible' }">
 									<br />
 									<br />
 									<br />
-									<h4 class="text-white">{{ this.battleService.currentBattle.attackingUser.username }} is still selecting {{ this.battleService.currentBattle.maxNumberOfAttackingPets > 1 ? "their pets" : "a pet" }}</h4>
+									<h4 [ngStyle]="{ visibility: this.battleService.currentBattle.attackingUser.id == this.userService.currentUser.id ? 'hidden' : 'visible'}" class="text-white">{{ this.battleService.currentBattle.attackingUser.username }} is still selecting {{ this.battleService.currentBattle.maxNumberOfAttackingPets > 1 ? "their pets" : "a pet" }}</h4>
 								</div>
 								<div class="petcenter" [ngStyle]="{ visibility: this.battleService.currentBattle.attackingUser.id != this.userService.currentUser.id ? 'hidden' : 'visible' }">
 									<br />
 									<div class="row">
 										<div class="col-12">
-											<h4 class="text-white">{{ this.battleService.currentBattle.attackingBattlePets.length < 1 && this.battleService.currentBattle.maxNumberOfAttackingPets > 1 ? "Select your first fighter:" : this.battleService.currentBattle.maxNumberOfAttackingPets > 1 ? "Select your remaining fighters:" : "Select your fighter:" }}</h4>
+											<h4 class="text-white">{{ this.battleService.isBattlePetsArrayEmpty(this.battleService.currentBattle.attackingBattlePets) && this.battleService.currentBattle.maxNumberOfAttackingPets > 1 ? "Select your first fighter:" : this.battleService.currentBattle.maxNumberOfAttackingPets > 1 ? "Select your remaining fighters:" : "Select your fighter:" }}</h4>
 											<br />
 											<br />
 											<br />
@@ -47,7 +47,7 @@
 									</div>
 								</div>
 							</div>
-							<div *ngIf="!isArrayEmpty(this.battleService.currentBattle.attackingBattlePets) && this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet.id && this.battleService.currentBattle.maxNumberOfAttackingPets == this.battleService.currentBattle.attackingBattlePets.length">
+							<div *ngIf="!this.battleService.isBattlePetsArrayEmpty(this.battleService.currentBattle.attackingBattlePets) && this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet.id && this.battleService.currentBattle.maxNumberOfAttackingPets == this.getBattlePetsArraySize(this.battleService.currentBattle.attackingBattlePets)">
 								<br />
 								<h4 class="text-white">{{ this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet.name }}</h4>
 								<br />
@@ -126,28 +126,31 @@
 							<h4>&nbsp;</h4>
 							<div
 								*ngIf="
-									(isArrayEmpty(this.battleService.currentBattle.attackingBattlePets) && isArrayEmpty(this.battleService.currentBattle.defendingBattlePets)) ||
-									this.battleService.currentBattle.maxNumberOfAttackingPets > this.battleService.currentBattle.attackingBattlePets.length ||
-									this.battleService.currentBattle.maxNumberOfDefendingPets > this.battleService.currentBattle.defendingBattlePets.length
+									(this.battleService.isBattlePetsArrayEmpty(this.battleService.currentBattle.attackingBattlePets) && this.battleService.isBattlePetsArrayEmpty(this.battleService.currentBattle.defendingBattlePets)) ||
+									this.battleService.currentBattle.maxNumberOfAttackingPets > this.getBattlePetsArraySize(this.battleService.currentBattle.attackingBattlePets) ||
+									this.battleService.currentBattle.maxNumberOfDefendingPets > this.getBattlePetsArraySize(this.battleService.currentBattle.defendingBattlePets)
 								"
 							>
 								<hr />
 								<br />
 								<h4>Waiting for 1 or more user to finish selecting pets for battle.</h4>
+								<br />
 								<hr />
 							</div>
 							<div
 								*ngIf="
-									(!isArrayEmpty(this.battleService.currentBattle.attackingBattlePets) && this.battleService.currentBattle.maxNumberOfAttackingPets == this.battleService.currentBattle.attackingBattlePets.length && !this.battleService.currentBattle.battleFinished) ||
-									(!isArrayEmpty(this.battleService.currentBattle.defendingBattlePets) && this.battleService.currentBattle.maxNumberOfDefendingPets == this.battleService.currentBattle.defendingBattlePets.length && !this.battleService.currentBattle.battleFinished)
+									(!this.battleService.isBattlePetsArrayEmpty(this.battleService.currentBattle.attackingBattlePets) && this.battleService.currentBattle.maxNumberOfAttackingPets == this.getBattlePetsArraySize(this.battleService.currentBattle.attackingBattlePets) && !this.battleService.currentBattle.battleFinished) &&
+									(!this.battleService.isBattlePetsArrayEmpty(this.battleService.currentBattle.defendingBattlePets) && this.battleService.currentBattle.maxNumberOfDefendingPets == this.getBattlePetsArraySize(this.battleService.currentBattle.defendingBattlePets) && !this.battleService.currentBattle.battleFinished)
 								"
 							>
-								<h4 *ngIf="this.battleService.currentBattle.turns.length == 0">Waiting for {{ this.battleService.currentBattle.nextTurnUser.username }} to make the first move!</h4>
-								<hr />
+							<hr />
+							<br *ngIf="!this.battleService.currentBattle.turns[0].turnFlavorText"/>
+								<h4 *ngIf="!this.battleService.currentBattle.turns[0].turnFlavorText">Waiting for {{ this.battleService.currentBattle.nextTurnUser.username }} to make the first move!</h4>
+								<br *ngIf="!this.battleService.currentBattle.turns[0].turnFlavorText"/>
 								<div *ngFor="let battleLog of this.battleService.currentBattle.turns; let i = index">
-									<br *ngIf="i > this.battleService.currentBattle.turns.length - 2" />
-									<h4 *ngIf="i > this.battleService.currentBattle.turns.length - 2 && this.battleService.currentBattle.turns[i].turnFlavorText">{{ battleLog.turnFlavorText }}</h4>
-									<br *ngIf="i > this.battleService.currentBattle.turns.length - 2" />
+									<br *ngIf="this.battleService.currentBattle.turns[i].turnFlavorText && i > this.battleService.currentBattle.turns.length - 2" />
+									<h4 *ngIf="this.battleService.currentBattle.turns[i].turnFlavorText && i > this.battleService.currentBattle.turns.length - 2">{{ battleLog.turnFlavorText }}</h4>
+									<br *ngIf="this.battleService.currentBattle.turns[i].turnFlavorText && i > this.battleService.currentBattle.turns.length - 2" />
 									<hr *ngIf="i > this.battleService.currentBattle.turns.length - 2" />
 								</div>
 							</div>
@@ -169,25 +172,25 @@
 										: ''
 							}"
 						>
-							<div *ngIf="isArrayEmpty(this.battleService.currentBattle.defendingBattlePets) || this.battleService.currentBattle.defendingBattlePets.length != this.battleService.currentBattle.maxNumberOfDefendingPets">
-								<div class="petcenter" *ngIf="this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet">
+						<div *ngIf="this.battleService.isBattlePetsArrayEmpty(this.battleService.currentBattle.defendingBattlePets) || this.getBattlePetsArraySize(this.battleService.currentBattle.defendingBattlePets) != this.battleService.currentBattle.maxNumberOfDefendingPets">
+							<div class="petcenter" *ngIf="this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet.id">
 									<br />
 									<br />
 									<br />
-									<h4 class="text-white">{{ this.battleService.currentBattle.defendingUser.username }} is still selecting {{ this.battleService.currentBattle.maxNumberOfDefendingPets > 1 ? "their pets" : "a pet" }}</h4>
+									<h4 [ngStyle]="{ visibility: this.battleService.currentBattle.defendingUser.id == this.userService.currentUser.id ? 'hidden' : 'visible'}" class="text-white">{{ this.battleService.currentBattle.defendingUser.username }} is still selecting {{ this.battleService.currentBattle.maxNumberOfDefendingPets > 1 ? "their pets" : "a pet" }}</h4>
 								</div>
-								<div class="petcenter" *ngIf="!this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet">
+								<div class="petcenter" *ngIf="!this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet.id">
 									<br />
 									<br />
 									<br />
-									<h4 class="text-white">Waiting for {{ this.battleService.currentBattle.attackingUser.username }} to select their first pet.</h4>
+									<h4 [ngStyle]="{ visibility: this.battleService.currentBattle.defendingUser.id == this.userService.currentUser.id ? 'hidden' : 'visible'}" class="text-white">Waiting for {{ this.battleService.currentBattle.attackingUser.username }} to select their first pet.</h4>
 								</div>
-								<div class="petcenter" [ngStyle]="{ visibility: this.battleService.currentBattle.defendingUser.id == this.userService.currentUser.id && this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet ? 'visible' : 'hidden' }">
+								<div class="petcenter" [ngStyle]="{ visibility: this.battleService.currentBattle.defendingUser.id == this.userService.currentUser.id && this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet.id ? 'visible' : 'hidden' }">
 									<br />
 									<div class="row">
 										<div class="col-12">
 											<h4 class="text-white">
-												{{ this.battleService.currentBattle.defendingBattlePets.length < 1 && this.battleService.currentBattle.maxNumberOfDefendingPets > 1 ? "Select your first fighter:" : this.battleService.currentBattle.maxNumberOfDefendingPets > 1 ? "Select your remaining fighters:" : "Select your fighter:" }}
+												{{ this.getBattlePetsArraySize(this.battleService.currentBattle.defendingBattlePets) < 1 && this.battleService.currentBattle.maxNumberOfDefendingPets > 1 ? "Select your first fighter:" : this.battleService.currentBattle.maxNumberOfDefendingPets > 1 ? "Select your remaining fighters:" : "Select your fighter:" }}
 											</h4>
 											<br />
 											<br />
@@ -207,7 +210,7 @@
 									</div>
 								</div>
 							</div>
-							<div *ngIf="!isArrayEmpty(this.battleService.currentBattle.defendingBattlePets) && this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].defendingPet.id && this.battleService.currentBattle.maxNumberOfDefendingPets == this.battleService.currentBattle.defendingBattlePets.length">
+							<div *ngIf="!this.battleService.isBattlePetsArrayEmpty(this.battleService.currentBattle.defendingBattlePets) && this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].defendingPet.id && this.battleService.currentBattle.maxNumberOfDefendingPets == this.getBattlePetsArraySize(this.battleService.currentBattle.defendingBattlePets)">
 								<br />
 								<h4 class="text-white">{{ this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].defendingPet.name }}</h4>
 								<br />

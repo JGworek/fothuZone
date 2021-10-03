@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -41,18 +42,20 @@ public class ImageController implements Serializable {
 		this.imageService = imageService;
 	}
 
+	@Cacheable("allImages")
 	@GetMapping("/all")
 	public ResponseEntity<List<Image>> getAllImages() {
 		return ResponseEntity.ok(imageRepository.getAllImages());
 	}
 
+	@Cacheable(value = "image", key = "#id")
 	@GetMapping("/id/{id}")
 	public ResponseEntity<Image> getImageWithId(@PathVariable long id) {
 		Image image = imageRepository.findImageById(id);
 		return ResponseEntity.ok(image);
 	}
 
-	@GetMapping("/new")
+	@PostMapping("/new")
 	public ResponseEntity<Image> createPetImage(@RequestBody Image newImage) {
 		Image image = imageService.saveNewImage(newImage);
 		return ResponseEntity.ok(image);

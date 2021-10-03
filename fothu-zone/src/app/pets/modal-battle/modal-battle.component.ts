@@ -21,10 +21,10 @@ export class ModalBattleComponent implements OnInit {
 	@ViewChild('battleModal', { static: true }) battleModal: TemplateRef<any>;
 
 	subscribeToBattle(battleId: number) {
-		this.battleSubscription = this.RxStompService.watch(`/battleSubscription/battleId/${this.battleService.currentBattle.id}`, { id: this.userService.currentUser.id as any }).subscribe((battleMessage) => {
+		this.battleSubscription = this.RxStompService.watch(`/battleSubscription/battleId/${this.battleService.currentBattle.id}`, { id: this.userService.currentUser.id.toString() }).subscribe((battleMessage) => {
 			if (battleMessage.body) {
-				console.log(battleMessage);
-				console.log(battleMessage.body);
+				// console.log(battleMessage);
+				// console.log(battleMessage.body);
 				let convertedBattleMessage = JSON.parse(battleMessage.body);
 				this.battleService.currentBattle = convertedBattleMessage;
 			}
@@ -35,23 +35,30 @@ export class ModalBattleComponent implements OnInit {
 		this.battleSubscription.unsubscribe();
 	}
 
-	isArrayEmpty(array: Array<any>) {
-		if (array.length == 0) {
-			return true;
+	getBattlePetsArraySize(array: Array<any>) {
+		if (array[0].id == 0) {
+			return 0;
 		} else {
-			return false;
+			return array.length;
 		}
 	}
 
 	closeBattle() {
 		this.modalService.dismissAll();
 		this.battleService.resetBattleServiceBattle();
+		this.battleService.getCurrentBattles();
 	}
+
 
 	ngOnInit(): void {
 		this.subscribeToBattle(this.battleService.currentBattle.id);
 		this.modalService.openOverlay(this.battleModal);
-		console.log(this.battleService.currentBattle);
+		// console.log(this.battleService.currentBattle);
+		if(!this.battleService.modalFirstOpened) {
+			this.unsubscribeToBattle();
+			this.subscribeToBattle(this.battleService.currentBattle.id);
+			this.battleService.modalFirstOpened = true;
+		}
 	}
 
 	ngOnDestroy(): void {

@@ -41,7 +41,7 @@
 					<!-- ngFor current battles -->
 					<div class="row overflow-current-battles">
 						<div class="col-12">
-							<div class="row" *ngFor="let currentBattle of this.currentBattles">
+							<div class="row" *ngFor="let currentBattle of this.battleService.currentBattles">
 								<div class="col-12 text-center">
 									<h6 class="text-dark-fothu">Battle vs. {{ currentBattle.attackingUser.id == this.userService.currentUser.id ? currentBattle.defendingUser.username : currentBattle.attackingUser.username }}</h6>
 								</div>
@@ -61,7 +61,7 @@
 					<div class="row">
 						<div class="col-12 overflow-battle-requests">
 							<div class="col-12">
-								<div class="row" *ngFor="let challengeRequest of this.challengeRequests">
+								<div class="row" *ngFor="let challengeRequest of this.battleService.challengeRequests">
 									<div class="col-12 text-center">
 										<h6 class="text-dark-fothu">Battle vs. {{ challengeRequest.attackingUser.id == this.userService.currentUser.id ? challengeRequest.defendingUser.username : challengeRequest.attackingUser.username }}</h6>
 									</div>
