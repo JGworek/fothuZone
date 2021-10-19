@@ -1147,22 +1147,32 @@ public class BattleService implements Serializable {
 		if (battle.getNextTurnUser() == null) {
 			battle.setNextTurnUser(BeanUtil.getBean(User.class).setId(0));
 		}
-		if (battle.getAttackingBattlePets() == null) {
-			List<AttackingBattlePet> attackingBattlePets = new ArrayList<AttackingBattlePet>();
-			attackingBattlePets.add(0, BeanUtil.getBean(AttackingBattlePet.class).setId(0).setPet(BeanUtil.getBean(Pet.class).setId(0).setOwner(BeanUtil.getBean(User.class).setId(0))));
-			battle.setAttackingBattlePets(attackingBattlePets);
-		}
-		if (battle.getDefendingBattlePets() == null) {
-			List<DefendingBattlePet> defendingBattlePets = new ArrayList<DefendingBattlePet>();
-			defendingBattlePets.add(0, BeanUtil.getBean(DefendingBattlePet.class).setId(0).setPet(BeanUtil.getBean(Pet.class).setId(0).setOwner(BeanUtil.getBean(User.class).setId(0))));
-			battle.setDefendingBattlePets(defendingBattlePets);
-		}
-		for (Turn turn : battle.getTurns()) {
-			if (turn.getAttackingPet() == null) {
-				turn.setAttackingPet(BeanUtil.getBean(Pet.class).setId(0).setOwner(BeanUtil.getBean(User.class).setId(0)));
+		try {
+			if (battle.getAttackingBattlePets() == null | battle.getAttackingBattlePets().size() == 0) {
+				List<AttackingBattlePet> attackingBattlePets = new ArrayList<AttackingBattlePet>();
+				attackingBattlePets.add(0, BeanUtil.getBean(AttackingBattlePet.class).setId(0).setPet(BeanUtil.getBean(Pet.class).setId(0).setOwner(BeanUtil.getBean(User.class).setId(0))));
+				battle.setAttackingBattlePets(attackingBattlePets);
 			}
-			if (turn.getDefendingPet() == null) {
-				turn.setDefendingPet(BeanUtil.getBean(Pet.class).setId(0).setOwner(BeanUtil.getBean(User.class).setId(0)));
+		} catch (NullPointerException e) {
+			// just to not return error codes, but this isn't a problem
+		}
+		try {
+			if (battle.getDefendingBattlePets() == null | battle.getDefendingBattlePets().size() == 0) {
+				List<DefendingBattlePet> defendingBattlePets = new ArrayList<DefendingBattlePet>();
+				defendingBattlePets.add(0, BeanUtil.getBean(DefendingBattlePet.class).setId(0).setPet(BeanUtil.getBean(Pet.class).setId(0).setOwner(BeanUtil.getBean(User.class).setId(0))));
+				battle.setDefendingBattlePets(defendingBattlePets);
+			}
+		} catch (NullPointerException e) {
+			// just to not return error codes,, but this isn't a problem
+		}
+		if (battle.getTurns() != null) {
+			for (Turn turn : battle.getTurns()) {
+				if (turn.getAttackingPet() == null) {
+					turn.setAttackingPet(BeanUtil.getBean(Pet.class).setId(0).setOwner(BeanUtil.getBean(User.class).setId(0)));
+				}
+				if (turn.getDefendingPet() == null) {
+					turn.setDefendingPet(BeanUtil.getBean(Pet.class).setId(0).setOwner(BeanUtil.getBean(User.class).setId(0)));
+				}
 			}
 		}
 		return cleanOutTechnicalText(battle);

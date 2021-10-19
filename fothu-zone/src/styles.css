@@ -16,6 +16,10 @@ span {
 	height: 5%;
 }
 
+.battle-loading {
+	height: 20%
+}
+
 hr {
 	margin-top: 1rem;
 	margin-bottom: 1rem;

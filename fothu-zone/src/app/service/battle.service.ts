@@ -19,6 +19,7 @@ export class BattleService {
 
 	battleOn:boolean = false;
 	modalFirstOpened:boolean = false;
+	sendingRequest:boolean = false;
 
 	currentChallengeRequest: ChallengeRequest = {
 		id: 0,
@@ -378,6 +379,7 @@ export class BattleService {
 		} else {
 			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/setAttackingPet/${attackingPetId}`, body: `${this.userService.currentUser.id}` });
 		}
+		this.sendingRequest = true;
 	}
 
 	setDefendingPVPPet(battleId: number, defendingPetId: number) {
@@ -386,6 +388,7 @@ export class BattleService {
 		} else {
 			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/setDefendingPet/${defendingPetId}`, body: `${this.userService.currentUser.id}` });
 		}
+		this.sendingRequest = true;
 	}
 
 	async createPVEBattle(userId: number, defendingPetId: number) {
@@ -399,6 +402,7 @@ export class BattleService {
 		} else {
 			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/defendingUser/userId/${this.userService.currentUser.id}/attack` });
 		}
+		this.sendingRequest = true;
 	}
 
 	defend(battleId: number) {
@@ -407,6 +411,7 @@ export class BattleService {
 		} else {
 			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/defendingUser/userId/${this.userService.currentUser.id}/defend` });
 		}
+		this.sendingRequest = true;
 	}
 
 	aim(battleId: number) {
@@ -415,6 +420,7 @@ export class BattleService {
 		} else {
 			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/defendingUser/userId/${this.userService.currentUser.id}/aim` });
 		}
+		this.sendingRequest = true;
 	}
 
 	sharpen(battleId: number) {
@@ -423,6 +429,7 @@ export class BattleService {
 		} else {
 			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/defendingUser/userId/${this.userService.currentUser.id}/sharpen` });
 		}
+		this.sendingRequest = true;
 	}
 
 	evade(battleId: number) {
@@ -431,6 +438,7 @@ export class BattleService {
 		} else {
 			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/defendingUser/userId/${this.userService.currentUser.id}/evade` });
 		}
+		this.sendingRequest = true;
 	}
 
 	swap(battleId: number, petId: number) {
@@ -439,6 +447,7 @@ export class BattleService {
 		} else {
 			this.RXStompService.publish({ destination: `/fothuZoneSendPoint/battles/battleId/${battleId}/swapDefendingPet/${petId}` });
 		}
+		this.sendingRequest = true;
 	}
 
 	replaceDeadPet(battleId: number, deadPetId: number, newPetId: number) {
@@ -447,6 +456,7 @@ export class BattleService {
 		} else {
 			this.RXStompService.publish({ destination: `fothuZoneSendPoint/battles/battleId/${battleId}/replaceDeadDefendingPet/${deadPetId}/newAttackingPet/${newPetId}` });
 		}
+		this.sendingRequest = true;
 	}
 
 	resetBattleServiceBattle() {

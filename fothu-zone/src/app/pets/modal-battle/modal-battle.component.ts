@@ -23,10 +23,9 @@ export class ModalBattleComponent implements OnInit {
 	subscribeToBattle(battleId: number) {
 		this.battleSubscription = this.RxStompService.watch(`/battleSubscription/battleId/${this.battleService.currentBattle.id}`, { id: this.userService.currentUser.id.toString() }).subscribe((battleMessage) => {
 			if (battleMessage.body) {
-				// console.log(battleMessage);
-				// console.log(battleMessage.body);
 				let convertedBattleMessage = JSON.parse(battleMessage.body);
 				this.battleService.currentBattle = convertedBattleMessage;
+				this.battleService.sendingRequest = false;
 			}
 		});
 	}
@@ -53,7 +52,7 @@ export class ModalBattleComponent implements OnInit {
 	ngOnInit(): void {
 		this.subscribeToBattle(this.battleService.currentBattle.id);
 		this.modalService.openOverlay(this.battleModal);
-		// console.log(this.battleService.currentBattle);
+		console.log(this.battleService.currentBattle);
 		if(!this.battleService.modalFirstOpened) {
 			this.unsubscribeToBattle();
 			this.subscribeToBattle(this.battleService.currentBattle.id);

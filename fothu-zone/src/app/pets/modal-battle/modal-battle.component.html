@@ -123,6 +123,7 @@
 							</div>
 						</div>
 						<div class="col-12 col-md-4 battle-pets">
+							<img class="battle-loading" [ngStyle] = "{visibility: this.battleService.sendingRequest ? 'visible' : 'hidden' }" src="../../../assets/battle spinning loading image.gif" alt="loading" />
 							<h4>&nbsp;</h4>
 							<div
 								*ngIf="
@@ -157,7 +158,8 @@
 							<div *ngIf="this.battleService.currentBattle.battleFinished">
 								<hr />
 								<br />
-								<h4>{{ this.battleService.currentBattle.winningUser.username }} Wins!</h4>
+								<h4 *ngIf="this.battleService.currentBattle.attackingUser.id == 2 || this.battleService.currentBattle.defendingUser.id == 2">Chumbo Always Wins</h4>
+								<h4 *ngIf="this.battleService.currentBattle.attackingUser.id != 2 || this.battleService.currentBattle.defendingUser.id != 2">{{ this.battleService.currentBattle.winningUser.username }} Wins!</h4>
 								<br />
 								<hr />
 							</div>
@@ -183,7 +185,7 @@
 									<br />
 									<br />
 									<br />
-									<h4 [ngStyle]="{ visibility: this.battleService.currentBattle.defendingUser.id == this.userService.currentUser.id ? 'hidden' : 'visible'}" class="text-white">Waiting for {{ this.battleService.currentBattle.attackingUser.username }} to select their first pet.</h4>
+									<h4 class="text-white">Waiting for {{ this.battleService.currentBattle.attackingUser.username }} to select their first pet.</h4>
 								</div>
 								<div class="petcenter" [ngStyle]="{ visibility: this.battleService.currentBattle.defendingUser.id == this.userService.currentUser.id && this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet.id ? 'visible' : 'hidden' }">
 									<br />
