@@ -11,7 +11,7 @@ import { Dungeon } from "../../models/Dungeon";
 	styleUrls: ["./dungeon.component.css"],
 })
 export class DungeonComponent implements OnInit {
-	constructor(public userService: UserService, public battleService: BattleService, public levelUpService: LevelUpService, public dungeonService:DungeonService) {}
+	constructor(public userService: UserService, public battleService: BattleService, public levelUpService: LevelUpService, public dungeonService: DungeonService) {}
 
 	currentMap: Dungeon = {
 		id: 1,
@@ -86,7 +86,6 @@ export class DungeonComponent implements OnInit {
 		this.truthArray[roomId] = true;
 		this.mapLog.push(`Moved to room ${this.currentRoom + 1}`);
 	}
-
 
 	//DO THIS IN A SERVICE AND DO IT IN THE MAIN MENU AND ALSO AFTER BATTLES ARE COMPLETE
 	checkLevelUps() {

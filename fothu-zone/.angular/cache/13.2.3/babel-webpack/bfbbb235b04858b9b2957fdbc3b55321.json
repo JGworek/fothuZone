@@ -1,0 +1,7 @@
+{
+	"ast": null,
+	"code": "import * as i0 from \"@angular/core\";\nexport let StatusCodeService = /*#__PURE__*/(() => {\n  class StatusCodeService {\n    constructor() {}\n    /**\r\n     * Takes in an httpResponse and returns true if successful and false with a non 2xx status code\r\n     */\n\n\n    checkSuccessStatus(httpResponse) {\n      if (httpResponse.status.toString()[0] == \"1\" || httpResponse.status.toString()[0] == \"3\" || httpResponse.status.toString()[0] == \"4\" || httpResponse.status.toString()[0] == \"5\") {\n        return false;\n      } else {\n        return true;\n      }\n    }\n\n  }\n\n  StatusCodeService.ɵfac = function StatusCodeService_Factory(t) {\n    return new (t || StatusCodeService)();\n  };\n\n  StatusCodeService.ɵprov = /*@__PURE__*/i0.ɵɵdefineInjectable({\n    token: StatusCodeService,\n    factory: StatusCodeService.ɵfac,\n    providedIn: \"root\"\n  });\n  return StatusCodeService;\n})();",
+	"map": null,
+	"metadata": {},
+	"sourceType": "module"
+}

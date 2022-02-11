@@ -8,22 +8,29 @@
 		</div>
 		<div class="form-group">
 			<label>Enter Password</label>
-			<input [(ngModel)]="this.userService.newUser.userPassword" name="password" type="password" class="form-control" id="passwordInput" placeholder="password" required />
+			<input [(ngModel)]="this.userService.newUser.userPassword" name="password" type="password" class="form-control" id="passwordInputOne" placeholder="password" required />
 		</div>
 		<div class="form-group">
 			<label>Enter Password Again</label>
-			<input [(ngModel)]="this.userService.samePassword" name="password" type="password" class="form-control" id="passwordInput" placeholder="password" required />
+			<input [(ngModel)]="this.userService.samePassword" name="password" type="password" class="form-control" id="passwordInputTwo" placeholder="password" required />
 		</div>
 		<div *ngIf="this.userService.newUser.userPassword && this.userService.newUser.userPassword != this.userService.samePassword" class="text-danger">Passwords do not match!</div>
 		<br *ngIf="this.userService.newUser.userPassword && this.userService.newUser.userPassword != this.userService.samePassword" />
 		<div class="form-group">
 			<div><label>Favorite Color</label></div>
-			<select class="form-control" [(ngModel)]="this.userService.newUser.favoriteColor" name="favoriteColor" required>
-				<!-- <option *ngIf="!this.supportedColors.length" value="black"><span style="background-color: black">&nbsp;&nbsp;&nbsp;&nbsp;</span>Black</option> -->
-				<option value="" disabled selected>Select a color</option>
-				<option *ngFor="let supportedColor of this.supportedColors" [value]="supportedColor.color" [style]="{ 'background-color': supportedColor.color, color: 'white', 'font-weight': 'bold' }">{{ supportedColor.color | titlecase }}</option>
-			</select>
+			<div ngbDropdown class="d-inline-block">
+				<button class="btn btn-outline-dark" id="colorDropdown1" ngbDropdownToggle>
+					<img *ngIf="this.userService.newUser.favoriteColor" [src]="'https://fothuzone-colors.s3.amazonaws.com/' + this.userService.newUser.favoriteColor + '.png'" />
+					{{ this.userService.newUser.favoriteColor ? (this.userService.newUser.favoriteColor | titlecase) : "Please Select A Favorite Color" }}
+				</button>
+				<div ngbDropdownMenu aria-labelledby="colorDropdown1">
+					<button ngbDropdownItem *ngFor="let supportedColor of this.supportedColors" (click)="this.userService.newUser.favoriteColor = supportedColor.color">
+						<img [src]="'https://fothuzone-colors.s3.amazonaws.com/' + this.supportedColor.color + '.png'" />
+						{{ supportedColor.color | titlecase }}
+					</button>
+				</div>
+			</div>
 		</div>
-		<input type="submit" class="btn btn-primary" (click)="this.userService.logIn()" value="submit" />
+		<input type="submit" class="btn btn-dark" (click)="this.userService.logIn()" value="Submit" />
 	</form>
 </div>

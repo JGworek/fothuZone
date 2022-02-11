@@ -122,6 +122,7 @@ public class PetController implements Serializable {
 	public ResponseEntity<Pet> restoreOnePetsHealth(@PathVariable long id) {
 		petRepository.restoreOnePetsHealth(id);
 		Pet pet = petRepository.findById(id).get();
+
 		if (pet.getOwner() != null) {
 			pet.getOwner().setUserPassword(null);
 		}

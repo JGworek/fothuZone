@@ -1,5 +1,5 @@
 <ng-template #battleModal>
-<div class="container-fluid position-absolute bg-light-fothu">
+	<div class="container-fluid position-absolute bg-light-fothu">
 		<div class="row">
 			<div class="col-12">
 				<br />
@@ -17,11 +17,11 @@
 							}"
 						>
 							<div *ngIf="this.battleService.isBattlePetsArrayEmpty(this.battleService.currentBattle.attackingBattlePets) || this.getBattlePetsArraySize(this.battleService.currentBattle.attackingBattlePets) != this.battleService.currentBattle.maxNumberOfAttackingPets">
-<div class="petcenter" [ngStyle]="{ visibility: this.battleService.currentBattle.attackingUser.id == this.userService.currentUser.id ? 'hidden' : 'visible' }">
+								<div class="petcenter" [ngStyle]="{ visibility: this.battleService.currentBattle.attackingUser.id == this.userService.currentUser.id ? 'hidden' : 'visible' }">
 									<br />
 									<br />
 									<br />
-									<h4 [ngStyle]="{ visibility: this.battleService.currentBattle.attackingUser.id == this.userService.currentUser.id ? 'hidden' : 'visible'}" class="text-white">{{ this.battleService.currentBattle.attackingUser.username }} is still selecting {{ this.battleService.currentBattle.maxNumberOfAttackingPets > 1 ? "their pets" : "a pet" }}</h4>
+									<h4 [ngStyle]="{ visibility: this.battleService.currentBattle.attackingUser.id == this.userService.currentUser.id ? 'hidden' : 'visible' }" class="text-white">{{ this.battleService.currentBattle.attackingUser.username }} is still selecting {{ this.battleService.currentBattle.maxNumberOfAttackingPets > 1 ? "their pets" : "a pet" }}</h4>
 								</div>
 								<div class="petcenter" [ngStyle]="{ visibility: this.battleService.currentBattle.attackingUser.id != this.userService.currentUser.id ? 'hidden' : 'visible' }">
 									<br />
@@ -123,7 +123,7 @@
 							</div>
 						</div>
 						<div class="col-12 col-md-4 battle-pets">
-							<img class="battle-loading" [ngStyle] = "{visibility: this.battleService.sendingRequest ? 'visible' : 'hidden' }" src="../../../assets/battle spinning loading image.gif" alt="loading" />
+							<img class="battle-loading" [ngStyle]="{ visibility: this.battleService.sendingRequest ? 'visible' : 'hidden' }" src="../../../assets/battle spinning loading image.gif" alt="loading" />
 							<h4>&nbsp;</h4>
 							<div
 								*ngIf="
@@ -140,14 +140,16 @@
 							</div>
 							<div
 								*ngIf="
-									(!this.battleService.isBattlePetsArrayEmpty(this.battleService.currentBattle.attackingBattlePets) && this.battleService.currentBattle.maxNumberOfAttackingPets == this.getBattlePetsArraySize(this.battleService.currentBattle.attackingBattlePets) && !this.battleService.currentBattle.battleFinished) &&
-									(!this.battleService.isBattlePetsArrayEmpty(this.battleService.currentBattle.defendingBattlePets) && this.battleService.currentBattle.maxNumberOfDefendingPets == this.getBattlePetsArraySize(this.battleService.currentBattle.defendingBattlePets) && !this.battleService.currentBattle.battleFinished)
+									!this.battleService.isBattlePetsArrayEmpty(this.battleService.currentBattle.attackingBattlePets) &&
+									this.battleService.currentBattle.maxNumberOfAttackingPets == this.getBattlePetsArraySize(this.battleService.currentBattle.attackingBattlePets) &&
+									!this.battleService.currentBattle.battleFinished &&
+									!this.battleService.isBattlePetsArrayEmpty(this.battleService.currentBattle.defendingBattlePets) && this.battleService.currentBattle.maxNumberOfDefendingPets == this.getBattlePetsArraySize(this.battleService.currentBattle.defendingBattlePets) && !this.battleService.currentBattle.battleFinished
 								"
 							>
-							<hr />
-							<br *ngIf="!this.battleService.currentBattle.turns[0].turnFlavorText"/>
+								<hr />
+								<br *ngIf="!this.battleService.currentBattle.turns[0].turnFlavorText" />
 								<h4 *ngIf="!this.battleService.currentBattle.turns[0].turnFlavorText">Waiting for {{ this.battleService.currentBattle.nextTurnUser.username }} to make the first move!</h4>
-								<br *ngIf="!this.battleService.currentBattle.turns[0].turnFlavorText"/>
+								<br *ngIf="!this.battleService.currentBattle.turns[0].turnFlavorText" />
 								<div *ngFor="let battleLog of this.battleService.currentBattle.turns; let i = index">
 									<br *ngIf="this.battleService.currentBattle.turns[i].turnFlavorText && i > this.battleService.currentBattle.turns.length - 2" />
 									<h4 *ngIf="this.battleService.currentBattle.turns[i].turnFlavorText && i > this.battleService.currentBattle.turns.length - 2">{{ battleLog.turnFlavorText }}</h4>
@@ -174,12 +176,12 @@
 										: ''
 							}"
 						>
-						<div *ngIf="this.battleService.isBattlePetsArrayEmpty(this.battleService.currentBattle.defendingBattlePets) || this.getBattlePetsArraySize(this.battleService.currentBattle.defendingBattlePets) != this.battleService.currentBattle.maxNumberOfDefendingPets">
-							<div class="petcenter" *ngIf="this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet.id">
+							<div *ngIf="this.battleService.isBattlePetsArrayEmpty(this.battleService.currentBattle.defendingBattlePets) || this.getBattlePetsArraySize(this.battleService.currentBattle.defendingBattlePets) != this.battleService.currentBattle.maxNumberOfDefendingPets">
+								<div class="petcenter" *ngIf="this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet.id">
 									<br />
 									<br />
 									<br />
-									<h4 [ngStyle]="{ visibility: this.battleService.currentBattle.defendingUser.id == this.userService.currentUser.id ? 'hidden' : 'visible'}" class="text-white">{{ this.battleService.currentBattle.defendingUser.username }} is still selecting {{ this.battleService.currentBattle.maxNumberOfDefendingPets > 1 ? "their pets" : "a pet" }}</h4>
+									<h4 [ngStyle]="{ visibility: this.battleService.currentBattle.defendingUser.id == this.userService.currentUser.id ? 'hidden' : 'visible' }" class="text-white">{{ this.battleService.currentBattle.defendingUser.username }} is still selecting {{ this.battleService.currentBattle.maxNumberOfDefendingPets > 1 ? "their pets" : "a pet" }}</h4>
 								</div>
 								<div class="petcenter" *ngIf="!this.battleService.currentBattle.turns[this.battleService.currentBattle.turns.length - 1].attackingPet.id">
 									<br />
@@ -303,4 +305,4 @@
 			</div>
 		</div>
 	</div>
-	</ng-template>
+</ng-template>

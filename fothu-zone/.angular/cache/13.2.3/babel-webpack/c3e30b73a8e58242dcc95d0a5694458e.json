@@ -1,0 +1,7 @@
+{
+	"ast": null,
+	"code": "import { AppRoutingModule } from \"../app-routing.module\";\nimport { CommonModule } from \"@angular/common\";\nimport { FormsModule } from \"@angular/forms\";\nimport { FilterPipeModule } from \"ngx-filter-pipe\";\nimport { NgbModule } from \"@ng-bootstrap/ng-bootstrap\";\nimport * as i0 from \"@angular/core\";\nexport let PetsModule = /*#__PURE__*/(() => {\n  class PetsModule {}\n\n  PetsModule.ɵfac = function PetsModule_Factory(t) {\n    return new (t || PetsModule)();\n  };\n\n  PetsModule.ɵmod = /*@__PURE__*/i0.ɵɵdefineNgModule({\n    type: PetsModule\n  });\n  PetsModule.ɵinj = /*@__PURE__*/i0.ɵɵdefineInjector({\n    imports: [[CommonModule, AppRoutingModule, FormsModule, FilterPipeModule, NgbModule]]\n  });\n  return PetsModule;\n})();",
+	"map": null,
+	"metadata": {},
+	"sourceType": "module"
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { UserService } from "../service/user.service";
 import { SupportedColor } from "../models/SupportedColor";
 import { environment } from "src/environments/environment";
@@ -7,6 +7,7 @@ import { environment } from "src/environments/environment";
 	selector: "app-sign-up",
 	templateUrl: "./sign-up.component.html",
 	styleUrls: ["./sign-up.component.css"],
+	encapsulation: ViewEncapsulation.None,
 })
 export class SignUpComponent implements OnInit {
 	constructor(public userService: UserService) {}

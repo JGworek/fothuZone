@@ -37,7 +37,7 @@ const routes: Routes = [
 	{ path: "dungeon", component: DungeonComponent, canActivate: [UserGuard], canDeactivate: [PreventExitGuard] },
 	{ path: "available", component: PetbarComponent, outlet: "petbar", canActivate: [UserGuard] },
 	{ path: "possible", component: LevelUpComponent, outlet: "levelUps", canActivate: [UserGuard] },
-	{ path: "signUp", component: SignUpComponent, canActivate: [UserGuard] },
+	{ path: "signUp", component: SignUpComponent },
 	// { path: '**', redirectTo: 'directory', pathMatch: 'full' },
 ];
 

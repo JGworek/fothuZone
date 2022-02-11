@@ -1,0 +1,4 @@
+.ng-dropdown-panel .ng-option .ng-option-label {
+	white-space: normal;
+	height: fit-content;
+}

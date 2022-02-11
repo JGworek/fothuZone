@@ -10,7 +10,7 @@ import { CreateChallengeComponent } from "./create-challenge/create-challenge.co
 import { FormsModule } from "@angular/forms";
 import { FilterPipeModule } from "ngx-filter-pipe";
 import { DungeonCreatorComponent } from "./dungeon-creator/dungeon-creator.component";
-import { ModalBattleComponent } from './modal-battle/modal-battle.component';
+import { ModalBattleComponent } from "./modal-battle/modal-battle.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({

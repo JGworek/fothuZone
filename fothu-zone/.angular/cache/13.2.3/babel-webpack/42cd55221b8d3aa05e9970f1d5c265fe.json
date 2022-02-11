@@ -1,0 +1,7 @@
+{
+	"ast": null,
+	"code": "import { environment } from \"src/environments/environment\";\nexport const rxStompConfig = {\n  // ws://localhost:6969/ws\n  brokerURL: `${environment.fothuZoneWSLink}/ws`,\n  // Headers\n  // Typical keys: login, passcode, host\n  // connectHeaders: {\n  // \tlogin: \"guest\",\n  // \tpasscode: \"guest\",\n  // },\n  // How often to heartbeat?\n  // Interval in milliseconds, set to 0 to disable\n  heartbeatIncoming: 0,\n  heartbeatOutgoing: 20000,\n  // Wait in milliseconds before attempting auto reconnect\n  // Set to 0 to disable\n  // Typical value 500 (500 milli seconds)\n  reconnectDelay: 1000,\n  // Will log diagnostics on console\n  // It can be quite verbose, not recommended in production\n  // Skip this key/comment this out to stop logging to console\n  debug: msg => {\n    console.log(new Date(), msg);\n  }\n};",
+	"map": null,
+	"metadata": {},
+	"sourceType": "module"
+}

@@ -18,8 +18,6 @@ export class PetsHomeComponent implements OnInit {
 	challengeSubscription: any;
 	battleSubscription: any;
 
-
-
 	keepChallengeRequestsUpdated() {
 		this.challengeSubscription = this.RxStompService.watch(`/challengeSubscription/${this.userService.currentUser.id}`).subscribe((challengeMessage) => {
 			if (challengeMessage) {

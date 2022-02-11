@@ -17,7 +17,7 @@ span {
 }
 
 .battle-loading {
-	height: 20%
+	height: 20%;
 }
 
 hr {
@@ -411,7 +411,7 @@ hr {
 } */
 
 .overlay-backdrop {
-	background-color: #1F2833;
+	background-color: #1f2833;
 }
 
 .battle-background {

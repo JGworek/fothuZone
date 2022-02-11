@@ -40,7 +40,7 @@ export class UserService {
 		username: "",
 		favoriteColor: "",
 		userPassword: "",
-		secretPassword: ""
+		secretPassword: "",
 	};
 
 	getHealthBarColor(percentNumber) {
@@ -58,7 +58,7 @@ export class UserService {
 		console.log(userJSON);
 		if (this.statusCodeService.checkSuccessStatus(userJSON)) {
 			let returnedUser = await userJSON.json();
-			console.log(returnedUser)
+			console.log(returnedUser);
 			this.currentUser = returnedUser;
 			this.keepUserUpdated();
 			this.trackErrorMessageResponses();
