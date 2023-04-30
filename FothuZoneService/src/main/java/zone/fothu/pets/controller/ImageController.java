@@ -6,6 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -76,4 +79,5 @@ public class ImageController implements Serializable {
 	public ResponseEntity<List<Image>> getSomeRandomPetImages(@RequestParam int numberOfImages) {
 		return ResponseEntity.ok(imageService.getRandomImagesOfCertainNumber(numberOfImages));
 	}
+	
 }

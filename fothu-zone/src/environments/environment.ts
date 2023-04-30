@@ -7,9 +7,9 @@ const ERROR_STATUS_CODES: Array<Number> = [400, 401, 402, 403, 404, 405, 500, 50
 export const environment = {
 	production: false,
 	errorCodes: ERROR_STATUS_CODES,
-	fothuZoneEC2Link: "http://localhost:6969",
+	fothuZoneEC2Link: "http://localhost:7070",
 	homeURL: "http://localhost:4200",
-	fothuZoneWSLink: "ws://localhost:6969",
+	fothuZoneWSLink: "ws://localhost:7070",
 };
 
 /*

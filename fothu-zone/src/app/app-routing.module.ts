@@ -17,6 +17,7 @@ import { HymnalComponent } from "./rosary/hymnal/hymnal.component";
 import { PreventExitGuard } from "./guard/prevent-exit.guard";
 import { SignUpComponent } from "./sign-up/sign-up.component";
 import { CommonModule } from "@angular/common";
+import { SalfaggeVisualizerComponent } from "./salfagge-visualizer/salfagge-visualizer.component";
 
 const routes: Routes = [
 	{ path: "", redirectTo: "home", pathMatch: "full" },
@@ -38,6 +39,7 @@ const routes: Routes = [
 	{ path: "available", component: PetbarComponent, outlet: "petbar", canActivate: [UserGuard] },
 	{ path: "possible", component: LevelUpComponent, outlet: "levelUps", canActivate: [UserGuard] },
 	{ path: "signUp", component: SignUpComponent },
+	{ path: "salfaggio", component: SalfaggeVisualizerComponent }
 	// { path: '**', redirectTo: 'directory', pathMatch: 'full' },
 ];
 

@@ -17,6 +17,9 @@
 					</div>
 				</div>
 			</div>
+			<div class="nav-item ml-auto d-flex">
+				<button class="nav-item btn btn-light-fothu bg-light-fothu m-1" [routerLink]="[{outlets: {primary: 'salfaggio', petbar: null, levelUps: null} }]">Salfaggio</button>
+			</div>
 			<div class="d-flex ml-auto nav-item">
 				<div id="welcomeName" class="text-light mx-2 my-auto d-none d-md-block" *ngIf="this.userService.currentUser.id">Hello {{ userService.currentUser.username }}</div>
 				<button class="nav-item btn bg-dark btn-outline-light m-1" [routerLink]="[{ outlets: { primary: 'profile', petbar: null, levelUps: 'possible' } }]" *ngIf="this.userService.currentUser.id">Profile</button>

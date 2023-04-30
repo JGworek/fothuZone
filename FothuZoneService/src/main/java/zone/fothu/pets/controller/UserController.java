@@ -3,7 +3,6 @@ package zone.fothu.pets.controller;
 import java.io.Serializable;
 import java.util.List;
 
-import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
@@ -111,7 +110,7 @@ public class UserController implements Serializable {
 	}
 
 	@PutMapping("/update")
-	public User updateUser(@RequestBody User updatedUser) throws UserNotFoundException, PSQLException, UserNotUpdatedException {
+	public User updateUser(@RequestBody User updatedUser) throws UserNotFoundException, UserNotUpdatedException {
 		return userService.updateUser(updatedUser);
 	}
 

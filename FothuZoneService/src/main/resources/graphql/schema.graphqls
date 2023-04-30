@@ -1,0 +1,20 @@
+type Image {
+	id: ID!
+	imageURL: String!
+}
+
+type Query {
+	imageById(id: ID!): Image
+	allImages(first: Int): [Image]
+}
+
+type Mutation {
+	createImage(
+		imageURL:String!
+	): Image
+	deleteImage(id: ID!): Image
+	editImageURL(
+		id: ID!
+		imageURL: String
+	): Image
+}

@@ -4,8 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -15,7 +15,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableCaching
-@EnableSwagger2
 @Component
 public class FothuZoneApplication {
 
@@ -23,24 +22,9 @@ public class FothuZoneApplication {
 		SpringApplication.run(FothuZoneApplication.class, args);
 	}
 
-	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
-	// server:port/swagger-ui.html
-	@Bean
-	public Docket productApi() {
-		return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any()).paths(PathSelectors.any()).build();
-	}
-
-	public final Object that = null;
-	{
-		try {
-			this.getClass().getDeclaredField("that").set(that, this.getClass().getDeclaredConstructors()[0].newInstance());
-		} catch (Throwable t) {
-			Object[] those = new Object[] { this, that };
-		}
-	}
-
+//	// server:port/swagger-ui.html
+//	@Bean
+//	public Docket productApi() {
+//		return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any()).paths(PathSelectors.any()).build();
+//	}
 }

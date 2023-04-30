@@ -23,9 +23,10 @@ import { LevelUpService } from "./service/level-up.service";
 import { InjectableRxStompConfig, RxStompService, rxStompServiceFactory } from "@stomp/ng2-stompjs";
 import { rxStompConfig } from "./rx-stomp.config";
 import { ToastContainerComponent } from "./toast-container/toast-container.component";
+import { SalfaggeVisualizerComponent } from './salfagge-visualizer/salfagge-visualizer.component';
 
 @NgModule({
-	declarations: [AppComponent, NavbarComponent, HomeComponent, PlaygroundPageComponent, ProfileComponent, LoginComponent, SignUpComponent, ToastContainerComponent],
+	declarations: [AppComponent, NavbarComponent, HomeComponent, PlaygroundPageComponent, ProfileComponent, LoginComponent, SignUpComponent, ToastContainerComponent, SalfaggeVisualizerComponent],
 	imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, NgbModule, CommonModule, PetsModule, RosaryModule, RouterModule, CYOAModule, NgbModule],
 	providers: [
 		UserService,

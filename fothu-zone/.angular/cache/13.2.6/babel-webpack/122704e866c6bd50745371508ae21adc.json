@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class Square {\n  constructor(ctx) {\n    this.ctx = ctx;\n  }\n\n  draw(x, y, z) {\n    this.ctx.fillRect(z * x, z * y, z, z);\n  }\n\n}","map":null,"metadata":{},"sourceType":"module"}

@@ -1,9 +1,5 @@
 package zone.fothu.utility;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
-
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -16,6 +12,9 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.server.standard.TomcatRequestUpgradeStrategy;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRegistration;
 
 @Configuration
 @ComponentScan("zone.fothu")
@@ -34,7 +33,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer, WebApp
 	}
 
 	@Override
-	public void onStartup(ServletContext servletContext) throws ServletException {
+	public void onStartup(jakarta.servlet.ServletContext servletContext) throws ServletException {
 		AnnotationConfigWebApplicationContext container = new AnnotationConfigWebApplicationContext();
 		container.register(WebSocketConfig.class);
 

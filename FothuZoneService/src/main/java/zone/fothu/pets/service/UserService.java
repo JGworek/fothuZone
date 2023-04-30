@@ -3,9 +3,7 @@ package zone.fothu.pets.service;
 import java.io.Serializable;
 import java.util.List;
 
-import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import zone.fothu.pets.exception.UnsupportedColorException;
@@ -24,15 +22,13 @@ public class UserService implements Serializable {
 
 	private final UserRepository userRepository;
 	private final SupportedColorRepository supportedColorRepository;
-	private final BCryptPasswordEncoder passwordEncoder;
 	private User userBean;
 
 	@Autowired
-	public UserService(UserRepository userRepository, SupportedColorRepository supportedColorRepository, BCryptPasswordEncoder passwordEncoder, User userBean) {
+	public UserService(UserRepository userRepository, SupportedColorRepository supportedColorRepository, User userBean) {
 		super();
 		this.userRepository = userRepository;
 		this.supportedColorRepository = supportedColorRepository;
-		this.passwordEncoder = passwordEncoder;
 		this.userBean = userBean;
 	}
 
@@ -48,7 +44,7 @@ public class UserService implements Serializable {
 			userRepository.findByUsername(newUser.getUserPassword());
 		} catch (NullPointerException e) {
 			userExists = false;
-			newUser.setUserPassword(passwordEncoder.encode(newUser.getUserPassword()));
+			newUser.setUserPassword(newUser.getUserPassword());
 			userRepository.save(newUser);
 		}
 
@@ -63,7 +59,7 @@ public class UserService implements Serializable {
 
 	public User logInNewUser(User loggingInUser) throws UserNotFoundException {
 		try {
-			if (passwordEncoder.matches(loggingInUser.getUserPassword(), userRepository.findByUsername(loggingInUser.getUsername().toLowerCase()).getUserPassword())) {
+			if (loggingInUser.getUserPassword().equals(userRepository.findByUsername(loggingInUser.getUsername().toLowerCase()).getUserPassword())) {
 				return userRepository.findByUsername(loggingInUser.getUsername().toLowerCase()).setUserPassword(null).setEmailAddress(null);
 			} else {
 				throw new UserNotFoundException("Username or Password is incorrect");
@@ -73,8 +69,8 @@ public class UserService implements Serializable {
 		}
 	}
 
-	public User updateUser(User updatingUser) throws UserNotFoundException, PSQLException, UserNotUpdatedException {
-		String encodedPassword = passwordEncoder.encode(updatingUser.getUserPassword());
+	public User updateUser(User updatingUser) throws UserNotFoundException, UserNotUpdatedException {
+		String encodedPassword = updatingUser.getUserPassword();
 //        String encodedSecretPassword = passwordEncoder.encode(updatingUser.getSecretPassword());
 		userRepository.updateUser(updatingUser.getId(), updatingUser.getUsername(), encodedPassword, updatingUser.getFavoriteColor());
 		User returnedUser = userRepository.findById(updatingUser.getId()).get();
@@ -111,14 +107,14 @@ public class UserService implements Serializable {
 	}
 
 	public User getUserWithUsernameAndPassword(String username, String password) throws UserNotFoundException {
-		String encodedPassword = passwordEncoder.encode(password);
+		String encodedPassword = password;
 		User userFromUsernameAndPassword = userRepository.findByUsernameAndPassword(username.toLowerCase(), encodedPassword);
 		userFromUsernameAndPassword.setUserPassword(null).setEmailAddress(null);
 		return userFromUsernameAndPassword;
 	}
 
 	public UserDTO recoverUser(UserDTO recoveringUser) throws UserNotFoundException {
-		UserDTO recoveredUser = userRepository.getRecoveredUser(recoveringUser.getUsername().toLowerCase(), passwordEncoder.encode(recoveringUser.getSecretPassword()));
+		UserDTO recoveredUser = userRepository.getRecoveredUser(recoveringUser.getUsername().toLowerCase(), recoveringUser.getSecretPassword());
 		return recoveredUser;
 	}
 

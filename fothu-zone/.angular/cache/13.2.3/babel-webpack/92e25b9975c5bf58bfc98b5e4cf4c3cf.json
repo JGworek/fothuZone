@@ -1,7 +1,0 @@
-{
-	"ast": null,
-	"code": "import { CommonModule } from \"@angular/common\";\nimport { AppRoutingModule } from \"../app-routing.module\";\nimport * as i0 from \"@angular/core\";\nexport let CYOAModule = /*#__PURE__*/(() => {\n  class CYOAModule {}\n\n  CYOAModule.ɵfac = function CYOAModule_Factory(t) {\n    return new (t || CYOAModule)();\n  };\n\n  CYOAModule.ɵmod = /*@__PURE__*/i0.ɵɵdefineNgModule({\n    type: CYOAModule\n  });\n  CYOAModule.ɵinj = /*@__PURE__*/i0.ɵɵdefineInjector({\n    imports: [[CommonModule, AppRoutingModule]]\n  });\n  return CYOAModule;\n})();",
-	"map": null,
-	"metadata": {},
-	"sourceType": "module"
-}
