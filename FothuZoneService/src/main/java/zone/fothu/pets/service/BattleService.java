@@ -26,6 +26,7 @@ import zone.fothu.pets.exception.WrongBattlePetException;
 import zone.fothu.pets.exception.WrongTurnException;
 import zone.fothu.pets.model.adventure.AttackingBattlePet;
 import zone.fothu.pets.model.adventure.Battle;
+import zone.fothu.pets.model.adventure.BattlePet;
 import zone.fothu.pets.model.adventure.ChallengeRequest;
 import zone.fothu.pets.model.adventure.DefendingBattlePet;
 import zone.fothu.pets.model.adventure.Turn;
@@ -204,59 +205,59 @@ public class BattleService implements Serializable {
 		return getBattleById(battleId);
 	}
 
-	public Battle setAttackingBattlePet(long battleId, long attackingPetId) throws WrongBattlePetException {
-		AttackingBattlePet newBattlePet;
-		Battle currentBattle = battleRepository.findById(battleId).get();
-		Pet attackingPet = petRepository.findById(attackingPetId).get();
-		if (isPetAlreadySelected(attackingPet, currentBattle)) {
-			throw new PetAlreadySelectedException("That attacking pet has already been selected!");
-		}
-		if (currentBattle.getAttackingUser().getId() != attackingPet.getOwner().getId()) {
-			throw new WrongBattlePetException("That attacking user cannot set that pet for battle!");
-		}
-		if (currentBattle.getBattleType().equalsIgnoreCase("pve")) {
-			if (petRepository.findById(attackingPetId).get().getCurrentHealth() <= 0) {
-				throw new DeadBattlePetException("That pet is dead and can't fight!");
-			}
-		}
-		if (currentBattle.getAttackingBattlePets().size() >= currentBattle.getMaxNumberOfAttackingPets()) {
-			throw new TooManyPetsSelectedForBattleException("That would be too many pets on that side!");
-		}
-		if (currentBattle.getBattleType().equalsIgnoreCase("pve")) {
-			newBattlePet = BeanUtil.getBean(AttackingBattlePet.class).setId(0).setBattle(currentBattle).setPet(attackingPet).setCurrentHealth(petRepository.findById(attackingPetId).get().getCurrentHealth()).setAliveStatus(true);
-		} else {
-			newBattlePet = BeanUtil.getBean(AttackingBattlePet.class).setId(0).setBattle(currentBattle).setPet(attackingPet).setCurrentHealth(petRepository.findById(attackingPetId).get().getMaxHealth()).setAliveStatus(true);
-		}
-		attackingBattlePetRepository.save(newBattlePet);
-		return getBattleById(battleId);
-	}
-
-	public Battle setDefendingBattlePet(long battleId, long defendingPetId) throws WrongBattlePetException {
-		DefendingBattlePet newBattlePet;
-		Battle currentBattle = battleRepository.findById(battleId).get();
-		Pet defendingPet = petRepository.findById(defendingPetId).get();
-		if (isPetAlreadySelected(defendingPet, currentBattle)) {
-			throw new PetAlreadySelectedException("That defending pet has already been selected!");
-		}
-		if (currentBattle.getDefendingUser().getId() != defendingPet.getId()) {
-			throw new WrongBattlePetException("That defending user cannot set that pet for battle!");
-		}
-		if (currentBattle.getBattleType().equalsIgnoreCase("pve")) {
-			if (petRepository.findById(defendingPetId).get().getCurrentHealth() <= 0) {
-				throw new DeadBattlePetException("That pet is dead and can't fight!");
-			}
-		}
-		if (currentBattle.getDefendingBattlePets().size() >= currentBattle.getMaxNumberOfDefendingPets()) {
-			throw new TooManyPetsSelectedForBattleException("That would be too many pets on that side!");
-		}
-		if (currentBattle.getBattleType().equalsIgnoreCase("pve")) {
-			newBattlePet = BeanUtil.getBean(DefendingBattlePet.class).setId(0).setBattle(currentBattle).setPet(defendingPet).setCurrentHealth(petRepository.findById(defendingPetId).get().getCurrentHealth()).setAliveStatus(true);
-		} else {
-			newBattlePet = BeanUtil.getBean(DefendingBattlePet.class).setId(0).setBattle(currentBattle).setPet(defendingPet).setCurrentHealth(petRepository.findById(defendingPetId).get().getMaxHealth()).setAliveStatus(true);
-		}
-		defendingBattlePetRepository.save(newBattlePet);
-		return getBattleById(battleId);
-	}
+//	public Battle setAttackingBattlePet(long battleId, long attackingPetId) throws WrongBattlePetException {
+//		AttackingBattlePet newBattlePet;
+//		Battle currentBattle = battleRepository.findById(battleId).get();
+//		Pet attackingPet = petRepository.findById(attackingPetId).get();
+//		if (isPetAlreadySelected(attackingPet, currentBattle)) {
+//			throw new PetAlreadySelectedException("That attacking pet has already been selected!");
+//		}
+//		if (currentBattle.getAttackingUser().getId() != attackingPet.getOwner().getId()) {
+//			throw new WrongBattlePetException("That attacking user cannot set that pet for battle!");
+//		}
+//		if (currentBattle.getBattleType().equalsIgnoreCase("pve")) {
+//			if (petRepository.findById(attackingPetId).get().getCurrentHealth() <= 0) {
+//				throw new DeadBattlePetException("That pet is dead and can't fight!");
+//			}
+//		}
+//		if (currentBattle.getAttackingBattlePets().size() >= currentBattle.getMaxNumberOfAttackingPets()) {
+//			throw new TooManyPetsSelectedForBattleException("That would be too many pets on that side!");
+//		}
+//		if (currentBattle.getBattleType().equalsIgnoreCase("pve")) {
+//			newBattlePet = BeanUtil.getBean(AttackingBattlePet.class).setId(0).setBattle(currentBattle).setPet(attackingPet).setCurrentHealth(petRepository.findById(attackingPetId).get().getCurrentHealth()).setAliveStatus(true);
+//		} else {
+//			newBattlePet = BeanUtil.getBean(AttackingBattlePet.class).setId(0).setBattle(currentBattle).setPet(attackingPet).setCurrentHealth(petRepository.findById(attackingPetId).get().getMaxHealth()).setAliveStatus(true);
+//		}
+//		attackingBattlePetRepository.save(newBattlePet);
+//		return getBattleById(battleId);
+//	}
+//
+//	public Battle setDefendingBattlePet(long battleId, long defendingPetId) throws WrongBattlePetException {
+//		DefendingBattlePet newBattlePet;
+//		Battle currentBattle = battleRepository.findById(battleId).get();
+//		Pet defendingPet = petRepository.findById(defendingPetId).get();
+//		if (isPetAlreadySelected(defendingPet, currentBattle)) {
+//			throw new PetAlreadySelectedException("That defending pet has already been selected!");
+//		}
+//		if (currentBattle.getDefendingUser().getId() != defendingPet.getId()) {
+//			throw new WrongBattlePetException("That defending user cannot set that pet for battle!");
+//		}
+//		if (currentBattle.getBattleType().equalsIgnoreCase("pve")) {
+//			if (petRepository.findById(defendingPetId).get().getCurrentHealth() <= 0) {
+//				throw new DeadBattlePetException("That pet is dead and can't fight!");
+//			}
+//		}
+//		if (currentBattle.getDefendingBattlePets().size() >= currentBattle.getMaxNumberOfDefendingPets()) {
+//			throw new TooManyPetsSelectedForBattleException("That would be too many pets on that side!");
+//		}
+//		if (currentBattle.getBattleType().equalsIgnoreCase("pve")) {
+//			newBattlePet = BeanUtil.getBean(DefendingBattlePet.class).setId(0).setBattle(currentBattle).setPet(defendingPet).setCurrentHealth(petRepository.findById(defendingPetId).get().getCurrentHealth()).setAliveStatus(true);
+//		} else {
+//			newBattlePet = BeanUtil.getBean(DefendingBattlePet.class).setId(0).setBattle(currentBattle).setPet(defendingPet).setCurrentHealth(petRepository.findById(defendingPetId).get().getMaxHealth()).setAliveStatus(true);
+//		}
+//		defendingBattlePetRepository.save(newBattlePet);
+//		return getBattleById(battleId);
+//	}
 
 	boolean isPetAlreadySelected(Pet pet, Battle currentBattle) {
 		for (AttackingBattlePet battlePet : currentBattle.getAttackingBattlePets()) {
@@ -272,80 +273,80 @@ public class BattleService implements Serializable {
 		return false;
 	}
 
-	public Battle replaceDeadAttackingPet(long battleId, long deadAttackingPetId, long newAttackingPetId) throws WrongBattlePetException {
-		Battle currentBattle = battleRepository.findById(battleId).get();
-		Pet deadAttackingPet = petRepository.findById(deadAttackingPetId).get();
-		Pet newAttackingPet = petRepository.findById(newAttackingPetId).get();
-		AttackingBattlePet newAttackingBattlePet = attackingBattlePetRepository.getBattlePetByPetId(newAttackingPetId);
-		Turn lastTurn = turnRepository.getLastTurnForBattle(battleId);
-		if (lastTurn.getAttackingPetCurrentHealth() > 0) {
-			throw new PetNotDeadException(deadAttackingPet.getName() + " is not dead!");
-		}
-		if (!checkIfPetIsInBattleAndOnRightSideAndNotDead(currentBattle, newAttackingPet, currentBattle.getAttackingUser())) {
-			throw new WrongBattlePetException(newAttackingPet.getName() + " cannot be set as the new attacking pet!");
-		}
-		int nextTurnNumber = lastTurn.getTurnNumber() + 1;
-		turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(nextTurnNumber).setAttackingPet(newAttackingPet).setAttackingPetCurrentHealth(newAttackingBattlePet.getCurrentHealth()).setAttackingPetAttackModifier(STARTING_ATTACK_MODIFIER).setAttackingPetArmorModifier(STARTING_ARMOR_MODIFIER).setAttackingPetAccuracyModifier(STARTING_ACCURACY_MODIFIER).setAttackingPetEvasionModifier(STARTING_EVASION_MODIFIER).setDefendingPet(lastTurn.getDefendingPet())
-				.setDefendingPetCurrentHealth(lastTurn.getDefendingPetCurrentHealth()).setDefendingPetAttackModifier(lastTurn.getDefendingPetAttackModifier()).setDefendingPetArmorModifier(lastTurn.getDefendingPetArmorModifier()).setDefendingPetAccuracyModifier(lastTurn.getDefendingPetAccuracyModifier()).setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(newAttackingPet.getOwner().getUsername() + " switched to " + newAttackingPet.getName())
-				.setTurnTechnicalText(newAttackingPet.getOwner().getUsername() + " switched to " + newAttackingPet.getName()).setAttackerReplacedDeadPet(true).setDefenderReplacedDeadPet(false).setCreatedOn(LocalDateTime.now()));
-		return getBattleById(battleId);
-	}
+//	public Battle replaceDeadAttackingPet(long battleId, long deadAttackingPetId, long newAttackingPetId) throws WrongBattlePetException {
+//		Battle currentBattle = battleRepository.findById(battleId).get();
+//		Pet deadAttackingPet = petRepository.findById(deadAttackingPetId).get();
+//		Pet newAttackingPet = petRepository.findById(newAttackingPetId).get();
+//		AttackingBattlePet newAttackingBattlePet = attackingBattlePetRepository.getBattlePetByPetId(newAttackingPetId);
+//		Turn lastTurn = turnRepository.getLastTurnForBattle(battleId);
+//		if (lastTurn.getAttackingPetCurrentHealth() > 0) {
+//			throw new PetNotDeadException(deadAttackingPet.getName() + " is not dead!");
+//		}
+//		if (!checkIfPetIsInBattleAndOnRightSideAndNotDead(currentBattle, newAttackingPet, currentBattle.getAttackingUser())) {
+//			throw new WrongBattlePetException(newAttackingPet.getName() + " cannot be set as the new attacking pet!");
+//		}
+//		int nextTurnNumber = lastTurn.getTurnNumber() + 1;
+//		turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(nextTurnNumber).setAttackingPet(newAttackingPet).setAttackingPetCurrentHealth(newAttackingBattlePet.getCurrentHealth()).setAttackingPetAttackModifier(STARTING_ATTACK_MODIFIER).setAttackingPetArmorModifier(STARTING_ARMOR_MODIFIER).setAttackingPetAccuracyModifier(STARTING_ACCURACY_MODIFIER).setAttackingPetEvasionModifier(STARTING_EVASION_MODIFIER).setDefendingPet(lastTurn.getDefendingPet())
+//				.setDefendingPetCurrentHealth(lastTurn.getDefendingPetCurrentHealth()).setDefendingPetAttackModifier(lastTurn.getDefendingPetAttackModifier()).setDefendingPetArmorModifier(lastTurn.getDefendingPetArmorModifier()).setDefendingPetAccuracyModifier(lastTurn.getDefendingPetAccuracyModifier()).setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(newAttackingPet.getOwner().getUsername() + " switched to " + newAttackingPet.getName())
+//				.setTurnTechnicalText(newAttackingPet.getOwner().getUsername() + " switched to " + newAttackingPet.getName()).setAttackerReplacedDeadPet(true).setDefenderReplacedDeadPet(false).setCreatedOn(LocalDateTime.now()));
+//		return getBattleById(battleId);
+//	}
+//
+//	public Battle replaceDeadDefendingPet(long battleId, long deadDefendingPetId, long newDefendingPetId) throws WrongBattlePetException {
+//		Battle currentBattle = battleRepository.findById(battleId).get();
+//		Pet deadDefendingPet = petRepository.findById(deadDefendingPetId).get();
+//		Pet newDefendingPet = petRepository.findById(newDefendingPetId).get();
+//		DefendingBattlePet newDefendingBattlePet = defendingBattlePetRepository.getBattlePetByPetId(newDefendingPetId);
+//		Turn lastTurn = turnRepository.getLastTurnForBattle(battleId);
+//		if (lastTurn.getDefendingPetCurrentHealth() > 0) {
+//			throw new PetNotDeadException(deadDefendingPet.getName() + " is not dead!");
+//		}
+//		if (!checkIfPetIsInBattleAndOnRightSideAndNotDead(currentBattle, newDefendingPet, currentBattle.getDefendingUser())) {
+//			throw new WrongBattlePetException(newDefendingPet.getName() + " cannot be set as the new attacking pet!");
+//		}
+//		int nextTurnNumber = lastTurn.getTurnNumber() + 1;
+//		turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(nextTurnNumber).setDefendingPet(newDefendingPet).setDefendingPetCurrentHealth(newDefendingBattlePet.getCurrentHealth()).setDefendingPetAttackModifier(STARTING_ATTACK_MODIFIER).setDefendingPetArmorModifier(STARTING_ARMOR_MODIFIER).setDefendingPetAccuracyModifier(STARTING_ACCURACY_MODIFIER).setDefendingPetEvasionModifier(STARTING_EVASION_MODIFIER).setAttackingPet(lastTurn.getAttackingPet())
+//				.setAttackingPetCurrentHealth(lastTurn.getAttackingPetCurrentHealth()).setAttackingPetAttackModifier(lastTurn.getAttackingPetAttackModifier()).setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier()).setAttackingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier()).setTurnFlavorText(newDefendingPet.getOwner().getUsername() + " switched to " + newDefendingPet.getName())
+//				.setTurnTechnicalText(newDefendingPet.getOwner().getUsername() + " switched to " + newDefendingPet.getName()).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(true).setCreatedOn(LocalDateTime.now()));
+//		return getBattleById(battleId);
+//
+//	}
 
-	public Battle replaceDeadDefendingPet(long battleId, long deadDefendingPetId, long newDefendingPetId) throws WrongBattlePetException {
-		Battle currentBattle = battleRepository.findById(battleId).get();
-		Pet deadDefendingPet = petRepository.findById(deadDefendingPetId).get();
-		Pet newDefendingPet = petRepository.findById(newDefendingPetId).get();
-		DefendingBattlePet newDefendingBattlePet = defendingBattlePetRepository.getBattlePetByPetId(newDefendingPetId);
-		Turn lastTurn = turnRepository.getLastTurnForBattle(battleId);
-		if (lastTurn.getDefendingPetCurrentHealth() > 0) {
-			throw new PetNotDeadException(deadDefendingPet.getName() + " is not dead!");
-		}
-		if (!checkIfPetIsInBattleAndOnRightSideAndNotDead(currentBattle, newDefendingPet, currentBattle.getDefendingUser())) {
-			throw new WrongBattlePetException(newDefendingPet.getName() + " cannot be set as the new attacking pet!");
-		}
-		int nextTurnNumber = lastTurn.getTurnNumber() + 1;
-		turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(nextTurnNumber).setDefendingPet(newDefendingPet).setDefendingPetCurrentHealth(newDefendingBattlePet.getCurrentHealth()).setDefendingPetAttackModifier(STARTING_ATTACK_MODIFIER).setDefendingPetArmorModifier(STARTING_ARMOR_MODIFIER).setDefendingPetAccuracyModifier(STARTING_ACCURACY_MODIFIER).setDefendingPetEvasionModifier(STARTING_EVASION_MODIFIER).setAttackingPet(lastTurn.getAttackingPet())
-				.setAttackingPetCurrentHealth(lastTurn.getAttackingPetCurrentHealth()).setAttackingPetAttackModifier(lastTurn.getAttackingPetAttackModifier()).setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier()).setAttackingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier()).setTurnFlavorText(newDefendingPet.getOwner().getUsername() + " switched to " + newDefendingPet.getName())
-				.setTurnTechnicalText(newDefendingPet.getOwner().getUsername() + " switched to " + newDefendingPet.getName()).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(true).setCreatedOn(LocalDateTime.now()));
-		return getBattleById(battleId);
-
-	}
-
-	public Battle swapAttackingPet(long battleId, long attackingPetId) throws WrongBattlePetException {
-		Battle currentBattle = battleRepository.findById(battleId).get();
-		Pet attackingPet = petRepository.findById(attackingPetId).get();
-		AttackingBattlePet newAttackingBattlePet = attackingBattlePetRepository.getBattlePetByPetId(attackingPetId);
-		if (currentBattle.getAttackingUser().getId() != attackingPet.getOwner().getId()) {
-			throw new WrongBattlePetException("That attacking user cannot set that pet for battle!");
-		}
-		if (checkForDeadPet(currentBattle, attackingPet)) {
-			throw new DeadBattlePetException("That attacking pet is dead!");
-		}
-		Turn lastTurn = turnRepository.getLastTurnForBattle(battleId);
-		int nextTurnNumber = lastTurn.getTurnNumber() + 1;
-		Turn nextTurn = turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(nextTurnNumber).setAttackingPet(attackingPet).setAttackingPetCurrentHealth(newAttackingBattlePet.getCurrentHealth()).setAttackingPetAttackModifier(STARTING_ATTACK_MODIFIER).setAttackingPetArmorModifier(STARTING_ARMOR_MODIFIER).setAttackingPetAccuracyModifier(STARTING_ACCURACY_MODIFIER).setAttackingPetEvasionModifier(STARTING_EVASION_MODIFIER)
-				.setDefendingPet(lastTurn.getDefendingPet()).setDefendingPetCurrentHealth(lastTurn.getDefendingPetCurrentHealth()).setDefendingPetAttackModifier(lastTurn.getDefendingPetAttackModifier()).setDefendingPetArmorModifier(lastTurn.getDefendingPetArmorModifier()).setDefendingPetAccuracyModifier(lastTurn.getDefendingPetAccuracyModifier()).setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier())
-				.setTurnFlavorText(attackingPet.getOwner().getUsername() + " switched to " + attackingPet.getName()).setTurnTechnicalText(attackingPet.getOwner().getUsername() + " switched to " + attackingPet.getName()).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setCreatedOn(LocalDateTime.now()));
-		return checkIfOverMaxTurnCount(currentBattle, nextTurn);
-	}
-
-	public Battle swapDefendingPet(long battleId, long defendingPetId) throws WrongBattlePetException {
-		Battle currentBattle = battleRepository.findById(battleId).get();
-		Pet defendingPet = petRepository.findById(defendingPetId).get();
-		DefendingBattlePet newDefendingBattlePet = defendingBattlePetRepository.getBattlePetByPetId(defendingPetId);
-		if (currentBattle.getDefendingUser().getId() != petRepository.findById(defendingPetId).get().getOwner().getId()) {
-			throw new WrongBattlePetException("That defending user cannot set that pet for battle!");
-		}
-		if (checkForDeadPet(currentBattle, defendingPet)) {
-			throw new DeadBattlePetException("That defending pet is dead!");
-		}
-		Turn lastTurn = turnRepository.getLastTurnForBattle(battleId);
-		int nextTurnNumber = lastTurn.getTurnNumber() + 1;
-		Turn nextTurn = turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(nextTurnNumber).setDefendingPet(defendingPet).setDefendingPetCurrentHealth(newDefendingBattlePet.getCurrentHealth()).setDefendingPetAttackModifier(STARTING_ATTACK_MODIFIER).setDefendingPetArmorModifier(STARTING_ARMOR_MODIFIER).setDefendingPetAccuracyModifier(STARTING_ACCURACY_MODIFIER).setDefendingPetEvasionModifier(STARTING_EVASION_MODIFIER)
-				.setAttackingPet(lastTurn.getAttackingPet()).setAttackingPetCurrentHealth(lastTurn.getAttackingPetCurrentHealth()).setAttackingPetAttackModifier(lastTurn.getAttackingPetAttackModifier()).setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier()).setAttackingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier())
-				.setTurnFlavorText(defendingPet.getOwner().getUsername() + " switched to " + defendingPet.getName()).setTurnTechnicalText(defendingPet.getOwner().getUsername() + " switched to " + defendingPet.getName()).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setCreatedOn(LocalDateTime.now()));
-		return checkIfOverMaxTurnCount(currentBattle, nextTurn);
-	}
+//	public Battle swapAttackingPet(long battleId, long attackingPetId) throws WrongBattlePetException {
+//		Battle currentBattle = battleRepository.findById(battleId).get();
+//		Pet attackingPet = petRepository.findById(attackingPetId).get();
+//		AttackingBattlePet newAttackingBattlePet = attackingBattlePetRepository.getBattlePetByPetId(attackingPetId);
+//		if (currentBattle.getAttackingUser().getId() != attackingPet.getOwner().getId()) {
+//			throw new WrongBattlePetException("That attacking user cannot set that pet for battle!");
+//		}
+//		if (checkForDeadPet(currentBattle, attackingPet)) {
+//			throw new DeadBattlePetException("That attacking pet is dead!");
+//		}
+//		Turn lastTurn = turnRepository.getLastTurnForBattle(battleId);
+//		int nextTurnNumber = lastTurn.getTurnNumber() + 1;
+//		Turn nextTurn = turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(nextTurnNumber).setAttackingPet(attackingPet).setAttackingPetCurrentHealth(newAttackingBattlePet.getCurrentHealth()).setAttackingPetAttackModifier(STARTING_ATTACK_MODIFIER).setAttackingPetArmorModifier(STARTING_ARMOR_MODIFIER).setAttackingPetAccuracyModifier(STARTING_ACCURACY_MODIFIER).setAttackingPetEvasionModifier(STARTING_EVASION_MODIFIER)
+//				.setDefendingPet(lastTurn.getDefendingPet()).setDefendingPetCurrentHealth(lastTurn.getDefendingPetCurrentHealth()).setDefendingPetAttackModifier(lastTurn.getDefendingPetAttackModifier()).setDefendingPetArmorModifier(lastTurn.getDefendingPetArmorModifier()).setDefendingPetAccuracyModifier(lastTurn.getDefendingPetAccuracyModifier()).setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier())
+//				.setTurnFlavorText(attackingPet.getOwner().getUsername() + " switched to " + attackingPet.getName()).setTurnTechnicalText(attackingPet.getOwner().getUsername() + " switched to " + attackingPet.getName()).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setCreatedOn(LocalDateTime.now()));
+//		return checkIfOverMaxTurnCount(currentBattle, nextTurn);
+//	}
+//
+//	public Battle swapDefendingPet(long battleId, long defendingPetId) throws WrongBattlePetException {
+//		Battle currentBattle = battleRepository.findById(battleId).get();
+//		Pet defendingPet = petRepository.findById(defendingPetId).get();
+//		DefendingBattlePet newDefendingBattlePet = defendingBattlePetRepository.getBattlePetByPetId(defendingPetId);
+//		if (currentBattle.getDefendingUser().getId() != petRepository.findById(defendingPetId).get().getOwner().getId()) {
+//			throw new WrongBattlePetException("That defending user cannot set that pet for battle!");
+//		}
+//		if (checkForDeadPet(currentBattle, defendingPet)) {
+//			throw new DeadBattlePetException("That defending pet is dead!");
+//		}
+//		Turn lastTurn = turnRepository.getLastTurnForBattle(battleId);
+//		int nextTurnNumber = lastTurn.getTurnNumber() + 1;
+//		Turn nextTurn = turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(nextTurnNumber).setDefendingPet(defendingPet).setDefendingPetCurrentHealth(newDefendingBattlePet.getCurrentHealth()).setDefendingPetAttackModifier(STARTING_ATTACK_MODIFIER).setDefendingPetArmorModifier(STARTING_ARMOR_MODIFIER).setDefendingPetAccuracyModifier(STARTING_ACCURACY_MODIFIER).setDefendingPetEvasionModifier(STARTING_EVASION_MODIFIER)
+//				.setAttackingPet(lastTurn.getAttackingPet()).setAttackingPetCurrentHealth(lastTurn.getAttackingPetCurrentHealth()).setAttackingPetAttackModifier(lastTurn.getAttackingPetAttackModifier()).setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier()).setAttackingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier())
+//				.setTurnFlavorText(defendingPet.getOwner().getUsername() + " switched to " + defendingPet.getName()).setTurnTechnicalText(defendingPet.getOwner().getUsername() + " switched to " + defendingPet.getName()).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setCreatedOn(LocalDateTime.now()));
+//		return checkIfOverMaxTurnCount(currentBattle, nextTurn);
+//	}
 
 	public boolean checkForDeadPet(Battle battle, Pet pet) {
 		for (Turn turn : battle.getTurns()) {
@@ -600,475 +601,174 @@ public class BattleService implements Serializable {
 		return randomModifiedRoll;
 
 	}
-
-	public Battle attackingPetAttack(long battleId, long attackingUserId) throws MessagingException, UserNotFoundException {
-		Battle currentBattle = battleRepository.findById(battleId).get();
-		Turn lastTurn = turnRepository.getLastTurnForBattle(battleId);
-		boolean battleFinished = false;
-		int attackingPetBST = lastTurn.getAttackingPet().getStrength() + lastTurn.getAttackingPet().getAgility() + lastTurn.getAttackingPet().getIntelligence();
-		int defendingPetBST = lastTurn.getDefendingPet().getStrength() + lastTurn.getDefendingPet().getAgility() + lastTurn.getDefendingPet().getIntelligence();
-		int attackingPetRoll = (int) (Math.random() * attackingPetBST);
-		checkCurrentTurnUser(currentBattle, attackingUserId);
-		checkAttackingUser(currentBattle, attackingUserId);
-		if ((lastTurn.getAttackingPet().getIntelligence() * lastTurn.getAttackingPetAccuracyModifier()) + (attackingPetRoll) > ((defendingPetBST / BST_DEFEND_PENALTY) + (lastTurn.getDefendingPet().getAgility() * lastTurn.getDefendingPetEvasionModifier()))) {
-			int defendingPetStartingHealth = lastTurn.getDefendingPetCurrentHealth();
-			int defendingPetRemainingHealth = (int) ((defendingPetStartingHealth) - ((getBaseStatPower(lastTurn.getAttackingPet()) * lastTurn.getAttackingPetAttackModifier()) - (lastTurn.getDefendingPet().getStrength() * lastTurn.getDefendingPetArmorModifier())));
-			int totalDealtDamage = defendingPetStartingHealth - defendingPetRemainingHealth;
-			if (totalDealtDamage < 1) {
-				totalDealtDamage = 1;
-				defendingPetRemainingHealth = defendingPetStartingHealth - 1;
+	
+	public BattlePet searchBattleForPet(Battle currentBattle, long petId) {
+		BattlePet battlePet = null;
+		for(AttackingBattlePet attackingPet: currentBattle.getAttackingBattlePets()) {
+			if(attackingPet.getPet().getId() == petId) {
+				return attackingPet;
 			}
-			DefendingBattlePet defendingBattlePet = defendingBattlePetRepository.getBattlePetWithBattleIdAndPetId(battleId, lastTurn.getDefendingPet().getId());
-			if (defendingPetRemainingHealth <= 0) {
-				defendingPetRemainingHealth = 0;
-				defendingBattlePet.setAliveStatus(false);
+		}
+		for(DefendingBattlePet defendingPet: currentBattle.getDefendingBattlePets()) {
+			if(defendingPet.getPet().getId() == petId) {
+				return defendingPet;
 			}
-			defendingBattlePetRepository.save(defendingBattlePet.setCurrentHealth(defendingPetRemainingHealth));
-			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
-			if (getRemainingHealthForDefendingBattlePets(currentBattle.getDefendingBattlePets()) <= 0) {
-				battleFinished = true;
+		}
+	return battlePet;
+	}
+	
+	public boolean isAttackingPet(Battle currentBattle, long actingPetId) {
+		for(AttackingBattlePet attackingPet: currentBattle.getAttackingBattlePets()) {
+			if(attackingPet.getPet().getId() == actingPetId) {
+				return true;
 			}
-			String flavorText = lastTurn.getAttackingPet().getName() + " attacked and dealt " + totalDealtDamage + " damage!";
-			String technicalText = lastTurn.getAttackingPet().getName() + " has rolled a " + attackingPetRoll + ", successfully dealing " + totalDealtDamage + ", reducing " + lastTurn.getDefendingPet().getName() + "'s health from " + defendingPetStartingHealth + " to " + defendingPetRemainingHealth + ".";
-			if (lastTurn.isAttackerReplacedDeadPet()) {
-				turnRepository.save(lastTurn.setDefendingPetCurrentHealth(defendingPetRemainingHealth).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setBattleFinished(battleFinished));
-			} else {
-				turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(lastTurn.getTurnNumber() + 1).setAttackingPet(lastTurn.getAttackingPet()).setDefendingPet(lastTurn.getDefendingPet()).setAttackingPetCurrentHealth(lastTurn.getAttackingPetCurrentHealth()).setDefendingPetCurrentHealth(defendingPetRemainingHealth).setAttackingPetAttackModifier(lastTurn.getAttackingPetAttackModifier())
-						.setDefendingPetAttackModifier(lastTurn.getDefendingPetAttackModifier()).setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setDefendingPetArmorModifier(lastTurn.getDefendingPetArmorModifier()).setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier()).setDefendingPetAccuracyModifier(lastTurn.getDefendingPetAccuracyModifier()).setAttackingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier())
-						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
+		}
+		for(DefendingBattlePet defendingPet: currentBattle.getDefendingBattlePets()) {
+			if(defendingPet.getPet().getId() == actingPetId) {
+				return false;
 			}
-			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getDefendingUser()).setBattleFinished(battleFinished));
-			// System.out.println(flavorText);
-
-			// System.out.println(technicalText);
-			return getBattleById(battleId);
+		}
+		return false;
+	}
+	
+	public boolean checkForSuccessOnNonAttack(int actingStat, int actingPetRoll, int reactingPetBST, int reactingStat) {
+		if((actingStat+actingPetRoll)>(reactingPetBST-reactingStat)) {
+			return true;
 		} else {
-			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
-			String flavorText = lastTurn.getAttackingPet().getName() + " missed!";
-			String technicalText = lastTurn.getAttackingPet().getName() + " has rolled a " + attackingPetRoll + ", failing to deal damage to " + lastTurn.getDefendingPet().getName() + ".";
-			if (lastTurn.isAttackerReplacedDeadPet()) {
-				turnRepository.save(lastTurn.setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setBattleFinished(battleFinished));
-			} else {
-				turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(lastTurn.getTurnNumber() + 1).setAttackingPet(lastTurn.getAttackingPet()).setDefendingPet(lastTurn.getDefendingPet()).setAttackingPetCurrentHealth(lastTurn.getAttackingPetCurrentHealth()).setDefendingPetCurrentHealth(lastTurn.getDefendingPetCurrentHealth()).setAttackingPetAttackModifier(lastTurn.getAttackingPetAttackModifier())
-						.setDefendingPetAttackModifier(lastTurn.getDefendingPetAttackModifier()).setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setDefendingPetArmorModifier(lastTurn.getDefendingPetArmorModifier()).setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier()).setDefendingPetAccuracyModifier(lastTurn.getDefendingPetAccuracyModifier()).setAttackingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier())
-						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
-			}
-			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getDefendingUser()).setBattleFinished(battleFinished));
-			// System.out.println(flavorText);
-			// System.out.println(technicalText);
-			return getBattleById(battleId);
+			return false;
 		}
 	}
-
-	public Battle defendingPetAttack(long battleId, long defendingUserId) throws MessagingException, UserNotFoundException {
-		Battle currentBattle = battleRepository.findById(battleId).get();
-		Turn lastTurn = turnRepository.getLastTurnForBattle(battleId);
-		boolean battleFinished = false;
-		int defendingPetBST = lastTurn.getDefendingPet().getStrength() + lastTurn.getDefendingPet().getAgility() + lastTurn.getDefendingPet().getIntelligence();
-		int attackingPetBST = lastTurn.getAttackingPet().getStrength() + lastTurn.getAttackingPet().getAgility() + lastTurn.getAttackingPet().getIntelligence();
-		int attackingPetRoll = (int) (Math.random() * defendingPetBST);
-		checkCurrentTurnUser(currentBattle, defendingUserId);
-		checkDefendingUser(currentBattle, defendingUserId);
-		if ((lastTurn.getDefendingPet().getIntelligence() * lastTurn.getDefendingPetAccuracyModifier()) + (attackingPetRoll) > ((attackingPetBST / BST_DEFEND_PENALTY) + (lastTurn.getAttackingPet().getAgility() * lastTurn.getAttackingPetEvasionModifier()))) {
-			int attackingPetStartingHealth = lastTurn.getAttackingPetCurrentHealth();
-			int attackingPetRemainingHealth = (int) ((attackingPetStartingHealth) - ((getBaseStatPower(lastTurn.getDefendingPet()) * lastTurn.getDefendingPetAttackModifier()) - (lastTurn.getAttackingPet().getStrength() * lastTurn.getAttackingPetArmorModifier())));
-			int totalDealtDamage = attackingPetStartingHealth - attackingPetRemainingHealth;
-			if (totalDealtDamage < 1) {
-				totalDealtDamage = 1;
-				attackingPetRemainingHealth = attackingPetStartingHealth - 1;
-			}
-			AttackingBattlePet attackingBattlePet = attackingBattlePetRepository.getBattlePetWithBattleIdAndPetId(battleId, lastTurn.getAttackingPet().getId());
-			if (attackingPetRemainingHealth <= 0) {
-				attackingPetRemainingHealth = 0;
-				attackingBattlePet.setAliveStatus(false);
-			}
-			attackingBattlePetRepository.save(attackingBattlePet.setCurrentHealth(attackingPetRemainingHealth));
-			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
-			if (getRemainingHealthForAttackingBattlePets(currentBattle.getAttackingBattlePets()) <= 0) {
-				battleFinished = true;
-			}
-			String flavorText = lastTurn.getDefendingPet().getName() + " attacked and dealt " + totalDealtDamage + " damage!";
-			String technicalText = lastTurn.getDefendingPet().getName() + " has rolled a " + attackingPetRoll + ", successfully dealing " + totalDealtDamage + ", reducing " + lastTurn.getAttackingPet().getName() + "'s health from " + attackingPetStartingHealth + " to " + attackingPetRemainingHealth + ".";
-			if (lastTurn.isDefenderReplacedDeadPet()) {
-				turnRepository.save(lastTurn.setAttackingPetCurrentHealth(attackingPetRemainingHealth).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished));
-			} else {
-				turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(lastTurn.getTurnNumber() + 1).setAttackingPet(lastTurn.getAttackingPet()).setDefendingPet(lastTurn.getDefendingPet()).setAttackingPetCurrentHealth(attackingPetRemainingHealth).setDefendingPetCurrentHealth(lastTurn.getDefendingPetCurrentHealth()).setAttackingPetAttackModifier(lastTurn.getAttackingPetAttackModifier())
-						.setDefendingPetAttackModifier(lastTurn.getDefendingPetAttackModifier()).setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setDefendingPetArmorModifier(lastTurn.getDefendingPetArmorModifier()).setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier()).setDefendingPetAccuracyModifier(lastTurn.getDefendingPetAccuracyModifier()).setAttackingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier())
-						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
-			}
-			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getAttackingUser()).setBattleFinished(battleFinished));
-			// System.out.println(flavorText);
-			// System.out.println(technicalText);
-			return getBattleById(battleId);
+	
+	public boolean checkForSuccessOnAttack(int actingPetIntelligence, double actingPetAccuracyModifier, int actingPetRoll, int reactingPetBST, int reactingPetAgility, double reactingPetEvasionModifier) {
+		if((((double)actingPetIntelligence*actingPetAccuracyModifier)+(double)actingPetRoll)>(((double)reactingPetAgility*reactingPetEvasionModifier))+((double)reactingPetBST/(double)BST_DEFEND_PENALTY)) {
+			return true;
 		} else {
-			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
-			String flavorText = lastTurn.getDefendingPet().getName() + " missed!";
-			String technicalText = lastTurn.getDefendingPet().getName() + " has rolled a " + attackingPetRoll + ", failing to deal damage to " + lastTurn.getAttackingPet().getName() + ".";
-			if (lastTurn.isDefenderReplacedDeadPet()) {
-				turnRepository.save(lastTurn.setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished));
-			} else {
-				turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(lastTurn.getTurnNumber() + 1).setAttackingPet(lastTurn.getAttackingPet()).setDefendingPet(lastTurn.getDefendingPet()).setAttackingPetCurrentHealth(lastTurn.getAttackingPetCurrentHealth()).setDefendingPetCurrentHealth(lastTurn.getDefendingPetCurrentHealth()).setAttackingPetAttackModifier(lastTurn.getAttackingPetAttackModifier())
-						.setDefendingPetAttackModifier(lastTurn.getDefendingPetAttackModifier()).setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setDefendingPetArmorModifier(lastTurn.getDefendingPetArmorModifier()).setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier()).setDefendingPetAccuracyModifier(lastTurn.getDefendingPetAccuracyModifier()).setAttackingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier())
-						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
-			}
-			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getAttackingUser()).setBattleFinished(battleFinished));
-			// System.out.println(flavorText);
-			// System.out.println(technicalText);
-			return getBattleById(battleId);
+			return false;
 		}
 	}
-
-	public Battle attackingPetDefend(long battleId, long defendingUserId) throws MessagingException, UserNotFoundException {
-		Battle currentBattle = battleRepository.findById(battleId).get();
-		Turn lastTurn = turnRepository.getLastTurnForBattle(battleId);
-		checkCurrentTurnUser(currentBattle, defendingUserId);
-		checkAttackingUser(currentBattle, defendingUserId);
-		int currentTurnCount = lastTurn.getTurnNumber();
-		boolean battleFinished = false;
-		int attackingPetBST = lastTurn.getAttackingPet().getStrength() + lastTurn.getAttackingPet().getAgility() + lastTurn.getAttackingPet().getIntelligence();
-		int defendingPetBST = lastTurn.getDefendingPet().getStrength() + lastTurn.getDefendingPet().getAgility() + lastTurn.getDefendingPet().getIntelligence();
-		int attackingPetRoll = (int) (Math.random() * attackingPetBST);
-		double currentArmorModifier = lastTurn.getAttackingPetArmorModifier();
-		if ((lastTurn.getAttackingPet().getStrength() + attackingPetRoll) > (defendingPetBST - lastTurn.getDefendingPet().getIntelligence())) {
-			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
-			String flavorText = lastTurn.getAttackingPet().getName() + " armored up!";
-			String technicalText = lastTurn.getAttackingPet().getName() + " has rolled a " + attackingPetRoll + ", successfully increasing their armor modifier from " + currentArmorModifier + " to " + (currentArmorModifier + MODIFIER_INCREMENT) + ".";
-			if (lastTurn.isAttackerReplacedDeadPet()) {
-				turnRepository.save(lastTurn.setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier() + MODIFIER_INCREMENT).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setBattleFinished(battleFinished));
-			} else {
-				turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(currentTurnCount + 1).setAttackingPet(lastTurn.getAttackingPet()).setDefendingPet(lastTurn.getDefendingPet()).setAttackingPetCurrentHealth(lastTurn.getAttackingPetCurrentHealth()).setDefendingPetCurrentHealth(lastTurn.getDefendingPetCurrentHealth()).setAttackingPetAttackModifier(lastTurn.getAttackingPetAttackModifier())
-						.setDefendingPetAttackModifier(lastTurn.getDefendingPetAttackModifier()).setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier() + MODIFIER_INCREMENT).setDefendingPetArmorModifier(lastTurn.getDefendingPetArmorModifier()).setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier()).setDefendingPetAccuracyModifier(lastTurn.getDefendingPetAccuracyModifier()).setAttackingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier())
-						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
-			}
-			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getDefendingUser()).setBattleFinished(battleFinished));
-			// System.out.println(flavorText);
-			// System.out.println(technicalText);
-			return getBattleById(battleId);
+	
+	public void setTextOnNonAttack(BattlePet actingBattlePet, Turn newTurn, String actionText, int actingPetRoll, boolean successfulAction) {
+		if(successfulAction) {
+			newTurn.setTurnFlavorText(actingBattlePet.getPet().getName()+" increased their "+actionText+".").setTurnTechnicalText(actingBattlePet.getPet().getName()+" increased their "+actionText+" with a roll of "+actingPetRoll+".");
 		} else {
-			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
-			String flavorText = lastTurn.getAttackingPet().getName() + " failed to armor up!";
-			String technicalText = lastTurn.getAttackingPet().getName() + " has rolled a " + attackingPetRoll + ", failing to increase their armor modifier.";
-			if (lastTurn.isAttackerReplacedDeadPet()) {
-				turnRepository.save(lastTurn.setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setBattleFinished(battleFinished));
-			} else {
-				turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(currentTurnCount + 1).setAttackingPet(lastTurn.getAttackingPet()).setDefendingPet(lastTurn.getDefendingPet()).setAttackingPetCurrentHealth(lastTurn.getAttackingPetCurrentHealth()).setDefendingPetCurrentHealth(lastTurn.getDefendingPetCurrentHealth()).setAttackingPetAttackModifier(lastTurn.getAttackingPetAttackModifier())
-						.setDefendingPetAttackModifier(lastTurn.getDefendingPetAttackModifier()).setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setDefendingPetArmorModifier(lastTurn.getDefendingPetArmorModifier()).setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier()).setDefendingPetAccuracyModifier(lastTurn.getDefendingPetAccuracyModifier()).setAttackingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier())
-						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
-			}
-			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getDefendingUser()).setBattleFinished(battleFinished));
-			// System.out.println(flavorText);
-			// System.out.println(technicalText);
-			return getBattleById(battleId);
+			newTurn.setTurnFlavorText(actingBattlePet.getPet().getName()+" failed to incease their "+actionText+".").setTurnTechnicalText(actingBattlePet.getPet().getName()+" falsed to increase their "+actionText+" with a roll of "+actingPetRoll+".");
+
 		}
 	}
-
-	public Battle defendingPetDefend(long battleId, long defendingUserId) throws MessagingException, UserNotFoundException {
-		Battle currentBattle = battleRepository.findById(battleId).get();
-		Turn lastTurn = turnRepository.getLastTurnForBattle(battleId);
-		checkCurrentTurnUser(currentBattle, defendingUserId);
-		checkDefendingUser(currentBattle, defendingUserId);
-		int currentTurnCount = lastTurn.getTurnNumber();
-		boolean battleFinished = false;
-		int defendingPetBST = lastTurn.getDefendingPet().getStrength() + lastTurn.getDefendingPet().getAgility() + lastTurn.getDefendingPet().getIntelligence();
-		int attackingPetBST = lastTurn.getAttackingPet().getStrength() + lastTurn.getAttackingPet().getAgility() + lastTurn.getAttackingPet().getIntelligence();
-		int defendingPetRoll = (int) (Math.random() * defendingPetBST);
-		double currentArmorModifier = lastTurn.getDefendingPetArmorModifier();
-		if ((lastTurn.getDefendingPet().getStrength() + defendingPetRoll) > (attackingPetBST - lastTurn.getAttackingPet().getIntelligence())) {
-			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
-			String flavorText = lastTurn.getDefendingPet().getName() + " armored up!";
-			String technicalText = lastTurn.getDefendingPet().getName() + " has rolled a " + defendingPetRoll + ", successfully increasing their armor modifier from " + currentArmorModifier + " to " + (currentArmorModifier + MODIFIER_INCREMENT) + ".";
-			if (lastTurn.isDefenderReplacedDeadPet()) {
-				turnRepository.save(lastTurn.setDefendingPetArmorModifier(lastTurn.getDefendingPetArmorModifier() + MODIFIER_INCREMENT).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished));
+	
+	public void setTextOnAttack(BattlePet actingBattlePet, Turn newTurn, int damage, boolean deadReactingPet, BattlePet reactingBattlePet, int actingPetRoll, boolean successfulAction) {
+		if(successfulAction) {
+			if(!deadReactingPet) {
+				newTurn.setTurnFlavorText(actingBattlePet.getPet().getName()+" dealt "+damage+".").setTurnTechnicalText(actingBattlePet.getPet().getName()+" dealt "+damage+" to "+reactingBattlePet.getPet().getName()+" with a roll of "+actingPetRoll+".");
 			} else {
-				turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(currentTurnCount + 1).setAttackingPet(lastTurn.getAttackingPet()).setDefendingPet(lastTurn.getDefendingPet()).setAttackingPetCurrentHealth(lastTurn.getAttackingPetCurrentHealth()).setDefendingPetCurrentHealth(lastTurn.getDefendingPetCurrentHealth()).setAttackingPetAttackModifier(lastTurn.getAttackingPetAttackModifier())
-						.setDefendingPetAttackModifier(lastTurn.getDefendingPetAttackModifier()).setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setDefendingPetArmorModifier(lastTurn.getAttackingPetArmorModifier() + MODIFIER_INCREMENT).setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier()).setDefendingPetAccuracyModifier(lastTurn.getDefendingPetAccuracyModifier()).setAttackingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier())
-						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
+				newTurn.setTurnFlavorText(actingBattlePet.getPet().getName()+" killed "+reactingBattlePet.getPet().getName()+".").setTurnTechnicalText(actingBattlePet.getPet().getName()+" killed "+reactingBattlePet.getPet().getName()+" dealing "+damage+" damage wutg a roll of"+actingPetRoll+".");
 			}
-			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getAttackingUser()).setBattleFinished(battleFinished));
-			// System.out.println(flavorText);
-			// System.out.println(technicalText);
-			return getBattleById(battleId);
 		} else {
-			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
-			String flavorText = lastTurn.getDefendingPet().getName() + " failed to armor up!";
-			String technicalText = lastTurn.getDefendingPet().getName() + " has rolled a " + defendingPetRoll + ", failing to increase their armor modifier.";
-			if (lastTurn.isDefenderReplacedDeadPet()) {
-				turnRepository.save(lastTurn.setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished));
-			} else {
-				turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(currentTurnCount + 1).setAttackingPet(lastTurn.getAttackingPet()).setDefendingPet(lastTurn.getDefendingPet()).setAttackingPetCurrentHealth(lastTurn.getAttackingPetCurrentHealth()).setDefendingPetCurrentHealth(lastTurn.getDefendingPetCurrentHealth()).setAttackingPetAttackModifier(lastTurn.getAttackingPetAttackModifier())
-						.setDefendingPetAttackModifier(lastTurn.getDefendingPetAttackModifier()).setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setDefendingPetArmorModifier(lastTurn.getDefendingPetArmorModifier()).setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier()).setDefendingPetAccuracyModifier(lastTurn.getDefendingPetAccuracyModifier()).setAttackingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier())
-						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
-			}
-			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getAttackingUser()).setBattleFinished(battleFinished));
-			// System.out.println(flavorText);
-			// System.out.println(technicalText);
-			return getBattleById(battleId);
+			newTurn.setTurnFlavorText(actingBattlePet.getPet().getName()+" missed.").setTurnTechnicalText(actingBattlePet.getPet().getName()+" missed with a roll of "+actingPetRoll+".");
 		}
 	}
-
-	public Battle attackingPetAim(long battleId, long aimingUserId) throws MessagingException, UserNotFoundException {
+	
+	public Battle performAction(long battleId, long actingPetId, long reactingPetId, String actiontype) {
 		Battle currentBattle = battleRepository.findById(battleId).get();
 		Turn lastTurn = turnRepository.getLastTurnForBattle(battleId);
-		checkCurrentTurnUser(currentBattle, aimingUserId);
-		checkAttackingUser(currentBattle, aimingUserId);
-		int currentTurnCount = lastTurn.getTurnNumber();
-		boolean battleFinished = false;
-		int attackingPetBST = lastTurn.getAttackingPet().getStrength() + lastTurn.getAttackingPet().getAgility() + lastTurn.getAttackingPet().getIntelligence();
-		int defendingPetBST = lastTurn.getDefendingPet().getStrength() + lastTurn.getDefendingPet().getAgility() + lastTurn.getDefendingPet().getIntelligence();
-		int attackingPetRoll = (int) (Math.random() * attackingPetBST);
-		double currentAccuracyModifier = lastTurn.getAttackingPetAccuracyModifier();
-		if ((lastTurn.getAttackingPet().getIntelligence() + attackingPetRoll) > (defendingPetBST - lastTurn.getDefendingPet().getAgility())) {
-			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
-			String flavorText = lastTurn.getAttackingPet().getName() + " took aim!";
-			String technicalText = lastTurn.getAttackingPet().getName() + " has rolled a " + attackingPetRoll + ", successfully increasing their accuracy modifier from " + currentAccuracyModifier + " to " + (currentAccuracyModifier + MODIFIER_INCREMENT) + ".";
-			if (lastTurn.isAttackerReplacedDeadPet()) {
-				turnRepository.save(lastTurn.setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier() + MODIFIER_INCREMENT).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setBattleFinished(battleFinished));
-			} else {
-				turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(currentTurnCount + 1).setAttackingPet(lastTurn.getAttackingPet()).setDefendingPet(lastTurn.getDefendingPet()).setAttackingPetCurrentHealth(lastTurn.getAttackingPetCurrentHealth()).setDefendingPetCurrentHealth(lastTurn.getDefendingPetCurrentHealth()).setAttackingPetAttackModifier(lastTurn.getAttackingPetAttackModifier())
-						.setDefendingPetAttackModifier(lastTurn.getDefendingPetAttackModifier()).setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setDefendingPetArmorModifier(lastTurn.getDefendingPetArmorModifier()).setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier() + MODIFIER_INCREMENT).setDefendingPetAccuracyModifier(lastTurn.getDefendingPetAccuracyModifier()).setAttackingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier())
-						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
-
-			}
-			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getDefendingUser()).setBattleFinished(battleFinished));
-			// System.out.println(flavorText);
-			// System.out.println(technicalText);
-			return getBattleById(battleId);
+		BattlePet actingBattlePet = searchBattleForPet(currentBattle, actingPetId);
+		int actingPetBST = actingBattlePet.getPet().getStrength() + actingBattlePet.getPet().getAgility() + actingBattlePet.getPet().getIntelligence();
+		BattlePet reactingBattlePet = searchBattleForPet(currentBattle, reactingPetId);
+		int reactingPetBST = reactingBattlePet.getPet().getStrength() + reactingBattlePet.getPet().getAgility() + reactingBattlePet.getPet().getIntelligence();
+		int actingPetRoll = (int) (Math.random() * actingPetBST);
+		boolean attackingPetInitiateAction = isAttackingPet(currentBattle, actingPetId);
+		double actingAccuracyModifier,actingArmorModifier,actingAttackModifier,actingEvasionModifier,reactingAccuracyModifier,reactingArmorModifier,reactingAttackModifier,reactingEvasionModifier;
+		if(attackingPetInitiateAction) {
+			actingAccuracyModifier = lastTurn.getAttackingPetAccuracyModifier();actingArmorModifier = lastTurn.getAttackingPetArmorModifier();actingAttackModifier = lastTurn.getAttackingPetAttackModifier();actingEvasionModifier = lastTurn.getAttackingPetEvasionModifier();
+			reactingAccuracyModifier = lastTurn.getDefendingPetAccuracyModifier();reactingArmorModifier = lastTurn.getDefendingPetArmorModifier();reactingAttackModifier = lastTurn.getDefendingPetAttackModifier();reactingEvasionModifier = lastTurn.getDefendingPetEvasionModifier();
 		} else {
-			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
-			String flavorText = lastTurn.getAttackingPet().getName() + " failed to take aim!";
-			String technicalText = lastTurn.getAttackingPet().getName() + " has rolled a " + attackingPetRoll + ", failing to increase their accuracy modifier.";
-			if (lastTurn.isAttackerReplacedDeadPet()) {
-				turnRepository.save(lastTurn.setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setBattleFinished(battleFinished));
-			} else {
-				turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(currentTurnCount + 1).setAttackingPet(lastTurn.getAttackingPet()).setDefendingPet(lastTurn.getDefendingPet()).setAttackingPetCurrentHealth(lastTurn.getAttackingPetCurrentHealth()).setDefendingPetCurrentHealth(lastTurn.getDefendingPetCurrentHealth()).setAttackingPetAttackModifier(lastTurn.getAttackingPetAttackModifier())
-						.setDefendingPetAttackModifier(lastTurn.getDefendingPetAttackModifier()).setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setDefendingPetArmorModifier(lastTurn.getDefendingPetArmorModifier()).setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier()).setDefendingPetAccuracyModifier(lastTurn.getDefendingPetAccuracyModifier()).setAttackingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier())
-						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
-			}
-			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getDefendingUser()).setBattleFinished(battleFinished));
-			// System.out.println(flavorText);
-			// System.out.println(technicalText);
-			return getBattleById(battleId);
+			actingAccuracyModifier = lastTurn.getDefendingPetAccuracyModifier();actingArmorModifier = lastTurn.getDefendingPetArmorModifier();actingAttackModifier = lastTurn.getDefendingPetAttackModifier();actingEvasionModifier = lastTurn.getDefendingPetEvasionModifier();
+			reactingAccuracyModifier = lastTurn.getAttackingPetAccuracyModifier();reactingArmorModifier = lastTurn.getAttackingPetArmorModifier();reactingAttackModifier = lastTurn.getAttackingPetAttackModifier();reactingEvasionModifier = lastTurn.getAttackingPetEvasionModifier();
 		}
-	}
-
-	public Battle defendingPetAim(long battleId, long aimingUserId) throws MessagingException, UserNotFoundException {
-		Battle currentBattle = battleRepository.findById(battleId).get();
-		Turn lastTurn = turnRepository.getLastTurnForBattle(battleId);
-		checkCurrentTurnUser(currentBattle, aimingUserId);
-		checkDefendingUser(currentBattle, aimingUserId);
-		int currentTurnCount = lastTurn.getTurnNumber();
-		boolean battleFinished = false;
-		int defendingPetBST = lastTurn.getDefendingPet().getStrength() + lastTurn.getDefendingPet().getAgility() + lastTurn.getDefendingPet().getIntelligence();
-		int attackingPetBST = lastTurn.getAttackingPet().getStrength() + lastTurn.getAttackingPet().getAgility() + lastTurn.getAttackingPet().getIntelligence();
-		int defendingPetRoll = (int) (Math.random() * defendingPetBST);
-		double currentAccuracyModifier = lastTurn.getDefendingPetAccuracyModifier();
-		if ((lastTurn.getDefendingPet().getIntelligence() + defendingPetRoll) > (attackingPetBST - lastTurn.getAttackingPet().getAgility())) {
-			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
-			String flavorText = lastTurn.getDefendingPet().getName() + " took aim!";
-			String technicalText = lastTurn.getDefendingPet().getName() + " has rolled a " + defendingPetRoll + ", successfully increasing their accuracy modifier from " + currentAccuracyModifier + " to " + (currentAccuracyModifier + MODIFIER_INCREMENT) + ".";
-			if (lastTurn.isDefenderReplacedDeadPet()) {
-				turnRepository.save(lastTurn.setDefendingPetAccuracyModifier(lastTurn.getDefendingPetAccuracyModifier() + MODIFIER_INCREMENT).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished));
-			} else {
-				turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(currentTurnCount + 1).setAttackingPet(lastTurn.getAttackingPet()).setDefendingPet(lastTurn.getDefendingPet()).setAttackingPetCurrentHealth(lastTurn.getAttackingPetCurrentHealth()).setDefendingPetCurrentHealth(lastTurn.getDefendingPetCurrentHealth()).setAttackingPetAttackModifier(lastTurn.getAttackingPetAttackModifier())
-						.setDefendingPetAttackModifier(lastTurn.getDefendingPetAttackModifier()).setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setDefendingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier()).setDefendingPetAccuracyModifier(lastTurn.getDefendingPetAccuracyModifier() + MODIFIER_INCREMENT).setAttackingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier())
-						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
+		boolean successfulAction = false;
+		Turn newTurn = BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(lastTurn.getTurnNumber() + 1).setAttackingPet(lastTurn.getAttackingPet()).setDefendingPet(lastTurn.getDefendingPet()).setAttackingPetCurrentHealth(lastTurn.getAttackingPetCurrentHealth()).setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier()).setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setAttackingPetAttackModifier(lastTurn.getAttackingPetAttackModifier()).setAttackingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier()).setDefendingPetCurrentHealth(lastTurn.getAttackingPetCurrentHealth()).setDefendingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier()).setDefendingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setDefendingPetAttackModifier(lastTurn.getAttackingPetAttackModifier()).setDefendingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier()).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(false).setTurnFlavorText("").setTurnTechnicalText("");
+		switch (actiontype) {
+		case "attack":
+			successfulAction = checkForSuccessOnAttack(actingBattlePet.getPet().getIntelligence(), actingAccuracyModifier, actingPetRoll, reactingPetBST, reactingBattlePet.getPet().getAgility(), reactingEvasionModifier);
+			int damage, lastHealth, newHealth;
+			boolean deadReactingPet = false;
+			if(successfulAction) {
+				if(attackingPetInitiateAction) {
+					damage =(int)((getBaseStatPower(actingBattlePet.getPet())*lastTurn.getAttackingPetAttackModifier())-(reactingBattlePet.getPet().getStrength()*lastTurn.getDefendingPetArmorModifier()));
+					lastHealth = lastTurn.getDefendingPetCurrentHealth();
+					if(lastHealth - damage < 0) {
+						newHealth = 0;
+						deadReactingPet = true;
+					} else {
+						newHealth = lastHealth - damage;
+					}
+					newTurn.setDefendingPetCurrentHealth(newHealth);
+				}else {
+					damage =(int)((getBaseStatPower(actingBattlePet.getPet())*lastTurn.getDefendingPetAttackModifier())-(reactingBattlePet.getPet().getStrength()*lastTurn.getAttackingPetArmorModifier()));
+					lastHealth = lastTurn.getAttackingPetCurrentHealth();
+					if(lastHealth - damage < 0) {
+						newHealth = 0;
+						deadReactingPet = true;
+					} else {
+						newHealth = lastHealth - damage;
+					}
+					newTurn.setDefendingPetCurrentHealth(newHealth);
+				}
+				setTextOnAttack(actingBattlePet, newTurn, damage, deadReactingPet, reactingBattlePet, actingPetRoll, successfulAction);
+			}			
+			break;
+		case "defend":
+			successfulAction = checkForSuccessOnNonAttack(actingBattlePet.getPet().getStrength(), actingPetRoll, reactingPetBST, reactingBattlePet.getPet().getIntelligence());
+			if(successfulAction) {
+				if(attackingPetInitiateAction) {
+					newTurn.setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()+MODIFIER_INCREMENT);
+				}else {
+					newTurn.setDefendingPetArmorModifier(lastTurn.getDefendingPetArmorModifier()+MODIFIER_INCREMENT);
+				}
+				setTextOnNonAttack(actingBattlePet, newTurn, "armor", actingPetRoll, successfulAction);
 			}
-			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getAttackingUser()).setBattleFinished(battleFinished));
-			// System.out.println(flavorText);
-			// System.out.println(technicalText);
-			return getBattleById(battleId);
-		} else {
-			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
-			String flavorText = lastTurn.getDefendingPet().getName() + " failed to take aim!";
-			String technicalText = lastTurn.getDefendingPet().getName() + " has rolled a " + defendingPetRoll + ", failing to increase their acuracy modifier.";
-			if (lastTurn.isDefenderReplacedDeadPet()) {
-				turnRepository.save(lastTurn.setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished));
-			} else {
-				turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(currentTurnCount + 1).setAttackingPet(lastTurn.getAttackingPet()).setDefendingPet(lastTurn.getDefendingPet()).setAttackingPetCurrentHealth(lastTurn.getAttackingPetCurrentHealth()).setDefendingPetCurrentHealth(lastTurn.getDefendingPetCurrentHealth()).setAttackingPetAttackModifier(lastTurn.getAttackingPetAttackModifier())
-						.setDefendingPetAttackModifier(lastTurn.getDefendingPetAttackModifier()).setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setDefendingPetArmorModifier(lastTurn.getDefendingPetArmorModifier()).setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier()).setDefendingPetAccuracyModifier(lastTurn.getDefendingPetAccuracyModifier()).setAttackingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier())
-						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
+			break;
+		case "aim":
+			successfulAction = checkForSuccessOnNonAttack(actingBattlePet.getPet().getIntelligence(), actingPetRoll, reactingPetBST, reactingBattlePet.getPet().getAgility());
+			if(successfulAction) {
+				if(attackingPetInitiateAction) {
+					newTurn.setAttackingPetArmorModifier(lastTurn.getAttackingPetAccuracyModifier()+MODIFIER_INCREMENT);
+				}else {
+					newTurn.setDefendingPetArmorModifier(lastTurn.getDefendingPetAccuracyModifier()+MODIFIER_INCREMENT);
+				}
+				setTextOnNonAttack(actingBattlePet, newTurn, "accuracy", actingPetRoll, successfulAction);
 			}
-			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getAttackingUser()).setBattleFinished(battleFinished));
-			// System.out.println(flavorText);
-			// System.out.println(technicalText);
-			return getBattleById(battleId);
+			break;
+		case "sharpen":
+			successfulAction = checkForSuccessOnNonAttack(getBaseStatPower(actingBattlePet.getPet()), actingPetRoll, reactingPetBST, getBaseStatPower(reactingBattlePet.getPet()));
+			if(successfulAction) {
+				if(attackingPetInitiateAction) {
+					newTurn.setAttackingPetArmorModifier(lastTurn.getAttackingPetAttackModifier()+MODIFIER_INCREMENT);
+				}else {
+					newTurn.setDefendingPetArmorModifier(lastTurn.getDefendingPetAttackModifier()+MODIFIER_INCREMENT);
+				}
+				setTextOnNonAttack(actingBattlePet, newTurn, "damage", actingPetRoll, successfulAction);
+			}
+			break;
+		case "evade":
+			successfulAction = checkForSuccessOnNonAttack(actingBattlePet.getPet().getAgility(), actingPetRoll, reactingPetBST, reactingBattlePet.getPet().getStrength());
+			if(successfulAction) {
+				if(attackingPetInitiateAction) {
+					newTurn.setAttackingPetArmorModifier(lastTurn.getAttackingPetEvasionModifier()+MODIFIER_INCREMENT);
+				}else {
+					newTurn.setDefendingPetArmorModifier(lastTurn.getDefendingPetEvasionModifier()+MODIFIER_INCREMENT);
+				}
+				setTextOnNonAttack(actingBattlePet, newTurn, "evasion", actingPetRoll, successfulAction);
+			}
+			break;
+		case "switch":
+			//later dude
+			break;
 		}
-	}
-
-	public Battle attackingPetSharpen(long battleId, long sharpeningUserId) throws MessagingException, UserNotFoundException {
-		Battle currentBattle = battleRepository.findById(battleId).get();
-		Turn lastTurn = turnRepository.getLastTurnForBattle(battleId);
-		checkCurrentTurnUser(currentBattle, sharpeningUserId);
-		checkAttackingUser(currentBattle, sharpeningUserId);
-		int currentTurnCount = lastTurn.getTurnNumber();
-		boolean battleFinished = false;
-		int attackingPetBST = lastTurn.getAttackingPet().getStrength() + lastTurn.getAttackingPet().getAgility() + lastTurn.getAttackingPet().getIntelligence();
-		int defendingPetBST = lastTurn.getDefendingPet().getStrength() + lastTurn.getDefendingPet().getAgility() + lastTurn.getDefendingPet().getIntelligence();
-		int attackingPetRoll = (int) (Math.random() * attackingPetBST);
-		double currentAttackModifier = lastTurn.getAttackingPetAttackModifier();
-		if ((getBaseStatPower(lastTurn.getAttackingPet()) + attackingPetRoll) > (defendingPetBST - getBaseStatPower(lastTurn.getDefendingPet()))) {
-			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
-			String flavorText = lastTurn.getAttackingPet().getName() + " became more deadly!";
-			String technicalText = lastTurn.getAttackingPet().getName() + " has rolled a " + attackingPetRoll + ", successfully increasing their attack modifier from " + currentAttackModifier + " to " + (currentAttackModifier + MODIFIER_INCREMENT) + ".";
-			if (lastTurn.isAttackerReplacedDeadPet()) {
-				turnRepository.save(lastTurn.setAttackingPetArmorModifier(lastTurn.getAttackingPetAttackModifier() + MODIFIER_INCREMENT).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setBattleFinished(battleFinished));
-			} else {
-				turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(currentTurnCount + 1).setAttackingPet(lastTurn.getAttackingPet()).setDefendingPet(lastTurn.getDefendingPet()).setAttackingPetCurrentHealth(lastTurn.getAttackingPetCurrentHealth()).setDefendingPetCurrentHealth(lastTurn.getDefendingPetCurrentHealth()).setAttackingPetAttackModifier(lastTurn.getAttackingPetAttackModifier() + MODIFIER_INCREMENT)
-						.setDefendingPetAttackModifier(lastTurn.getDefendingPetAttackModifier()).setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setDefendingPetArmorModifier(lastTurn.getDefendingPetArmorModifier()).setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier()).setDefendingPetAccuracyModifier(lastTurn.getDefendingPetAccuracyModifier()).setAttackingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier())
-						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
-			}
-			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getDefendingUser()).setBattleFinished(battleFinished));
-			// System.out.println(flavorText);
-			// System.out.println(technicalText);
-			return getBattleById(battleId);
-		} else {
-			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
-			String flavorText = lastTurn.getAttackingPet().getName() + " failed to become more deadly!";
-			String technicalText = lastTurn.getAttackingPet().getName() + " has rolled a " + attackingPetRoll + ", failing to increase their attack modifier.";
-			if (lastTurn.isAttackerReplacedDeadPet()) {
-				turnRepository.save(lastTurn.setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setBattleFinished(battleFinished));
-			} else {
-				turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(currentTurnCount + 1).setAttackingPet(lastTurn.getAttackingPet()).setDefendingPet(lastTurn.getDefendingPet()).setAttackingPetCurrentHealth(lastTurn.getAttackingPetCurrentHealth()).setDefendingPetCurrentHealth(lastTurn.getDefendingPetCurrentHealth()).setAttackingPetAttackModifier(lastTurn.getAttackingPetAttackModifier())
-						.setDefendingPetAttackModifier(lastTurn.getDefendingPetAttackModifier()).setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setDefendingPetArmorModifier(lastTurn.getDefendingPetArmorModifier()).setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier()).setDefendingPetAccuracyModifier(lastTurn.getDefendingPetAccuracyModifier()).setAttackingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier())
-						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
-			}
-			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getDefendingUser()).setBattleFinished(battleFinished));
-			// System.out.println(flavorText);
-			// System.out.println(technicalText);
-			return getBattleById(battleId);
-		}
-	}
-
-	public Battle defendingPetSharpen(long battleId, long sharpeningUserId) throws MessagingException, UserNotFoundException {
-		Battle currentBattle = battleRepository.findById(battleId).get();
-		Turn lastTurn = turnRepository.getLastTurnForBattle(battleId);
-		checkCurrentTurnUser(currentBattle, sharpeningUserId);
-		checkDefendingUser(currentBattle, sharpeningUserId);
-		int currentTurnCount = lastTurn.getTurnNumber();
-		boolean battleFinished = false;
-		int defendingPetBST = lastTurn.getDefendingPet().getStrength() + lastTurn.getDefendingPet().getAgility() + lastTurn.getDefendingPet().getIntelligence();
-		int attackingPetBST = lastTurn.getAttackingPet().getStrength() + lastTurn.getAttackingPet().getAgility() + lastTurn.getAttackingPet().getIntelligence();
-		int defendingPetRoll = (int) (Math.random() * defendingPetBST);
-		double currentAttackModifier = lastTurn.getDefendingPetAttackModifier();
-		if ((getBaseStatPower(lastTurn.getDefendingPet()) + defendingPetRoll) > (attackingPetBST - getBaseStatPower(lastTurn.getAttackingPet()))) {
-			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
-			String flavorText = lastTurn.getDefendingPet().getName() + " became more deadly!";
-			String technicalText = lastTurn.getDefendingPet().getName() + " has rolled a " + defendingPetRoll + ", successfully increasing their attack modifier from " + currentAttackModifier + " to " + (currentAttackModifier + MODIFIER_INCREMENT) + ".";
-			if (lastTurn.isDefenderReplacedDeadPet()) {
-				turnRepository.save(lastTurn.setDefendingPetAttackModifier(lastTurn.getDefendingPetAttackModifier() + MODIFIER_INCREMENT).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished));
-			} else {
-				turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(currentTurnCount + 1).setAttackingPet(lastTurn.getAttackingPet()).setDefendingPet(lastTurn.getDefendingPet()).setAttackingPetCurrentHealth(lastTurn.getAttackingPetCurrentHealth()).setDefendingPetCurrentHealth(lastTurn.getDefendingPetCurrentHealth()).setAttackingPetAttackModifier(lastTurn.getAttackingPetAttackModifier())
-						.setDefendingPetAttackModifier(lastTurn.getDefendingPetAttackModifier() + MODIFIER_INCREMENT).setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setDefendingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier()).setDefendingPetAccuracyModifier(lastTurn.getDefendingPetAccuracyModifier()).setAttackingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier())
-						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
-			}
-			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getAttackingUser()).setBattleFinished(battleFinished));
-			// System.out.println(flavorText);
-			// System.out.println(technicalText);
-			return getBattleById(battleId);
-		} else {
-			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
-			String flavorText = lastTurn.getDefendingPet().getName() + " failed to become more deadly!";
-			String technicalText = lastTurn.getDefendingPet().getName() + " has rolled a " + defendingPetRoll + ", failing to increase their attack modifier.";
-			if (lastTurn.isDefenderReplacedDeadPet()) {
-				turnRepository.save(lastTurn.setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished));
-			} else {
-				turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(currentTurnCount + 1).setAttackingPet(lastTurn.getAttackingPet()).setDefendingPet(lastTurn.getDefendingPet()).setAttackingPetCurrentHealth(lastTurn.getAttackingPetCurrentHealth()).setDefendingPetCurrentHealth(lastTurn.getDefendingPetCurrentHealth()).setAttackingPetAttackModifier(lastTurn.getAttackingPetAttackModifier())
-						.setDefendingPetAttackModifier(lastTurn.getDefendingPetAttackModifier()).setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setDefendingPetArmorModifier(lastTurn.getDefendingPetArmorModifier()).setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier()).setDefendingPetAccuracyModifier(lastTurn.getDefendingPetAccuracyModifier()).setAttackingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier())
-						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
-			}
-			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getAttackingUser()).setBattleFinished(battleFinished));
-			// System.out.println(flavorText);
-			// System.out.println(technicalText);
-			return getBattleById(battleId);
-		}
-	}
-
-	public Battle attackingPetEvade(long battleId, long evadingUserId) throws MessagingException, UserNotFoundException {
-		Battle currentBattle = battleRepository.findById(battleId).get();
-		Turn lastTurn = turnRepository.getLastTurnForBattle(battleId);
-		checkCurrentTurnUser(currentBattle, evadingUserId);
-		checkAttackingUser(currentBattle, evadingUserId);
-		int currentTurnCount = lastTurn.getTurnNumber();
-		boolean battleFinished = false;
-		int attackingPetBST = lastTurn.getAttackingPet().getStrength() + lastTurn.getAttackingPet().getAgility() + lastTurn.getAttackingPet().getIntelligence();
-		int defendingPetBST = lastTurn.getDefendingPet().getStrength() + lastTurn.getDefendingPet().getAgility() + lastTurn.getDefendingPet().getIntelligence();
-		int attackingPetRoll = (int) (Math.random() * attackingPetBST);
-		double currentEvasionModifier = lastTurn.getAttackingPetEvasionModifier();
-		if ((lastTurn.getAttackingPet().getAgility() + attackingPetRoll) > (defendingPetBST - lastTurn.getDefendingPet().getStrength())) {
-			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
-			String flavorText = lastTurn.getAttackingPet().getName() + " became harder to hit!";
-			String technicalText = lastTurn.getAttackingPet().getName() + " has rolled a " + attackingPetRoll + ", successfully increasing their evasion modifier from " + currentEvasionModifier + " to " + (currentEvasionModifier + MODIFIER_INCREMENT) + ".";
-			if (lastTurn.isAttackerReplacedDeadPet()) {
-				turnRepository.save(lastTurn.setAttackingPetArmorModifier(lastTurn.getAttackingPetEvasionModifier() + MODIFIER_INCREMENT).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setBattleFinished(battleFinished));
-			} else {
-				turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(currentTurnCount + 1).setAttackingPet(lastTurn.getAttackingPet()).setDefendingPet(lastTurn.getDefendingPet()).setAttackingPetCurrentHealth(lastTurn.getAttackingPetCurrentHealth()).setDefendingPetCurrentHealth(lastTurn.getDefendingPetCurrentHealth()).setAttackingPetAttackModifier(lastTurn.getAttackingPetAttackModifier())
-						.setDefendingPetAttackModifier(lastTurn.getDefendingPetAttackModifier()).setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setDefendingPetArmorModifier(lastTurn.getDefendingPetArmorModifier()).setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier()).setDefendingPetAccuracyModifier(lastTurn.getDefendingPetAccuracyModifier()).setAttackingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier() + MODIFIER_INCREMENT)
-						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
-			}
-			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getDefendingUser()).setBattleFinished(battleFinished));
-			// System.out.println(flavorText);
-			// System.out.println(technicalText);
-			return getBattleById(battleId);
-		} else {
-			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
-			String flavorText = lastTurn.getAttackingPet().getName() + " failed to become harder to hit!";
-			String technicalText = lastTurn.getAttackingPet().getName() + " has rolled a " + attackingPetRoll + ", failing to increase their evasion modifier.";
-			if (lastTurn.isAttackerReplacedDeadPet()) {
-				turnRepository.save(lastTurn.setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setBattleFinished(battleFinished));
-			} else {
-				turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(currentTurnCount + 1).setAttackingPet(lastTurn.getAttackingPet()).setDefendingPet(lastTurn.getDefendingPet()).setAttackingPetCurrentHealth(lastTurn.getAttackingPetCurrentHealth()).setDefendingPetCurrentHealth(lastTurn.getDefendingPetCurrentHealth()).setAttackingPetAttackModifier(lastTurn.getAttackingPetAttackModifier())
-						.setDefendingPetAttackModifier(lastTurn.getDefendingPetAttackModifier()).setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setDefendingPetArmorModifier(lastTurn.getDefendingPetArmorModifier()).setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier()).setDefendingPetAccuracyModifier(lastTurn.getDefendingPetAccuracyModifier()).setAttackingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier())
-						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
-			}
-			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getDefendingUser()).setBattleFinished(battleFinished));
-			// System.out.println(flavorText);
-			// System.out.println(technicalText);
-			return getBattleById(battleId);
-		}
-	}
-
-	public Battle defendingPetEvade(long battleId, long evadingUserId) throws MessagingException, UserNotFoundException {
-		Battle currentBattle = battleRepository.findById(battleId).get();
-		Turn lastTurn = turnRepository.getLastTurnForBattle(battleId);
-		checkCurrentTurnUser(currentBattle, evadingUserId);
-		checkDefendingUser(currentBattle, evadingUserId);
-		int currentTurnCount = lastTurn.getTurnNumber();
-		boolean battleFinished = false;
-		int defendingPetBST = lastTurn.getDefendingPet().getStrength() + lastTurn.getDefendingPet().getAgility() + lastTurn.getDefendingPet().getIntelligence();
-		int attackingPetBST = lastTurn.getAttackingPet().getStrength() + lastTurn.getAttackingPet().getAgility() + lastTurn.getAttackingPet().getIntelligence();
-		int defendingPetRoll = (int) (Math.random() * defendingPetBST);
-		double currentEvasionModifier = lastTurn.getDefendingPetEvasionModifier();
-		if ((lastTurn.getDefendingPet().getAgility() + defendingPetRoll) > (attackingPetBST - lastTurn.getAttackingPet().getStrength())) {
-			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
-			String flavorText = lastTurn.getDefendingPet().getName() + " became harder to hit!";
-			String technicalText = lastTurn.getDefendingPet().getName() + " has rolled a " + defendingPetRoll + ", successfully increasing their evasion modifier from " + currentEvasionModifier + " to " + (currentEvasionModifier + MODIFIER_INCREMENT) + ".";
-			if (lastTurn.isDefenderReplacedDeadPet()) {
-				turnRepository.save(lastTurn.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier() + MODIFIER_INCREMENT).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished));
-			} else {
-				turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(currentTurnCount + 1).setAttackingPet(lastTurn.getAttackingPet()).setDefendingPet(lastTurn.getDefendingPet()).setAttackingPetCurrentHealth(lastTurn.getAttackingPetCurrentHealth()).setDefendingPetCurrentHealth(lastTurn.getDefendingPetCurrentHealth()).setAttackingPetAttackModifier(lastTurn.getAttackingPetAttackModifier())
-						.setDefendingPetAttackModifier(lastTurn.getDefendingPetAttackModifier()).setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setDefendingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier()).setDefendingPetAccuracyModifier(lastTurn.getDefendingPetAccuracyModifier()).setAttackingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier())
-						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier() + MODIFIER_INCREMENT).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
-			}
-			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getAttackingUser()).setBattleFinished(battleFinished));
-			// System.out.println(flavorText);
-			// System.out.println(technicalText);
-			return getBattleById(battleId);
-		} else {
-			battleFinished = checkIfBattleEnded(currentBattle, lastTurn);
-			String flavorText = lastTurn.getDefendingPet().getName() + " failed to become harder to hit!";
-			String technicalText = lastTurn.getDefendingPet().getName() + " has rolled a " + defendingPetRoll + ", failing to increase their evasion modifier.";
-			if (lastTurn.isDefenderReplacedDeadPet()) {
-				turnRepository.save(lastTurn.setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished));
-			} else {
-				turnRepository.save(BeanUtil.getBean(Turn.class).setId(0).setBattle(currentBattle).setTurnNumber(currentTurnCount + 1).setAttackingPet(lastTurn.getAttackingPet()).setDefendingPet(lastTurn.getDefendingPet()).setAttackingPetCurrentHealth(lastTurn.getAttackingPetCurrentHealth()).setDefendingPetCurrentHealth(lastTurn.getDefendingPetCurrentHealth()).setAttackingPetAttackModifier(lastTurn.getAttackingPetAttackModifier())
-						.setDefendingPetAttackModifier(lastTurn.getDefendingPetAttackModifier()).setAttackingPetArmorModifier(lastTurn.getAttackingPetArmorModifier()).setDefendingPetArmorModifier(lastTurn.getDefendingPetArmorModifier()).setAttackingPetAccuracyModifier(lastTurn.getAttackingPetAccuracyModifier()).setDefendingPetAccuracyModifier(lastTurn.getDefendingPetAccuracyModifier()).setAttackingPetEvasionModifier(lastTurn.getAttackingPetEvasionModifier())
-						.setDefendingPetEvasionModifier(lastTurn.getDefendingPetEvasionModifier()).setTurnFlavorText(flavorText).setTurnTechnicalText(technicalText).setAttackerReplacedDeadPet(false).setDefenderReplacedDeadPet(false).setBattleFinished(battleFinished).setCreatedOn(LocalDateTime.now()));
-			}
-			battleRepository.save(currentBattle.setNextTurnUser(currentBattle.getAttackingUser()).setBattleFinished(battleFinished));
-			// System.out.println(flavorText);
-			// System.out.println(technicalText);
-			return getBattleById(battleId);
-		}
+		checkIfBattleEnded(currentBattle, lastTurn);
+		battleRepository.save(currentBattle);
+		turnRepository.save(newTurn);
+		return getBattleById(battleId);
 	}
 
 	public Battle prematureEndBattle(long battleId, String battleType) {

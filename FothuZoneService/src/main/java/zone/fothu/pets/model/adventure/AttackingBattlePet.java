@@ -17,6 +17,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import zone.fothu.pets.model.profile.Pet;
@@ -27,8 +28,9 @@ import zone.fothu.pets.model.profile.Pet;
 @Table(name = "attacking_battle_pets", schema = "pets")
 @Accessors(fluent = false, chain = true)
 @Data
+@EqualsAndHashCode(callSuper=false)
 @NoArgsConstructor
-public class AttackingBattlePet implements Serializable {
+public class AttackingBattlePet extends BattlePet implements Serializable {
 
 	private static final long serialVersionUID = 6531933150017871599L;
 

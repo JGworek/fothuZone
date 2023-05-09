@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import zone.fothu.pets.model.profile.Pet;
@@ -28,8 +29,9 @@ import zone.fothu.pets.model.profile.Pet;
 @Table(name = "defending_battle_pets", schema = "pets")
 @Accessors(fluent = false, chain = true)
 @Data
+@EqualsAndHashCode(callSuper=false)
 @NoArgsConstructor
-public class DefendingBattlePet implements Serializable {
+public class DefendingBattlePet extends BattlePet implements Serializable {
 
 	private static final long serialVersionUID = -306546001632317961L;
 
